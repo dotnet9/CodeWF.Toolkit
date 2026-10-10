@@ -1,0 +1,51 @@
+using CodeWF.Toolkit.Logging;
+
+namespace CodeWF.Toolkit.Logging.Microsoft;
+
+internal sealed record LogStateSnapshot(
+    string? MessageTemplate,
+    IReadOnlyList<LogProperty> Properties,
+    string? UserMessage,
+    bool RequestNotification)
+{
+    public static LogStateSnapshot Capture<TState>(TState state)
+    {
+        var userState = state as ICodeWFUserLogState;
+        if (state is IEnumerable<KeyValuePair<string, object?>> properties)
+            return CaptureProperties(properties) with
+            {
+                UserMessage = userState?.UserMessage,
+                RequestNotification = userState?.RequestNotification == true
+            };
+        return new LogStateSnapshot(null, [], userState?.UserMessage, userState?.RequestNotification == true);
+    }
+
+    public static LogScope CaptureScope(object? scope)
+    {
+        if (scope is IEnumerable<KeyValuePair<string, object?>> properties)
+            return new LogScope(SafeToString(scope), CaptureProperties(properties).Properties);
+        return new LogScope(SafeToString(scope), []);
+    }
+
+    private static LogStateSnapshot CaptureProperties(IEnumerable<KeyValuePair<string, object?>> properties)
+    {
+        string? messageTemplate = null;
+        var captured = new List<LogProperty>();
+        foreach (var property in properties)
+        {
+            if (property.Key == CodeWFLogPropertyNames.OriginalFormat)
+            {
+                messageTemplate = property.Value as string;
+                continue;
+            }
+            captured.Add(new LogProperty(property.Key, LogValueFormatter.Capture(property.Value)));
+        }
+        return new LogStateSnapshot(messageTemplate, captured, null, false);
+    }
+
+    private static string? SafeToString(object? value)
+    {
+        try { return value?.ToString(); }
+        catch { return value?.GetType().FullName; }
+    }
+}

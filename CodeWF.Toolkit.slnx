@@ -9,6 +9,10 @@
     <Folder Name="/src/Image/">
       <Project Path="src/Image/CodeWF.Toolkit.Image/CodeWF.Toolkit.Image.csproj" />
     </Folder>
+    <Folder Name="/src/Logging/">
+      <Project Path="src/Logging/CodeWF.Toolkit.Logging/CodeWF.Toolkit.Logging.csproj" />
+      <Project Path="src/Logging/CodeWF.Toolkit.Logging.Microsoft/CodeWF.Toolkit.Logging.Microsoft.csproj" />
+    </Folder>
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />
