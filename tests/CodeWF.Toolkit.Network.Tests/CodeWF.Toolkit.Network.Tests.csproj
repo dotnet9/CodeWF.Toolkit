@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsTestProject>true</IsTestProject>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+    <TestingPlatformDisableCustomTestTarget>true</TestingPlatformDisableCustomTestTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Core\CodeWF.Toolkit.Core\CodeWF.Toolkit.Core.csproj" />
+    <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus\CodeWF.Toolkit.EventBus.csproj" />
+    <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus.Socket\CodeWF.Toolkit.EventBus.Socket.csproj" />
+    <ProjectReference Include="..\..\src\Net\CodeWF.Toolkit.NetWeaver\CodeWF.Toolkit.NetWeaver.csproj" />
+    <ProjectReference Include="..\..\src\Net\CodeWF.Toolkit.NetWrapper\CodeWF.Toolkit.NetWrapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

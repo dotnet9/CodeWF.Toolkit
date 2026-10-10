@@ -1,0 +1,15 @@
+﻿namespace CodeWF.Toolkit.Network.Tests.NetWeaver.Models;
+
+public class EnumAndBool
+{
+    public string Name { get; set; } = string.Empty;
+    public bool Flag { get; set; }
+    public SampleEnum Kind { get; set; }
+}
+
+public enum SampleEnum
+{
+    FirstValue = 1,
+    SecondValue = 2,
+    ThirdValue = 3
+}

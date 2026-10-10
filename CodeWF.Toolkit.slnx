@@ -26,6 +26,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/CodeWF.Toolkit.Tests/CodeWF.Toolkit.Tests.csproj" />
+    <Project Path="tests/CodeWF.Toolkit.Network.Tests/CodeWF.Toolkit.Network.Tests.csproj" />
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />
