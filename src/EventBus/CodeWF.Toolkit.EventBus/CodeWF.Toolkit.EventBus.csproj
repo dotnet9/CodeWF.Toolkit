@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>轻量进程内事件总线：发布订阅、Command/Query 读写分离、`[EventHandler]` 特性注册与程序集扫描，适用于桌面与应用服务间模块解耦，零第三方依赖。Lightweight in-process event bus with pub/sub, CQRS-style commands and queries, zero third-party dependencies.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

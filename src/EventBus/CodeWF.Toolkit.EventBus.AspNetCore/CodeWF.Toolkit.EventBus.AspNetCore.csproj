@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>事件总线的 ASP.NET Core 集成：依赖注入注册、请求管线启动与处理器自动发现。ASP.NET Core integration for the event bus.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeWF.Toolkit.EventBus\CodeWF.Toolkit.EventBus.csproj" />
+  </ItemGroup>
+
+</Project>

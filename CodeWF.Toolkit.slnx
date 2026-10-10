@@ -13,6 +13,11 @@
       <Project Path="src/Logging/CodeWF.Toolkit.Logging/CodeWF.Toolkit.Logging.csproj" />
       <Project Path="src/Logging/CodeWF.Toolkit.Logging.Microsoft/CodeWF.Toolkit.Logging.Microsoft.csproj" />
     </Folder>
+    <Folder Name="/src/EventBus/">
+      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus/CodeWF.Toolkit.EventBus.csproj" />
+      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Prism/CodeWF.Toolkit.EventBus.Prism.csproj" />
+      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.AspNetCore/CodeWF.Toolkit.EventBus.AspNetCore.csproj" />
+    </Folder>
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />
