@@ -1,28 +1,16 @@
 <Solution>
   <Folder Name="/src/">
-    <Folder Name="/src/Core/">
-      <Project Path="src/Core/CodeWF.Toolkit.Core/CodeWF.Toolkit.Core.csproj" />
-    </Folder>
-    <Folder Name="/src/Files/">
-      <Project Path="src/Files/CodeWF.Toolkit.Files/CodeWF.Toolkit.Files.csproj" />
-    </Folder>
-    <Folder Name="/src/Image/">
-      <Project Path="src/Image/CodeWF.Toolkit.Image/CodeWF.Toolkit.Image.csproj" />
-    </Folder>
-    <Folder Name="/src/Logging/">
-      <Project Path="src/Logging/CodeWF.Toolkit.Logging/CodeWF.Toolkit.Logging.csproj" />
-      <Project Path="src/Logging/CodeWF.Toolkit.Logging.Microsoft/CodeWF.Toolkit.Logging.Microsoft.csproj" />
-    </Folder>
-    <Folder Name="/src/EventBus/">
-      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus/CodeWF.Toolkit.EventBus.csproj" />
-      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Prism/CodeWF.Toolkit.EventBus.Prism.csproj" />
-      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.AspNetCore/CodeWF.Toolkit.EventBus.AspNetCore.csproj" />
-      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Socket/CodeWF.Toolkit.EventBus.Socket.csproj" />
-    </Folder>
-    <Folder Name="/src/Net/">
-      <Project Path="src/Net/CodeWF.Toolkit.NetWeaver/CodeWF.Toolkit.NetWeaver.csproj" />
-      <Project Path="src/Net/CodeWF.Toolkit.NetWrapper/CodeWF.Toolkit.NetWrapper.csproj" />
-    </Folder>
+    <Project Path="src/Core/CodeWF.Toolkit.Core/CodeWF.Toolkit.Core.csproj" />
+    <Project Path="src/Files/CodeWF.Toolkit.Files/CodeWF.Toolkit.Files.csproj" />
+    <Project Path="src/Image/CodeWF.Toolkit.Image/CodeWF.Toolkit.Image.csproj" />
+    <Project Path="src/Logging/CodeWF.Toolkit.Logging/CodeWF.Toolkit.Logging.csproj" />
+    <Project Path="src/Logging/CodeWF.Toolkit.Logging.Microsoft/CodeWF.Toolkit.Logging.Microsoft.csproj" />
+    <Project Path="src/EventBus/CodeWF.Toolkit.EventBus/CodeWF.Toolkit.EventBus.csproj" />
+    <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Prism/CodeWF.Toolkit.EventBus.Prism.csproj" />
+    <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.AspNetCore/CodeWF.Toolkit.EventBus.AspNetCore.csproj" />
+    <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Socket/CodeWF.Toolkit.EventBus.Socket.csproj" />
+    <Project Path="src/Net/CodeWF.Toolkit.NetWeaver/CodeWF.Toolkit.NetWeaver.csproj" />
+    <Project Path="src/Net/CodeWF.Toolkit.NetWrapper/CodeWF.Toolkit.NetWrapper.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/CodeWF.Toolkit.Tests/CodeWF.Toolkit.Tests.csproj" />
