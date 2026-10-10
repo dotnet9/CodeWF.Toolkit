@@ -1,0 +1,40 @@
+﻿using ImageMagick;
+using System.IO;
+using System.Threading.Tasks;
+
+// ReSharper disable once CheckNamespace
+namespace CodeWF.Toolkit.Image;
+
+public static class ImageHelper
+{
+    public static async Task MergeGenerateIcon(string sourceImagePath, string destIconPath, uint[] sizes)
+    {
+        using var baseImage = new MagickImage(sourceImagePath);
+        using var collection = new MagickImageCollection();
+
+        foreach (var size in sizes)
+        {
+            var resizedImage = baseImage.Clone();
+            resizedImage.Resize(size, size);
+            collection.Add(resizedImage);
+        }
+
+        await collection.WriteAsync(destIconPath);
+    }
+
+    public static async Task SeparateGenerateIcon(string sourceImagePath, string destIconFolder, uint[] sizes)
+    {
+        var fileName = Path.GetFileNameWithoutExtension(sourceImagePath);
+
+        using var baseImage = new MagickImage(sourceImagePath);
+
+        foreach (var size in sizes)
+        {
+            using var resizedImage = baseImage.Clone();
+            resizedImage.Resize(size, size);
+
+            var savePath = Path.Combine(destIconFolder, $"{fileName}-{size}x{size}.ico");
+            await resizedImage.WriteAsync(savePath);
+        }
+    }
+}

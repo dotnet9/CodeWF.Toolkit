@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>图片处理集合：基于 Magick.NET 的缩放/水印/格式转换，以及 ZXing 条码与二维码生成。Image processing powered by Magick.NET with ZXing barcode and QR code generation.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" />
+    <PackageReference Include="ZXing.Net.Bindings.Magick" />
+  </ItemGroup>
+
+</Project>

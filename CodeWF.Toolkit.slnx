@@ -6,6 +6,9 @@
     <Folder Name="/src/Files/">
       <Project Path="src/Files/CodeWF.Toolkit.Files/CodeWF.Toolkit.Files.csproj" />
     </Folder>
+    <Folder Name="/src/Image/">
+      <Project Path="src/Image/CodeWF.Toolkit.Image/CodeWF.Toolkit.Image.csproj" />
+    </Folder>
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />
