@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>.NET 原生功能扩展合集：字符串/日期/枚举/正则/数值等扩展方法、应用数据目录管理、GitHub Release 更新检查，零第三方库依赖。.NET native extensions, application data directory management and GitHub Release update checking with zero third-party dependencies.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

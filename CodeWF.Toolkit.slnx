@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/src/">
+    <Folder Name="/src/Core/">
+      <Project Path="src/Core/CodeWF.Toolkit.Core/CodeWF.Toolkit.Core.csproj" />
+    </Folder>
+  </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />
     <File Path="UpdateLog.md" />
