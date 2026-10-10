@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>基于 TCP 的分布式事件总线：Pub/Sub、Query/Response、心跳保活、断线重连与离线消息补发，不依赖第三方消息队列。Distributed event bus over TCP with heartbeat, reconnect and offline replay, without third-party MQ.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeWF.Toolkit.EventBus\CodeWF.Toolkit.EventBus.csproj" />
+    <ProjectReference Include="..\..\Net\CodeWF.Toolkit.NetWrapper\CodeWF.Toolkit.NetWrapper.csproj" />
+  </ItemGroup>
+
+</Project>

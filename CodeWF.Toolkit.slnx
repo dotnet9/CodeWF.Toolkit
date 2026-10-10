@@ -17,6 +17,7 @@
       <Project Path="src/EventBus/CodeWF.Toolkit.EventBus/CodeWF.Toolkit.EventBus.csproj" />
       <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Prism/CodeWF.Toolkit.EventBus.Prism.csproj" />
       <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.AspNetCore/CodeWF.Toolkit.EventBus.AspNetCore.csproj" />
+      <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Socket/CodeWF.Toolkit.EventBus.Socket.csproj" />
     </Folder>
     <Folder Name="/src/Net/">
       <Project Path="src/Net/CodeWF.Toolkit.NetWeaver/CodeWF.Toolkit.NetWeaver.csproj" />
