@@ -1,0 +1,40 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- 打包基础设施 -->
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.401" />
+
+    <!-- CodeWF.Toolkit.Files -->
+    <PackageVersion Include="SharpCompress" Version="1.0.0" />
+    <PackageVersion Include="YamlDotNet" Version="18.1.0" />
+    <PackageVersion Include="CsvHelper" Version="33.1.0" />
+    <PackageVersion Include="MiniExcel" Version="1.46.0" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.12" />
+
+    <!-- CodeWF.Toolkit.Image -->
+    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.17.1" />
+    <PackageVersion Include="ZXing.Net.Bindings.Magick" Version="0.16.18" />
+
+    <!-- CodeWF.Toolkit.Logging.Microsoft -->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.12" />
+
+    <!-- CodeWF.Toolkit.EventBus.Prism -->
+    <PackageVersion Include="Prism.Core" Version="8.1.97" />
+    <PackageVersion Include="DryIoc" Version="5.4.3" />
+
+    <!-- 测试 -->
+    <PackageVersion Include="Bogus" Version="35.6.5" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageVersion Include="xunit.v3" Version="4.0.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
+  </ItemGroup>
+</Project>
