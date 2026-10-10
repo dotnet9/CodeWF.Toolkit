@@ -426,3 +426,8 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# 与日志忽略规则撞名的项目目录（src/Log、Log 测试目录），显式反排除
+!src/Log/
+!src/Log/CodeWF.Avalonia.Log/
+!tests/CodeWF.Avalonia.Controls.Tests/Log/
