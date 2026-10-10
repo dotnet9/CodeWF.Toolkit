@@ -44,8 +44,8 @@ obj/x86/
 bld/
 [Oo]bj/
 [Oo]ut/
-[Ll]og/
-[Ll]ogs/
+/[Ll]og/
+/[Ll]ogs/
 
 # Build results on 'Bin' directories
 **/[Bb]in/*
