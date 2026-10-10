@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>AOT 友好的 TCP/UDP 数据包二进制序列化核心：基于特性声明字段布局与顺序，零第三方依赖。AOT-friendly binary packet serialization core for TCP and UDP protocols with zero dependencies.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

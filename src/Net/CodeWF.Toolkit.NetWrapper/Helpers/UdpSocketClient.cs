@@ -1,0 +1,351 @@
+namespace CodeWF.Toolkit.NetWrapper.Helpers;
+
+/// <summary>
+///     UDP Socket 客户端类，用于与 UDP 服务端建立连接并进行通信。
+/// </summary>
+public class UdpSocketClient
+{
+    /// <summary>
+    ///     UDP 客户端对象。
+    /// </summary>
+    private UdpClient? _client;
+
+    private const int MaxPendingMessages = 1024;
+    private Task? _receiveTask;
+    private Task? _consumerTask;
+
+    /// <summary>
+    ///     接收缓冲区通道。
+    /// </summary>
+    private Channel<SocketCommand> _receivedBuffers = CreateReceivedBufferChannel();
+
+    /// <summary>
+    ///     标记当前执行流正处于本客户端派发给订阅者的回调上下文中（含其异步延续）。
+    ///     用于 Stop() 重入防御：回调里再调用 Stop() 时不能阻塞等待内部线程退出。
+    /// </summary>
+    private static readonly AsyncLocal<UdpSocketClient?> CallbackClient = new();
+
+    #region 公开属性
+
+    /// <summary>
+    ///     服务标识，用于区分多个服务。
+    /// </summary>
+    public string? ServerMark { get; private set; }
+
+    /// <summary>
+    ///     服务端 IP 地址。
+    /// </summary>
+    public string? ServerIP { get; private set; }
+
+    /// <summary>
+    ///     服务端端口号。
+    /// </summary>
+    public int ServerPort { get; private set; }
+
+    /// <summary>
+    ///     是否正在运行 UDP 组播订阅。
+    /// </summary>
+    public bool IsRunning { get; set; }
+
+    /// <summary>
+    ///     新数据通知事件。
+    /// </summary>
+    public EventHandler<SocketCommand>? Received;
+
+    /// <summary>
+    ///     系统 ID，用于标识客户端身份。
+    /// </summary>
+    public long SystemId { get; private set; }
+
+    #endregion
+
+    #region 公开接口
+
+    /// <summary>
+    ///     连接到 UDP 服务端。
+    /// </summary>
+    /// <param name="serverMark">服务端标识。</param>
+    /// <param name="serverIP">服务端 IP 地址。</param>
+    /// <param name="serverPort">服务端端口号。</param>
+    /// <param name="endpoint">本地 TCP 已连接端点。</param>
+    /// <param name="systemId">客户端系统 ID。</param>
+    public async Task ConnectAsync(string serverMark, string serverIP, int serverPort, string endpoint, long systemId)
+    {
+        if (_client != null || IsRunning)
+        {
+            Stop();
+        }
+
+        ServerMark = serverMark;
+        ServerIP = serverIP;
+        ServerPort = serverPort;
+        SystemId = systemId;
+
+        try
+        {
+            var receivedBuffers = ResetReceivedBuffers();
+            if (!IPAddress.TryParse(ServerIP, out var multicastAddress))
+            {
+                throw new InvalidOperationException($"无效的 UDP 组播地址：{ServerIP}");
+            }
+
+            var localAddress = ResolveLocalAddress(endpoint);
+            _client = new UdpClient(multicastAddress.AddressFamily)
+            {
+                EnableBroadcast = true
+            };
+            _client.ExclusiveAddressUse = false;
+            _client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+            _client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, true);
+            _client.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastLoopback, true);
+            _client.Client.Bind(new IPEndPoint(localAddress, ServerPort));
+
+            if (UdpSocketServer.LoopbackIP == ServerIP)
+            {
+                _client.JoinMulticastGroup(IPAddress.Parse(UdpSocketServer.LoopbackSubIP), localAddress);
+            }
+            else
+            {
+                _client.JoinMulticastGroup(multicastAddress, localAddress);
+            }
+
+            IsRunning = true;
+
+            var client = _client;
+            _receiveTask = ReceiveDataAsync(client, receivedBuffers.Writer);
+            _consumerTask = CheckCommandMeAsync(receivedBuffers.Reader);
+        }
+        catch (Exception ex)
+        {
+            CloseClient();
+            CompleteReceivedBuffers();
+            IsRunning = false;
+            Logger.Error(
+                $"{ServerMark} 连接异常",
+                ex,
+                $"{ServerMark} 连接异常：{ex.Message}，详细信息请查看日志文件");
+        }
+    }
+
+    /// <summary>
+    ///     停止 UDP 客户端。
+    /// </summary>
+    /// <returns>是否成功停止。</returns>
+    public bool Stop()
+    {
+        try
+        {
+            // 重入防御：订阅者回调里调用 Stop() 时，阻塞等待内部线程退出会形成自己等自己的死锁；
+            // 改为设置退出标记后由内部线程自行收尾。
+            var reentrant = ReferenceEquals(CallbackClient.Value, this);
+            IsRunning = false;
+            CompleteReceivedBuffers();
+            CloseClient();
+            var receiveTask = _receiveTask;
+            var consumerTask = _consumerTask;
+            _receiveTask = null;
+            _consumerTask = null;
+            if (!reentrant)
+            {
+                WaitForBackgroundTask(receiveTask);
+                WaitForBackgroundTask(consumerTask);
+            }
+
+            Logger.Info($"{ServerMark} 停止");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"{ServerMark} 停止异常", ex, $"{ServerMark} 停止异常，详细信息请查看日志文件");
+            IsRunning = false;
+            return false;
+        }
+    }
+
+    #endregion
+
+    #region 接收处理数据
+
+    /// <summary>
+    ///     接收数据。
+    /// </summary>
+    private async Task ReceiveDataAsync(UdpClient client, ChannelWriter<SocketCommand> receivedBuffers)
+    {
+        while (IsRunning && ReferenceEquals(_client, client))
+        {
+            try
+            {
+                if (client.Client == null)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    continue;
+                }
+
+                var result = await client.ReceiveAsync();
+                var data = result.Buffer;
+                var readIndex = 0;
+                if (!data.ReadHead(ref readIndex, out var headInfo)
+                    || headInfo.SystemId != SystemId
+                    || !SerializeHelper.IsValidUdpPacketLength(headInfo.BufferLen)
+                    || data.Length != headInfo.BufferLen)
+                {
+                    continue;
+                }
+
+                receivedBuffers.TryWrite(new SocketCommand(headInfo!, data));
+            }
+            catch (SocketException ex)
+            {
+                if (IsRunning && ReferenceEquals(_client, client))
+                {
+                    Logger.Error(ex.SocketErrorCode == SocketError.Interrupted
+                        ? $"{ServerMark} Udp 中断，停止接收数据。"
+                        : $"{ServerMark} 接收 Udp 数据异常：{ex.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (IsRunning && ReferenceEquals(_client, client))
+                {
+                    Logger.Error($"接收 Udp 数据异常：{ex.Message}");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    ///     检查消息通道。
+    /// </summary>
+    private async Task CheckCommandMeAsync(ChannelReader<SocketCommand> receivedBuffers)
+    {
+        await foreach (var message in receivedBuffers.ReadAllAsync())
+        {
+            DispatchToSubscribers(message);
+        }
+    }
+
+    /// <summary>
+    ///     把 Received 事件派发移出内部消费线程（线程池异步执行），避免订阅者在回调里
+    ///     调用 Stop() 时等待内部线程退出形成自死锁。事件参数为派发时的不可变快照；
+    ///     逐订阅者调用并隔离异常，单个订阅者抛异常不影响其他订阅者和库本身。
+    /// </summary>
+    private void DispatchToSubscribers(SocketCommand message)
+    {
+        var handler = Received;
+        if (handler == null)
+        {
+            return;
+        }
+
+        var client = this;
+        _ = Task.Run(() =>
+        {
+            var previous = CallbackClient.Value;
+            CallbackClient.Value = client;
+            try
+            {
+                foreach (var subscriber in handler.GetInvocationList()
+                             .Cast<EventHandler<SocketCommand>>())
+                {
+                    try
+                    {
+                        subscriber(client, message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"{ServerMark} 处理 UDP 消息异常", ex,
+                            $"{ServerMark} 处理 UDP 消息异常，详细信息请查看日志文件");
+                    }
+                }
+            }
+            finally
+            {
+                CallbackClient.Value = previous;
+            }
+        });
+    }
+
+    private Channel<SocketCommand> ResetReceivedBuffers()
+    {
+        _receivedBuffers = CreateReceivedBufferChannel();
+        return _receivedBuffers;
+    }
+
+    private static Channel<SocketCommand> CreateReceivedBufferChannel() =>
+        Channel.CreateBounded<SocketCommand>(
+            new BoundedChannelOptions(MaxPendingMessages)
+            {
+                FullMode = BoundedChannelFullMode.DropOldest,
+                SingleReader = true,
+                SingleWriter = true,
+                AllowSynchronousContinuations = false
+            });
+
+    private static void WaitForBackgroundTask(Task? task)
+    {
+        if (task == null)
+        {
+            return;
+        }
+
+        try
+        {
+            task.GetAwaiter().GetResult();
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("UDP 客户端后台任务异常", ex, "UDP 客户端后台任务异常，详细信息请查看日志文件");
+        }
+    }
+
+    private void CompleteReceivedBuffers()
+    {
+        _receivedBuffers.Writer.TryComplete();
+    }
+
+    private void CloseClient()
+    {
+        var client = _client;
+        _client = null;
+        client?.Close();
+    }
+
+    private static IPAddress ResolveLocalAddress(string? endpoint)
+    {
+        if (string.IsNullOrWhiteSpace(endpoint))
+        {
+            return IPAddress.Any;
+        }
+
+        if (IPEndPoint.TryParse(endpoint, out var ipEndPoint))
+        {
+            return NormalizeLocalAddress(ipEndPoint.Address);
+        }
+
+        var separatorIndex = endpoint.LastIndexOf(':');
+        var addressText = separatorIndex > 0
+            ? endpoint[..separatorIndex]
+            : endpoint;
+
+        return IPAddress.TryParse(addressText, out var address)
+            ? NormalizeLocalAddress(address)
+            : IPAddress.Any;
+    }
+
+    private static IPAddress NormalizeLocalAddress(IPAddress address)
+    {
+        if (address.AddressFamily == AddressFamily.InterNetworkV6 && address.IsIPv4MappedToIPv6)
+        {
+            address = address.MapToIPv4();
+        }
+
+        return IPAddress.IsLoopback(address)
+            ? IPAddress.Any
+            : address;
+    }
+
+    #endregion
+}

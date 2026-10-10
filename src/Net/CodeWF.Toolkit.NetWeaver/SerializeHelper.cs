@@ -1,0 +1,424 @@
+namespace CodeWF.Toolkit.NetWeaver;
+
+/// <summary>
+///     序列化辅助类，提供对象的序列化和反序列化功能
+/// </summary>
+public partial class SerializeHelper
+{
+    /// <summary>
+    ///     缓存对象属性信息的字典，提高反射效率
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, PropertyInfo[]> ObjectPropertyInfos = new();
+
+    /// <summary>
+    ///     支持直接按标量读写的数据类型
+    /// </summary>
+    private static readonly HashSet<Type> ScalarTypes =
+    [
+        typeof(bool),
+        typeof(byte),
+        typeof(char),
+        typeof(DateTime),
+        typeof(DateTimeOffset),
+        typeof(DateOnly),
+        typeof(decimal),
+        typeof(double),
+        typeof(float),
+        typeof(Guid),
+        typeof(Half),
+        typeof(int),
+        typeof(Int128),
+        typeof(IntPtr),
+        typeof(long),
+        typeof(sbyte),
+        typeof(short),
+        typeof(string),
+        typeof(TimeOnly),
+        typeof(TimeSpan),
+        typeof(uint),
+        typeof(UInt128),
+        typeof(UIntPtr),
+        typeof(ulong),
+        typeof(ushort)
+    ];
+
+    private const int Int128ByteCount = 16;
+    private const int GuidByteCount = 16;
+
+    /// <summary>
+    ///     默认编码，用于字符串的序列化和反序列化
+    /// </summary>
+    public static Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
+
+    private static int _maxCollectionItemCount = 1_000_000;
+    private static int _maxStringByteLength = 16 * 1024 * 1024;
+
+    public static int MaxCollectionItemCount
+    {
+        get => Volatile.Read(ref _maxCollectionItemCount);
+        set
+        {
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value,
+                    "Collection item count cannot be negative.");
+            }
+
+            Volatile.Write(ref _maxCollectionItemCount, value);
+        }
+    }
+
+    public static int MaxStringByteLength
+    {
+        get => Volatile.Read(ref _maxStringByteLength);
+        set
+        {
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value,
+                    "String byte length cannot be negative.");
+            }
+
+            Volatile.Write(ref _maxStringByteLength, value);
+        }
+    }
+
+    /// <summary>
+    ///     获取指定类型的属性信息列表，使用缓存提高效率
+    /// </summary>
+    /// <param name="type">要获取属性的类型</param>
+    /// <returns>属性信息列表</returns>
+    [UnconditionalSuppressMessage("Trimming", "IL2070",
+        Justification =
+            "NetWeaver is a reflection-based DTO serializer; trimmed applications must preserve serialized DTO public properties.")]
+    private static PropertyInfo[] GetProperties(Type type)
+    {
+        if (ObjectPropertyInfos.TryGetValue(type, out var propertyInfos))
+        {
+            return propertyInfos;
+        }
+
+        // OrderBy is stable, so unannotated properties keep the reflection order supplied by
+        // the runtime while explicitly ordered properties are moved to their wire positions.
+        // PropertyInfo.MetadataToken is unavailable for some Native AOT reflection metadata.
+        propertyInfos = type.GetProperties()
+            .OrderBy(property => property.GetCustomAttribute<NetFieldOrderAttribute>()?.Order ?? int.MaxValue)
+            .ToArray();
+        ObjectPropertyInfos[type] = propertyInfos;
+        return propertyInfos;
+    }
+
+    private static void WriteEnumValue(BinaryWriter writer, object? value, Type enumType)
+    {
+        var underlyingType = Enum.GetUnderlyingType(enumType);
+        if (underlyingType == typeof(byte))
+        {
+            writer.Write(Convert.ToByte(value));
+        }
+        else if (underlyingType == typeof(sbyte))
+        {
+            writer.Write(Convert.ToSByte(value));
+        }
+        else if (underlyingType == typeof(short))
+        {
+            writer.Write(Convert.ToInt16(value));
+        }
+        else if (underlyingType == typeof(ushort))
+        {
+            writer.Write(Convert.ToUInt16(value));
+        }
+        else if (underlyingType == typeof(int))
+        {
+            writer.Write(Convert.ToInt32(value));
+        }
+        else if (underlyingType == typeof(uint))
+        {
+            writer.Write(Convert.ToUInt32(value));
+        }
+        else if (underlyingType == typeof(long))
+        {
+            writer.Write(Convert.ToInt64(value));
+        }
+        else if (underlyingType == typeof(ulong))
+        {
+            writer.Write(Convert.ToUInt64(value));
+        }
+        else
+        {
+            throw new InvalidOperationException($"Unsupported enum underlying type: {underlyingType.FullName}.");
+        }
+    }
+
+    private static object ReadEnumValue(BinaryReader reader, Type enumType)
+    {
+        var underlyingType = Enum.GetUnderlyingType(enumType);
+        object value = underlyingType == typeof(byte)
+            ? reader.ReadByte()
+            : underlyingType == typeof(sbyte)
+                ? reader.ReadSByte()
+                : underlyingType == typeof(short)
+                    ? reader.ReadInt16()
+                    : underlyingType == typeof(ushort)
+                        ? reader.ReadUInt16()
+                        : underlyingType == typeof(int)
+                            ? reader.ReadInt32()
+                            : underlyingType == typeof(uint)
+                                ? reader.ReadUInt32()
+                                : underlyingType == typeof(long)
+                                    ? reader.ReadInt64()
+                                    : underlyingType == typeof(ulong)
+                                        ? reader.ReadUInt64()
+                                        : throw new InvalidOperationException(
+                                            $"Unsupported enum underlying type: {underlyingType.FullName}.");
+
+        return Enum.ToObject(enumType, value);
+    }
+
+    /// <summary>
+    ///     判断类型是否可按基础标量直接序列化
+    /// </summary>
+    private static bool IsScalarType(Type type)
+    {
+        return type.IsEnum || ScalarTypes.Contains(type);
+    }
+
+    /// <summary>
+    ///     判断类型是否为可空值类型，并返回底层值类型
+    /// </summary>
+    private static bool TryGetNullableValueType(Type type, [NotNullWhen(true)] out Type? valueType)
+    {
+        valueType = Nullable.GetUnderlyingType(type);
+        return valueType != null;
+    }
+
+    /// <summary>
+    ///     判断类型是否为支持的集合类型，并返回集合泛型参数
+    /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2070",
+        Justification =
+            "NetWeaver inspects collection interfaces by contract; trimmed applications must preserve serialized DTO collection metadata.")]
+    private static bool TryGetCollectionMetadata(Type type, [NotNullWhen(true)] out Type[]? genericArguments,
+        out bool isDictionary)
+    {
+        static bool IsListDefinition(Type definition)
+        {
+            return definition == typeof(List<>) ||
+                   definition == typeof(IList<>) ||
+                   definition == typeof(ICollection<>) ||
+                   definition == typeof(IEnumerable<>) ||
+                   definition == typeof(IReadOnlyList<>) ||
+                   definition == typeof(IReadOnlyCollection<>);
+        }
+
+        static bool IsDictionaryDefinition(Type definition)
+        {
+            return definition == typeof(Dictionary<,>) ||
+                   definition == typeof(IDictionary<,>) ||
+                   definition == typeof(IReadOnlyDictionary<,>);
+        }
+
+        isDictionary = false;
+        genericArguments = Type.EmptyTypes;
+
+        // GetGenericTypeDefinition() 会把 List<int> 还原成 List<>，
+        // 方便我们统一判断“它属于哪一类泛型容器”。
+        if (type.IsGenericType)
+        {
+            var genericTypeDefinition = type.GetGenericTypeDefinition();
+            if (IsListDefinition(genericTypeDefinition))
+            {
+                genericArguments = type.GetGenericArguments();
+                return true;
+            }
+
+            if (IsDictionaryDefinition(genericTypeDefinition))
+            {
+                genericArguments = type.GetGenericArguments();
+                isDictionary = true;
+                return true;
+            }
+        }
+
+        // 有些属性声明的是自定义集合类型，本身未必就是 List<>/Dictionary<>，
+        // 但它可能实现了 IList<T> / IDictionary<TKey, TValue>，所以这里继续检查所有接口。
+        foreach (var interfaceType in type.GetInterfaces())
+        {
+            if (!interfaceType.IsGenericType)
+            {
+                continue;
+            }
+
+            var interfaceDefinition = interfaceType.GetGenericTypeDefinition();
+            if (IsListDefinition(interfaceDefinition))
+            {
+                genericArguments = interfaceType.GetGenericArguments();
+                return true;
+            }
+
+            if (IsDictionaryDefinition(interfaceDefinition))
+            {
+                genericArguments = interfaceType.GetGenericArguments();
+                isDictionary = true;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///     创建集合实例，优先使用目标类型本身，其次回退到 List/Dictionary
+    /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2067",
+        Justification =
+            "Concrete collection DTO types must preserve their public parameterless constructor when trimming.")]
+    private static object CreateCollectionInstance(Type type, Type[] genericArguments, bool isDictionary)
+    {
+        // 只有“非接口、非抽象类”才能直接 Activator.CreateInstance(type)。
+        if (!type.IsInterface && !type.IsAbstract && Activator.CreateInstance(type) is { } concreteInstance)
+        {
+            return concreteInstance;
+        }
+
+        // 如果属性类型是接口或抽象类型，就回退到一个可实例化的默认实现。
+        if (!RuntimeFeature.IsDynamicCodeSupported)
+        {
+            throw new NotSupportedException(
+                $"Creating a fallback collection for {type.FullName} requires runtime generic construction. " +
+                "Use a concrete List<T> or Dictionary<TKey,TValue> property type in Native AOT scenarios.");
+        }
+
+        var fallbackType = isDictionary
+            ? typeof(Dictionary<,>).MakeGenericType(genericArguments)
+            : typeof(List<>).MakeGenericType(genericArguments[0]);
+
+        return Activator.CreateInstance(fallbackType)
+               ?? throw new InvalidOperationException($"Cannot create collection instance for {type.FullName}.");
+    }
+
+    /// <summary>
+    ///     从 BinaryReader 精确读取固定长度数据
+    /// </summary>
+    private static void ReadExactly(BinaryReader reader, Span<byte> buffer)
+    {
+        var totalRead = 0;
+        while (totalRead < buffer.Length)
+        {
+            var read = reader.Read(buffer[totalRead..]);
+            if (read == 0)
+            {
+                throw new EndOfStreamException("Unexpected end of stream while reading fixed-size value.");
+            }
+
+            totalRead += read;
+        }
+    }
+
+    /// <summary>
+    ///     获取网络对象的头部信息
+    /// </summary>
+    /// <param name="netObjectType">网络对象类型</param>
+    /// <returns>网络对象头部属性</returns>
+    /// <exception cref="Exception">当类型未标记 NetHeadAttribute 时抛出异常</exception>
+    public static NetHeadAttribute GetNetObjectHead(this Type netObjectType)
+    {
+        var attribute = netObjectType.GetCustomAttribute<NetHeadAttribute>();
+        return attribute ?? throw new Exception(
+            $"{netObjectType.Name} has not been marked with the attribute {nameof(NetHeadAttribute)}");
+    }
+
+    /// <summary>
+    ///     获取网络对象的头部信息
+    /// </summary>
+    /// <returns>网络对象头部属性</returns>
+    /// <exception cref="Exception">当类型未标记 NetHeadAttribute 时抛出异常</exception>
+    public static NetHeadAttribute GetNetObjectHead<T>()
+    {
+        var netObjectType = typeof(T);
+        var attribute = netObjectType.GetCustomAttribute<NetHeadAttribute>();
+        return attribute ?? throw new Exception(
+            $"{netObjectType.Name} has not been marked with the attribute {nameof(NetHeadAttribute)}");
+    }
+
+    /// <summary>
+    ///     从字节数组中读取网络对象头部信息
+    /// </summary>
+    /// <param name="buffer">字节数组</param>
+    /// <param name="readIndex">读取起始索引</param>
+    /// <param name="netObjectHeadInfo">输出的网络对象头部信息</param>
+    /// <returns>是否成功读取头部信息</returns>
+    public static bool ReadHead(this byte[] buffer, ref int readIndex,
+        [NotNullWhen(true)] out NetHeadInfo? netObjectHeadInfo)
+    {
+        if (buffer.AsSpan(readIndex).ReadHead(out netObjectHeadInfo, out var bytesConsumed))
+        {
+            readIndex += bytesConsumed;
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///     从Span<byte>中读取网络对象头部信息（高性能版本）
+    /// </summary>
+    /// <param name="span">字节Span</param>
+    /// <param name="netObjectHeadInfo">输出的网络对象头部信息</param>
+    /// <param name="bytesConsumed">消耗的字节数</param>
+    /// <returns>是否成功读取头部信息</returns>
+    public static bool ReadHead(this Span<byte> span, [NotNullWhen(true)] out NetHeadInfo? netObjectHeadInfo,
+        out int bytesConsumed)
+    {
+        netObjectHeadInfo = default;
+        bytesConsumed = 0;
+        // 检查缓冲区长度是否足够
+        if (span.Length < PacketHeadLen)
+        {
+            return false;
+        }
+
+        netObjectHeadInfo = new NetHeadInfo();
+
+        // 使用Span<T>的Slice方法来避免不必要的内存拷贝
+        // 读取缓冲区长度
+        netObjectHeadInfo.BufferLen = BitConverter.ToInt32(span.Slice(0, sizeof(int)));
+        // 读取系统ID
+        netObjectHeadInfo.SystemId = BitConverter.ToInt64(span.Slice(sizeof(int), sizeof(long)));
+        // 读取对象ID
+        netObjectHeadInfo.ObjectId = BitConverter.ToUInt16(span.Slice(sizeof(int) + sizeof(long), sizeof(ushort)));
+        // 读取对象版本
+        netObjectHeadInfo.ObjectVersion = span[sizeof(int) + sizeof(long) + sizeof(ushort)];
+        // 读取时间戳
+        netObjectHeadInfo.UnixTimeMilliseconds =
+            BitConverter.ToInt64(span.Slice(sizeof(int) + sizeof(long) + sizeof(ushort) + sizeof(byte), sizeof(long)));
+
+        bytesConsumed = PacketHeadLen;
+        return true;
+    }
+
+    /// <summary>
+    ///     检查网络对象头部信息是否匹配指定的类型
+    /// </summary>
+    /// <typeparam name="T">要检查的类型</typeparam>
+    /// <param name="netObjectHeadInfo">网络对象头部信息</param>
+    /// <returns>是否匹配</returns>
+    public static bool IsNetObject<T>(this NetHeadInfo netObjectHeadInfo)
+    {
+        var netObjectAttribute = typeof(T).GetNetObjectHead();
+        return netObjectAttribute.Id == netObjectHeadInfo.ObjectId &&
+               netObjectAttribute.Version == netObjectHeadInfo.ObjectVersion;
+    }
+
+    /// <summary>
+    ///     检查网络对象头部信息是否匹配指定的类型，但版本号不同
+    /// </summary>
+    /// <typeparam name="T">要检查的类型</typeparam>
+    /// <param name="netObjectHeadInfo">网络对象头部信息</param>
+    /// <returns>是否匹配</returns>
+    public static bool IsNetObjectDiffVersion<T>(this NetHeadInfo netObjectHeadInfo)
+    {
+        var netObjectAttribute = typeof(T).GetNetObjectHead();
+        return netObjectAttribute.Id == netObjectHeadInfo.ObjectId &&
+               netObjectAttribute.Version != netObjectHeadInfo.ObjectVersion;
+    }
+}

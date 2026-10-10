@@ -1,0 +1,17 @@
+namespace CodeWF.Toolkit.NetWrapper.Models;
+
+/// <summary>
+///     TCP 通用响应状态枚举。
+/// </summary>
+public enum TcpResponseStatus
+{
+    /// <summary>
+    ///     成功。
+    /// </summary>
+    [Description("成功")] Success,
+
+    /// <summary>
+    ///     失败。
+    /// </summary>
+    [Description("失败")] Fail
+}

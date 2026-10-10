@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>TCP/UDP 通信封装与命令分发：客户端/服务端、心跳、断线重连，内置远程文件系统与断点续传能力。TCP/UDP helpers and command dispatching with built-in remote file system and resumable file transfer.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeWF.Toolkit.NetWeaver\CodeWF.Toolkit.NetWeaver.csproj" />
+    <ProjectReference Include="..\..\EventBus\CodeWF.Toolkit.EventBus\CodeWF.Toolkit.EventBus.csproj" />
+    <ProjectReference Include="..\..\Logging\CodeWF.Toolkit.Logging\CodeWF.Toolkit.Logging.csproj" />
+  </ItemGroup>
+
+</Project>
