@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Core\CodeWF.Toolkit.Core\CodeWF.Toolkit.Core.csproj" />
+    <ProjectReference Include="..\..\src\Logging\CodeWF.Toolkit.Logging\CodeWF.Toolkit.Logging.csproj" />
+    <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus\CodeWF.Toolkit.EventBus.csproj" />
+    <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus.Socket\CodeWF.Toolkit.EventBus.Socket.csproj" />
+    <ProjectReference Include="..\..\src\Net\CodeWF.Toolkit.NetWeaver\CodeWF.Toolkit.NetWeaver.csproj" />
+  </ItemGroup>
+
+</Project>
