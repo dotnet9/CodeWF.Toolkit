@@ -1,0 +1,109 @@
+﻿using CodeWF.Toolkit.Core.Extensions;
+
+namespace CodeWF.Toolkit.Tests.Core;
+
+public class DateTimeExtensionsTests
+{
+    [Fact]
+    public void GetTimeIntervalMilliseconds_DateTime_DefaultOffset()
+    {
+        var start = DateTime.Now;
+        var end = start.AddMilliseconds(1000);
+        var interval = end.GetTimeIntervalMilliseconds(start);
+        Assert.Equal(1000u, interval);
+    }
+
+    [Fact]
+    public void GetTimeIntervalMilliseconds_DateTime_SpecifiedOffset()
+    {
+        var start = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Local);
+        var end = start.AddMilliseconds(1000);
+        var offset = TimeSpan.FromHours(1);
+        var interval = end.GetTimeIntervalMilliseconds(offset, start);
+        Assert.Equal(1000u, interval);
+    }
+
+    [Fact]
+    public void GetTimeIntervalMilliseconds_DateTimeOffset()
+    {
+        var start = DateTimeOffset.Now;
+        var end = start.AddMilliseconds(1000);
+        var interval = end.GetTimeIntervalMilliseconds(start);
+        Assert.Equal(1000u, interval);
+    }
+
+    [Fact]
+    public void GetTimeIntervalMilliseconds_EndBeforeStart_Throws()
+    {
+        var start = new DateTime(2024, 1, 1, 0, 0, 1, DateTimeKind.Utc);
+        var end = start.AddSeconds(-1);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => end.GetTimeIntervalMilliseconds(start));
+    }
+
+    [Fact]
+    public void GetUnixTimeMilliseconds_ExplicitOffset_UsesSuppliedOffset()
+    {
+        var localTime = new DateTime(2024, 1, 1, 8, 0, 0, DateTimeKind.Utc);
+
+        var actual = localTime.GetUnixTimeMilliseconds(TimeSpan.FromHours(8));
+        var expected = new DateTimeOffset(2024, 1, 1, 8, 0, 0, TimeSpan.FromHours(8))
+            .ToUnixTimeMilliseconds();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetEndDateTime_DefaultOffset()
+    {
+        var start = DateTime.Now;
+        var milliseconds = 1000u;
+        var end = start.GetEndDateTime(milliseconds);
+        Assert.Equal(start.AddMilliseconds(milliseconds), end);
+    }
+
+    [Fact]
+    public void GetEndDateTime_SpecifiedOffset()
+    {
+        var start = DateTime.Now;
+        var milliseconds = 1000u;
+        var offset = TimeSpan.FromHours(1);
+
+        var calculatedEnd = start.GetEndDateTime(offset, milliseconds);
+
+        var startOffset = CreateDateTimeOffset(start, offset);
+        var expectedEnd = startOffset.AddMilliseconds(milliseconds).DateTime;
+
+        Assert.Equal(expectedEnd, calculatedEnd);
+    }
+
+    [Fact]
+    public void GetEndDateTimeOffset()
+    {
+        var start = DateTimeOffset.Now;
+        var milliseconds = 1000u;
+        var end = start.GetEndDateTimeOffset(milliseconds);
+        Assert.Equal(start.AddMilliseconds(milliseconds), end);
+    }
+
+
+    [Fact]
+    public void GetEndDateTimeDiffKind()
+    {
+        var start = new DateTime(2025, 3, 3, 14, 02, 23, DateTimeKind.Utc);
+        var end = new DateTime(2025, 3, 3, 14, 03, 23, DateTimeKind.Unspecified);
+        var milliseconds = end.GetTimeIntervalMilliseconds(start);
+        Assert.True(milliseconds > 0);
+    }
+
+
+    private static DateTimeOffset CreateDateTimeOffset(DateTime dt, TimeSpan offset)
+    {
+        if (dt.Kind == DateTimeKind.Local)
+        {
+            dt = DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
+        }
+
+        return new DateTimeOffset(dt, offset);
+    }
+}

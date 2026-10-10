@@ -1,0 +1,43 @@
+﻿using CodeWF.Toolkit.Core.FileExtensions;
+using CodeWF.Toolkit.Core.Helpers;
+using CodeWF.Toolkit.Image;
+
+namespace CodeWF.Toolkit.Tests.Files;
+
+public class ImageHelperTest
+{
+    [Fact]
+    public async Task Test_MergeGenerateIcon_Success()
+    {
+        var sourceImage = Path.Combine(AppContext.BaseDirectory, "logo.png");
+        Assert.True(File.Exists(sourceImage));
+
+        var destIconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo.ico");
+        Assert.False(File.Exists(destIconPath));
+
+        await ImageHelper.MergeGenerateIcon(sourceImage, destIconPath, [24, 32]);
+
+        Assert.True(File.Exists(destIconPath));
+
+        await FileHelper.DeleteFileIfExist(destIconPath);
+    }
+
+    [Fact]
+    public async Task Test_SeparateGenerateIcon_Success()
+    {
+        var sourceImage = Path.Combine(AppContext.BaseDirectory, "logo.png");
+        Assert.True(File.Exists(sourceImage));
+
+        var destIconFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+        await ImageHelper.SeparateGenerateIcon(sourceImage, destIconFolder, [24, 32]);
+
+        var iconFiles = Directory.GetFiles(destIconFolder, "*.ico");
+        Assert.True(iconFiles.Length > 0);
+
+        foreach (var iconFile in iconFiles)
+        {
+            await FileHelper.DeleteFileIfExist(iconFile);
+        }
+    }
+}

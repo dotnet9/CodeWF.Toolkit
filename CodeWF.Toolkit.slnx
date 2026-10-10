@@ -24,6 +24,9 @@
       <Project Path="src/Net/CodeWF.Toolkit.NetWrapper/CodeWF.Toolkit.NetWrapper.csproj" />
     </Folder>
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CodeWF.Toolkit.Tests/CodeWF.Toolkit.Tests.csproj" />
+  </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />
     <File Path="UpdateLog.md" />

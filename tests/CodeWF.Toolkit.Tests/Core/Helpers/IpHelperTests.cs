@@ -1,0 +1,248 @@
+using System.Net;
+using System.Net.Sockets;
+using CodeWF.Toolkit.Core.Helpers;
+
+namespace CodeWF.Toolkit.Tests.Core.Helpers;
+
+public class IpHelperTests
+{
+    [Fact]
+    public async Task GetLocalIpAsync_ShouldReturnValidIpAddress()
+    {
+        // Act
+        var result = await IpHelper.GetLocalIpAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.True(IPAddress.TryParse(result, out _));
+    }
+
+    [Fact]
+    public void GetAllIpV4_ShouldReturnListOfIpAddresses()
+    {
+        // Act
+        var result = IpHelper.GetAllIpV4();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<List<string>>(result);
+        Assert.All(result, ip => Assert.True(IPAddress.TryParse(ip, out var address) && address.AddressFamily == AddressFamily.InterNetwork));
+    }
+
+    [Fact]
+    public void GetAllIpV4_WithLoopback_ShouldIncludeLoopbackFirst()
+    {
+        // Act
+        var result = IpHelper.GetAllIpV4(addLoopback: true);
+
+        // Assert
+        Assert.NotEmpty(result);
+        Assert.Equal(IPAddress.Loopback.ToString(), result[0]);
+    }
+
+    [Fact]
+    public async Task GetAllIpV4Async_ShouldReturnListOfIpAddresses()
+    {
+        // Act
+        var result = await IpHelper.GetAllIpV4Async();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<List<string>>(result);
+        Assert.All(result, ip => Assert.True(IPAddress.TryParse(ip, out var address) && address.AddressFamily == AddressFamily.InterNetwork));
+    }
+
+    [Fact]
+    public void GetAvailableTcpPort_ShouldReturnValidPort()
+    {
+        // Act
+        var port = IpHelper.GetAvailableTcpPort();
+
+        // Assert
+        Assert.True(port > 0);
+        Assert.True(port < 65536); // Valid port range
+    }
+
+    [Theory]
+    [InlineData("127.0.0.1:2701", "127.0.0.1", 2701, ':')]
+    [InlineData("192.168.1.2;8000", "192.168.1.2", 8000, ';')]
+    public void TrySplitIpPort_WithSingleIp_ShouldParse(string ipPort, string expectedIp, int expectedPort, char separator = ':')
+    {
+        // Act
+        var result = IpHelper.TrySplitIpPort(ipPort, out var ip, out var port, separator);
+
+        // Assert
+        Assert.True(result);
+        Assert.Equal(expectedIp, ip);
+        Assert.Equal(expectedPort, port);
+    }
+
+    [Fact]
+    public void TrySplitIpPorts_WithMultipleIps_ShouldParse()
+    {
+        // Act
+        var result = IpHelper.TrySplitIpPorts("127.0.0.1,192.168.1.2;2701", out var ips, out var port);
+
+        // Assert
+        Assert.True(result);
+        Assert.Equal(["127.0.0.1", "192.168.1.2"], ips);
+        Assert.Equal(2701, port);
+    }
+
+    [Theory]
+    [InlineData("127.0.0.1:0")]
+    [InlineData("127.0.0.1:-1")]
+    [InlineData("127.0.0.1:65536")]
+    [InlineData("127.0.0.1::2701")]
+    [InlineData("127.0.0.1:")]
+    public void TrySplitIpPort_WithInvalidPort_ShouldReject(string ipPort)
+    {
+        Assert.False(IpHelper.TrySplitIpPort(ipPort, out _, out _));
+    }
+
+    [Fact]
+    public void TrySplitIpPort_WithBracketedIpv6_ShouldParse()
+    {
+        var result = IpHelper.TrySplitIpPort("[::1]:2701", out var ip, out var port);
+
+        Assert.True(result);
+        Assert.Equal("::1", ip);
+        Assert.Equal(2701, port);
+    }
+
+    [Theory]
+    [InlineData("127.0.0.1,,192.168.1.2;2701")]
+    [InlineData("127.0.0.1,192.168.1.2;65536")]
+    [InlineData("127.0.0.1,192.168.1.2;")]
+    public void TrySplitIpPorts_WithInvalidInput_ShouldReject(string ipPort)
+    {
+        Assert.False(IpHelper.TrySplitIpPorts(ipPort, out _, out _));
+    }
+
+    [Theory]
+    [InlineData("224.0.2.1", 7500)] // Valid multicast address
+    [InlineData("224.1.1.1", 7600)] // Another valid multicast address
+    [InlineData("239.255.255.255", 7700)] // Upper boundary of local multicast range
+    [InlineData("238.0.0.1", 7800)] // Another valid multicast in global range
+    public async Task CheckMulticastAvailabilityWithDetailsAsync_WithValidMulticastAddresses_ShouldWork(string ip, int port)
+    {
+        // Act
+        var result = await IpHelper.CheckMulticastAvailabilityWithDetailsAsync(ip, port);
+
+        // Assert
+        if (!result.Success)
+        {
+            Assert.NotEmpty(result.ErrorMessage);
+        }
+        else
+        {
+            Assert.Empty(result.ErrorMessage);
+        }
+    }
+
+    [Theory]
+    [InlineData("127.0.0.1", 7500)] // Loopback address
+    [InlineData("192.168.1.1", 7600)] // Private address
+    [InlineData("10.0.0.1", 7700)] // Another private address
+    [InlineData("172.16.0.1", 7800)] // Another private address
+    public async Task CheckMulticastAvailabilityWithDetailsAsync_WithNonMulticastAddresses_ShouldProvideErrorDetails(string ip, int port)
+    {
+        // Act
+        var result = await IpHelper.CheckMulticastAvailabilityWithDetailsAsync(ip, port);
+
+        // Assert
+        if (!result.Success)
+        {
+            Assert.NotEmpty(result.ErrorMessage);
+        }
+        else
+        {
+            Assert.Empty(result.ErrorMessage);
+        }
+    }
+
+    [Theory]
+    [InlineData("invalid.ip", 7500)] // Invalid IP format
+    [InlineData("999.999.999.999", 7600)] // Invalid IP values
+    [InlineData("", 7700)] // Empty string
+    public async Task CheckMulticastAvailabilityWithDetailsAsync_WithInvalidAddresses_ShouldReturnSpecificError(string ip, int port)
+    {
+        // Act
+        var result = await IpHelper.CheckMulticastAvailabilityWithDetailsAsync(ip, port);
+
+        // Assert
+        Assert.False(result.Success);
+        Assert.NotEmpty(result.ErrorMessage);
+        Assert.Contains("IP", result.ErrorMessage, StringComparison.OrdinalIgnoreCase); // 确保错误消息提到 IP
+    }
+
+    // 保留现有入口测试，确保公共 API 仍然能正常工作。
+    [Theory]
+    [InlineData("224.0.2.1", 7500)]
+    public async Task CheckMulticastAvailabilityAsync_ShouldStillWork(string ip, int port)
+    {
+        // Act
+        var result = await IpHelper.CheckMulticastAvailabilityAsync(ip, port);
+        
+        // Assert
+        Assert.IsType<bool>(result);
+    }
+
+    [Theory]
+    [InlineData("127.0.0.1", 0)]
+    [InlineData("127.0.0.1", 65536)]
+    [InlineData("::1", 7500)]
+    public async Task CheckMulticastAvailabilityWithDetailsAsync_WithInvalidEndpoint_ShouldReject(string ip, int port)
+    {
+        var result = await IpHelper.CheckMulticastAvailabilityWithDetailsAsync(ip, port);
+
+        Assert.False(result.Success);
+        Assert.NotEmpty(result.ErrorMessage);
+    }
+
+    [Theory]
+    [InlineData(0, 7999)]
+    [InlineData(7000, 65536)]
+    [InlineData(8000, 7000)]
+    public void GetMulticastIpAndPort_WithInvalidPortRange_ShouldThrow(int startPort, int endPort)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            IpHelper.GetMulticastIpAndPort(out _, out _, startPort, endPort));
+    }
+
+    [Fact]
+    public void GetMulticastIpAndPort_ShouldReturnValidIpAndPort()
+    {
+        // Act
+        bool result = IpHelper.GetMulticastIpAndPort(out string ip, out int port);
+
+        // Assert
+        Assert.True(result);
+        Assert.NotNull(ip);
+        Assert.True(IPAddress.TryParse(ip, out var ipAddress));
+        
+        // Verify it's a multicast address (224.0.0.0 to 239.255.255.255)
+        var bytes = ipAddress.GetAddressBytes();
+        Assert.True(bytes[0] >= 224 && bytes[0] <= 239);
+        
+        // Verify port is in expected range
+        Assert.True(port >= 7000 && port <= 7999);
+    }
+
+    [Fact]
+    public void GetMulticastIpAndPort_WithCustomRange_ShouldReturnPortInRange()
+    {
+        // Arrange
+        int startPort = 8000;
+        int endPort = 8500;
+
+        // Act
+        bool result = IpHelper.GetMulticastIpAndPort(out string ip, out int port, startPort, endPort);
+
+        // Assert
+        Assert.True(result);
+        Assert.NotNull(ip);
+        Assert.True(IPAddress.TryParse(ip, out _));
+        Assert.True(port >= startPort && port <= endPort);
+    }
+} 
