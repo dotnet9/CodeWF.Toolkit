@@ -3,6 +3,9 @@
     <Folder Name="/src/Core/">
       <Project Path="src/Core/CodeWF.Toolkit.Core/CodeWF.Toolkit.Core.csproj" />
     </Folder>
+    <Folder Name="/src/Files/">
+      <Project Path="src/Files/CodeWF.Toolkit.Files/CodeWF.Toolkit.Files.csproj" />
+    </Folder>
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />

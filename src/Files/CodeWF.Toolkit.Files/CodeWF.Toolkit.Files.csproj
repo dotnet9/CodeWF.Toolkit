@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>文件操作类集合：Json/Yaml/Csv/Excel 读写、7z 压缩解压、App.config 读写。File operations: Json/Yaml/Csv/Excel reading &amp; writing, 7z compression and App.config helpers.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+    <PackageReference Include="SharpCompress" />
+    <PackageReference Include="YamlDotNet" />
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="MiniExcel" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+  </ItemGroup>
+
+</Project>
