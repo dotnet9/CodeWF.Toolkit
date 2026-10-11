@@ -224,6 +224,18 @@ namespace CodeWF.Toolkit.Network.Tests.EventBus
         }
 
         [Fact]
+        public void Publish_ShouldCompleteSynchronouslyWithSyncHandlers()
+        {
+            var eventBus = new EventBus();
+            var invoked = false;
+            eventBus.Subscribe<TestAddCommand>(_ => { invoked = true; });
+
+            eventBus.Publish(new TestAddCommand());
+
+            Assert.True(invoked);
+        }
+
+        [Fact]
         public async Task PublishAsync_ShouldPropagateOriginalHandlerException()
         {
             var eventBus = new EventBus();

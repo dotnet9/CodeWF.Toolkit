@@ -86,7 +86,17 @@ namespace CodeWF.Toolkit.EventBus
             }
 
             ThrowIfSynchronousPublishIsNotSupported(command.GetType());
-            PublishAsync(command).GetAwaiter().GetResult();
+            var publishing = PublishAsync(command);
+            if (!publishing.IsCompleted)
+            {
+                // 校验通过后任务仍未完成，说明发布期间并发订阅了异步处理器；
+                // 此时阻塞等待可能在持有同步上下文的线程（如 UI 线程）上死锁，
+                // 因此与异步处理器保持一致的快速失败策略。
+                throw new InvalidOperationException(
+                    "Synchronous publishing cannot execute asynchronous handlers. Use PublishAsync or QueryAsync instead.");
+            }
+
+            publishing.GetAwaiter().GetResult();
         }
 
         /// <summary>
