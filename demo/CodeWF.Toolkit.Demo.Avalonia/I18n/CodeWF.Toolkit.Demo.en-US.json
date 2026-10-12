@@ -1,0 +1,96 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit Demo English resources.",
+  "cultureName": "en-US",
+  "Demo": {
+    "Tool": {
+      "Navigation": "Explorer",
+      "Properties": "Properties",
+      "Log": "Log"
+    },
+    "Shell": {
+      "Palette": "Palette",
+      "Dark": "Dark mode",
+      "DemoShell": "Demo Shell",
+      "Ready": "Ready",
+      "Reset": "Reset layout",
+      "WriteLogs": "Write sample logs",
+      "QuickSave": "Save layout",
+      "QuickSettings": "Settings"
+    },
+    "Segment": {
+      "Demo": "Demo",
+      "Xaml": "XAML",
+      "CSharp": "C#"
+    },
+    "Palette": {
+      "Default": "Default",
+      "Aquatic": "Aquatic",
+      "Desert": "Desert",
+      "Dusk": "Dusk",
+      "NightSky": "Night Sky",
+      "HighContrast": "High Contrast"
+    },
+    "Group": {
+      "Home": "Home",
+      "Core": "Core",
+      "Bus": "EventBus",
+      "Files": "Files",
+      "Image": "Image",
+      "Logging": "Logging",
+      "Net": "Net"
+    },
+    "Item": {
+      "Welcome": "Welcome",
+      "Core": "Core Toolkit",
+      "Bus": "In-Process Bus",
+      "BusIntegrations": "Bus Integrations",
+      "FilesFormat": "File Formats",
+      "FilesArchive": "Archive & Config",
+      "ImageIcon": "Icon Generator",
+      "ImageQr": "QR & Image",
+      "LogCore": "Logger Core",
+      "LogMicrosoft": "MEL Integration",
+      "NetPacket": "NetWeaver Serializer",
+      "NetSocket": "NetWrapper Sockets"
+    },
+    "Page": {
+      "Welcome": {
+        "Desc": "CodeWF.Toolkit demo shell: ribbon tabs, dock workspace, property grid and log panel covering 6 capability domains with 12 real-API pages."
+      },
+      "Core": {
+        "Desc": "Dependency-free extensions and infrastructure: string/number/enum helpers, encoding detection and safe IO, app data migration, GitHub release update checking."
+      },
+      "Bus": {
+        "Desc": "In-process event bus: publish/subscribe plus Command/Query, lambda and [EventHandler] scanning subscriptions, unsubscribe and assembly scanning."
+      },
+      "BusIntegrations": {
+        "Desc": "One handler model, several hosts: Prism, ASP.NET Core, generic IOC and the cross-process Socket bus with heartbeat, reconnect and offline redelivery."
+      },
+      "FilesFormat": {
+        "Desc": "Json / Yaml / Csv / Excel read-write and conversion; every extension reports failure through an out error parameter."
+      },
+      "FilesArchive": {
+        "Desc": "SevenZipCompressor over SharpCompress: LZMA compression, UTF-8 entry names, remote URL packing; AppConfigHelper reads and writes appSettings."
+      },
+      "ImageIcon": {
+        "Desc": "ImageHelper over Magick.NET: merge one PNG into a multi-size ico, or split sizes into separate ico files."
+      },
+      "ImageQr": {
+        "Desc": "QrCodeGenerator over ZXing.Net.Bindings.Magick: produce a titled QR image that plugs straight into the Magick.NET pipeline."
+      },
+      "LogCore": {
+        "Desc": "Static Logger: console, rolling files and a UI event feed, with batched async writes, live line-template updates and self diagnostics."
+      },
+      "LogMicrosoft": {
+        "Desc": "Microsoft.Extensions.Logging provider: one AddCodeWF call keeps structured templates, scopes and Activity data, sharing the pipeline with the static Logger."
+      },
+      "NetPacket": {
+        "Desc": "NetWeaver attribute-driven binary serialization: [NetHead] for the packet header, [NetFieldOrder] for wire order, big-endian and round-trip verified."
+      },
+      "NetSocket": {
+        "Desc": "NetWrapper TCP/UDP wrappers with command dispatch and a built-in remote file system: 64KB chunks, hash verification, resume and progress events."
+      }
+    }
+  }
+}

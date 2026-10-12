@@ -18,6 +18,7 @@
   </Folder>
   <Folder Name="/demo/">
     <Project Path="demo/CodeWF.Toolkit.Demo/CodeWF.Toolkit.Demo.csproj" />
+    <Project Path="demo/CodeWF.Toolkit.Demo.Avalonia/CodeWF.Toolkit.Demo.Avalonia.csproj" />
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path=".gitignore" />

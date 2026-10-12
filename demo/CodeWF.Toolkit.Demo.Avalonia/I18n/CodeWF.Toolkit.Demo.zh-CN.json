@@ -1,0 +1,96 @@
+{
+  "language": "简体中文",
+  "description": "CodeWF.Toolkit Demo 简体中文资源。",
+  "cultureName": "zh-CN",
+  "Demo": {
+    "Tool": {
+      "Navigation": "导航树",
+      "Properties": "属性",
+      "Log": "日志"
+    },
+    "Shell": {
+      "Palette": "色板",
+      "Dark": "深色",
+      "DemoShell": "演示台",
+      "Ready": "就绪",
+      "Reset": "重置工作区",
+      "WriteLogs": "写入三类日志",
+      "QuickSave": "保存工作区布局",
+      "QuickSettings": "设置"
+    },
+    "Segment": {
+      "Demo": "演示",
+      "Xaml": "XAML",
+      "CSharp": "C#"
+    },
+    "Palette": {
+      "Default": "默认",
+      "Aquatic": "水生",
+      "Desert": "沙漠",
+      "Dusk": "黄昏",
+      "NightSky": "夜空",
+      "HighContrast": "高对比"
+    },
+    "Group": {
+      "Home": "首页",
+      "Core": "核心",
+      "Bus": "事件总线",
+      "Files": "文件",
+      "Image": "图像",
+      "Logging": "日志",
+      "Net": "网络"
+    },
+    "Item": {
+      "Welcome": "欢迎",
+      "Core": "Core 工具箱",
+      "Bus": "进程内总线",
+      "BusIntegrations": "总线集成",
+      "FilesFormat": "文件格式",
+      "FilesArchive": "压缩与配置",
+      "ImageIcon": "图标生成",
+      "ImageQr": "二维码与处理",
+      "LogCore": "Logger 核心",
+      "LogMicrosoft": "MEL 接入",
+      "NetPacket": "NetWeaver 序列化",
+      "NetSocket": "NetWrapper 通信"
+    },
+    "Page": {
+      "Welcome": {
+        "Desc": "CodeWF.Toolkit 演示台：Ribbon 页签 + Dock 工作区 + 属性面板 + 日志面板，12 个演示页覆盖 6 大能力域，全部调用仓库里的真实 API。"
+      },
+      "Core": {
+        "Desc": "零第三方依赖的扩展方法与基础设施：字符串/数值/枚举扩展、编码探测与安全读写、应用数据目录迁移、GitHub Release 更新检查。"
+      },
+      "Bus": {
+        "Desc": "进程内事件总线：发布订阅 + Command/Query，支持 lambda 与 [EventHandler] 扫描式订阅，可退订、可程序集扫描。"
+      },
+      "BusIntegrations": {
+        "Desc": "同一套处理器模型的多种宿主形态：Prism、ASP.NET Core、通用 IOC，以及跨进程跨机的 Socket 分布式总线（心跳、断线重连、离线补发）。"
+      },
+      "FilesFormat": {
+        "Desc": "Json / Yaml / Csv / Excel 读写与互转，扩展方法统一带 out error；DataTable 可直接导出导入 Csv / Excel。"
+      },
+      "FilesArchive": {
+        "Desc": "SevenZipCompressor 基于 SharpCompress：LZMA 压缩、UTF-8 条目名、远程 URL 打包；AppConfigHelper 读写传统 appSettings。"
+      },
+      "ImageIcon": {
+        "Desc": "ImageHelper 基于 Magick.NET：一张 PNG 合成多尺寸 ico，或按尺寸拆分出多个 ico 文件。"
+      },
+      "ImageQr": {
+        "Desc": "QrCodeGenerator 基于 ZXing.Net.Bindings.Magick：生成带标题与副标题的二维码图片，可与 Magick.NET 处理管线无缝衔接。"
+      },
+      "LogCore": {
+        "Desc": "静态 Logger：控制台 + 文件轮转 + UI 事件流（LogEventFeed），支持批量异步写入、输出模板热更新与自身健康诊断。"
+      },
+      "LogMicrosoft": {
+        "Desc": "Microsoft.Extensions.Logging 提供程序：AddCodeWF 一句话接入，保留结构化模板、作用域与 Activity 信息，并与静态 Logger 共用管道。"
+      },
+      "NetPacket": {
+        "Desc": "NetWeaver 特性驱动二进制序列化：[NetHead] 声明包头、[NetFieldOrder] 声明字段顺序，大端序、定长包头、往返校验。"
+      },
+      "NetSocket": {
+        "Desc": "NetWrapper 的 TCP/UDP 封装与命令分发，内置远程文件系统：64KB 分块、哈希校验、断点续传与进度事件。"
+      }
+    }
+  }
+}

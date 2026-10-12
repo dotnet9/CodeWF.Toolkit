@@ -2,6 +2,8 @@
 
 ## 未发布
 
+- ✨[新功能]-新增桌面演示台 demo/CodeWF.Toolkit.Demo.Avalonia：与 design 原型同款外壳（CodeWFWindow 标题栏 + Ribbon 页签 + Dock 工作区 + PropertyGrid + LogView），12 个演示页覆盖 Core/EventBus/Files/Image/Logging/Net 六条产品线，全部调用仓库真实 API。
+
 ## 1.0.0.2 (2026-10-11)
 
 - 🛡[加固]-EventBus：`Publish` 在校验通过后若任务未同步完成（发布期间并发订阅了异步处理器），不再阻塞等待以防 UI 线程死锁，改为与异步处理器一致的快速失败。

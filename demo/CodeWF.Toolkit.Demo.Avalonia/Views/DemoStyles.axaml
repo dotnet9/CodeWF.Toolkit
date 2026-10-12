@@ -1,0 +1,51 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--  演示页通用外观：卡片 / 标题 / 说明 / 代码块 / 行 / 小按钮（随色板与深浅模式自动换色）  -->
+  <Style Selector="Border.card">
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Padding" Value="12" />
+    <Setter Property="BorderBrush" Value="{DynamicResource TabControlSeparatorBorderBrush}" />
+  </Style>
+  <Style Selector="TextBlock.h">
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="TextBlock.sub">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Opacity" Value="0.72" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+  <Style Selector="TextBlock.k">
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="Opacity" Value="0.65" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="TextBlock.hint">
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Opacity" Value="0.55" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+  <Style Selector="SelectableTextBlock.code">
+    <Setter Property="FontFamily" Value="Consolas,Cascadia Mono,Menlo,monospace" />
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="Padding" Value="10,8" />
+  </Style>
+  <Style Selector="SelectableTextBlock.output">
+    <Setter Property="FontFamily" Value="Consolas,Cascadia Mono,Menlo,monospace" />
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="Padding" Value="10,8" />
+    <Setter Property="Background" Value="#14808080" />
+  </Style>
+  <Style Selector="StackPanel.row">
+    <Setter Property="Orientation" Value="Horizontal" />
+    <Setter Property="Spacing" Value="8" />
+  </Style>
+  <Style Selector="Button.b">
+    <Setter Property="Padding" Value="10,2" />
+    <Setter Property="MinHeight" Value="26" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+</Styles>

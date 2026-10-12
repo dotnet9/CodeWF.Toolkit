@@ -42,3 +42,21 @@ jobs:
 
       - name: 运行冒烟演示
         run: artifacts\aot-smoke\CodeWF.Toolkit.Demo.exe --smoke
+
+  aot-smoke-avalonia:
+    name: AOT 冒烟（Avalonia 演示台发布与运行）
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: AOT 发布 Avalonia 演示台
+        run: dotnet publish demo/CodeWF.Toolkit.Demo.Avalonia/CodeWF.Toolkit.Demo.Avalonia.csproj -c Release -r win-x64 -p:PublishAot=true -o artifacts/aot-smoke-avalonia
+
+      # 图形界面的运行冒烟在无头 CI 上不稳定：先保证 AOT 能发布，运行允许失败不阻塞流水线
+      - name: 运行冒烟演示
+        continue-on-error: true
+        run: artifacts\aot-smoke-avalonia\CodeWF.Toolkit.Demo.Avalonia.exe --smoke

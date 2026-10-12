@@ -1,0 +1,46 @@
+<linker>
+  <!-- 演示应用整体保留 -->
+  <assembly fullname="CodeWF.Toolkit.Demo.Avalonia" preserve="all" />
+
+  <!-- DI / MVVM：DryIoc 在 AOT 下会读反射字段，必须整树保留 -->
+  <assembly fullname="Prism" preserve="all" />
+  <assembly fullname="Prism.Avalonia" preserve="all" />
+  <assembly fullname="Prism.DryIoc.Avalonia" preserve="all" />
+  <assembly fullname="DryIoc" preserve="all" />
+  <assembly fullname="ReactiveUI" preserve="all" />
+  <assembly fullname="ReactiveUI.Avalonia" preserve="all" />
+  <assembly fullname="Splat" preserve="all" />
+
+  <!-- Avalonia 运行时与 XAML 加载 -->
+  <assembly fullname="Avalonia" preserve="all" />
+  <assembly fullname="Avalonia.Base" preserve="all" />
+  <assembly fullname="Avalonia.Controls" preserve="all" />
+  <assembly fullname="Avalonia.Desktop" preserve="all" />
+  <assembly fullname="Avalonia.Markup" preserve="all" />
+  <assembly fullname="Avalonia.Markup.Xaml" preserve="all" />
+  <assembly fullname="Avalonia.Markup.Xaml.Loader" preserve="all" />
+  <assembly fullname="Semi.Avalonia" preserve="all" />
+  <assembly fullname="Avalonia.Controls.DataGrid" preserve="all" />
+  <assembly fullname="Avalonia.Controls.ColorPicker" preserve="all" />
+
+  <!-- CodeWF.Avalonia 主题与控件（控件模板按字符串名解析资源） -->
+  <assembly fullname="CodeWF.Avalonia.Controls" preserve="all" />
+  <assembly fullname="CodeWF.Avalonia.TreeDataGrid" preserve="all" />
+  <assembly fullname="CodeWF.Avalonia.Dock" preserve="all" />
+  <assembly fullname="CodeWF.Avalonia.Lang" preserve="all" />
+  <assembly fullname="CodeWF.Avalonia.Log" preserve="all" />
+  <assembly fullname="TreeDataGrid.Avalonia" preserve="all" />
+  <assembly fullname="Dock.Avalonia" preserve="all" />
+  <assembly fullname="Dock.Model" preserve="all" />
+  <assembly fullname="Dock.Model.ReactiveUI" preserve="all" />
+  <assembly fullname="Xaml.Behaviors" preserve="all" />
+  <assembly fullname="Xaml.Behaviors.Interactivity" preserve="all" />
+
+  <!-- 图像与压缩：Magick.NET / SharpCompress 走原生库与反射 -->
+  <assembly fullname="Magick.NET-Q16-AnyCPU" preserve="all" />
+  <assembly fullname="SharpCompress" preserve="all" />
+
+  <!-- 演示里用反射读取 [NetFieldOrder] 字段表 -->
+  <assembly fullname="CodeWF.Toolkit.Core" preserve="all" />
+  <assembly fullname="CodeWF.Toolkit.NetWeaver" preserve="all" />
+</linker>
