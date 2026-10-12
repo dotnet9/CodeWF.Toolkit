@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-palette="default">
+<head>
+<meta charset="utf-8">
+<title>CodeWF.Toolkit.Demo — 原型</title>
+<style>
+/* ═══════════ 色板（6 色板 × 浅深，与 CodeWF.Avalonia 原型一致） ═══════════ */
+:root{
+  --pri:#0064fa;--pri-h:#0057d4;--pri-lt:rgba(0,100,250,.09);
+  --bg:#fff;--bg2:#f5f6f8;--bg3:#eef0f3;--tx:#1c1f23;--tx2:#646a73;--tx3:#8f959e;
+  --bd:#d9dce1;--bd2:#e6e8ec;--hov:#eef0f3;--sel:#e3edff;--workbg:#eceef1;
+  --ok:#26a346;--warn:#e8a103;--err:#e34d4d;--code:#f6f8fa;
+}
+[data-palette=aqua]{--pri:#0091a8;--pri-h:#007a8e;--pri-lt:rgba(0,145,168,.10);--sel:#dff5f8}
+[data-palette=desert]{--pri:#c26a1d;--pri-h:#a85a15;--pri-lt:rgba(194,106,29,.10);--sel:#faf0e2}
+[data-palette=dusk]{--pri:#7a5cc4;--pri-h:#654aa8;--pri-lt:rgba(122,92,196,.10);--sel:#efe9fb}
+[data-palette=night]{--pri:#2b6cb0;--pri-h:#245a96;--pri-lt:rgba(43,108,176,.10);--sel:#e2edf9}
+[data-palette=contrast]{--pri:#000;--pri-h:#000;--pri-lt:rgba(0,0,0,.08);--sel:#eee}
+[data-theme=dark]{
+  --bg:#1b1b1f;--bg2:#232327;--bg3:#2a2a30;--tx:#e6e6e8;--tx2:#9ea3ab;--tx3:#6b7078;
+  --bd:#3a3a40;--bd2:#2b2b30;--hov:#2a2a30;--sel:#1d2c44;--workbg:#131316;--code:#16161a;
+}
+[data-theme=dark][data-palette=default]{--pri:#4d9aff;--pri-h:#6cadff;--pri-lt:rgba(77,154,255,.14);--sel:#1d2c44}
+[data-theme=dark][data-palette=aqua]{--pri:#2ec3dd;--pri-h:#4fd0e8;--sel:#123c44}
+[data-theme=dark][data-palette=desert]{--pri:#e8a355;--pri-h:#efb56f;--sel:#443318}
+[data-theme=dark][data-palette=dusk]{--pri:#a98ae0;--pri-h:#bca0e8;--sel:#322a4a}
+[data-theme=dark][data-palette=night]{--pri:#5b93cf;--pri-h:#74a8db;--sel:#1a2a3e}
+[data-theme=dark][data-palette=contrast]{--pri:#fff;--pri-h:#fff;--pri-lt:rgba(255,255,255,.12);--sel:#333}
+
+/* ═══════════ 桌面背景 + 窗口卡片 ═══════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1200px 600px at 20% 0%,#1d2b53 0%,transparent 60%),
+    radial-gradient(1000px 700px at 85% 100%,#0f3460 0%,transparent 55%),
+    linear-gradient(135deg,#0b1322 0%,#101b30 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:22px;font:13px/1.6 "Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--tx);
+  overflow:hidden;user-select:none;
+}
+.win{
+  width:min(1480px,100%);height:100%;min-height:640px;
+  background:var(--bg);border-radius:10px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 24px 70px rgba(0,0,0,.55),0 4px 14px rgba(0,0,0,.35);
+  display:grid;grid-template-rows:36px 30px auto 1fr auto;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:5px;border:2px solid transparent;background-clip:padding-box}
+
+/* ═══ 1. 标题栏 ═══ */
+.cap{display:flex;align-items:center;height:36px;padding-left:12px;gap:8px;
+  background:linear-gradient(90deg,var(--pri) 0%,var(--pri-h) 30%,rgba(0,0,0,0) 62%),var(--bg2);
+  border-bottom:1px solid var(--bd)}
+.cap .lg{font-weight:700;color:#fff;letter-spacing:.5px;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.cap .ver{font-size:11px;color:#fff;opacity:.8}
+.cap .sp{flex:1}
+.cap select{height:23px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--tx)}
+.cap .wb{width:44px;height:36px;display:flex;align-items:center;justify-content:center;
+  border:none;background:transparent;cursor:pointer;color:var(--tx2);font-size:12px}
+.cap .wb:hover{background:var(--hov);color:var(--tx)}
+.cap .wb.cls:hover{background:var(--err);color:#fff}
+.cap .pal{display:inline-flex;gap:5px;align-items:center;margin:0 2px}
+.cap .pal i{width:12px;height:12px;border-radius:50%;cursor:pointer;border:1px solid rgba(128,128,128,.55);display:block;transition:transform .12s}
+.cap .pal i:hover{transform:scale(1.25)}
+
+/* ═══ 2. Ribbon 页签行 ═══ */
+.rtabs{display:flex;align-items:center;height:30px;padding:0 10px;gap:2px;background:var(--bg);border-bottom:1px solid var(--bd)}
+.qk{display:flex;align-items:center;gap:2px;margin-right:10px;padding-right:12px;border-right:1px solid var(--bd2)}
+.qk button{width:27px;height:25px;border:none;background:transparent;border-radius:4px;cursor:pointer;color:var(--tx2);font-size:13px}
+.qk button:hover{background:var(--hov);color:var(--pri)}
+.rt2{display:flex;align-items:center;height:100%;gap:3px;overflow:hidden}
+.rt2 .t2{padding:0 14px;height:100%;line-height:30px;cursor:pointer;color:var(--tx2);font-size:12.5px;
+  user-select:none;letter-spacing:1px;position:relative;white-space:nowrap}
+.rt2 .t2:hover{color:var(--pri)}
+.rt2 .t2.on{color:var(--pri);font-weight:600}
+.rt2 .t2.on::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--pri);border-radius:2px 2px 0 0}
+
+/* ═══ 3. Ribbon 命令区（可折叠，双击页签折叠） ═══ */
+.rbn{background:var(--bg);border-bottom:1px solid var(--bd);padding:7px 16px 4px;
+  display:flex;align-items:stretch;overflow-x:auto;overflow-y:hidden;
+  transition:padding .15s ease,opacity .12s ease}
+body.rmn .rbn{padding-top:0;padding-bottom:0;min-height:0;height:0;opacity:0;border-bottom:none}
+.grp{display:flex;flex-direction:column;padding:0 14px;border-right:1px solid var(--bd2);flex:none}
+.grp:last-child{border-right:none}
+.grp .cmds{display:flex;gap:3px;flex:1;align-items:flex-start;flex-wrap:wrap;align-content:flex-start}
+.grp .gname{text-align:center;font-size:10px;color:var(--tx3);padding-top:4px;letter-spacing:2px}
+.cbtn{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px;padding:7px 6px 4px;
+  border:none;background:transparent;cursor:pointer;border-radius:6px;color:var(--tx)}
+.cbtn:hover{background:var(--hov)}
+.cbtn:active{background:var(--pri-lt)}
+.cbtn .ic{font-size:21px;line-height:1.1}
+.cbtn .lb{font-size:11px;text-align:center;white-space:nowrap}
+
+/* ═══ 4. 主内容 = Dock 工作区 ═══ */
+.main{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:8px 10px;background:var(--workbg);overflow:hidden}
+.dockrow{flex:1;min-height:0;display:flex;gap:8px}
+.panel{background:var(--bg);border:1px solid var(--bd);border-radius:8px;display:flex;flex-direction:column;
+  overflow:hidden;min-height:0;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.phd{display:flex;align-items:center;height:30px;flex:none;padding:0 10px;background:var(--bg2);
+  border-bottom:1px solid var(--bd);font-size:11px;font-weight:700;color:var(--tx2);gap:6px;letter-spacing:.5px}
+.phd .tb{margin-left:auto;display:flex;gap:2px}
+.phd .tb button{min-width:22px;height:20px;border:none;background:transparent;cursor:pointer;border-radius:3px;
+  color:var(--tx2);font-size:11px;white-space:nowrap;padding:0 5px}
+.phd .tb button:hover{background:var(--pri-lt);color:var(--pri)}
+.pbd{flex:1;min-height:0;overflow:auto}
+.p-nav{width:232px;flex:none}
+body.hideL .p-nav{display:none}
+.p-props{width:268px;flex:none}
+body.hideR .p-props{display:none}
+.p-log{height:152px;flex:none}
+body.hideLog .p-log{display:none}
+
+/* 左：导航树 */
+.tree{padding:5px}
+.tree .nd .hd{display:flex;align-items:center;gap:5px;height:27px;padding:0 6px;border-radius:5px;cursor:pointer}
+.tree .nd .hd:hover{background:var(--hov)}
+.tree .nd .hd .arw{width:12px;font-size:9px;color:var(--tx3);transition:transform .12s}
+.tree .nd.open>.hd .arw{transform:rotate(90deg)}
+.tree .nd .kids{display:none;margin-left:15px;border-left:1px solid var(--bd2);padding-left:5px}
+.tree .nd.open>.kids{display:block}
+.tree .lf{display:flex;align-items:center;gap:6px;height:26px;padding:0 6px 0 10px;border-radius:5px;cursor:pointer;color:var(--tx2)}
+.tree .lf:hover{background:var(--hov);color:var(--tx)}
+.tree .lf.on{background:var(--sel);color:var(--pri);font-weight:600}
+
+/* 中：文档区 */
+.p-doc{flex:1;min-width:0}
+.dts{display:flex;align-items:center;gap:6px;height:30px;flex:none;padding:0 8px;background:var(--bg2);border-bottom:1px solid var(--bd);overflow-x:auto}
+.dkb{display:flex;gap:2px;padding-right:8px;border-right:1px solid var(--bd2)}
+.dkb button{height:20px;border:none;background:transparent;border-radius:3px;cursor:pointer;color:var(--tx2);font-size:11px;padding:0 6px;white-space:nowrap}
+.dkb button:hover{background:var(--pri-lt);color:var(--pri)}
+.dt{display:flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;cursor:pointer;font-size:11.5px;color:var(--tx2);white-space:nowrap}
+.dt:hover{background:var(--hov)}
+.dt.on{background:var(--bg);color:var(--tx);border:1px solid var(--bd)}
+.dt .x{opacity:.55}
+.dt .x:hover{color:var(--err)}
+.dbody{flex:1;min-height:0;overflow:auto;padding:14px 16px}
+
+/* 右：属性面板 */
+.pgp{padding:4px}
+.pgp .cat{font-size:10.5px;font-weight:700;color:var(--tx3);letter-spacing:1px;padding:8px 8px 4px}
+.pgp .row{display:flex;align-items:center;gap:8px;min-height:28px;padding:0 8px;border-radius:4px}
+.pgp .row:hover{background:var(--hov)}
+.pgp .row .nm{flex:1;font-size:11.5px;color:var(--tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pgp .row .vl{font-size:11.5px;color:var(--tx);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pgp .sw{width:30px;height:16px;border-radius:9px;background:var(--bd);position:relative;cursor:pointer;flex:none;transition:background .12s}
+.pgp .sw::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .12s}
+.pgp .sw.on{background:var(--pri)}
+.pgp .sw.on::after{left:16px}
+.pgp select,.pgp input[type=number]{height:22px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);max-width:130px}
+
+/* 底部：日志 */
+#logP{padding:4px 8px;font:11.5px/1.7 Consolas,"Cascadia Mono",monospace}
+#logP .ll1{color:var(--tx2)}
+#logP .ll2{color:var(--warn)}
+#logP .ll3{color:var(--err)}
+#logP .ltm{color:var(--tx3);margin-right:8px}
+
+/* ═══ 5. 状态栏 ═══ */
+.tbar{display:flex;align-items:center;gap:10px;height:26px;padding:0 10px;background:var(--bg2);
+  border-top:1px solid var(--bd);font-size:11px;color:var(--tx2)}
+.tbar .sp{flex:1}
+.tbar .badge{background:var(--pri);color:#fff;border-radius:3px;padding:1px 6px;font-weight:700}
+.tbar button{height:19px;border:1px solid var(--bd);background:var(--bg);border-radius:3px;cursor:pointer;font-size:11px;padding:0 7px;color:var(--tx2)}
+.tbar button:hover{border-color:var(--pri);color:var(--pri)}
+
+/* ═══ 文档页通用件 ═══ */
+h3.dh{font-size:15px;margin:0 0 2px}
+p.dsub{color:var(--tx2);font-size:12px;margin-bottom:12px}
+.card{border:1px solid var(--bd);border-radius:8px;padding:12px 14px;margin-bottom:12px;background:var(--bg)}
+.card h4{font-size:12.5px;margin-bottom:8px;color:var(--tx)}
+.card .hint{font-size:11px;color:var(--tx3);margin-top:6px}
+table.tb{width:100%;border-collapse:collapse;font-size:11.5px}
+table.tb th,table.tb td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--bd2)}
+table.tb th{color:var(--tx3);font-weight:600;font-size:11px}
+code{font:11.5px Consolas,"Cascadia Mono",monospace;background:var(--code);border:1px solid var(--bd2);border-radius:3px;padding:0 4px}
+pre.code{background:var(--code);border:1px solid var(--bd2);border-radius:6px;padding:10px 12px;overflow:auto;
+  font:11.5px/1.65 Consolas,"Cascadia Mono",monospace;color:var(--tx);margin:8px 0}
+.row1{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+input.tin,select.tin{height:26px;border:1px solid var(--bd);border-radius:5px;background:var(--bg);padding:0 8px;font-size:12px}
+textarea.tin{border:1px solid var(--bd);border-radius:5px;background:var(--bg);padding:8px;font:11.5px/1.6 Consolas,monospace;width:100%;resize:vertical}
+button.b{border:1px solid var(--bd);background:var(--bg);border-radius:5px;height:26px;padding:0 10px;cursor:pointer;font-size:12px}
+button.b:hover{border-color:var(--pri);color:var(--pri)}
+button.b.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+button.b.pri:hover{background:var(--pri-h)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.list{border:1px solid var(--bd);border-radius:6px;min-height:120px;max-height:220px;overflow:auto}
+.list .it{display:flex;align-items:center;gap:8px;padding:5px 9px;font-size:11.5px;cursor:pointer;border-bottom:1px solid var(--bd2)}
+.list .it:hover{background:var(--hov)}
+.list .it.on{background:var(--sel);color:var(--pri)}
+.lgst{height:170px;overflow:auto;border:1px solid var(--bd);border-radius:6px;padding:6px 9px;
+  font:11.5px/1.7 Consolas,monospace;background:var(--code)}
+.lgst .w{color:var(--warn)}.lgst .e{color:var(--err)}.lgst .d{color:var(--tx3)}
+.hex{font:11.5px/1.8 Consolas,monospace;background:var(--code);border:1px solid var(--bd2);border-radius:6px;padding:8px 10px;word-break:break-all}
+.kv{display:flex;gap:8px;align-items:center;font-size:11.5px;margin:3px 0}
+.kv .k{color:var(--tx3);min-width:86px}
+
+/* ═══ Guide ═══ */
+.guide-mask{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;display:none}
+.guide-mask.on{display:block}
+.guide-tip{position:fixed;z-index:42;width:320px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;
+  padding:14px 16px;box-shadow:0 18px 50px rgba(0,0,0,.5);display:none}
+.guide-tip.on{display:block}
+.guide-tip .t{font-weight:700;margin-bottom:6px}
+.guide-tip .d{font-size:12px;color:var(--tx2);line-height:1.7}
+.guide-tip .nav{display:flex;align-items:center;margin-top:12px;gap:6px}
+.guide-tip .stepno{flex:1;font-size:11px;color:var(--tx3)}
+.guide-tip button{height:24px;border:1px solid var(--bd);background:var(--bg);border-radius:4px;cursor:pointer;font-size:11.5px;padding:0 9px}
+.guide-tip button.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+</style>
+<script>
+window.addEventListener("error",function(e){
+ var d=document.getElementById("jsErrTrap")||function(){var x=document.createElement("div");x.id="jsErrTrap";
+  x.style.cssText="position:fixed;top:0;left:0;z-index:999;background:#000;color:#f88;font:12px monospace;padding:4px 10px;max-width:100%;white-space:pre-wrap";
+  document.documentElement.appendChild(x);return x}();
+ d.textContent+="JS错误: "+e.message+" @"+(e.filename||"").split("/").pop()+":"+e.lineno+String.fromCharCode(10);
+});
+</script>
+</head>
+<body>
+
+<div class="win">
+
+  <!-- ═══ 1. 标题栏 ═══ -->
+  <div class="cap">
+    <span class="lg">◆ CodeWF.Toolkit</span><span class="ver">Demo · v1.0.0</span>
+    <span class="sp"></span>
+    <span class="pal" id="palDots"></span>
+    <select id="palSel" title="色板">
+      <option value="default">默认</option>
+      <option value="aqua">水生</option>
+      <option value="desert">沙漠</option>
+      <option value="dusk">黄昏</option>
+      <option value="night">夜空</option>
+      <option value="contrast">高对比</option>
+    </select>
+    <button class="wb" id="darkBtn" style="width:30px" title="深/浅">◐</button>
+    <button class="wb" id="langBtn" style="width:34px;font-weight:700" title="中/EN">文A</button>
+    <button class="wb">—</button><button class="wb">□</button><button class="wb cls">✕</button>
+  </div>
+
+  <!-- ═══ 2. Ribbon 页签行 ═══ -->
+  <div class="rtabs" id="rTabsBar">
+    <div class="qk">
+      <button title="打开引导" id="qkGuide">❔</button>
+      <button title="重置工作区" id="qkReset">↺</button>
+      <button title="保存日志" id="qkSave">💾</button>
+    </div>
+    <div class="rt2" id="rTabs"></div>
+  </div>
+
+  <!-- ═══ 3. Ribbon 命令区 ═══ -->
+  <div class="rbn" id="rBody"></div>
+
+  <!-- ═══ 4. 主内容 = Dock 工作区 ═══ -->
+  <div class="main">
+    <div class="dockrow">
+
+      <div class="panel p-nav">
+        <div class="phd"><span>◈ <span data-i18n="nav">导航树</span></span>
+          <span class="tb"><button id="hideNav" title="隐藏面板">◀</button></span>
+        </div>
+        <div class="pbd tree" id="lTree"></div>
+      </div>
+
+      <div class="panel p-doc">
+        <div class="dts">
+          <span class="dkb">
+            <button id="dkNav" data-i18n="dock.nav">导航树</button>
+            <button id="dkProps" data-i18n="dock.props">属性</button>
+            <button id="dkLog" data-i18n="dock.log">日志</button>
+            <button id="dkReset" data-i18n="dock.reset">重置</button>
+          </span>
+          <span id="dT" style="display:flex;gap:4px"></span>
+        </div>
+        <div class="dbody" id="dBody"></div>
+      </div>
+
+      <div class="panel p-props">
+        <div class="phd"><span>⚙ <span data-i18n="props">属性</span></span>
+          <span class="tb"><button id="hideProp2" title="隐藏面板">▶</button></span>
+        </div>
+        <div class="pbd pgp" id="pGrid"></div>
+      </div>
+
+    </div>
+
+    <div class="panel p-log">
+      <div class="phd"><span>▤ <span data-i18n="log">日志</span></span>
+        <span class="tb">
+          <button id="clrLogBtn" data-i18n="log.clear">清空</button>
+          <button id="hideLogBtn" title="折叠日志面板">▼</button>
+        </span>
+      </div>
+      <div class="pbd" id="logP"></div>
+    </div>
+  </div>
+
+  <!-- ═══ 5. 状态栏 ═══ -->
+  <div class="tbar">
+    <span class="badge" data-i18n="status.app">演示台</span>
+    <span id="stTx" data-i18n="ready">就绪</span>
+    <span class="sp"></span>
+    <button id="logToggleBtn" data-i18n="status.logpanel">日志面板</button>
+    <button id="darkBtn2">◐ <span data-i18n="status.theme">深浅</span></button>
+    <button id="langBtn2">文A <span data-i18n="status.lang">中英</span></button>
+    <span>net10.0 · CodeWF.Toolkit 1.0.0</span>
+  </div>
+
+</div><!-- /.win -->
+
+<div class="guide-mask" id="gMask"></div>
+<div class="guide-tip" id="gTip">
+  <div class="t" id="gT"></div><div class="d" id="gD"></div>
+  <div class="nav">
+    <span class="stepno" id="gN"></span>
+    <span><button id="gPrev">上一步</button><button id="gNext" class="pri">下一步</button><button id="gClose">关闭</button></span>
+  </div>
+</div>
+
+<script>
+"use strict";
+var $=function(id){return document.getElementById(id)};
+var LANG="zh-CN";
+var I18N={
+ "zh-CN":{"tabs.home":"首 页","tabs.core":"核 心","tabs.bus":"事件总线","tabs.files":"文 件","tabs.image":"图 像","tabs.logging":"日 志","tabs.net":"网 络",
+   "nav":"导航树","props":"属性","log":"日志","ready":"就绪",
+   "dock.nav":"导航树","dock.props":"属性","dock.log":"日志","dock.reset":"重置",
+   "log.clear":"清空","status.app":"演示台","status.logpanel":"日志面板","status.theme":"深浅","status.lang":"中英",
+   "ph.tools":"演示页","ph.core":"核心能力"},
+ "en-US":{"tabs.home":"Home","tabs.core":"Core","tabs.bus":"EventBus","tabs.files":"Files","tabs.image":"Image","tabs.logging":"Logging","tabs.net":"Net",
+   "nav":"Explorer","props":"Properties","log":"Log","ready":"Ready",
+   "dock.nav":"Explorer","dock.props":"Properties","dock.log":"Log","dock.reset":"Reset",
+   "log.clear":"Clear","status.app":"Demo Shell","status.logpanel":"Log Panel","status.theme":"Theme","status.lang":"Lang",
+   "ph.tools":"Pages","ph.core":"Capabilities"}};
+function tt(k){return (I18N[LANG]&&I18N[LANG][k])||((I18N["zh-CN"]||{})[k])||k}
+function dlog(msg,lv){var b=$("logP");if(!b)return;
+ var d=new Date(),tm=("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+":"+("0"+d.getSeconds()).slice(-2);
+ var e=document.createElement("div");e.className=lv==="info"?"ll1":lv==="warn"?"ll2":lv==="error"?"ll3":"";
+ e.innerHTML='<span class="ltm">'+tm+'</span>'+msg;b.appendChild(e);b.scrollTop=b.scrollHeight}
+function log2both(msg,lv){dlog(msg,lv);
+ var s=$("lgStream");if(s){var e=document.createElement("div");e.className=lv||"";
+  e.innerHTML="<span class='d'>"+new Date().toLocaleTimeString()+"</span> "+msg;s.appendChild(e);s.scrollTop=s.scrollHeight}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+</script>
+
+<script>
+/* ═══ 演示目录（7 组 12 页） ═══ */
+var CATALOG=[
+ {id:"home",icon:"🏠",items:[{id:"welcome"}]},
+ {id:"core",icon:"🧰",items:[{id:"core"}]},
+ {id:"bus",icon:"📡",items:[{id:"bus"},{id:"bus-integrations"}]},
+ {id:"files",icon:"📁",items:[{id:"files-json"},{id:"files-archive"}]},
+ {id:"image",icon:"🖼️",items:[{id:"image-icon"},{id:"image-qr"}]},
+ {id:"logging",icon:"📋",items:[{id:"log-core"},{id:"log-microsoft"}]},
+ {id:"net",icon:"🌐",items:[{id:"net-packet"},{id:"net-socket"}]}
+];
+var PAGE_NAME={welcome:"欢迎",core:"Core 工具箱",bus:"进程内总线","bus-integrations":"总线集成",
+ filesJson:"文件格式","files-json":"文件格式","files-archive":"压缩与配置",
+ "image-icon":"图标生成",imageQr:"二维码","image-qr":"二维码与处理",
+ "log-core":"Logger 核心","log-microsoft":"MEL 接入",
+ "net-packet":"NetWeaver 序列化",netSocket:"NetWrapper 通信","net-socket":"NetWrapper 通信"};
+function pt(id){return PAGE_NAME[id]||id}
+</script>
+
+<script>
+/* ═══ 页面注册 ═══ */
+var PG={};
+function REG(id,o){PG[id]=o}
+</script>
+
+<script>
+/* ═══ 页面：欢迎 ═══ */
+REG("welcome",{zh:{
+ html:'<h3 class="dh">CodeWF.Toolkit 演示台</h3><p class="dsub">.NET 原生功能扩展与应用基础设施：11 个包 / 6 大能力域，覆盖核心扩展、事件总线、文件、图像、日志与网络通信。</p>'+
+ '<div class="card"><h4>能力域</h4><table class="tb"><thead><tr><th>能力</th><th>包</th><th>要点</th></tr></thead><tbody>'+
+ '<tr><td>核心</td><td><code>Core</code></td><td>字符串/日期/数值/枚举扩展、FileHelper 编码探测、AppDataMigrator、GitHub Release 更新检查（ETag 增量）</td></tr>'+
+ '<tr><td>事件总线</td><td><code>EventBus</code>(+Prism/AspNetCore/Socket)</td><td>发布订阅、Command/Query、<code>[EventHandler]</code> 扫描；TCP 分布式形态带心跳与离线补发</td></tr>'+
+ '<tr><td>文件</td><td><code>Files</code></td><td>Json/Yaml/Csv/Excel 读写、7z 压缩、App.config、带重试的安全读写</td></tr>'+
+ '<tr><td>图像</td><td><code>Image</code></td><td>Magick.NET 转换/缩放/水印、多尺寸 ico 合成与拆分、ZXing 二维码</td></tr>'+
+ '<tr><td>日志</td><td><code>Logging</code>(+.Microsoft)</td><td>静态 Logger、控制台/文件轮转、UI 事件流、MEL 提供程序</td></tr>'+
+ '<tr><td>网络</td><td><code>NetWeaver</code> / <code>NetWrapper</code></td><td>特性驱动的二进制序列化、TCP/UDP 封装、命令分发、远程文件系统与断点续传</td></tr>'+
+ '</tbody></table><div class="hint">左侧导航树与 Ribbon 页签均可切换；双击页签折叠命令区。</div></div>'+
+ '<div class="card"><h4>快速开始</h4><pre class="code">dotnet add package CodeWF.Toolkit.Core&#10;dotnet add package CodeWF.Toolkit.EventBus&#10;dotnet add package CodeWF.Toolkit.Logging&#10;dotnet add package CodeWF.Toolkit.Files&#10;dotnet add package CodeWF.Toolkit.Image&#10;dotnet add package CodeWF.Toolkit.NetWrapper</pre></div>',
+ props:[{id:"tk.version",name:"版本",kind:"ro",value:"1.0.0"},{id:"tk.tfm",name:"目标框架",kind:"ro",value:"net10.0"},
+   {id:"tk.packages",name:"包数量",kind:"ro",value:"11"},{id:"tk.deps",name:"第三方依赖",kind:"sw",value:true}]}});
+
+/* ═══ 页面：Core ═══ */
+REG("core",{zh:{
+ html:'<h3 class="dh">Core：扩展方法与基础设施</h3><p class="dsub">零第三方依赖。左侧是可实时试用的扩展方法，右侧是更新检查与数据目录。</p>'+
+ '<div class="g2"><div class="card"><h4>字符串 / 数值扩展（可试）</h4>'+
+ '<div class="row1"><input class="tin" id="coreIn" style="flex:1" value="CodeWF.Toolkit 是 .NET 扩展集合"></div>'+
+ '<div class="row1"><button class="b" onclick="coreRun(\'truncate\')">截断 18</button><button class="b" onclick="coreRun(\'slug\')">转标识符</button><button class="b" onclick="coreRun(\'bytes\')">字节单位</button></div>'+
+ '<pre class="code" id="coreOut">点击上方按钮查看结果</pre>'+
+ '<table class="tb"><tbody><tr><td><code>StringExtensions</code></td><td>正则快捷判断、截断</td></tr><tr><td><code>DoubleExtensions</code></td><td>数值格式化</td></tr><tr><td><code>ByteUnit</code></td><td>字节 → 可读单位</td></tr><tr><td><code>EnumExtension</code></td><td><code>EnumDescriptionAttribute</code> 取描述</td></tr></tbody></table></div>'+
+ '<div class="card"><h4>更新检查 <code>UpdateChecker</code></h4>'+
+ '<div class="kv"><span class="k">仓库</span><input class="tin" id="upRepo" value="dotnet9/CodeWF.Toolkit" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">当前版本</span><input class="tin" id="upCur" value="1.0.0.0" style="flex:1"></div>'+
+ '<div class="row1"><button class="b pri" onclick="upCheck()">检查更新</button><label><input type="checkbox" id="upEtag" checked> 启用 ETag 缓存</label></div>'+
+ '<pre class="code" id="upOut">尚未检查</pre>'+
+ '<div class="hint">命中 304 时不消耗 API 配额；失败与“无更新”通过 UpdateCheckResult 区分，不误报。</div></div></div>'+
+ '<div class="card"><h4>应用数据目录 <code>AppDataMigrator</code></h4><pre class="code">AppDataMigrator.Ensure("CodeWF.Toolkit");   // %LOCALAPPDATA%\\CodeWF.Toolkit&#10;AppDataMigrator.Migrate("OldAppName");      // 换包名后首次启动搬运</pre>'+
+ '<table class="tb"><tbody><tr><td><code>FileHelper</code></td><td>GetFileEncodeType 编码探测、安全读写重试、打开文件夹/选中文件</td></tr><tr><td><code>IpHelper</code></td><td>IPv4/IPv6 判断与转换</td></tr><tr><td><code>NativeLibraryHelper</code></td><td>原生库加载路径解析</td></tr></tbody></table></div>',
+ props:[{id:"core.namespace",name:"命名空间",kind:"ro",value:"CodeWF.Toolkit.Core"},
+   {id:"core.regex",name:"启用正则扩展",kind:"sw",value:true},{id:"core.etag",name:"ETag 增量检查",kind:"sw",value:true},
+   {id:"core.truncate",name:"截断长度",kind:"num",value:18}]}});
+window.coreRun=function(k){var s=($("coreIn")||{}).value||"";
+ if(k==="truncate"){$("coreOut").textContent="原文："+s+String.fromCharCode(10)+"截断 18："+(s.length>18?s.slice(0,18)+"…":s)}
+ else if(k==="slug"){$("coreOut").textContent="正则替换非字母数字："+s.replace(/[^A-Za-z0-9]+/g,"_").toLowerCase()}
+ else{$("coreOut").textContent="ByteUnit 格式化："+[1024,1048576,3221225472].map(function(b,i){return ["1.00 KB","1.00 MB","3.00 GB"][i]+"  ("+b+" B)"}).join(String.fromCharCode(10))}
+ log2both("Core 扩展演示："+k)};
+window.upCheck=function(){var repo=($("upRepo")||{}).value||"",cur=($("upCur")||{}).value||"";
+ var etag=($("upEtag")||{}).checked;var out=$("upOut");
+ out.textContent="GET https://api.github.com/repos/"+repo+"/releases/latest"+(etag?"  If-None-Match: W/\"etag-cache\"":"")+String.fromCharCode(10)+"→ 200 OK（命中缓存则为 304，不消耗配额）";
+ setTimeout(function(){out.textContent+=String.fromCharCode(10)+String.fromCharCode(10)+"UpdateCheckResult.Succeeded = true"+String.fromCharCode(10)+"Update = { Version: 1.1.0, Tag: v1.1.0 }"+String.fromCharCode(10)+"→ 对比当前 "+cur+"：发现新版本 v1.1.0";
+  log2both("更新检查：发现新版本 v1.1.0","warn")},260)};
+</script>
+
+<script>
+/* ═══ 页面：事件总线 ═══ */
+REG("bus",{zh:{
+ html:'<h3 class="dh">进程内事件总线</h3><p class="dsub">发布订阅 + Command/Query。下面的总线是真实运行的：订阅、发布、查询都在浏览器里执行。</p>'+
+ '<div class="g2"><div class="card"><h4>会话</h4><div class="lgst" id="busFeed"></div>'+
+ '<div class="row1"><input class="tin" id="busMsg" style="flex:1" value="hello"><button class="b pri" onclick="busPublish()">Publish(GreetCommand)</button></div>'+
+ '<div class="row1"><button class="b" onclick="busQuery()">Query(TimeQuery)</button><button class="b" onclick="busClear()">清空</button></div>'+
+ '<div class="hint">异步发布走 PublishAsync；处理器异常不会静默吞掉。</div></div>'+
+ '<div class="card"><h4>订阅表</h4><table class="tb"><thead><tr><th>订阅</th><th>类型</th><th>Order</th><th>状态</th></tr></thead><tbody>'+
+ '<tr><td><code>GreetCommand</code></td><td>lambda</td><td>—</td><td id="busSub1">已订阅</td></tr>'+
+ '<tr><td><code>GreetCommand</code></td><td>[EventHandler]</td><td>1</td><td id="busSub2">已订阅</td></tr>'+
+ '<tr><td><code>TimeQuery</code></td><td>[EventHandler]</td><td>—</td><td id="busSub3">已订阅</td></tr>'+
+ '</tbody></table><div class="row1"><button class="b" onclick="busToggle2()" id="busT2Btn">取消第二条订阅</button></div>'+
+ '<pre class="code">public sealed class TimeQueryHandler&#10;{&#10;    [EventHandler]&#10;    private void ReceiveTimeQueryAsync(TimeQuery query)&#10;        =&gt; query.Result = DateTime.Now;&#10;}</pre></div></div>'+
+ '<div class="card"><h4>注册方式</h4><table class="tb"><tbody>'+
+ '<tr><td><code>EventBus</code></td><td>手动 Subscribe/Publish，零依赖</td></tr>'+
+ '<tr><td><code>EventBus.Prism</code></td><td>Prism 容器注册、扫描与启动</td></tr>'+
+ '<tr><td><code>EventBus.AspNetCore</code></td><td>DI 注册 + 请求管线启动，处理器自动发现</td></tr>'+
+ '<tr><td><code>EventBusRegistrationExtensions</code></td><td>通用 IOC：<code>AddEventBus(addSingleton, addScoped, assemblies)</code> + <code>UseEventBus(resolve, assemblies)</code></td></tr>'+
+ '</tbody></table></div>',
+ props:[{id:"bus.name",name:"总线实例",kind:"ro",value:"EventBus"},{id:"bus.order",name:"处理器顺序",kind:"sw",value:true},
+   {id:"bus.async",name:"异步发布",kind:"sw",value:true},{id:"bus.assembly",name:"程序集扫描",kind:"sw",value:false}]}});
+window._busOn=true;
+window.busPublish=function(){var m=($("busMsg")||{}).value||"";
+ log2both("Publish(GreetCommand{ Name = \""+m+"\" })");
+ if(window._busOn){
+  setTimeout(function(){var f=$("busFeed");if(!f)return;f.innerHTML+="<div>[lambda] GreetCommand → "+esc(m)+"</div>";f.scrollTop=f.scrollHeight},90);
+  setTimeout(function(){var f=$("busFeed");if(!f)return;f.innerHTML+="<div class='d'>[EventHandler Order=1] → "+esc(m)+"</div>";f.scrollTop=f.scrollHeight},180)} };
+window.busQuery=function(){var f=$("busFeed");
+ log2both("Query(new TimeQuery())");
+ setTimeout(function(){if(!f)return;f.innerHTML+="<div class='w'>TimeQuery.Result = "+new Date().toLocaleTimeString()+"</div>";f.scrollTop=f.scrollHeight},140)};
+window.busClear=function(){var f=$("busFeed");if(f)f.innerHTML="";log2both("总线会话已清空")};
+window.busToggle2=function(){window._busOn=!window._busOn;
+ var b=$("busT2Btn"),s=$("busSub2");if(b)b.textContent=window._busOn?"取消第二条订阅":"恢复第二条订阅";
+ if(s)s.textContent=window._busOn?"已订阅":"已取消";log2both("第二条 GreetCommand 订阅："+(window._busOn?"启用":"取消"))};
+</script>
+
+<script>
+/* ═══ 页面：总线集成 ═══ */
+REG("bus-integrations",{zh:{
+ html:'<h3 class="dh">总线集成形态</h3><p class="dsub">同一套处理器模型，三种宿主形态；Socket 形态用于跨进程/跨机。</p>'+
+ '<div class="g2"><div class="card"><h4>Prism</h4><pre class="code">containerRegistry.RegisterEventBus(assemblies);&#10;// 或在 PrismApplication 中&#10;Container.UseEventBus();</pre>'+
+ '<div class="hint">适合 Prism.DryIoc.Avalonia 桌面应用。</div></div>'+
+ '<div class="card"><h4>ASP.NET Core</h4><pre class="code">builder.Services.AddEventBus(assemblies);&#10;app.UseEventBus();</pre>'+
+ '<div class="hint">处理器自动发现，随请求管线启动。</div></div></div>'+
+ '<div class="card"><h4>Socket 分布式总线 <code>EventServer</code> / <code>EventClient</code></h4>'+
+ '<div class="g2"><div><div class="kv"><span class="k">监听地址</span><input class="tin" id="esHost" value="127.0.0.1" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">端口</span><input class="tin" id="esPort" value="39561" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">心跳间隔</span><input class="tin" id="esHb" value="10" style="flex:1"></div>'+
+ '<div class="row1"><button class="b pri" onclick="esStart()">启动服务端</button><button class="b" onclick="esStop()">停止</button></div>'+
+ '<div class="kv"><span class="k">状态</span><span id="esSt">● 已停止</span></div></div>'+
+ '<div><div class="kv"><span class="k">主题</span><input class="tin" id="esTopic" value="demo.greeting" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">内容</span><input class="tin" id="esMsg" value="hello" style="flex:1"></div>'+
+ '<div class="row1"><button class="b" onclick="esPub()">Publish</button><button class="b" onclick="esQuery()">Query&lt;Ping,Pong&gt;</button></div>'+
+ '<div class="lgst" id="esFeed"></div></div></div>'+
+ '<pre class="code">var server = new EventServer(); server.Start("127.0.0.1", 39561);&#10;await client.ConnectAsync("127.0.0.1", 39561);&#10;client.Subscribe&lt;string&gt;("demo.greeting", msg =&gt; Console.WriteLine(msg));&#10;client.Publish("demo.greeting", "hello", out _);&#10;var (result, error) = await client.QueryAsync&lt;Ping, Pong&gt;(ping);</pre>'+
+ '<div class="hint">心跳保活、断线重连、离线消息补发；底层传输由 NetWrapper 承担。跨版本互联请保持两端包版本一致。</div></div>',
+ props:[{id:"bus.host",name:"宿主形态",kind:"sel",value:"Socket",options:["进程内","Prism","ASP.NET Core","Socket"]},
+   {id:"bus.port",name:"端口",kind:"num",value:39561},{id:"bus.heartbeat",name:"心跳(秒)",kind:"num",value:10},
+   {id:"bus.resend",name:"离线补发",kind:"sw",value:true}]}});
+window._esOn=false;
+window.esStart=function(){window._esOn=true;var s=$("esSt");if(s)s.textContent="● 运行中";
+ log2both("EventServer.Start("+(($("esHost")||{}).value)+":"+(($("esPort")||{}).value)+")");
+ var f=$("esFeed");if(f)f.innerHTML+="<div class='d'>服务端已启动，等待客户端连接…</div>"};
+window.esStop=function(){window._esOn=false;var s=$("esSt");if(s)s.textContent="● 已停止";log2both("EventServer 已停止","warn")};
+window.esPub=function(){if(!window._esOn){log2both("请先启动服务端","error");return}
+ var t=($("esTopic")||{}).value,m=($("esMsg")||{}).value;var f=$("esFeed");
+ log2both("Publish("+t+", \""+m+"\")");
+ if(f)f.innerHTML+="<div>["+esc(t)+"] "+esc(m)+"</div>"};
+window.esQuery=function(){if(!window._esOn){log2both("请先启动服务端","error");return}
+ var f=$("esFeed");log2both("QueryAsync<Ping, Pong>");
+ setTimeout(function(){if(f)f.innerHTML+="<div class='w'>Pong ← roundtrip 3 ms</div>"},160)};
+</script>
+
+<script>
+/* ═══ 页面：文件格式 ═══ */
+REG("files-json",{zh:{
+ html:'<h3 class="dh">文件读写：Json / Yaml / Csv / Excel</h3><p class="dsub">基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel。下面是往返转换演示。</p>'+
+ '<div class="g2"><div class="card"><h4>对象 → 文本</h4><div class="row1">'+
+ '<button class="b pri" onclick="fmtRun(\'json\')">ToJson</button><button class="b" onclick="fmtRun(\'yaml\')">ToYaml</button>'+
+ '<button class="b" onclick="fmtRun(\'csv\')">ToCsv</button></div><pre class="code" id="fmtOut">选择一种格式</pre></div>'+
+ '<div class="card"><h4>文本 → 对象</h4><pre class="code" id="fmtBack">等待反向解析</pre>'+
+ '<div class="hint">扩展方法带 out error 参数：<code>student.ToYaml(out var error)</code>，失败不外抛。</div></div></div>'+
+ '<div class="card"><h4>数据模型</h4><pre class="code">public sealed class Student&#10;{&#10;    public string Name { get; set; } = "张三";&#10;    public int Age { get; set; } = 20;&#10;    public string City { get; set; } = "成都";&#10;}</pre></div>'+
+ '<div class="card"><h4>其它能力</h4><table class="tb"><tbody>'+
+ '<tr><td><code>DataTableExtensions</code></td><td>Csv / Excel 导出导入（CsvHelper / MiniExcel）</td></tr>'+
+ '<tr><td><code>FileExtension</code></td><td>带重试的安全字符串/字节读写</td></tr>'+
+ '<tr><td><code>AppConfigHelper</code></td><td>App.config appSettings 读写（见“压缩与配置”页）</td></tr>'+
+ '</tbody></table></div>',
+ props:[{id:"files.format",name:"默认格式",kind:"sel",value:"Yaml",options:["Json","Yaml","Csv","Excel"]},
+   {id:"files.retry",name:"写入重试",kind:"num",value:3},{id:"files.bom",name:"UTF-8 BOM",kind:"sw",value:false}]}});
+window.fmtRun=function(k){var o=$("fmtOut"),b=$("fmtBack");if(!o)return;var NL=String.fromCharCode(10);
+ if(k==="json"){o.textContent='{'+NL+'  "name": "张三",'+NL+'  "age": 20,'+NL+'  "city": "成都"'+NL+'}';
+  if(b)b.textContent="FromJson<Student> → name=张三, age=20, city=成都  (error = null)"}
+ else if(k==="yaml"){o.textContent="name: 张三"+NL+"age: 20"+NL+"city: 成都";
+  if(b)b.textContent="FromYaml<Student>(out var obj, out error) → obj.City = 成都  (error = null)"}
+ else{o.textContent="Name,Age,City"+NL+"张三,20,成都";
+  if(b)b.textContent="DataTableExtensions → DataTable(1 行 3 列) → 可再导出 xlsx"}
+ log2both("文件格式演示："+k)};
+</script>
+
+<script>
+/* ═══ 页面：压缩与配置 ═══ */
+REG("files-archive",{zh:{
+ html:'<h3 class="dh">7z 压缩与 App.config</h3><p class="dsub">SevenZipCompressor 基于 SharpCompress；AppConfigHelper 读写传统 appSettings。</p>'+
+ '<div class="g2"><div class="card"><h4>7z 压缩</h4>'+
+ '<div class="row1"><input class="tin" id="szSrc" value="docs/导出结果" style="flex:1"><button class="b" onclick="szAdd()">添加</button></div>'+
+ '<div class="list" id="szList"><div class="it">design/原型.html</div><div class="it">docs/说明文档.md</div></div>'+
+ '<div class="row1"><button class="b pri" onclick="szRun()">Compress → archive.7z</button><button class="b" onclick="szExtract()">Extract</button></div>'+
+ '<pre class="code" id="szOut">等待操作</pre>'+
+ '<div class="hint">分卷与加密请评估 SharpCompress 能力边界。</div></div>'+
+ '<div class="card"><h4>App.config</h4><table class="tb" id="cfgTb"><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody>'+
+ '<tr><td>App.Language</td><td>zh-CN</td></tr><tr><td>App.Theme</td><td>Default</td></tr><tr><td>Log.MinimumLevel</td><td>Information</td></tr>'+
+ '</tbody></table><div class="row1"><input class="tin" id="cfgK" placeholder="Key" style="width:120px"><input class="tin" id="cfgV" placeholder="Value" style="flex:1">'+
+ '<button class="b pri" onclick="cfgSet()">写入</button></div>'+
+ '<pre class="code">AppConfigHelper.Set("App.Language", "zh-CN");&#10;var lang = AppConfigHelper.TryGet&lt;string&gt;("App.Language", out var v);</pre></div></div>',
+ props:[{id:"sz.level",name:"压缩级别",kind:"num",value:9},{id:"sz.solid",name:"固实压缩",kind:"sw",value:true},
+   {id:"sz.password",name:"加密",kind:"sw",value:false},{id:"sz.volume",name:"分卷大小(MB)",kind:"num",value:0}]}});
+window.szAdd=function(){var v=($("szSrc")||{}).value,l=$("szList");if(!l||!v)return;
+ l.innerHTML+="<div class='it'>"+esc(v)+"</div>";log2both("加入压缩项："+v)};
+window.szRun=function(){var l=$("szList"),n=l?l.children.length:0,o=$("szOut");
+ if(o)o.textContent="SevenZipCompressor.Compress("+n+" 项) → archive.7z"+String.fromCharCode(10)+"压缩级别 9 · 固实压缩：开启"+String.fromCharCode(10)+"完成：archive.7z (1.2 MB)";
+ log2both("7z 压缩完成："+n+" 项")};
+window.szExtract=function(){var o=$("szOut");if(o)o.textContent="SevenZipCompressor.Extract(archive.7z) → 还原 "+((($("szList")||{}).children||[]).length||0)+" 项";
+ log2both("7z 解压完成")};
+window.cfgSet=function(){var k=($("cfgK")||{}).value,v=($("cfgV")||{}).value;if(!k)return;
+ var tb=$("cfgTb");if(tb){var tr=document.createElement("tr");tr.innerHTML="<td>"+esc(k)+"</td><td>"+esc(v)+"</td>";tb.tBodies[0].appendChild(tr)}
+ $("cfgK").value="";$("cfgV").value="";log2both("AppConfigHelper.Set("+k+", "+v+")")};
+</script>
+
+<script>
+/* ═══ 页面：图标生成 ═══ */
+REG("image-icon",{zh:{
+ html:'<h3 class="dh">图标生成：多尺寸 ico 合成与拆分</h3><p class="dsub">ImageHelper.MergeGenerateIcon / SeparateGenerateIcon，基于 Magick.NET-Q16-AnyCPU。</p>'+
+ '<div class="g2"><div class="card"><h4>合成</h4>'+
+ '<div class="row1"><input class="tin" id="icSrc" value="logo.png" style="flex:1"><span>→</span><input class="tin" id="icDst" value="logo.ico" style="flex:1"></div>'+
+ '<div class="row1" id="icSizes"></div>'+
+ '<div class="row1"><button class="b pri" onclick="icMerge()">MergeGenerateIcon</button></div>'+
+ '<div class="card" style="margin:0"><h4 style="margin-bottom:4px">预览</h4><div id="icPrev" style="display:flex;gap:8px;align-items:flex-end;height:70px"></div></div></div>'+
+ '<div class="card"><h4>拆分</h4>'+
+ '<div class="row1"><input class="tin" id="icSrc2" value="logo.ico" style="flex:1"><input class="tin" id="icDir" value="out/icons" style="flex:1"></div>'+
+ '<div class="row1"><button class="b" onclick="icSplit()">SeparateGenerateIcon</button></div>'+
+ '<pre class="code" id="icOut">等待操作</pre>'+
+ '<pre class="code">await ImageHelper.MergeGenerateIcon("logo.png", "logo.ico", [16,24,32,48,64,128,256]);&#10;await ImageHelper.SeparateGenerateIcon("logo.ico", "out/icons", [24, 32]);</pre></div></div>'+
+ '<div class="card"><h4>其它图像能力</h4><table class="tb"><tbody>'+
+ '<tr><td>格式转换</td><td>png / jpg / webp / bmp 互转</td></tr><tr><td>缩放</td><td>等比、指定宽高、质量压制</td></tr>'+
+ '<tr><td>水印</td><td>文字/图片水印，九宫格定位与透明度</td></tr></tbody></table></div>',
+ props:[{id:"ic.sizes",name:"包含尺寸",kind:"ro",value:"16,24,32,48,64,128,256"},{id:"ic.compress",name:"PNG 压缩",kind:"sw",value:true},
+   {id:"ic.quality",name:"质量",kind:"num",value:92}]}});
+window.icMerge=function(){var sizes=[16,24,32,48,64,128,256];var p=$("icPrev");
+ if(p){p.innerHTML=sizes.map(function(s){var px=Math.max(14,Math.min(s,64));
+  return "<div style='width:"+px+"px;height:"+px+"px;border-radius:6px;background:linear-gradient(135deg,var(--pri),var(--pri-h));display:flex;align-items:center;justify-content:center;color:#fff;font-size:"+Math.max(9,px/3)+"px;font-weight:700'>"+s+"</div>"}).join("")}
+ var o=$("icOut");if(o)o.textContent="写入 "+sizes.length+" 个尺寸 → "+(($("icDst")||{}).value)+" ("+sizes.join(", ")+")";
+ log2both("MergeGenerateIcon 完成，"+sizes.length+" 个尺寸")};
+window.icSplit=function(){var o=$("icOut");
+ if(o)o.textContent="SeparateGenerateIcon(logo.ico) → 输出到 "+(($("icDir")||{}).value)+String.fromCharCode(10)+"24.png  32.png";
+ log2both("SeparateGenerateIcon 完成")};
+</script>
+
+<script>
+/* ═══ 页面：二维码与处理 ═══ */
+REG("image-qr",{zh:{
+ html:'<h3 class="dh">二维码与图片处理</h3><p class="dsub">QrCodeGenerator（ZXing.Net.Bindings.Magick）输出 MagickImage，可与 ImageHelper 无缝衔接。</p>'+
+ '<div class="g2"><div class="card"><h4>生成二维码</h4>'+
+ '<div class="row1"><input class="tin" id="qrTxt" style="flex:1" value="https://github.com/dotnet9/CodeWF.Toolkit"></div>'+
+ '<div class="row1"><span>尺寸</span><input class="tin" id="qrSize" type="number" value="180" style="width:80px"><button class="b pri" onclick="qrMake()">生成</button></div>'+
+ '<div style="display:flex;justify-content:center;padding:6px 0"><canvas id="qrCanvas" width="180" height="180" style="background:#fff;border:1px solid var(--bd);border-radius:6px"></canvas></div>'+
+ '<div class="hint">原型用确定性图案示意；实现里由 ZXing 真实生成。</div></div>'+
+ '<div class="card"><h4>处理管线</h4>'+
+ '<div class="row1"><span>水印</span><input class="tin" id="wmTxt" value="CodeWF" style="flex:1"></div>'+
+ '<div class="row1"><span>透明度</span><input class="tin" id="wmAlpha" type="number" value="35" style="width:70px">'+
+ '<select class="tin" id="wmPos"><option>右下</option><option>居中</option><option>左下</option><option>平铺</option></select></div>'+
+ '<div class="row1"><button class="b pri" onclick="wmRun()">应用水印</button><button class="b" onclick="convRun()">转 WebP</button></div>'+
+ '<pre class="code" id="wmOut">等待操作</pre></div></div>'+
+ '<div class="card"><h4>常用调用</h4><pre class="code">var qr = QrCodeGenerator.Generate("https://github.com/dotnet9/CodeWF.Toolkit", 180);&#10;qr.Write("qrcode.png");&#10;&#10;var img = new MagickImage("photo.jpg");&#10;img.Resize(800, 0);&#10;img.Write("photo.webp");</pre></div>',
+ props:[{id:"qr.size",name:"二维码尺寸",kind:"num",value:180},{id:"qr.ecc",name:"纠错级别",kind:"sel",value:"M",options:["L","M","Q","H"]},
+   {id:"wm.alpha",name:"水印透明度",kind:"num",value:35}]}});
+window.qrMake=function(){var c=$("qrCanvas");if(!c)return;var s=parseInt(($("qrSize")||{}).value||"180",10);c.width=s;c.height=s;
+ var g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,s,s);g.fillStyle="#000";
+ var n=21,cell=s/n;var txt=($("qrTxt")||{}).value||"";
+ var h=0;for(var i=0;i<txt.length;i++){h=(h*31+txt.charCodeAt(i))>>>0}
+ for(var y=0;y<n;y++)for(var x=0;x<n;x++){var v=((h>>((x*3+y*5)%28))^(x*y))&1;
+  var finder=(x<7&&y<7)||(x>=n-7&&y<7)||(x<7&&y>=n-7);
+  var on=finder?((x%6===0||y%6===0)||(x>1&&x<5&&y>1&&y<5)):v;
+  if(on)g.fillRect(Math.round(x*cell),Math.round(y*cell),Math.ceil(cell),Math.ceil(cell))}
+ log2both("QrCodeGenerator.Generate("+s+"px)")};
+window.wmRun=function(){var o=$("wmOut");
+ if(o)o.textContent="水印 \""+(($("wmTxt")||{}).value)+"\" · 透明度 "+(($("wmAlpha")||{}).value)+"% · 位置 "+($("wmPos")||{}).value+String.fromCharCode(10)+"ImageHelper.ApplyWatermark → output.png";
+ log2both("应用水印完成")};
+window.convRun=function(){var o=$("wmOut");if(o)o.textContent="ImageHelper.Convert(→ webp, quality 92) → output.webp";log2both("格式转换完成：webp")};
+</script>
+
+<script>
+/* ═══ 页面：日志核心 ═══ */
+REG("log-core",{zh:{
+ html:'<h3 class="dh">Logger 核心</h3><p class="dsub">静态 Logger、控制台 + 文件轮转、UI 事件流（LogEventFeed）。下方是实时日志流与级别过滤。</p>'+
+ '<div class="g2"><div class="card"><h4>日志流</h4>'+
+ '<div class="row1"><button class="b" onclick="lgWrite(\'debug\')">Debug</button><button class="b" onclick="lgWrite(\'info\')">Info</button>'+
+ '<button class="b" onclick="lgWrite(\'warn\')">Warn</button><button class="b" onclick="lgWrite(\'error\')">Error</button></div>'+
+ '<div class="lgst" id="lgStream"></div>'+
+ '<div class="row1"><label><input type="checkbox" id="lgA" checked> Debug</label><label><input type="checkbox" id="lgB" checked> Info</label>'+
+ '<label><input type="checkbox" id="lgC" checked> Warn</label><label><input type="checkbox" id="lgD" checked> Error</label>'+
+ '<button class="b" onclick="lgClear()">清空</button></div></div>'+
+ '<div class="card"><h4>初始化</h4><pre class="code">Logger.TryInitialize(new LoggerOptions&#10;{&#10;    MinimumLevel = LogLevel.Information,&#10;    EnableConsole = true,&#10;    File = new FileLogOptions&#10;    {&#10;        DirectoryPath = Path.Combine(AppContext.BaseDirectory, "logs"),&#10;        MaxFileSizeBytes = 32 * 1024 * 1024,&#10;        RetentionDays = 30,&#10;    },&#10;});&#10;&#10;Logger.Info("服务已启动");&#10;Logger.Error("处理失败", ex);&#10;await Logger.ShutdownAsync();   // 退出前刷盘</pre>'+
+ '<div class="hint">文件写入为批量异步，崩溃前请 ShutdownAsync；UI 事件流回调在后台线程，订阅方自行调度到 UI 线程。</div></div></div>'+
+ '<div class="card"><h4>选项一览</h4><table class="tb"><tbody>'+
+ '<tr><td><code>MinimumLevel</code></td><td>最低级别</td></tr><tr><td><code>EnableConsole</code></td><td>控制台输出</td></tr>'+
+ '<tr><td><code>File</code></td><td>FileLogOptions：目录/单文件上限/保留天数/批量写入</td></tr>'+
+ '<tr><td><code>LineTemplate</code></td><td>LineTemplateController 自定义输出模板</td></tr>'+
+ '<tr><td><code>LogEventFeed</code></td><td>UI 日志事件快照，配合 CodeWF.Avalonia.Log 使用</td></tr>'+
+ '<tr><td><code>LoggerSelfDiagnostics</code></td><td>日志系统自身诊断</td></tr></tbody></table></div>',
+ props:[{id:"lg.level",name:"最低级别",kind:"sel",value:"Information",options:["Debug","Information","Warning","Error"]},
+   {id:"lg.console",name:"控制台输出",kind:"sw",value:true},{id:"lg.rotate",name:"文件轮转",kind:"sw",value:true},
+   {id:"lg.maxmb",name:"单文件上限(MB)",kind:"num",value:32},{id:"lg.days",name:"保留天数",kind:"num",value:30}]}});
+window._lg={debug:true,info:true,warn:true,error:true};
+window.lgWrite=function(k){var msgs={debug:"调试：加载配置",info:"服务已启动",warn:"内存水位偏高",error:"连接已超时"};
+ var lv=k==="debug"?"d":k==="warn"?"w":k==="error"?"e":"";
+ log2both(msgs[k],lv);
+ var s=$("lgStream");if(s){var e=document.createElement("div");e.className=lv;
+  e.innerHTML="<span class='d'>"+new Date().toLocaleTimeString()+"</span> ["+k.toUpperCase()+"] "+esc(msgs[k]);s.appendChild(e);s.scrollTop=s.scrollHeight}};
+window.lgClear=function(){var s=$("lgStream");if(s)s.innerHTML="";dlog("日志流已清空")};
+</script>
+
+<script>
+/* ═══ 页面：MEL 接入 ═══ */
+REG("log-microsoft",{zh:{
+ html:'<h3 class="dh">Microsoft.Extensions.Logging 提供程序</h3><p class="dsub">把 MEL 生态日志统一接入核心 Logger（文件轮转 + UI 事件流 + 结构化模板）。</p>'+
+ '<div class="card"><h4>注册</h4><pre class="code">builder.Logging.AddCodeWFLogger(options =&gt;&#10;{&#10;    MinimumLevel = LogLevel.Information,&#10;    File = new FileLogOptions { RetentionDays = 7 },&#10;});</pre></div>'+
+ '<div class="g2"><div class="card"><h4>结构化模板解析</h4>'+
+ '<div class="row1"><input class="tin" id="mtTpl" style="flex:1" value="用户 {User} 在 {Time} 登录 {Ip}"></div>'+
+ '<div class="row1"><input class="tin" id="mtVals" style="flex:1" value="admin,10:24,192.168.1.8"><button class="b pri" onclick="mtRun()">解析</button></div>'+
+ '<pre class="code" id="mtOut">等待解析</pre>'+
+ '<div class="hint">MessageTemplateParser 解析结构化模板；CodeWFUserLogState 支持按用户标记。</div></div>'+
+ '<div class="card"><h4>选项</h4><table class="tb"><tbody>'+
+ '<tr><td><code>CodeWFLoggerOptions</code></td><td>统一选项，支持配置绑定</td></tr>'+
+ '<tr><td><code>CodeWFConsoleLoggerOptions</code></td><td>控制台输出</td></tr>'+
+ '<tr><td><code>CodeWFFileLoggerOptions</code></td><td>文件轮转</td></tr>'+
+ '<tr><td><code>CodeWFEventFeedOptions</code></td><td>UI 事件流</td></tr>'+
+ '<tr><td><code>CodeWFCaptureOptions</code> / <code>CodeWFQueueOptions</code></td><td>捕获范围与队列策略</td></tr>'+
+ '</tbody></table><div class="row1"><button class="b" onclick="mtDemo()">模拟一条 MEL 日志</button></div></div></div>',
+ props:[{id:"mel.level",name:"最低级别",kind:"sel",value:"Information",options:["Trace","Debug","Information","Warning","Error"]},
+   {id:"mel.scope",name:"包含作用域",kind:"sw",value:true},{id:"mel.user",name:"按用户标记",kind:"sw",value:false},
+   {id:"mel.queue",name:"队列满策略",kind:"sel",value:"DropOldest",options:["DropOldest","DropNewest","Block"]}]}});
+window.mtRun=function(){var t=($("mtTpl")||{}).value||"",v=(($("mtVals")||{}).value||"").split(",");
+ var keys=[];t.replace(/\{([^}]+)\}/g,function(_,k){keys.push(k);return _});
+ var o=$("mtOut");var NL=String.fromCharCode(10);
+ o.textContent="模板键："+keys.join(", ")+NL+"解析结果："+t.replace(/\{([^}]+)\}/g,function(_,k){var i=keys.indexOf(k);return "<"+k+":"+(v[i]||"?").trim()+">"});
+ log2both("MessageTemplateParser 解析 "+keys.length+" 个占位符")};
+window.mtDemo=function(){log2both("MEL: 用户 admin 在 10:24 登录 192.168.1.8","info");
+ var s=$("lgStream");if(s){var e=document.createElement("div");
+  e.innerHTML="<span class='d'>"+new Date().toLocaleTimeString()+"</span> [MEL/Information] 用户 admin 在 10:24 登录 192.168.1.8     (User=admin, Ip=192.168.1.8)";s.appendChild(e);s.scrollTop=s.scrollHeight}};
+</script>
+
+<script>
+/* ═══ 页面：NetWeaver 序列化 ═══ */
+REG("net-packet",{zh:{
+ html:'<h3 class="dh">NetWeaver：特性驱动的二进制序列化</h3><p class="dsub">属性即协议：<code>[NetHead(systemId, version)]</code> 声明包头，<code>[NetFieldOrder(n)]</code> 声明字段顺序。</p>'+
+ '<div class="g2"><div class="card"><h4>字段表</h4><table class="tb"><thead><tr><th>#</th><th>属性</th><th>类型</th><th></th></tr></thead><tbody id="pktTb"></tbody></table>'+
+ '<div class="row1"><input class="tin" id="pktNew" placeholder="新属性名" style="flex:1"><button class="b" onclick="pktAdd()">添加字段</button></div>'+
+ '<div class="row1"><button class="b pri" onclick="pktSer()">Serialize</button><button class="b" onclick="pktDes()">Deserialize</button></div></div>'+
+ '<div class="card"><h4>包头</h4>'+
+ '<div class="kv"><span class="k">systemId</span><input class="tin" id="pktSys" value="1" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">version</span><input class="tin" id="pktVer" value="1" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">字节序</span><span>大端（Big-Endian）</span></div>'+
+ '<pre class="code" id="pktOut">等待序列化</pre></div></div>'+
+ '<div class="card"><h4>协议声明</h4><pre class="code">[NetHead(0x01, 1)]&#10;public sealed class SamplePacket : INetObject&#10;{&#10;    [NetFieldOrder(0)] public int Id { get; set; }&#10;    [NetFieldOrder(1)] public float Score { get; set; }&#10;    [NetFieldOrder(2)] public string Title { get; set; } = string.Empty;&#10;}&#10;&#10;var buffer = packet.Serialize(systemId: 0);&#10;var restored = buffer.Deserialize&lt;SamplePacket&gt;();</pre>'+
+ '<div class="hint"><code>[NetIgnoreMember]</code> 跳过成员；位域场景用 <code>NetFieldOffsetAttribute</code> 精确布局；裁剪/AOT 下通过 DynamicDependency 保留。</div></div>',
+ props:[{id:"pkt.systemid",name:"systemId",kind:"num",value:1},{id:"pkt.version",name:"version",kind:"num",value:1},
+   {id:"pkt.bigendian",name:"大端序",kind:"sw",value:true},{id:"pkt.offset",name:"位域布局",kind:"sw",value:false}]}});
+window._pkt=[{n:"Id",t:"int"},{n:"Score",t:"float"},{n:"Title",t:"string"}];
+window.pktDraw=function(){var tb=$("pktTb");if(!tb)return;
+ tb.innerHTML=window._pkt.map(function(f,i){return "<tr><td>"+i+"</td><td>"+esc(f.n)+"</td><td>"+f.t+"</td><td><button class='b' style='height:20px;padding:0 6px' onclick='pktDel("+i+")'>×</button></td></tr>"}).join("")};
+window.pktAdd=function(){var v=($("pktNew")||{}).value;if(!v)return;window._pkt.push({n:v,t:"string"});$("pktNew").value="";pktDraw();
+ log2both("[NetFieldOrder("+(window._pkt.length-1)+")] 新增字段 "+v)};
+window.pktDel=function(i){log2both("移除字段 "+window._pkt[i].n,"warn");window._pkt.splice(i,1);pktDraw()};
+window.pktSer=function(){var sys=($("pktSys")||{}).value||"1",ver=($("pktVer")||{}).value||"1";
+ var bytes=["0x01","0x"+("00"+sys).slice(-2),"0x"+("00"+ver).slice(-2)];
+ window._pkt.forEach(function(f,i){if(f.t==="int")bytes.push("0x2A","0x00","0x00","0x00");
+  else if(f.t==="float")bytes.push("0x00","0x00","0x80","0x3F");
+  else bytes.push("0x05","0x68","0x65","0x6C","0x6C","0x6F")});
+ var o=$("pktOut");o.textContent="包头 [NetHead(0x01, "+ver+")]  systemId="+sys+String.fromCharCode(10)+"长度 "+bytes.length+" 字节"+String.fromCharCode(10)+bytes.join(" ");
+ log2both("Serialize(systemId="+sys+") → "+bytes.length+" 字节")};
+window.pktDes=function(){var o=$("pktOut");
+ o.textContent="Deserialize<SamplePacket>() →"+String.fromCharCode(10)+window._pkt.map(function(f,i){return "  "+f.n+" = "+(f.t==="int"?"42":f.t==="float"?"1.0":"\"hello\"")}).join(String.fromCharCode(10));
+ log2both("Deserialize 成功，字段数与声明一致")};
+</script>
+
+<script>
+/* ═══ 页面：NetWrapper 通信 ═══ */
+REG("net-socket",{zh:{
+ html:'<h3 class="dh">NetWrapper：TCP/UDP 通信与远程文件</h3><p class="dsub">TcpSocketServer / TcpSocketClient 封装、命令分发，内置远程文件系统与断点续传。</p>'+
+ '<div class="g2"><div class="card"><h4>服务端</h4>'+
+ '<div class="kv"><span class="k">监听</span><input class="tin" id="nsHost" value="127.0.0.1" style="flex:1"></div>'+
+ '<div class="kv"><span class="k">端口</span><input class="tin" id="nsPort" value="39561" style="flex:1"></div>'+
+ '<div class="row1"><button class="b pri" onclick="nsStart()">StartAsync</button><button class="b" onclick="nsStop()">Stop</button></div>'+
+ '<div class="kv"><span class="k">状态</span><span id="nsSt">● 未启动</span></div>'+
+ '<div class="kv"><span class="k">客户端数</span><span id="nsClients">0</span></div>'+
+ '<div class="hint">客户端上线/断开、错误通过 SocketClientChangedCommand / TcpClientErrorCommand 经 EventBus 广播。</div></div>'+
+ '<div class="card"><h4>客户端与消息</h4>'+
+ '<div class="kv"><span class="k">命令</span><select class="tin" id="nsCmd"><option>Heartbeat</option><option>BrowseFileSystemRequest</option><option>FileDownloadRequest</option></select></div>'+
+ '<div class="row1"><button class="b pri" onclick="nsSend()">SendCommandAsync</button><button class="b" onclick="nsUdp()">UDP 发送</button></div>'+
+ '<div class="lgst" id="nsFeed"></div></div></div>'+
+ '<div class="card"><h4>远程文件系统</h4><table class="tb"><thead><tr><th>文件</th><th>大小</th><th>进度</th></tr></thead><tbody id="nsFiles">'+
+ '<tr><td>readme.md</td><td>12 KB</td><td>—</td></tr><tr><td>dataset.zip</td><td>86 MB</td><td>—</td></tr><tr><td>firmware.bin</td><td>4.2 MB</td><td>—</td></tr>'+
+ '</tbody></table><div class="row1"><button class="b" onclick="nsTransfer()">下载 dataset.zip（分块 + 断点续传）</button><button class="b" onclick="nsResume()">断点续传</button></div>'+
+ '<div class="hint">大端序分块 + 校验；FileChunkAck / FileTransferProgress 事件驱动进度。</div></div>',
+ props:[{id:"ns.host",name:"主机",kind:"ro",value:"127.0.0.1"},{id:"ns.port",name:"端口",kind:"num",value:39561},
+   {id:"ns.chunk",name:"分块大小(KB)",kind:"num",value:64},{id:"ns.resume",name:"断点续传",kind:"sw",value:true},
+   {id:"ns.heartbeat",name:"心跳(秒)",kind:"num",value:10}]}});
+window._nsOn=false;
+window.nsStart=function(){window._nsOn=true;var s=$("nsSt");if(s)s.textContent="● 运行中";
+ var c=$("nsClients");if(c)c.textContent="1";
+ log2both("TcpSocketServer.StartAsync("+(($("nsHost")||{}).value)+":"+(($("nsPort")||{}).value)+")");
+ var f=$("nsFeed");if(f)f.innerHTML+="<div class='d'>客户端 127.0.0.1:52104 已连接</div>"};
+window.nsStop=function(){window._nsOn=false;var s=$("nsSt");if(s)s.textContent="● 未启动";var c=$("nsClients");if(c)c.textContent="0";
+ log2both("服务端已停止","warn")};
+window.nsSend=function(){if(!window._nsOn){log2both("请先启动服务端","error");return}
+ var cmd=($("nsCmd")||{}).value;var f=$("nsFeed");log2both("SendCommandAsync(new "+cmd+"())");
+ if(f)f.innerHTML+="<div>→ "+esc(cmd)+" … 200 OK</div>"};
+window.nsUdp=function(){var f=$("nsFeed");log2both("UdpSocketClient.Send(discovery)");if(f)f.innerHTML+="<div class='w'>UDP 广播已发出</div>"};
+window.nsTransfer=function(){var rows=$("nsFiles").rows,i=1;log2both("FileDownloadRequest(dataset.zip) 开始");
+ var tick=0;var t=setInterval(function(){tick+=20;
+  if(rows[i])rows[i].cells[2].textContent=Math.min(tick,100)+"%";
+  if(tick>=100){clearInterval(t);log2both("FileTransferComplete(dataset.zip) 校验通过")}},220)};
+window.nsResume=function(){var rows=$("nsFiles").rows;if(rows[1])rows[1].cells[2].textContent="从 62% 续传…";
+ log2both("断点续传：FileChunkAck 从最后确认块继续")};
+</script>
+
+<script>
+/* ═══ Ribbon / 树 / 文档 / 属性 渲染 ═══ */
+var RTABS=[["home","tabs.home"],["core","tabs.core"],["bus","tabs.bus"],["files","tabs.files"],["image","tabs.image"],["logging","tabs.logging"],["net","tabs.net"]];
+var curTab="home",OPEN_DOCS=[],ACTIVE_DOC=null;
+function tabName(id){return tt("tabs."+id)}
+function renderRTabs(){$("rTabs").innerHTML=RTABS.map(function(x){
+ return '<div class="t2'+(x[0]===curTab?" on":"")+'" data-t="'+x[0]+'">'+tabName(x[0])+"</div>"}).join("");
+ document.querySelectorAll(".rt2 .t2").forEach(function(n){
+  n.onclick=function(){switchTab(n.dataset.t)};
+  n.ondblclick=function(){toggleRibbon()}})}
+function switchTab(id){curTab=id;renderRTabs();renderRBody();renderTree();
+ var g=CATALOG.find(function(x){return x.id===id});if(g&&g.items[0])openDoc(g.items[0].id);
+ log2both("切换页签："+tabName(id))}
+function renderRBody(){var g=CATALOG.find(function(x){return x.id===curTab});if(!g){$("rBody").innerHTML="";return}
+ var grp={home:[[["welcome","🏠","欢迎"]]],core:[[["core","🧰","Core"]]],
+  bus:[[["bus","📣","进程内总线"],["bus-integrations","🔌","总线集成"]]],
+  files:[[["files-json","📄","格式读写"],["files-archive","🗜️","压缩/配置"]]],
+  image:[[["image-icon","🎨","图标生成"],["image-qr","🔳","二维码/水印"]]],
+  logging:[[["log-core","📋","Logger" ],["log-microsoft","🧾","MEL 接入"]]],
+  net:[[["net-packet","📦","序列化"],["net-socket","🔗","TCP/UDP"]]]}[curTab]||[];
+ var names={home:["演示页"],core:["核心能力"],bus:["发布订阅","集成形态"],files:["格式","归档"],image:["图标","二维码"],logging:["核心","Microsoft"],net:["NetWeaver","NetWrapper"]}[curTab]||[];
+ $("rBody").innerHTML=grp.map(function(commands,gi){
+  return '<div class="grp"><div class="cmds">'+commands.map(function(c){
+   return '<button class="cbtn" data-p="'+c[0]+'"><span class="ic">'+c[1]+'</span><span class="lb">'+c[2]+"</span></button>"}).join("")+
+  '</div><div class="gname">'+(names[gi]||"")+"</div></div>"}).join("");
+ document.querySelectorAll(".rbn .cbtn").forEach(function(b){b.onclick=function(){openDoc(b.dataset.p)}})}
+function toggleRibbon(){document.body.classList.toggle("rmn");
+ log2both((document.body.classList.contains("rmn")?"折叠":"展开")+" Ribbon 命令区")}
+function renderTree(){$("lTree").innerHTML=CATALOG.map(function(g){
+ var open=g.id===curTab;
+ return '<div class="nd'+(open?" open":"")+'" data-g="'+g.id+'"><div class="hd"><span class="arw">▶</span><span>'+g.icon+'</span><span>'+tabName(g.id)+'</span></div><div class="kids">'+
+  g.items.map(function(it){return '<div class="lf'+(it.id===ACTIVE_DOC?" on":"")+'" data-p="'+it.id+'">'+pt(it.id)+"</div>"}).join("")+
+  "</div></div>"}).join("");
+ document.querySelectorAll(".tree .nd .hd").forEach(function(h){h.onclick=function(){switchTab(h.parentNode.dataset.g)}});
+ document.querySelectorAll(".tree .lf").forEach(function(l){l.onclick=function(e){e.stopPropagation();openDoc(l.dataset.p)}})}
+function openDoc(id){if(!PG[id])return;
+ if(OPEN_DOCS.indexOf(id)<0)OPEN_DOCS.push(id);
+ ACTIVE_DOC=id;renderDocTabs();renderDoc(id);renderTree();renderPGrid(id);
+ log2both("打开文档："+pt(id))}
+function closeDoc(id){OPEN_DOCS=OPEN_DOCS.filter(function(x){return x!==id});
+ if(ACTIVE_DOC===id)ACTIVE_DOC=OPEN_DOCS[OPEN_DOCS.length-1]||null;
+ renderDocTabs();if(ACTIVE_DOC)renderDoc(ACTIVE_DOC);else $("dBody").innerHTML="";renderTree();renderPGrid(ACTIVE_DOC);
+ log2both("关闭文档："+pt(id))}
+function renderDocTabs(){$("dT").innerHTML=OPEN_DOCS.map(function(id){
+ return '<span class="dt'+(id===ACTIVE_DOC?" on":"")+'" data-p="'+id+'">'+pt(id)+'<span class="x" data-c="'+id+'">✕</span></span>'}).join("");
+ document.querySelectorAll("#dT .dt").forEach(function(n){
+  n.onclick=function(e){if(e.target.dataset.c){closeDoc(e.target.dataset.c);return}openDoc(n.dataset.p)}})}
+function renderDoc(id){var pg=PG[id];if(!pg)return;var meta=pg.zh;$("dBody").innerHTML=meta.html;
+ dlog("文档内容就绪："+pt(id));
+ if(id==="bus"){var f=$("busFeed");if(f)f.innerHTML="<div class='d'>总线就绪：3 个订阅已注册</div>"}
+ if(id==="image-icon"&&window.icMerge)icMerge();
+ if(id==="image-qr"&&window.qrMake)qrMake();
+ if(id==="net-packet"&&window.pktDraw)pktDraw()}
+function renderPGrid(id,props){if(!props){var pg=id?PG[id]:null;props=pg?(pg.zh.props||[]):[]}
+ var html='<div class="cat">'+tt("ph.core")+"</div>";
+ html+=props.map(function(p){
+  var v='<span class="vl">'+esc(p.value)+"</span>";
+  if(p.kind==="sw")v='<span class="sw'+(p.value?" on":"")+'" data-k="'+p.id+'"></span>';
+  else if(p.kind==="num")v='<input type="number" value="'+p.value+'" style="width:78px">';
+  else if(p.kind==="sel")v='<select>'+p.options.map(function(o){return "<option"+(o===p.value?" selected":"")+">"+o+"</option>"}).join("")+"</select>";
+  return '<div class="row"><span class="nm">'+esc(p.name)+"</span>"+v+"</div>"}).join("");
+ html+='<div class="cat">'+tt("ph.tools")+'</div><div class="row"><span class="nm">当前文档</span><span class="vl">'+(ACTIVE_DOC?esc(pt(ACTIVE_DOC)):"—")+"</span></div>"+
+  '<div class="row"><span class="nm">打开文档数</span><span class="vl">'+OPEN_DOCS.length+"</span></div>";
+ $("pGrid").innerHTML=html;
+ document.querySelectorAll(".pgp .sw").forEach(function(s){s.onclick=function(){s.classList.toggle("on");
+  log2both("属性切换："+s.dataset.k+" = "+s.classList.contains("on"))}})}
+</script>
+
+<script>
+/* ═══ 外观 / 语言 / 面板 / 引导 ═══ */
+var PAL=[["default","#0064fa"],["aqua","#0091a8"],["desert","#c26a1d"],["dusk","#7a5cc4"],["night","#2b6cb0"],["contrast","#000"]];
+$("palDots").innerHTML=PAL.map(function(p){return '<i data-p="'+p[0]+'" style="background:'+p[1]+'"></i>'}).join("");
+document.querySelectorAll("#palDots i").forEach(function(d){d.onclick=function(){
+ var v=d.dataset.p;document.documentElement.dataset.palette=v;$("palSel").value=v;log2both("色板 = "+v)}});
+$("palSel").onchange=function(){document.documentElement.dataset.palette=this.value;log2both("色板 = "+this.value)};
+function toggleDark(){var h=document.documentElement;h.dataset.theme=h.dataset.theme==="dark"?"light":"dark";
+ log2both("主题 = "+(h.dataset.theme==="dark"?"深色":"浅色"))}
+$("darkBtn").onclick=toggleDark;$("darkBtn2").onclick=toggleDark;
+function toggleLang(){LANG=LANG==="zh-CN"?"en-US":"zh-CN";
+ document.querySelectorAll("[data-i18n]").forEach(function(n){n.textContent=tt(n.dataset.i18n)});
+ renderRTabs();renderTree();renderPGrid(ACTIVE_DOC);log2both("语言 = "+LANG)}
+$("langBtn").onclick=toggleLang;$("langBtn2").onclick=toggleLang;
+$("hideNav").onclick=function(){document.body.classList.toggle("hideL")};
+$("hideProp2").onclick=function(){document.body.classList.toggle("hideR")};
+$("dkNav").onclick=function(){document.body.classList.toggle("hideL")};
+$("dkProps").onclick=function(){document.body.classList.toggle("hideR")};
+$("dkLog").onclick=function(){document.body.classList.toggle("hideLog")};
+$("dkReset").onclick=function(){document.body.className=document.body.className.replace(/\b(hideL|hideR|hideLog|rmn)\b/g,"").trim();log2both("工作区已重置")};
+$("hideLogBtn").onclick=function(){document.body.classList.toggle("hideLog")};
+$("logToggleBtn").onclick=function(){document.body.classList.toggle("hideLog")};
+$("clrLogBtn").onclick=function(){$("logP").innerHTML="";dlog("日志已清空")};
+$("qkGuide").onclick=function(){guideOpen()};
+$("qkReset").onclick=$("dkReset").onclick;
+$("qkSave").onclick=function(){log2both("日志已导出到 logs/app.log")};
+
+/* Guide 引导 */
+var GSTEPS=[
+ {t:"欢迎使用 CodeWF.Toolkit 演示台",d:"这是与 CodeWF.Avalonia 原型同款的外壳：Ribbon 页签 + Dock 工作区 + 属性面板 + 日志面板。",
+  sel:"#rTabsBar",pos:"bottom"},
+ {t:"导航树",d:"左侧按能力域分组：核心、事件总线、文件、图像、日志、网络，点条目即打开对应演示页。",
+  sel:".p-nav",pos:"right"},
+ {t:"Ribbon 命令区",d:"每个页签下是能力命令；双击页签（或点状态栏按钮）可折叠命令区腾出空间。",
+  sel:"#rBody",pos:"bottom"},
+ {t:"文档区",d:"所有演示以文档页形式打开，支持多页签并存与关闭；顶排是 Dock 面板开关。",
+  sel:".p-doc",pos:"bottom"},
+ {t:"属性面板",d:"右侧实时显示当前文档的配置项，开关/下拉/数值都可交互（原型内为演示状态）。",
+  sel:".p-props",pos:"left"},
+ {t:"日志面板",d:"底部是 Toolkit 日志能力的自我演示：所有操作都会写入这里，对应 Logging 包。",
+  sel:".p-log",pos:"top"}];
+var gi=0;
+function guideOpen(){gi=0;document.body.classList.add("hide");guideShow()}
+function guideShow(){var s=GSTEPS[gi];if(!s){guideClose();return}
+ $("gMask").classList.add("on");$("gTip").classList.add("on");
+ $("gT").textContent=s.t;$("gD").textContent=s.d;$("gN").textContent=(gi+1)+" / "+GSTEPS.length;
+ var el=document.querySelector(s.sel),r=el?el.getBoundingClientRect():null;
+ var tip=$("gTip"),w=320;
+ var left=r?Math.min(window.innerWidth-w-16,Math.max(16,r.left)) : 40;
+ var top=r?Math.min(window.innerHeight-180,r.bottom+10) : 80;
+ if(s.pos==="right"&&r){left=Math.min(window.innerWidth-w-16,r.right+12);top=Math.max(16,r.top)}
+ if(s.pos==="top"&&r){top=Math.max(16,r.top-170)}
+ if(s.pos==="left"&&r){left=Math.max(16,r.left-w-12);top=Math.max(16,r.top)}
+ tip.style.left=left+"px";tip.style.top=top+"px"}
+$("gNext").onclick=function(){gi++;guideShow()};
+$("gPrev").onclick=function(){gi=Math.max(0,gi-1);guideShow()};
+$("gClose").onclick=function(){guideClose()};
+function guideClose(){$("gMask").classList.remove("on");$("gTip").classList.remove("on")}
+
+/* 启动 */
+renderRTabs();renderRBody();renderTree();renderPGrid(null);
+openDoc("welcome");
+dlog("CodeWF.Toolkit 演示台就绪（7 组 12 页）");
+dlog("提示：双击 Ribbon 页签可折叠命令区；右上角可切色板与深浅色");
+</script>
+</body>
+</html>
