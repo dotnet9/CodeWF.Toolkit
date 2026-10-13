@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light" data-palette="default" data-density="cozy">
+<html lang="zh-CN" data-theme="dark" data-palette="dotnet" data-density="cozy">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CodeWF.Toolkit.Demo — 原型</title>
 <style>
 /* ═══════════ 色板（6 色板 × 浅深，与 CodeWF.Avalonia 原型一致） ═══════════ */
@@ -401,8 +402,9 @@ window.addEventListener("error",function(e){
  d.textContent+="JS错误: "+e.message+" @"+(e.filename||"").split("/").pop()+":"+e.lineno+String.fromCharCode(10);
 });
 </script>
+<link rel="stylesheet" href="assets/studio.css">
 </head>
-<body>
+<body data-product="toolkit">
 
 <div class="win">
 
@@ -569,5 +571,6 @@ window.addEventListener("error",function(e){
 <script src="assets/interact-toolkit.js"></script>
 <script src="assets/tk-pages-workbench.js"></script>
 <script src="assets/tk-pages-dict.js"></script>
+<script src="assets/studio.js"></script>
 </body>
 </html>

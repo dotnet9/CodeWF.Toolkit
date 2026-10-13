@@ -41,7 +41,7 @@ REG("welcome", {
 /* ═══════════════ 场景一：运行态工作台 ═══════════════ */
 var RT_STEPS = ["启动服务端", "客户端连接", "发布 / 订阅", "查询与集成", "日志与停止"];
 var rtStep = 0, rtSub = "bus";
-var RT_SUB = ["bus", "bus-integrations", "log-core", "log-microsoft"];
+var RT_SUB = ["bus", "bus-integrations", "log-core", "log-microsoft", "log-core"];
 REG("flow-runtime", {
  zh: {
   t: "运行态工作台",

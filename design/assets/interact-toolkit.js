@@ -219,10 +219,12 @@ function docCrumb(id) { var g = groupOf(id); return g ? tabName(g.id) + " / " + 
 var PROTO = {};
 function REG(id, o) { PROTO[id] = o; }
 function renderInto(id, el) {
- var pg = PROTO[id]; if (!pg || !pg.render || !el) return;
- var tmp = document.createElement("div");
- var out = pg.render(tmp);
- el.innerHTML = (typeof out === "string" ? out : tmp.innerHTML) || "";
+ var pg = PROTO[id]; if (!pg || !el) return;
+ el.replaceChildren();
+ if (pg.render) {
+  var out = pg.render(el);
+  if (typeof out === "string") el.innerHTML = out;
+ } else el.innerHTML = (pg.zh && pg.zh.html) || "";
 }
 function toWindow(names) {
  names.forEach(function (n) { try { window[n] = eval(n); } catch (e) { } });
@@ -237,7 +239,7 @@ var SELF_PROPS = [
    var m = { "默认": "default", "水生": "aqua", "沙漠": "desert", "黄昏": "dusk", "夜空": "night", "高对比": "contrast" };
    setPalette(m[v] || "default");
   } },
- { id: "appearance.dark", label: "深色模式", type: "bool", value: false, global: true,
+ { id: "appearance.dark", label: "深色模式", type: "bool", value: true, global: true,
   apply: function (v) { setTheme(v ? "dark" : "light"); } },
  { id: "appearance.lang", label: "语言", type: "combo", options: ["简体中文", "English"], value: "简体中文", global: true,
   apply: function (v) { setLang(v === "English" ? "en-US" : "zh-CN"); } }
@@ -594,7 +596,7 @@ function loadLayout() {
 function layoutResetAsk() {
  confirmDlg(tt("dlg.reset.t"), tt("dlg.reset.d"), function () {
   document.body.classList.remove("hideL", "hideR", "hideLog", "rmn");
-  setDensity("cozy"); setPalette("default"); setTheme("light");
+  setDensity("cozy"); setPalette("dotnet"); setTheme("dark");
   try { localStorage.removeItem(LAYOUT_KEY); } catch (e) { }
   notify("warn", tt("nc.warn"), tt("toast.reset"));
   log2both(tt("toast.reset"), "warn");
