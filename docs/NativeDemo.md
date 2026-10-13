@@ -13,7 +13,7 @@
 
 ## 独立构建与 NuGet 依赖
 
-共享 UI 与外观接口归 `CodeWF.Avalonia`。图形 Demo 通过 NuGet 使用 Controls、TreeDataGrid、Dock、Lang、Log，版本固定为 `12.1.4.6`；没有跨仓库 ProjectReference、源码路径属性或额外检出步骤。只需克隆本仓：
+共享 UI 与外观接口归 `CodeWF.Avalonia`。图形 Demo 通过 NuGet 使用 Controls、TreeDataGrid、Dock、Lang、Log，版本固定为 `12.1.4.7`；没有跨仓库 ProjectReference、源码路径属性或额外检出步骤。只需克隆本仓：
 
 ```powershell
 git clone https://github.com/dotnet9/CodeWF.Toolkit.git
