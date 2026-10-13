@@ -23,7 +23,7 @@ namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 /// Shell 视图模型：Ribbon 分组、导航树镜像、Dock 文档区、右侧 PropertyGrid 与底部日志面板的调度中枢。
 /// 页面与文档 VM 不进 Prism 容器，按演示目录工厂直接构造。
 /// </summary>
-public class MainViewModel : ReactiveObject
+public partial class MainViewModel : ReactiveObject
 {
     private DemoDocumentViewModel? _activeDocument;
     private DemoItemViewModel? _selectedNavItem;
@@ -516,39 +516,7 @@ public class MainViewModel : ReactiveObject
 
         var ok = true;
         WriteSampleLogs();
-
-        // 全部演示页构造一遍（不挂视觉树）：验证每个页面（含场景页的每一步）都能安全构建
-        var pageCount = 0;
-        var sceneSteps = 0;
-        try
-        {
-            foreach (var group in Groups)
-            {
-                foreach (var item in group.Items)
-                {
-                    var page = item.PageFactory();
-                    _ = page.Properties;
-                    pageCount++;
-
-                    // 场景页：每一步都切一遍，验证步骤接线与内嵌页可构建
-                    if (page is Views.ScenePageBase scene)
-                    {
-                        for (var step = 0; step < scene.StepCount; step++)
-                        {
-                            scene.GoToStep(step);
-                            sceneSteps++;
-                        }
-                    }
-                }
-            }
-
-            Logger.Info($"冒烟校验：演示页构建 {pageCount} 个（含 {sceneSteps} 次场景步骤切换）");
-        }
-        catch (Exception ex)
-        {
-            ok = false;
-            Logger.Error($"演示页构建失败（已完成 {pageCount} 个）", ex);
-        }
+        ok &= await SmokeWalkCatalogAsync(cancellation);
 
         // 核心演示（同步、无网络）：扩展方法 / 事件总线 / 序列化
         try

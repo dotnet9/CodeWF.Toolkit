@@ -181,6 +181,8 @@ dotnet run --project demo/CodeWF.Toolkit.Demo -- --smoke
 
 # Avalonia 图形演示台：同款能力以界面方式逐页演示
 dotnet run --project demo/CodeWF.Toolkit.Demo.Avalonia
+# 冒烟模式：逐页构建后逐色板渲染一遍再退出，退出码 0 表示全部通过（CI / AOT 冒烟使用）
+dotnet run --project demo/CodeWF.Toolkit.Demo.Avalonia -- --smoke
 ```
 
 图形演示台的安装包由 [GitHub Releases](https://github.com/dotnet9/CodeWF.Toolkit/releases) 提供（随 `v*` tag 构建）：Windows `setup.exe` / 便携 `zip`、Linux `deb`、macOS `dmg`，均附 `.sha256` 校验文件。控制台演示以源码运行，不作为安装包分发。
