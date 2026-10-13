@@ -6,9 +6,6 @@
 /* 页面注册辅助：html + 属性（沿用原原型的页面内容） */
 function RH(id, html, props) { REG(id, { zh: { html: html }, props: props }); }
 
-/* 状态栏：最近检查更新时间 */
-function setSync(text) { var el = $("stSync"); if (el) el.textContent = text; }
-
 /* ═══════════════════════════ 页面：欢迎总览 ═══════════════════════════ */
 REG("welcome", {
  zh: {
@@ -17,7 +14,10 @@ REG("welcome", {
   f: ["16 页", "2 个场景工作流", "11 个包", "中英双语"]
  },
  render: function () {
-  return '<div class="card"><h4>适用场景</h4><table class="tb"><thead><tr><th>场景</th><th>包</th></tr></thead><tbody>' +
+  return '<div class="card"><h4>页面索引</h4><table class="tb"><thead><tr><th>页签</th><th>页面（原名）</th></tr></thead><tbody>' +
+   pageIndexHtml() + '</tbody></table>' +
+   '<div class="hint">共 16 页：2 个场景工作流 + 14 个能力字典页；页签中文名 ≤ 4 字，原名（API / 包名）在页面标题下方与命令面板里给出。</div></div>' +
+   '<div class="card"><h4>适用场景</h4><table class="tb"><thead><tr><th>场景</th><th>包</th></tr></thead><tbody>' +
    '<tr><td>进程内解耦：发布订阅、Command/Query、<code>[EventHandler]</code> 扫描</td><td><code>EventBus</code>（+ Prism / AspNetCore 集成）</td></tr>' +
    '<tr><td>跨进程消息：TCP 分布式总线，心跳保活、断线重连、离线补发</td><td><code>EventBus.Socket</code></td></tr>' +
    '<tr><td>文件与图片批处理：Json/Yaml/Csv/Excel、7z、多尺寸 ico、二维码</td><td><code>Files</code> / <code>Image</code></td></tr>' +
@@ -58,7 +58,9 @@ REG("flow-runtime", {
  render: function (el) {
   var up = window._esOn;
   el.innerHTML = '<div class="flow" id="rtFlow">' + RT_STEPS.map(function (s, i) {
-   return '<span class="st' + (i === rtStep ? " cur" : i < rtStep ? " done" : "") + '" data-s="' + i + '">' + (i + 1) + ". " + s + "</span>";
+   return '<span class="st' + (i === rtStep ? " cur" : i < rtStep ? " done" : "") + '" data-s="' + i +
+    '" title="' + esc(s) + '"><span class="n">' + (i < rtStep ? "✓" : i + 1) + '</span>' + esc(s) +
+    '<span class="si"><svg class="svgic s14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span>';
   }).join("") + "</div>" +
    '<div class="card"><h4>服务端 / 客户端</h4><div class="g2">' +
    '<div><div class="kv"><span class="k">监听</span><input class="tin" id="esHost" value="127.0.0.1" style="flex:1"></div>' +
@@ -122,7 +124,9 @@ REG("flow-lab", {
  ],
  render: function (el) {
   el.innerHTML = '<div class="flow" id="labFlow">' + LAB_STEPS.map(function (s, i) {
-   return '<span class="st' + (i === labStep ? " cur" : i < labStep ? " done" : "") + '" data-s="' + i + '">' + (i + 1) + ". " + s + "</span>";
+   return '<span class="st' + (i === labStep ? " cur" : i < labStep ? " done" : "") + '" data-s="' + i +
+    '" title="' + esc(s) + '"><span class="n">' + (i < labStep ? "✓" : i + 1) + '</span>' + esc(s) +
+    '<span class="si"><svg class="svgic s14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span>';
   }).join("") + "</div>" +
    '<div class="card"><h4>流水线</h4><div class="row1">' +
    '<button class="b pri" id="labRunBtn" onclick="labRunAll()">一键全流程（4 步）</button>' +
@@ -237,6 +241,26 @@ RH("files-json", '<h3 class="dh">文件读写：Json / Yaml / Csv / Excel</h3><p
   { id: "files.retry", name: "写入重试", kind: "num", value: 3 },
   { id: "files.bom", name: "UTF-8 BOM", kind: "sw", value: false }]);
 
+/* ═══════════════════════════ 页面：数据索引 ═══════════════════════════ */
+RH("files-format", '<h3 class="dh">数据字典：格式与归档能力矩阵</h3><p class="dsub">Files 包全部能力的索引页：读写在「格式读写」实测，压缩与配置在「压缩配置」实测；本页负责把边界与依赖讲清楚。</p>' +
+ '<div class="card"><h4>能力矩阵</h4><table class="tb"><thead><tr><th>能力</th><th>API</th><th>依赖</th><th>注意</th></tr></thead><tbody>' +
+ '<tr><td>Json</td><td><code>JsonExtensions.ToJson / FromJson</code></td><td>框架内置 System.Text.Json</td><td>反射重载标记 <code>RequiresUnreferencedCode</code>，AOT 请用 <code>JsonTypeInfo&lt;T&gt;</code> 重载</td></tr>' +
+ '<tr><td>Yaml</td><td><code>YamlExtensions.ToYaml / FromYaml</code></td><td>YamlDotNet</td><td>基于反射的 SerializerBuilder，AOT 请改用静态源生成序列化</td></tr>' +
+ '<tr><td>Csv / Excel</td><td><code>DataTableExtensions</code></td><td>CsvHelper / MiniExcel</td><td>面向 DataTable 往返，适合批处理导出</td></tr>' +
+ '<tr><td>7z 压缩</td><td><code>SevenZipCompressor.Compress / Extract</code></td><td>SharpCompress</td><td>分卷与加密需评估 SharpCompress 能力边界</td></tr>' +
+ '<tr><td>App.config</td><td><code>AppConfigHelper</code></td><td>System.Configuration.ConfigurationManager</td><td>非 trim-safe，AOT 请用文件路径重载</td></tr>' +
+ '<tr><td>安全读写</td><td><code>FileExtension</code></td><td>—</td><td>带重试的字符串 / 字节读写</td></tr>' +
+ '</tbody></table></div>' +
+ '<div class="card"><h4>往返演示（与「格式读写」页同一批脚本）</h4><div class="row1">' +
+ '<button class="b pri" onclick="fmtRun(\'json\')">ToJson</button><button class="b" onclick="fmtRun(\'yaml\')">ToYaml</button>' +
+ '<button class="b" onclick="fmtRun(\'csv\')">ToCsv</button>' +
+ '<button class="b" onclick="openDoc(\'files-archive\')">去压缩配置页实测</button></div>' +
+ '<pre class="code" id="fmtOut">选择一种格式</pre><pre class="code" id="fmtBack">等待反向解析</pre></div>' +
+ '<div class="card"><h4>数据模型</h4><pre class="code">public sealed class Student' + NL + '{' + NL + '    public string Name { get; set; } = "张三";' + NL + '    public int Age { get; set; } = 20;' + NL + '    public string City { get; set; } = "成都";' + NL + '}</pre></div>',
+ [{ id: "ff.format", name: "默认格式", kind: "sel", value: "Yaml", options: ["Json", "Yaml", "Csv", "Excel"] },
+  { id: "ff.aot", name: "AOT 友好模式", kind: "sw", value: true },
+  { id: "ff.retry", name: "写入重试", kind: "num", value: 3 }]);
+
 /* ═══════════════════════════ 页面：压缩与配置 ═══════════════════════════ */
 RH("files-archive", '<h3 class="dh">7z 压缩与 App.config</h3><p class="dsub">SevenZipCompressor 基于 SharpCompress；AppConfigHelper 读写传统 appSettings。</p>' +
  '<div class="g2"><div class="card"><h4>7z 压缩</h4>' +
@@ -275,7 +299,7 @@ window.upCheck = function () {
  out.textContent = "GET https://api.github.com/repos/" + repo + "/releases/latest" + (etag ? '  If-None-Match: W/"etag-cache"' : "") + NL + "→ 200 OK（命中缓存则为 304，不消耗配额）";
  setTimeout(function () {
   out.textContent += NL + NL + "UpdateCheckResult.Succeeded = true" + NL + "Update = { Version: 1.1.0, Tag: v1.1.0 }" + NL + "→ 对比当前 " + cur + "：发现新版本 v1.1.0";
-  setSync(new Date().toLocaleTimeString());
+  setSync(stampNow());
   notify("warn", tt("nc.warn"), "发现新版本 v1.1.0");
   log2both("更新检查：发现新版本 v1.1.0", "warn");
  }, 260);
@@ -348,7 +372,7 @@ window.rtLog = function (lv) { log2both("运行态日志：" + lv, lv); };
 window.rtCheck = function () {
  var out = $("rtOut");
  if (out) out.textContent = "GET https://api.github.com/repos/dotnet9/CodeWF.Toolkit/releases/latest" + NL + "→ 304 Not Modified（ETag 命中，未消耗配额）";
- setSync(new Date().toLocaleTimeString());
+ setSync(stampNow());
  log2both("检查更新：已是最新（304 缓存命中）", "info");
 };
 window.rtStopAsk = function () {

@@ -19,10 +19,11 @@ var I18N = {
   "tabs.home": "首页", "tabs.runtime": "运行态工作台", "tabs.lab": "能力实验室",
   "tabs.core": "能力字典·核心", "tabs.bus": "能力字典·通信", "tabs.files": "能力字典·数据",
   "tabs.logging": "能力字典·日志",
-  "nav": "◈ 导航树", "props": "⚙ 属性", "log": "▤ 日志", "ready": "就绪",
+  "nav": "导航树", "props": "属性", "log": "日志", "ready": "就绪",
   "dock.nav": "导航树", "dock.props": "属性", "dock.log": "日志", "dock.max": "最大化", "dock.reset": "重置",
-  "log.opendir": "打开日志目录", "log.clear": "清空", "status.app": "演示台", "status.logpanel": "日志面板",
-  "st.where": "未打开文档", "st.docs": " 篇文档", "st.level": "日志级别 ", "st.ready": "就绪", "st.sync": "最近检查更新 ",
+  "dock.hide": "隐藏", "qk.save": "保存",
+  "log.opendir": "打开目录", "log.clear": "清空", "status.app": "演示台", "status.logpanel": "日志面板",
+  "st.where": "未打开文档", "st.docs": " 篇文档", "st.level": "日志级别 ", "st.ready": "就绪", "st.sync": "最近检查 ",
   "tree.filter": "过滤页面…", "tree.empty": "无匹配页面", "tree.rename": "双击或点 ✎ 重命名", "tree.reset": "恢复原名",
   "nc.ok": "成功", "nc.warn": "警告", "nc.err": "错误", "nc.info": "提示",
   "cmd.ph": "搜索页面或命令（Esc 关闭，↑↓ 选择，Enter 执行）", "cmd.pages": "页面", "cmd.cmds": "命令",
@@ -49,10 +50,11 @@ var I18N = {
   "tabs.home": "Home", "tabs.runtime": "Runtime Console", "tabs.lab": "Lab",
   "tabs.core": "Lib · Core", "tabs.bus": "Lib · Comm", "tabs.files": "Lib · Data",
   "tabs.logging": "Lib · Logging",
-  "nav": "◈ Explorer", "props": "⚙ Properties", "log": "▤ Log", "ready": "Ready",
+  "nav": "Explorer", "props": "Properties", "log": "Log", "ready": "Ready",
   "dock.nav": "Explorer", "dock.props": "Properties", "dock.log": "Log", "dock.max": "Maximize", "dock.reset": "Reset",
-  "log.opendir": "Open Log Dir", "log.clear": "Clear", "status.app": "Demo Shell", "status.logpanel": "Log Panel",
-  "st.where": "No document", "st.docs": " docs", "st.level": "Log level ", "st.ready": "Ready", "st.sync": "Last check ",
+  "dock.hide": "Hide", "qk.save": "Save",
+  "log.opendir": "Open Dir", "log.clear": "Clear", "status.app": "Demo Shell", "status.logpanel": "Log Panel",
+  "st.where": "No document", "st.docs": " docs", "st.level": "Log level ", "st.ready": "Ready", "st.sync": "Checked ",
   "tree.filter": "Filter pages…", "tree.empty": "No matching page", "tree.rename": "Double-click or ✎ to rename", "tree.reset": "Restore names",
   "nc.ok": "Success", "nc.warn": "Warning", "nc.err": "Error", "nc.info": "Info",
   "cmd.ph": "Search pages or commands (Esc close, arrows move, Enter run)", "cmd.pages": "Pages", "cmd.cmds": "Commands",
@@ -90,7 +92,10 @@ function dlog(msg, lv) {
  if (lv === "info" || lv === "warn" || lv === "error") LOG_LEVEL = lv === "info" ? "Info" : lv === "warn" ? "Warn" : "Error";
  var st = $("stLogLv"); if (st) st.textContent = LOG_LEVEL;
 }
-function setStatus(msg) { var el = $("stTx"); if (el) el.textContent = msg; }
+/* 状态栏：最近检查更新时间 / 最近同步时间 */
+function setSync(text) { var el = $("stSync"); if (el) el.textContent = text; }
+function stampNow() { var d = new Date(); return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2); }
+function setStatus(msg) { var el = $("stTx"); if (el) el.textContent = msg; setSync(stampNow()); }
 function log2both(msg, lv) {
  dlog(msg, lv);
  var s = $("lgStream");
@@ -126,29 +131,77 @@ function closeDlg() { $("dlgm").classList.remove("on"); _dlgYes = null; }
 
 /* ═══ 目录：7 页签 / 16 页（2 个场景页 + 14 个能力字典页） ═══ */
 var CATALOG = [
- { id: "home", icon: "🏠", items: [{ id: "welcome" }] },
- { id: "runtime", icon: "🖥️", items: [{ id: "flow-runtime" }, { id: "bus" }, { id: "log-core" }, { id: "log-microsoft" }] },
- { id: "lab", icon: "🧪", items: [{ id: "flow-lab" }, { id: "files-json" }, { id: "files-archive" }, { id: "image-icon" }, { id: "image-qr" }] },
- { id: "core", icon: "🧰", items: [{ id: "core" }] },
- { id: "bus", icon: "📡", items: [{ id: "bus-integrations" }, { id: "net-packet" }, { id: "net-socket" }] },
- { id: "files", icon: "📁", items: [{ id: "files-format" }] },
- { id: "logging", icon: "📋", items: [{ id: "logging-options" }] }
+ { id: "home", items: [{ id: "welcome" }] },
+ { id: "runtime", items: [{ id: "flow-runtime" }, { id: "bus" }, { id: "log-core" }, { id: "log-microsoft" }] },
+ { id: "lab", items: [{ id: "flow-lab" }, { id: "files-json" }, { id: "files-archive" }, { id: "image-icon" }, { id: "image-qr" }] },
+ { id: "core", items: [{ id: "core" }] },
+ { id: "bus", items: [{ id: "bus-integrations" }, { id: "net-packet" }, { id: "net-socket" }] },
+ { id: "files", items: [{ id: "files-format" }] },
+ { id: "logging", items: [{ id: "logging-options" }] }
 ];
+/* 页面短名：中文 ≤ 4 字，保证 Ribbon 按钮与树条目都放得下 */
 var PAGE_NAME = {
- "welcome": "欢迎总览", "flow-runtime": "运行态工作台", "flow-lab": "能力实验室",
- "core": "Core 工具箱", "bus": "进程内总线", "bus-integrations": "总线集成形态",
- "files-json": "文件格式读写", "files-archive": "压缩与配置", "files-format": "格式与归档索引",
- "image-icon": "图标生成", "image-qr": "二维码与图片",
- "log-core": "Logger 核心", "log-microsoft": "MEL 接入", "logging-options": "日志选项与诊断",
- "net-packet": "NetWeaver 序列化", "net-socket": "NetWrapper 通信"
+ "welcome": "欢迎总览", "flow-runtime": "运行工作台", "flow-lab": "能力实验室",
+ "core": "核心工具", "bus": "进程总线", "bus-integrations": "总线集成",
+ "files-json": "格式读写", "files-archive": "压缩配置", "files-format": "数据索引",
+ "image-icon": "图标生成", "image-qr": "二维码",
+ "log-core": "日志核心", "log-microsoft": "MEL 接入", "logging-options": "日志选项",
+ "net-packet": "序列化", "net-socket": "网络通信"
 };
+/* 页面原名（英文 API / 包名）：页面正文小字与命令面板备注用 */
+var PAGE_ALIAS = {
+ "welcome": "Welcome", "flow-runtime": "运行态工作流", "flow-lab": "能力流水线",
+ "core": "CodeWF.Toolkit.Core", "bus": "EventBus", "bus-integrations": "EventBus.Prism / AspNetCore / Socket",
+ "files-json": "JsonExtensions / YamlExtensions", "files-archive": "SevenZipCompressor / AppConfigHelper", "files-format": "Files 能力矩阵",
+ "image-icon": "ImageHelper.MergeGenerateIcon", "image-qr": "QrCodeGenerator",
+ "log-core": "Logger / LogEventFeed", "log-microsoft": "CodeWFLoggerProvider", "logging-options": "LoggerOptions / SelfDiagnostics",
+ "net-packet": "NetWeaver", "net-socket": "NetWrapper"
+};
+/* 图标：统一 24 网格线性图标（图标思路对齐 IconPark / TDesign，实现期可直接映射到 Semi / Ursa / Iconica） */
+function svg(view, extra) {
+ return '<svg class="svgic ' + (extra || "s20") + '" viewBox="0 0 24 24" aria-hidden="true">' + view + "</svg>";
+}
 var TAB_ICON = {
- "welcome": "🏠", "flow-runtime": "🧭", "flow-lab": "🧭", "core": "🧰", "bus": "📣", "bus-integrations": "🔌",
- "files-json": "📄", "files-archive": "🗜️", "files-format": "🗂️", "image-icon": "🎨", "image-qr": "🔳",
- "log-core": "📋", "log-microsoft": "🧾", "logging-options": "⚙️", "net-packet": "📦", "net-socket": "🔗"
+ "welcome": '<path d="M4.5 10.8L12 4l7.5 6.8"/><path d="M6.5 10v9.5h11V10"/><path d="M10.5 19.5v-4.8h3v4.8"/>',
+ "flow-runtime": '<rect x="3" y="4.5" width="18" height="12.5" rx="1.7"/><path d="M8 21h8M12 17v4"/><path d="M7 9.5l2.5 2 3-3 4 4"/>',
+ "flow-lab": '<path d="M10 3.5v6.2L5.6 17a2.4 2.4 0 0 0 2.1 3.5h8.6a2.4 2.4 0 0 0 2.1-3.5L14 9.7V3.5"/><path d="M8.5 3.5h7"/><path d="M7.6 14h8.8"/>',
+ "core": '<path d="M12 3.5l7.5 4.2v8.6L12 20.5 4.5 16.3V7.7z"/><path d="M9.5 12l2 2 3.5-4"/>',
+ "bus": '<circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6.5" r="2"/><circle cx="19" cy="6.5" r="2"/><circle cx="5" cy="17.5" r="2"/><circle cx="19" cy="17.5" r="2"/><path d="M6.6 7.8l3.6 2.9M17.4 7.8l-3.6 2.9M6.6 16.2l3.6-2.9M17.4 16.2l-3.6-2.9"/>',
+ "bus-integrations": '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/><path d="M11 7.5h4a2 2 0 0 1 2 2v3.5"/><path d="M13 16.5H9a2 2 0 0 1-2-2V11"/>',
+ "files-json": '<path d="M13.5 3.5H7a1.6 1.6 0 0 0-1.6 1.6v13.8A1.6 1.6 0 0 0 7 20.5h10a1.6 1.6 0 0 0 1.6-1.6V8.6z"/><path d="M13.5 3.5v5.1h5.1"/><path d="M9.5 13.5l-1.2 1.5 1.2 1.5M14.5 13.5l1.2 1.5-1.2 1.5"/>',
+ "files-archive": '<path d="M4 7.5h16v11.5H4z"/><path d="M2.5 4.5h19v3h-19z"/><path d="M11 12h2v3h-2z"/>',
+ "files-format": '<ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6"/><path d="M5 12v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-6"/>',
+ "image-icon": '<rect x="3.5" y="4.5" width="17" height="15" rx="1.7"/><circle cx="9" cy="10" r="1.8"/><path d="M4.5 17l4.5-4.5 3.5 3.5 2.5-2.5 5 5"/>',
+ "image-qr": '<rect x="4" y="4" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1"/><path d="M13.5 13.5h3v3h-3zM17.5 17.5h2.5v2.5h-2.5z"/>',
+ "log-core": '<path d="M5.5 4.5h13v15h-13z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/>',
+ "log-microsoft": '<path d="M12 3.5l8.5 4.5v8L12 20.5 3.5 16V8z"/><path d="M8.5 12h7M12 8.5v7"/>',
+ "logging-options": '<circle cx="12" cy="12" r="3"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2.1 2.1M15.9 15.9L18 18M18 6l-2.1 2.1M8.1 15.9L6 18"/>',
+ "net-packet": '<path d="M12 3.5l8 4.5v8l-8 4.5-8-4.5v-8z"/><path d="M4 8l8 4.5 8-4.5M12 12.5v8"/>',
+ "net-socket": '<path d="M9.5 14.5l5-5"/><path d="M7.5 10.5l-2 2a3.5 3.5 0 0 0 5 5l2-2"/><path d="M16.5 13.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>'
 };
+function iconSvg(id, extra) { return svg(TAB_ICON[id] || TAB_ICON["welcome"], extra || "s20"); }
+/* 页签图标（Ribbon 页签行的极简小图标） */
+var TAB_TAB_ICON = {
+ home: '<path d="M4.5 10.8L12 4l7.5 6.8"/><path d="M6.5 10v9.5h11V10"/>',
+ runtime: '<rect x="3" y="4.5" width="18" height="12.5" rx="1.7"/><path d="M8 21h8M12 17v4"/>',
+ lab: '<path d="M10 3.5v6.2L5.6 17a2.4 2.4 0 0 0 2.1 3.5h8.6a2.4 2.4 0 0 0 2.1-3.5L14 9.7V3.5"/><path d="M8.5 3.5h7"/>',
+ core: '<path d="M12 3.5l7.5 4.2v8.6L12 20.5 4.5 16.3V7.7z"/>',
+ bus: '<circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6.5" r="2"/><circle cx="19" cy="17.5" r="2"/><path d="M6.6 7.8l3.6 2.9M17.4 16.2l-3.6-2.9"/>',
+ files: '<path d="M13.5 3.5H7a1.6 1.6 0 0 0-1.6 1.6v13.8A1.6 1.6 0 0 0 7 20.5h10a1.6 1.6 0 0 0 1.6-1.6V8.6z"/><path d="M13.5 3.5v5.1h5.1"/>',
+ logging: '<path d="M5.5 4.5h13v15h-13z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/>'
+};
+function tabIconSvg(id) { return svg(TAB_TAB_ICON[id] || TAB_TAB_ICON["home"], "s14"); }
 function tabName(id) { return tt("tabs." + id); }
 function pt(id) { return PAGE_NAME[id] || id; }
+function pa(id) { return PAGE_ALIAS[id] || ""; }
+/* 页面索引（欢迎页用）：短名 + 原名，保证「能力没被藏起来」 */
+function pageIndexHtml() {
+ return CATALOG.map(function (g) {
+  return '<tr><td style="white-space:nowrap">' + esc(tabName(g.id)) + "</td><td>" +
+   g.items.map(function (it) { return esc(pt(it.id)) + (pa(it.id) ? ' <span style="color:var(--tx3)">(' + esc(pa(it.id)) + ")</span>" : ""); }).join(" · ") +
+   "</td></tr>";
+ }).join("");
+}
 function groupOf(id) {
  for (var i = 0; i < CATALOG.length; i++) {
   if (CATALOG[i].items.some(function (x) { return x.id === id; })) return CATALOG[i];
@@ -197,7 +250,7 @@ var SEG = {}, MODIFIED = {};
 function renderRTabs() {
  $("rTabs").innerHTML = CATALOG.map(function (g) {
   return '<div class="t2' + (g.id === curTab ? " on" : "") + '" data-t="' + g.id + '" role="tab" tabindex="0" title="' +
-   esc(tabName(g.id)) + '（双击折叠命令区）">' + esc(tabName(g.id)) + "</div>";
+   esc(tabName(g.id)) + '（双击折叠命令区）">' + tabIconSvg(g.id) + "<span>" + esc(tabName(g.id)) + "</span></div>";
  }).join("");
  document.querySelectorAll(".rt2 .t2").forEach(function (n) {
   n.onclick = function () { switchTab(n.dataset.t); };
@@ -207,16 +260,17 @@ function renderRTabs() {
  renderRBody();
 }
 function cmdBtn(it) {
- var label = pt(it.id);
- return '<button class="cbtn" data-p="' + it.id + '" title="' + esc(label) + '" aria-pressed="' + (ACTIVE_DOC === it.id) + '">' +
-  '<span class="ic">' + (TAB_ICON[it.id] || "◆") + '</span><span class="lb">' + esc(label) + "</span></button>";
+ var label = pt(it.id), alias = pa(it.id);
+ return '<button class="cbtn" data-p="' + it.id + '" title="' + esc(label + (alias ? "（" + alias + "）" : "")) +
+  '" aria-pressed="' + (ACTIVE_DOC === it.id) + '">' +
+  '<span class="ic">' + iconSvg(it.id) + '</span><span class="lb">' + esc(label) + "</span></button>";
 }
 function renderRBody() {
  var g = CATALOG.filter(function (x) { return x.id === curTab; })[0];
  if (!g) { $("rBody").innerHTML = ""; return; }
  var sceneFirst = g.items[0].id.indexOf("flow-") === 0;
  var html = "";
- if (sceneFirst) html += '<div class="grp"><div class="cmds">' + cmdBtn(g.items[0]) + '</div><div class="gname">场景工作流</div></div>';
+ if (sceneFirst) html += '<div class="grp"><div class="cmds">' + cmdBtn(g.items[0]) + '</div><div class="gname">场景</div></div>';
  var rest = sceneFirst ? g.items.slice(1) : g.items;
  html += '<div class="grp"><div class="cmds">' + rest.map(cmdBtn).join("") + '</div><div class="gname">' +
   esc(sceneFirst ? "能力页" : tabName(g.id)) + "</div></div>";
@@ -241,17 +295,17 @@ function renderTree() {
   (Object.keys(RENAMES).length ? '<button class="hbtn" style="visibility:visible" onclick="clearRenames()" title="' + esc(tt("tree.reset")) + '">↺</button>' : "") + "</div>";
  CATALOG.forEach(function (g) {
   var items = g.items.filter(function (it) {
-   return !q || pt(it.id).toLowerCase().indexOf(q) >= 0 || tabName(g.id).toLowerCase().indexOf(q) >= 0;
+   return !q || pt(it.id).toLowerCase().indexOf(q) >= 0 || pa(it.id).toLowerCase().indexOf(q) >= 0 || tabName(g.id).toLowerCase().indexOf(q) >= 0;
   });
   total += items.length;
   if (!items.length && q) return;
   var open = (g.id === curTab || (q && items.length)) ? " open" : "";
   html += '<div class="nd' + open + '" data-g="' + g.id + '">' +
-   '<div class="hd" tabindex="0"><span class="arw">▶</span><span>' + g.icon + "</span><span>" + esc(tabName(g.id)) + "</span>" +
+   '<div class="hd" tabindex="0"><span class="arw">▶</span><span class="gi">' + tabIconSvg(g.id) + "</span><span>" + esc(tabName(g.id)) + "</span>" +
    '<span style="margin-left:auto;color:var(--tx3);font-size:10px">' + items.length + "</span></div><div class=\"kids\">" +
    items.map(function (it) {
     return '<div class="lf' + (it.id === ACTIVE_DOC ? " on" : "") + '" data-p="' + it.id + '" title="' + esc(pt(it.id)) + '">' +
-     '<span>' + (TAB_ICON[it.id] || "◆") + '</span><span>' + esc(RENAMES[it.id] || pt(it.id)) + '</span><span class="sp2"></span>' +
+     '<span class="ic">' + iconSvg(it.id, "s14") + '</span><span>' + esc(RENAMES[it.id] || pt(it.id)) + '</span><span class="sp2"></span>' +
      '<button class="hbtn" data-rn="' + it.id + '" title="' + esc(tt("tree.rename")) + '">✎</button></div>';
    }).join("") + "</div></div>";
  });
@@ -347,7 +401,10 @@ function renderDocTabs() {
  var st = $("stDocs"); if (st) st.textContent = OPEN_DOCS.length;
 }
 function renderEmptyDoc() {
- $("dBody").innerHTML = '<div class="empty"><div class="ei">🗂️</div><div class="et">' + esc(tt("empty.title")) + "</div>" +
+ $("dBody").innerHTML = '<div class="empty"><div class="ei">' +
+  '<svg class="svgic" style="width:34px;height:34px;color:var(--tx3)" viewBox="0 0 24 24" aria-hidden="true">' +
+  '<path d="M12 3.5l8 4.5v8l-8 4.5-8-4.5v-8z"/><path d="M4 8l8 4.5 8-4.5M12 12.5v8"/></svg>' +
+  '</div><div class="et">' + esc(tt("empty.title")) + "</div>" +
   '<div class="ed">' + esc(tt("empty.desc")) + '</div>' +
   '<button class="btn pri" onclick="openDoc(\'welcome\')">' + esc(tt("empty.action")) + "</button></div>";
  var w = $("stWhere"); if (w) w.textContent = tt("st.where");
@@ -366,6 +423,7 @@ function renderDoc(id) {
  var hasDemo = !!pg.render || !!meta.html;
  $("dBody").innerHTML =
   '<div class="crumb">' + esc(docCrumb(id)) + "</div><h1>" + esc(RENAMES[id] || meta.t) + "</h1>" +
+  (pa(id) ? '<div class="alias">' + esc(pa(id)) + "</div>" : "") +
   (meta.d ? '<div class="dsc">' + esc(meta.d) + "</div>" : "") +
   (meta.f.length ? '<div class="ftg">' + meta.f.map(function (f) { return "<span>" + esc(f) + "</span>"; }).join("") + "</div>" : "") +
   '<div class="smt" id="smt-' + id + '">' +
@@ -529,6 +587,7 @@ function loadLayout() {
    ACTIVE_DOC = OPEN_DOCS.indexOf(st.active) >= 0 ? st.active : OPEN_DOCS[OPEN_DOCS.length - 1];
   }
   if (st.lang) setLang(st.lang);
+  if (st.density) setDensity(st.density);
   return true;
  } catch (e) { return false; }
 }
@@ -552,9 +611,9 @@ function guideOpen() {
   { t: tt("g.3.t"), d: tt("g.3.d"), sel: ".p-doc" },
   { t: tt("g.4.t"), d: tt("g.4.d"), sel: ".p-props" },
   { t: tt("g.5.t"), d: tt("g.5.d"), sel: ".p-log" }];
- gIdx = 0; $("gMask").classList.add("on"); showStep();
+ gIdx = 0; $("gMask").classList.add("on"); $("gTip").classList.add("on"); showStep();
 }
-function guideGo(steps) { gSteps = steps; gIdx = 0; $("gMask").classList.add("on"); showStep(); }
+function guideGo(steps) { gSteps = steps; gIdx = 0; $("gMask").classList.add("on"); $("gTip").classList.add("on"); showStep(); }
 function showStep() {
  var s = gSteps[gIdx];
  if (!s) { gCloseGuide(); return; }
@@ -566,6 +625,7 @@ function showStep() {
  sp.style.width = (r.width + 12) + "px"; sp.style.height = (r.height + 12) + "px";
  var tip = $("gTip");
  tip.style.display = "block";
+ tip.classList.remove("on"); void tip.offsetWidth; tip.classList.add("on");
  var tw = tip.offsetWidth || 320;
  tip.style.left = clamp(r.left, 10, Math.max(10, innerWidth - tw - 10)) + "px";
  var ty = r.bottom + 12;
@@ -579,7 +639,7 @@ function showStep() {
 }
 function gNextStep() { gIdx++; if (gIdx >= gSteps.length) gCloseGuide(); else showStep(); }
 function gPrevStep() { gIdx = Math.max(0, gIdx - 1); showStep(); }
-function gCloseGuide() { $("gMask").classList.remove("on"); $("gSpot").style.display = "none"; $("gTip").style.display = "none"; }
+function gCloseGuide() { $("gMask").classList.remove("on"); $("gTip").classList.remove("on"); $("gSpot").style.display = "none"; $("gTip").style.display = "none"; }
 
 /* ═══ 命令面板（Ctrl+K） ═══ */
 var cpmAll = [], cpmIdx = 0;
