@@ -34,6 +34,7 @@ public partial class MainViewModel : ReactiveObject
     private bool _isDarkMode = true;
     private CultureOption _selectedCulture;
     private DemoGroupViewModel? _selectedGroup;
+    private PropertyItem? _densityItem;
     private PropertyItem? _paletteItem;
     private PropertyItem? _modeItem;
     private PropertyItem? _langItem;
@@ -97,6 +98,11 @@ public partial class MainViewModel : ReactiveObject
     }
 
     /// <summary>Ribbon 分组（左树镜像同一集合）。</summary>
+    public IReadOnlyList<DemoItemViewModel> RibbonItems => SelectedGroup == Groups[0]
+        ? HomeRibbonKeys.Select(key => Groups.SelectMany(group => group.Items).First(item => item.TitleKey == key)).ToArray()
+        : SelectedGroup?.Items.ToArray() ?? [];
+    private static readonly string[] HomeRibbonKeys = [DemoKeys.ItemWelcome, DemoKeys.ItemRuntimeFlow, DemoKeys.ItemLabFlow, DemoKeys.ItemNetPacket, DemoKeys.ItemLogCore];
+
     public ObservableCollection<DemoGroupViewModel> Groups { get; }
 
     /// <summary>已打开的演示文档。</summary>
@@ -135,7 +141,11 @@ public partial class MainViewModel : ReactiveObject
     public DemoGroupViewModel? SelectedGroup
     {
         get => _selectedGroup;
-        set => this.RaiseAndSetIfChanged(ref _selectedGroup, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedGroup, value);
+            this.RaisePropertyChanged(nameof(RibbonItems));
+        }
     }
 
     /// <summary>当前活动文档；为空时右侧面板展示全局外观/语言属性（PropertyGrid 自我演示）。</summary>
@@ -471,40 +481,41 @@ public partial class MainViewModel : ReactiveObject
             Id = "Dock.Docs",
             VisibleDockables = _dockFactory.CreateList<IDockable>(),
             CanCreateDocument = false,
-            Proportion = 0.82,
+            Proportion = 0.655,
             IsCollapsable = false,
         };
         _docDock.PropertyChanged += OnDocDockPropertyChanged;
 
-        var centerVertical = new ProportionalDock
-        {
-            Id = "Dock.Center",
-            Orientation = global::Dock.Model.Core.Orientation.Vertical,
-            VisibleDockables = _dockFactory.CreateList<IDockable>(
-                _docDock,
-                new ProportionalDockSplitter(),
-                logDock),
-            ActiveDockable = _docDock,
-        };
         var mainHorizontal = new ProportionalDock
         {
             Id = "Dock.Main",
             Orientation = global::Dock.Model.Core.Orientation.Horizontal,
+            Proportion = 0.82,
             VisibleDockables = _dockFactory.CreateList<IDockable>(
                 navDock,
                 new ProportionalDockSplitter(),
-                centerVertical,
+                _docDock,
                 new ProportionalDockSplitter(),
                 propDock),
-            ActiveDockable = centerVertical,
+            ActiveDockable = _docDock,
+        };
+        var workspace = new ProportionalDock
+        {
+            Id = "Dock.Workspace",
+            Orientation = global::Dock.Model.Core.Orientation.Vertical,
+            VisibleDockables = _dockFactory.CreateList<IDockable>(
+                mainHorizontal,
+                new ProportionalDockSplitter(),
+                logDock),
+            ActiveDockable = mainHorizontal,
         };
 
         _layout = new RootDock
         {
             Id = "Root",
             Title = "Root",
-            VisibleDockables = _dockFactory.CreateList<IDockable>(mainHorizontal),
-            ActiveDockable = mainHorizontal,
+            VisibleDockables = _dockFactory.CreateList<IDockable>(workspace),
+            ActiveDockable = workspace,
             IsCollapsable = false,
         };
         _dockFactory.InitLayout(_layout);
@@ -616,6 +627,16 @@ public partial class MainViewModel : ReactiveObject
         GlobalValueCommittedCommand = ReactiveCommand.Create<PropertyValueChange>(OnGlobalPropertyCommitted);
         GlobalBrowseRequestedCommand = ReactiveCommand.Create<PropertyItem>(_ => { });
 
+        _densityItem = new PropertyItem
+        {
+            Id = "shell.density",
+            Name = T(DemoKeys.ShellDensity),
+            Kind = PropertyItemKind.Choice,
+            Options = [T(DemoKeys.ShellDensityComfort), T(DemoKeys.ShellDensityCompact)],
+            Value = DensityLabel,
+            DefaultValue = T(DemoKeys.ShellDensityComfort),
+            Description = T("Demo.Studio.DensityDescription"),
+        };
         _paletteItem = new PropertyItem
         {
             Id = "shell.palette",
@@ -642,9 +663,9 @@ public partial class MainViewModel : ReactiveObject
             Id = "shell.lang",
             Name = L.Instance.GetResource("Demo.Text.MainViewModel.BuildGlobalProperties029"),
             Kind = PropertyItemKind.Choice,
-            Options = Cultures.Select(c => c.Name).ToArray(),
-            Value = Cultures[0].Name,
-            DefaultValue = Cultures[0].Name,
+            Options = Cultures.Select(c => c.DisplayName).ToArray(),
+            Value = Cultures[0].DisplayName,
+            DefaultValue = Cultures[0].DisplayName,
             SummaryProvider = () => SelectedCulture.DisplayName,
             Description = L.Instance.GetResource("Demo.Text.MainViewModel.BuildGlobalProperties030"),
         };
@@ -655,7 +676,7 @@ public partial class MainViewModel : ReactiveObject
             Name = L.Instance.GetResource("Demo.Text.MainViewModel.BuildGlobalProperties031"),
             Kind = PropertyItemKind.Category,
             Description = L.Instance.GetResource("Demo.Text.MainViewModel.BuildGlobalProperties032"),
-            Children = [_paletteItem, _modeItem],
+            Children = [_densityItem, _paletteItem, _modeItem],
         };
         var language = new PropertyItem
         {
@@ -684,6 +705,9 @@ public partial class MainViewModel : ReactiveObject
         var value = change.NewValue?.ToString();
         switch (change.Item.Id)
         {
+            case "shell.density" when value is not null:
+                Density = value == T(DemoKeys.ShellDensityCompact) ? DemoDensity.Compact : DemoDensity.Comfort;
+                break;
             case "shell.palette" when value is not null:
                 SelectedPalette = Palettes.FirstOrDefault(p => p.Title == value) ?? SelectedPalette;
                 break;
@@ -691,7 +715,7 @@ public partial class MainViewModel : ReactiveObject
                 IsDarkMode = value == L.Instance.GetResource("Demo.Text.MainViewModel.OnGlobalPropertyCommitted035");
                 break;
             case "shell.lang" when value is not null:
-                var culture = Cultures.FirstOrDefault(c => c.Name == value);
+                var culture = Cultures.FirstOrDefault(c => c.DisplayName == value);
                 if (culture is not null)
                 {
                     SelectedCulture = culture;
@@ -714,8 +738,9 @@ public partial class MainViewModel : ReactiveObject
             item.RefreshSummary();
         }
 
+        Sync(_densityItem, DensityLabel);
         Sync(_paletteItem, SelectedPalette.Title);
         Sync(_modeItem, IsDarkMode ? L.Instance.GetResource("Demo.Text.MainViewModel.SyncGlobalItems036") : L.Instance.GetResource("Demo.Text.MainViewModel.SyncGlobalItems037"));
-        Sync(_langItem, SelectedCulture.Name);
+        Sync(_langItem, SelectedCulture.DisplayName);
     }
 }

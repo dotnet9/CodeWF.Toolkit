@@ -62,6 +62,15 @@ public partial class MainViewModel
         await Task.Delay(250);
         window.UpdateLayout();
         Save("compact-window");
+        window.Width = 1440;
+        window.Height = 860;
+        foreach (var key in new[] { DemoKeys.ItemBusIntegrations, DemoKeys.ItemNetPacket, DemoKeys.ItemFilesFormat, DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
+        {
+            overview.Overview.NavigateCommand.Execute(key);
+            await Task.Delay(500);
+            window.UpdateLayout();
+            Save(key.Split('.').Last());
+        }
 
         void Save(string name)
         {
@@ -87,6 +96,10 @@ public partial class MainViewModel
             }
             var overview = (Views.Pages.WelcomePage)Documents.First(d => d.Page is Views.Pages.WelcomePage).Page;
             var vm = overview.Overview;
+            var registration = new BusRegistrationViewModel();
+            if (!registration.RunPrism()) throw new InvalidOperationException(registration.PrismOutput);
+            if (!registration.RunAspNetCore()) throw new InvalidOperationException(registration.AspNetOutput);
+            Logger.Info("Integration smoke: Prism and ASP.NET Core registration, scanning and scoped queries passed");
             await vm.PublishAsync();
             if (vm.ReceivedCount != 1) throw new InvalidOperationException("No subscriber delivery");
             vm.ToggleSubscription();
@@ -112,7 +125,16 @@ public partial class MainViewModel
                 if (zip.Entries.Count != 2) throw new InvalidOperationException("ZIP artifact entries");
             }
             if (new FileInfo(Path.Combine(output, "qr.png")).Length == 0) throw new InvalidOperationException("Empty QR artifact");
-            foreach (var key in new[] { DemoKeys.ItemCore, DemoKeys.ItemBus, DemoKeys.ItemFilesFormat, DemoKeys.ItemImageQr, DemoKeys.ItemLogCore, DemoKeys.ItemNetPacket })
+            var student = new Views.Pages.Student { Name = "0001", Age = -42, City = "false" };
+            if (!global::CodeWF.Toolkit.Files.Extensions.YamlExtensions.ToYaml(student, OverviewJsonContext.Default.Student, out var yaml, out var yamlError)
+                || !global::CodeWF.Toolkit.Files.Extensions.YamlExtensions.FromYaml(yaml, OverviewJsonContext.Default.Student, out var restoredStudent, out yamlError)
+                || restoredStudent?.Name != student.Name || restoredStudent.City != student.City || restoredStudent.Age != student.Age)
+                throw new InvalidOperationException("Generated YAML round-trip failed: " + yamlError);
+            await global::CodeWF.Toolkit.Image.ImageHelper.MergeGenerateIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "logo.png"), Path.Combine(output, "sample.ico"), [16, 32]);
+            if (new FileInfo(Path.Combine(output, "sample.ico")).Length <= 6) throw new InvalidOperationException("Empty ICO artifact");
+            await SmokeLocalTransportsAsync(cancellation);
+            Logger.Info("Artifact smoke: generated JSON/YAML metadata, quoted scalar types, ZIP, QR and ICO passed");
+            foreach (var key in new[] { DemoKeys.ItemBus, DemoKeys.ItemBusIntegrations, DemoKeys.ItemNetPacket, DemoKeys.ItemFilesFormat, DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
             {
                 overview.Overview.NavigateCommand.Execute(key);
                 if (ActiveDocument?.TitleKey != key) throw new InvalidOperationException("Overview navigation failed: " + key);
@@ -131,6 +153,7 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
+            Console.Error.WriteLine(ex);
             Logger.Error("Overview smoke failed", ex);
             return false;
         }

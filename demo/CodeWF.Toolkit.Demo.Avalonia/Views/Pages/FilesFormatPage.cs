@@ -74,7 +74,7 @@ public sealed class FilesFormatPage : DemoPageBase
 
     private void ToJson()
     {
-        if (!Sample.ToJson(out var json, out var error))
+        if (!Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out var error))
         {
             _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.ToJson024") + error;
             return;
@@ -86,7 +86,7 @@ public sealed class FilesFormatPage : DemoPageBase
 
     private void ToYaml()
     {
-        if (!Sample.ToYaml(out var yaml, out var error))
+        if (!Sample.ToYaml(OverviewJsonContext.Default.Student, out var yaml, out var error))
         {
             _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.ToYaml026") + error;
             return;
@@ -98,7 +98,7 @@ public sealed class FilesFormatPage : DemoPageBase
 
     private void Prettify()
     {
-        Sample.ToJson(out var json, out _);
+        Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out _);
         if (!json.JsonPrettify(2, sortKeys: true, out var pretty, out var error))
         {
             _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.Prettify028") + error;
@@ -111,7 +111,7 @@ public sealed class FilesFormatPage : DemoPageBase
 
     private void JsonToYaml()
     {
-        Sample.ToJson(out var json, out _);
+        Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out _);
         if (!json.JsonToYaml(out var yaml, out var error))
         {
             _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.JsonToYaml030") + error;
@@ -124,8 +124,8 @@ public sealed class FilesFormatPage : DemoPageBase
 
     private void FromJson()
     {
-        Sample.ToJson(out var json, out _);
-        if (!json.FromJson<Student>(out var student, out var error) || student is null)
+        Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out _);
+        if (!json.FromJson(OverviewJsonContext.Default.Student, out var student, out var error) || student is null)
         {
             _backward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.FromJson032") + error;
             return;
@@ -137,8 +137,8 @@ public sealed class FilesFormatPage : DemoPageBase
 
     private void FromYaml()
     {
-        Sample.ToYaml(out var yaml, out _);
-        if (!yaml.FromYaml<Student>(out var student, out var error) || student is null)
+        Sample.ToYaml(OverviewJsonContext.Default.Student, out var yaml, out _);
+        if (!yaml.FromYaml(OverviewJsonContext.Default.Student, out var student, out var error) || student is null)
         {
             _backward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.FromYaml034") + error;
             return;

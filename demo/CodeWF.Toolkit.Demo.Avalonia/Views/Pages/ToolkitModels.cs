@@ -44,6 +44,7 @@ public sealed class TimeQuery : Query<DateTime>
 }
 
 /// <summary>[EventHandler] 扫描式处理器（随程序集扫描注册）。</summary>
+[Event]
 public sealed class TimeQueryHandler
 {
     [EventHandler]

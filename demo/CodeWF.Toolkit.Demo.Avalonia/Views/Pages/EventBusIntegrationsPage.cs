@@ -1,6 +1,7 @@
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
+using ReactiveUI;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 using CodeWF.Toolkit.EventBus.Socket;
@@ -35,6 +36,15 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
 
     public EventBusIntegrationsPage()
     {
+        var registration = new BusRegistrationViewModel();
+        var prismOutput = Ui.Code(string.Empty, output: true);
+        prismOutput.Bind(SelectableTextBlock.TextProperty, registration.WhenAnyValue(model => model.PrismOutput));
+        var aspNetOutput = Ui.Code(string.Empty, output: true);
+        aspNetOutput.Bind(SelectableTextBlock.TextProperty, registration.WhenAnyValue(model => model.AspNetOutput));
+        var prismButton = new Button { Command = registration.PrismCommand };
+        prismButton.Bind(ContentControl.ContentProperty, new global::CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension("Demo.Studio.IntegrationRun").CreateBinding());
+        var aspNetButton = new Button { Command = registration.AspNetCommand };
+        aspNetButton.Bind(ContentControl.ContentProperty, new global::CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension("Demo.Studio.IntegrationRun").CreateBinding());
         _host = Ui.Input("127.0.0.1");
         _port = Ui.Input("39561");
         _heartbeat = Ui.Input("10");
@@ -75,6 +85,7 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
 
         var prism = Ui.Card("Prism",
             Ui.Code("@Demo.Text.EventBusIntegrationsPage.prism021"),
+            prismButton, prismOutput,
             Ui.Hint("@Demo.Text.EventBusIntegrationsPage.prism022"));
 
         var aspnet = Ui.Card("ASP.NET Core",
@@ -82,6 +93,7 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
                 builder.Services.AddEventBus(assemblies);
                 app.UseEventBus();
                 """),
+            aspNetButton, aspNetOutput,
             Ui.Hint("@Demo.Text.EventBusIntegrationsPage.aspnet023"));
 
         Content = Ui.Page(

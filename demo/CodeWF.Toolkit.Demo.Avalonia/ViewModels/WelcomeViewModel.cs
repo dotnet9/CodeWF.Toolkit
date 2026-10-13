@@ -74,7 +74,7 @@ public sealed class WelcomeViewModel : ReactiveObject
     public ICommand EncodeCommand { get; }
     public ICommand PipelineCommand { get; }
     public ICommand OpenOutputCommand { get; }
-    public string InstallCommand => "dotnet add package CodeWF.Toolkit.Core";
+    public string InstallCommand => "dotnet add package CodeWF.Toolkit.EventBus";
     public string CopyStatus { get => _copyStatus; set => this.RaiseAndSetIfChanged(ref _copyStatus, value); }
     public int LabIndex { get => _labIndex; set => this.RaiseAndSetIfChanged(ref _labIndex, value); }
     public string Message { get => _message; set => this.RaiseAndSetIfChanged(ref _message, value); }

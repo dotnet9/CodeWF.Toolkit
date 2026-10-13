@@ -145,8 +145,8 @@
       }
     },
     "Studio": {
-      "Lab": "交互实验台",
-      "Explore": "探索全部能力",
+      "Lab": "动手试一试",
+      "Explore": "从能力出发",
       "QuickStart": "从一行命令开始",
       "Copy": "复制命令",
       "Copied": "已复制",
@@ -178,7 +178,7 @@
       "Output": "打开产物目录",
       "PipelineHint": "真实执行 JSON → YAML → ZIP → 二维码，产物写入独立临时目录。",
       "Tagline": "把基础设施串成可运行的工作流。",
-      "Intro": "核心扩展、事件总线、文件、图像、日志与网络。从消息到产物，在同一个原生工作区里验证。",
+      "Intro": "无 UI 依赖的 .NET 基础设施库。把消息、协议、文件与日志串起来，在交互中理解每个包的作用。",
       "BusReady": "EventBus 就绪 · 1 个订阅者",
       "Delivery": "GreetCommand → {0}\n订阅者 #{1} · {2:HH:mm:ss.fff}",
       "Subscribed": "● GreetCommand · 已订阅",
@@ -186,7 +186,46 @@
       "NoDelivery": "GreetCommand → {0}\n0 个订阅者 · 未投递",
       "Int32Range": "Int32: -2147483648 … 2147483647",
       "ByteResult": "{0}\n{1} 字节 · 小端序 · {2} → {3}",
-      "PackageCount": "11 个包"
+      "PackageCount": "11 个包",
+      "HeroLead": "让底层能力，",
+      "HeroAccent": "看得见，跑得通。",
+      "PageCount": "16 个交互页面",
+      "SortName": "名称",
+      "SortModule": "模块",
+      "SortStatus": "状态",
+      "SortReady": "就绪",
+      "DensityDescription": "同时调整工具栏与导航的显示密度。",
+      "IntegrationRun": "验证注册与查询",
+      "Capability0": {
+        "Title": "事件驱动",
+        "Description": "Pub/Sub、Command / Query、特性扫描注册。",
+        "Packages": "EventBus · Prism · AspNetCore"
+      },
+      "Capability1": {
+        "Title": "跨进程消息",
+        "Description": "TCP 总线、心跳重连与离线消息补发。",
+        "Packages": "EventBus.Socket"
+      },
+      "Capability2": {
+        "Title": "二进制协议",
+        "Description": "字段布局声明、序列化与 TCP / UDP 收发。",
+        "Packages": "NetWeaver · NetWrapper"
+      },
+      "Capability3": {
+        "Title": "文件与数据",
+        "Description": "JSON / YAML / CSV / Excel 读写、7z 归档。",
+        "Packages": "Files"
+      },
+      "Capability4": {
+        "Title": "图像工具链",
+        "Description": "缩放、水印、格式转换、ICO 与二维码。",
+        "Packages": "Image"
+      },
+      "Capability5": {
+        "Title": "运行期观测",
+        "Description": "文件轮转、UI 日志流、MEL 桥接与核心工具。",
+        "Packages": "Logging · Microsoft · Core"
+      }
     },
     "Text": {
       "EventBusPage": {
@@ -511,8 +550,8 @@
         "Content024": "总线集成形态",
         "Content008": "停止",
         "socket015": "客户端",
-        "prism021": "containerRegistry.RegisterEventBus(assemblies);\n// 或在 PrismApplication 中\nContainer.UseEventBus();",
-        "CSharpSnippet002": "// Prism（桌面）\ncontainerRegistry.RegisterEventBus(assemblies);   // 或 Container.UseEventBus();\n// ASP.NET Core\nbuilder.Services.AddEventBus(assemblies); app.UseEventBus();\n// 通用 IOC\nservices.AddEventBus(addSingleton, addScoped, assemblies); Container.UseEventBus(resolve, assemblies);\n\n// Socket 分布式总线：跨进程 / 跨机\nvar server = new EventServer();\nserver.Start(\"127.0.0.1\", 39561);\n\nvar client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\n\nclient.Subscribe<string>(\"demo.greeting\", msg => Console.WriteLine(msg));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\n\nvar (result, error2) = await client.QueryAsync<Ping, Pong>(new Ping { Value = 1 });\nclient.Disconnect();\nserver.Stop();",
+        "prism021": "using CodeWF.Toolkit.EventBus.Prism;\n\ncontainerRegistry.AddEventBus(assemblies);\ncontainer.UseEventBus(assemblies);",
+        "CSharpSnippet002": "using PrismBus = CodeWF.Toolkit.EventBus.Prism.EventBusExtensions;\nusing AspNetBus = CodeWF.Toolkit.EventBus.AspNetCore.EventBusExtensions;\n\nPrismBus.AddEventBus(containerRegistry, assemblies);\nPrismBus.UseEventBus(container, assemblies);\nAspNetBus.AddEventBus(builder.Services, assemblies);\nAspNetBus.UseEventBus(app, assemblies);\n\nusing var server = new EventServer();\nawait server.StartAsync(\"127.0.0.1\", 39561);\nusing var client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\nclient.Subscribe<string>(\"demo.greeting\", message => Console.WriteLine(message));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\nclient.Disconnect();\nserver.Stop();",
         "StartAsync038": "● 连接失败",
         "StartAsync039": "EventClient.ConnectAsync → 已连接 {0}:{1}",
         "socket018": "主题",

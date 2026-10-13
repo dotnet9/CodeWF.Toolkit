@@ -145,8 +145,8 @@
       }
     },
     "Studio": {
-      "Lab": "INTERACTIVE LAB",
-      "Explore": "EXPLORE CAPABILITIES",
+      "Lab": "Try it live",
+      "Explore": "Explore the capabilities",
       "QuickStart": "Start with one command",
       "Copy": "Copy command",
       "Copied": "Copied",
@@ -178,7 +178,7 @@
       "Output": "Open output folder",
       "PipelineHint": "Runs JSON → YAML → ZIP → QR code, writing to an isolated temporary directory.",
       "Tagline": "Infrastructure connected into working flows.",
-      "Intro": "Core, events, files, images, logging, and networking. Trace messages and generate real artifacts in one native workspace.",
+      "Intro": "UI-independent .NET infrastructure. Explore messaging, binary protocols, files and logging through hands-on demos.",
       "BusReady": "EventBus ready · 1 subscriber",
       "Delivery": "GreetCommand → {0}\nSubscriber #{1} · {2:HH:mm:ss.fff}",
       "Subscribed": "● GreetCommand · subscribed",
@@ -186,7 +186,46 @@
       "NoDelivery": "GreetCommand → {0}\n0 subscribers · no delivery",
       "Int32Range": "Int32: -2147483648 … 2147483647",
       "ByteResult": "{0}\n{1} bytes · little endian · {2} → {3}",
-      "PackageCount": "11 PACKAGES"
+      "PackageCount": "11 PACKAGES",
+      "HeroLead": "Make infrastructure",
+      "HeroAccent": "visible. Make it flow.",
+      "PageCount": "16 DEMO PAGES",
+      "SortName": "Name",
+      "SortModule": "Module",
+      "SortStatus": "Status",
+      "SortReady": "Ready",
+      "DensityDescription": "Adjust the toolbar and navigation density together.",
+      "IntegrationRun": "Verify registration and query",
+      "Capability0": {
+        "Title": "Event-driven apps",
+        "Description": "Pub/Sub, command / query and attribute-based registration.",
+        "Packages": "EventBus · Prism · AspNetCore"
+      },
+      "Capability1": {
+        "Title": "Distributed messaging",
+        "Description": "TCP messaging, heartbeats, reconnection and offline delivery.",
+        "Packages": "EventBus.Socket"
+      },
+      "Capability2": {
+        "Title": "Binary protocols",
+        "Description": "Field layouts, serialization and TCP / UDP transport.",
+        "Packages": "NetWeaver · NetWrapper"
+      },
+      "Capability3": {
+        "Title": "Files & data",
+        "Description": "JSON / YAML / CSV / Excel conversion and 7z archives.",
+        "Packages": "Files"
+      },
+      "Capability4": {
+        "Title": "Image toolchain",
+        "Description": "Resize, watermark, convert, create ICO and QR codes.",
+        "Packages": "Image"
+      },
+      "Capability5": {
+        "Title": "Runtime observability",
+        "Description": "File rotation, live UI logs, MEL integration and core tools.",
+        "Packages": "Logging · Microsoft · Core"
+      }
     },
     "Text": {
       "EventBusPage": {
@@ -511,8 +550,8 @@
         "Content024": "Bus integrations",
         "Content008": "Stop",
         "socket015": "Client",
-        "prism021": "containerRegistry.RegisterEventBus(assemblies);\n// Or in PrismApplication\nContainer.UseEventBus();",
-        "CSharpSnippet002": "containerRegistry.RegisterEventBus(assemblies);\n// ASP.NET Core\nbuilder.Services.AddEventBus(assemblies); app.UseEventBus();\nservices.AddEventBus(addSingleton, addScoped, assemblies); Container.UseEventBus(resolve, assemblies);\n\nvar server = new EventServer();\nserver.Start(\"127.0.0.1\", 39561);\n\nvar client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\n\nclient.Subscribe<string>(\"demo.greeting\", msg => Console.WriteLine(msg));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\n\nvar (result, error2) = await client.QueryAsync<Ping, Pong>(new Ping { Value = 1 });\nclient.Disconnect();\nserver.Stop();",
+        "prism021": "using CodeWF.Toolkit.EventBus.Prism;\n\ncontainerRegistry.AddEventBus(assemblies);\ncontainer.UseEventBus(assemblies);",
+        "CSharpSnippet002": "using PrismBus = CodeWF.Toolkit.EventBus.Prism.EventBusExtensions;\nusing AspNetBus = CodeWF.Toolkit.EventBus.AspNetCore.EventBusExtensions;\n\nPrismBus.AddEventBus(containerRegistry, assemblies);\nPrismBus.UseEventBus(container, assemblies);\nAspNetBus.AddEventBus(builder.Services, assemblies);\nAspNetBus.UseEventBus(app, assemblies);\n\nusing var server = new EventServer();\nawait server.StartAsync(\"127.0.0.1\", 39561);\nusing var client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\nclient.Subscribe<string>(\"demo.greeting\", message => Console.WriteLine(message));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\nclient.Disconnect();\nserver.Stop();",
         "StartAsync038": "● Connection failed",
         "StartAsync039": "EventClient.ConnectAsync → connected to {0}:{1}",
         "socket018": "Topic",
