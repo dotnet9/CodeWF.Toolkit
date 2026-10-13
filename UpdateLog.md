@@ -1,5 +1,10 @@
 # 更新日志
 
+## 1.0.0.4 (2026-10-13)
+
+- 🔨[优化]-升级 CodeWF.Avalonia 依赖到 12.1.4.5：该版本修掉主题令牌在渲染期解析失败的缺陷（Light / Dark 变体字典以 `StaticResource` 别名引用 `SemiColor*`、`WindowDefaultBackground` 时看不到应用级 Semi 令牌，高对比色板又缺这组令牌），导引、文档流程等页面不再在测量排布时抛异常。
+- 🧪[验证]-演示台冒烟升级为逐页面 × 逐色板渲染：16 页 × 7 变体 = 112 次，失败 0；CI 的 Avalonia 演示台 AOT 冒烟不再 `continue-on-error`。
+
 ## 1.0.0.3 (2026-10-13)
 
 - 🚀[发布]-全平台安装包：推送 v* 标签即由 GitHub Actions 产出 5 个 RID 的 NativeAOT 产物，Windows 出 Inno Setup 安装向导与便携 zip，Linux 出 deb，macOS 出 dmg，均附 sha256；本地同款脚本在 scripts/ 下（publish_toolkit_demo.ps1、package_linux_deb.ps1、package_macos.sh、package_demo_artifacts.ps1、CodeWF.Toolkit.Demo.iss）。

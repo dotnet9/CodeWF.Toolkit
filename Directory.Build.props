@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- 版本：以我们自己的节奏推进，4 段版本，第 4 位为修订；发布前打 v* tag -->
-    <Version>1.0.0.3</Version>
+    <Version>1.0.0.4</Version>
     <Authors>沙漠尽头的狼</Authors>
     <Company>https://codewf.com</Company>
     <Copyright>Copyright © https://codewf.com</Copyright>
