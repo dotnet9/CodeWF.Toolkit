@@ -78,7 +78,7 @@ public partial class TcpSocketServer
     {
         if (IsRunning || Server != null)
         {
-            await StopAsync();
+            await StopAsync().ConfigureAwait(false);
         }
 
         ServerMark = serverMark;
@@ -99,11 +99,12 @@ public partial class TcpSocketServer
             _listenTokenSource = new CancellationTokenSource();
             var requestChannels = ResetRequestChannels();
 
-            _listenTask = ListenForClientsAsync(_listenTokenSource, requestChannels);
+            var listenCancellation = _listenTokenSource;
+            _listenTask = Task.Run(() => ListenForClientsAsync(listenCancellation, requestChannels));
             _processingTasks = requestChannels
-                .Select(requestChannel => ProcessingRequestsAsync(requestChannel.Reader))
+                .Select(requestChannel => Task.Run(() => ProcessingRequestsAsync(requestChannel.Reader)))
                 .ToArray();
-            _detectionTask = DetectionClientsAsync(_listenTokenSource);
+            _detectionTask = Task.Run(() => DetectionClientsAsync(listenCancellation));
 
             return (IsSuccess: true, ErrorMessage: null);
         }
@@ -128,7 +129,7 @@ public partial class TcpSocketServer
             var clientKeys = Clients.Keys.ToList();
             foreach (var clientKey in clientKeys)
             {
-                await RemoveClientAsync(clientKey);
+                await RemoveClientAsync(clientKey).ConfigureAwait(false);
             }
         }
 
@@ -148,7 +149,7 @@ public partial class TcpSocketServer
 
         backgroundTasks.AddRange(_processingTasks);
         backgroundTasks.AddRange(_clientTasks.Values);
-        await IgnoreBackgroundTasksAsync(backgroundTasks);
+        await IgnoreBackgroundTasksAsync(backgroundTasks).ConfigureAwait(false);
         _clientTasks.Clear();
         _listenTask = null;
         _processingTasks = [];
@@ -237,7 +238,7 @@ public partial class TcpSocketServer
     /// <param name="tcpClient">客户端 Socket 对象</param>
     private async Task RemoveClientAsync(Socket tcpClient)
     {
-        await RemoveClientAsync(tcpClient.RemoteEndPoint!.ToString()!);
+        await RemoveClientAsync(tcpClient.RemoteEndPoint!.ToString()!).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -256,7 +257,7 @@ public partial class TcpSocketServer
 
         Clients.TryRemove(key, out _);
 
-        await EventBus.EventBus.Default.PublishAsync(new SocketClientChangedCommand(this));
+        await EventBus.EventBus.Default.PublishAsync(new SocketClientChangedCommand(this)).ConfigureAwait(false);
         Logger.Warn($"{ServerMark} 已清除客户端信息{key}");
     }
 
@@ -452,7 +453,7 @@ public partial class TcpSocketServer
     {
         try
         {
-            await Task.WhenAll(tasks.Distinct());
+            await Task.WhenAll(tasks.Distinct()).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {

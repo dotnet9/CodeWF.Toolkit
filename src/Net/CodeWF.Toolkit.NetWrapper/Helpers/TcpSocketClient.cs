@@ -72,7 +72,7 @@ public partial class TcpSocketClient
     {
         if (IsRunning || _client != null)
         {
-            await StopAsync();
+            await StopAsync().ConfigureAwait(false);
         }
 
         ServerMark = serverMark;
@@ -85,13 +85,13 @@ public partial class TcpSocketClient
 
             var ipEndPoint = new IPEndPoint(IPAddress.Parse(ServerIP), ServerPort);
             _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            await _client.ConnectAsync(ipEndPoint);
+            await _client.ConnectAsync(ipEndPoint).ConfigureAwait(false);
 
             IsRunning = true;
             Logger.Info($"{ServerMark} 连接成功，服务地址是： {ServerIP}:{ServerPort}，当前客户端地址：{_client.LocalEndPoint}");
 
-            _listenTask = ListenForServerAsync(responses.Writer);
-            _responseTask = CheckResponseAsync(responses.Reader);
+            _listenTask = Task.Run(() => ListenForServerAsync(responses.Writer));
+            _responseTask = Task.Run(() => CheckResponseAsync(responses.Reader));
 
             LocalEndPoint = _client.LocalEndPoint?.ToString();
             return (IsSuccess: true, ErrorMessage: null);
@@ -133,12 +133,12 @@ public partial class TcpSocketClient
 
         if (listenTask != null)
         {
-            await IgnoreBackgroundTaskAsync(listenTask);
+            await IgnoreBackgroundTaskAsync(listenTask).ConfigureAwait(false);
         }
 
         if (responseTask != null)
         {
-            await IgnoreBackgroundTaskAsync(responseTask);
+            await IgnoreBackgroundTaskAsync(responseTask).ConfigureAwait(false);
         }
     }
 
@@ -303,7 +303,7 @@ public partial class TcpSocketClient
     {
         try
         {
-            await task;
+            await task.ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
