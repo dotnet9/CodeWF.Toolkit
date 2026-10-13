@@ -28,6 +28,31 @@
      <TextBlock Text="MIT LICENSE" Classes="studio-muted" />
     </WrapPanel>
    </Border>
+   <StackPanel Spacing="8">
+    <TextBlock Text="{codewf:I18n Demo.Catalog.Title}" FontSize="18" FontWeight="SemiBold" />
+    <TextBlock Text="{codewf:I18n Demo.Catalog.Intro}" Classes="studio-muted" />
+    <ItemsControl ItemsSource="{Binding CatalogGroups}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate x:DataType="vm:DemoGroupViewModel">
+       <Border Classes="studio-card" Margin="0,4" Padding="14,10">
+        <StackPanel Spacing="8">
+         <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Foreground="{DynamicResource StudioAccent}" />
+         <ItemsControl ItemsSource="{Binding Items}">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+           <DataTemplate x:DataType="vm:DemoItemViewModel">
+            <Button Content="{Binding Title}" Command="{Binding $parent[UserControl].((vm:WelcomeViewModel)DataContext).NavigateCommand}" CommandParameter="{Binding TitleKey}" Margin="0,0,6,6" Padding="10,5" />
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Border>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+   </StackPanel>
+   <Expander Header="{codewf:I18n Demo.Catalog.Examples}" IsExpanded="{Binding ExperimentsExpanded}">
+    <StackPanel Spacing="16">
    <Border Classes="studio-card">
     <StackPanel Spacing="10">
      <TextBlock Text="{codewf:I18n Demo.Studio.Lab}" Classes="studio-kicker" />
@@ -71,7 +96,7 @@
       <TextBlock Text="{codewf:I18n Demo.Studio.Capability0.Packages}" Classes="studio-package" />
      </StackPanel>
     </Button>
-    <Button Grid.Row="0" Grid.Column="1" Classes="studio-capability" Margin="4" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.BusIntegrations">
+    <Button Grid.Row="0" Grid.Column="1" Classes="studio-capability" Margin="4" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.EventClient">
      <StackPanel Spacing="7">
       <Grid ColumnDefinitions="*,Auto"><TextBlock Text="↔" FontSize="22" Foreground="{DynamicResource StudioAccent}" /><TextBlock Grid.Column="1" Text="↗" Classes="studio-muted" /></Grid>
       <TextBlock Text="{codewf:I18n Demo.Studio.Capability1.Title}" FontWeight="SemiBold" FontSize="14" TextWrapping="Wrap" />
@@ -87,7 +112,7 @@
       <TextBlock Text="{codewf:I18n Demo.Studio.Capability2.Packages}" Classes="studio-package" />
      </StackPanel>
     </Button>
-    <Button Grid.Row="1" Grid.Column="0" Classes="studio-capability" Margin="4" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.FilesFormat">
+    <Button Grid.Row="1" Grid.Column="0" Classes="studio-capability" Margin="4" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.JsonExtensions">
      <StackPanel Spacing="7">
       <Grid ColumnDefinitions="*,Auto"><TextBlock Text="▤" FontSize="22" Foreground="{DynamicResource StudioAccent}" /><TextBlock Grid.Column="1" Text="↗" Classes="studio-muted" /></Grid>
       <TextBlock Text="{codewf:I18n Demo.Studio.Capability3.Title}" FontWeight="SemiBold" FontSize="14" TextWrapping="Wrap" />
@@ -118,6 +143,8 @@
      <Button Grid.Column="1" Content="{codewf:I18n Demo.Studio.Copy}" Command="{Binding CopyInstallCommand}" Margin="12,0,0,0" VerticalAlignment="Center" />
     </Grid>
    </Border>
+    </StackPanel>
+   </Expander>
   </StackPanel>
  </ScrollViewer>
 </UserControl>

@@ -61,25 +61,71 @@
       "Core": "Lib · Core",
       "Bus": "Lib · Comm",
       "Files": "Lib · Data",
-      "Logging": "Lib · Logging"
+      "Logging": "Logging & Diagnostics",
+      "Extensions": "Core Extensions",
+      "System": "System & Files",
+      "Data": "Data & Images",
+      "Events": "Events & Integration",
+      "Network": "Protocol & Network",
+      "Examples": "Examples"
     },
     "Item": {
-      "Welcome": "Welcome",
-      "RuntimeFlow": "Runtime Flow",
-      "LabFlow": "Lab Flow",
+      "Welcome": "Introduction",
+      "RuntimeFlow": "Runtime workflow",
+      "LabFlow": "File workflow",
       "Core": "Core Kit",
-      "Bus": "Event Bus",
+      "Bus": "EventBus",
       "BusIntegrations": "Integrations",
       "FilesFormat": "Formats",
       "FilesArchive": "Archive",
       "FilesIndex": "Data Index",
-      "ImageIcon": "Icons",
-      "ImageQr": "QR Code",
-      "LogCore": "Log Core",
-      "LogMicrosoft": "MEL Bridge",
+      "ImageIcon": "ImageHelper",
+      "ImageQr": "QrCodeGenerator",
+      "LogCore": "Logger",
+      "LogMicrosoft": "CodeWFLoggingBuilderExtensions",
       "LoggingOptions": "Log Options",
-      "NetPacket": "Serialization",
-      "NetSocket": "Networking"
+      "NetPacket": "SerializeHelper",
+      "NetSocket": "Networking",
+      "About": "About",
+      "StringExtensions": "StringExtensions",
+      "RegexExtensions": "RegexExtensions",
+      "DoubleExtensions": "DoubleExtensions",
+      "NumberExtension": "NumberExtension",
+      "DateTimeExtension": "DateTimeExtension",
+      "TimeSpanExtensions": "TimeSpanExtensions",
+      "RandomExtension": "RandomExtension",
+      "IConvertibleExtensions": "IConvertibleExtensions",
+      "ObjectExtension": "ObjectExtension",
+      "LinqExtension": "LinqExtension",
+      "EnumExtension": "EnumExtension",
+      "AssemblyExtensions": "AssemblyExtensions",
+      "ValidationExtension": "ValidationExtension",
+      "DateTimeConverter": "DateTimeConverter",
+      "ActionHelper": "ActionHelper",
+      "IpHelper": "IpHelper",
+      "NativeLibraryHelper": "NativeLibraryHelper",
+      "FileHelper": "FileHelper",
+      "AppDataMigrator": "AppDataMigrator",
+      "UpdateChecker": "UpdateChecker",
+      "FileExtension": "FileExtension",
+      "SevenZipCompressor": "SevenZipCompressor",
+      "AppConfigHelper": "AppConfigHelper",
+      "JsonExtensions": "JsonExtensions",
+      "YamlExtensions": "YamlExtensions",
+      "DataTableExtensions": "DataTableExtensions",
+      "PrismExtensions": "Prism.EventBusExtensions",
+      "AspNetCoreExtensions": "AspNetCore.EventBusExtensions",
+      "EventServer": "EventServer",
+      "EventClient": "EventClient",
+      "TcpSocketServer": "TcpSocketServer",
+      "TcpSocketClient": "TcpSocketClient",
+      "UdpSocketServer": "UdpSocketServer",
+      "UdpSocketClient": "UdpSocketClient",
+      "NetHelper": "NetHelper",
+      "TcpSocketClientFileSystemFeature": "TcpSocketClientFileSystemFeature",
+      "TcpSocketServerFileSystemFeature": "TcpSocketServerFileSystemFeature",
+      "LogEventFeed": "LogEventFeed",
+      "CodeWFLogHealth": "CodeWFLogHealth"
     },
     "Scene": {
       "Step.Server": "Start server",
@@ -96,7 +142,7 @@
     },
     "Page": {
       "Welcome": {
-        "Desc": "CodeWF.Toolkit showcase: scenario-first — two complete workflows (runtime console / lab) plus four capability-library sections, all driving the real APIs of this repository."
+        "Desc": "Browse APIs by function, with one primary menu entry per helper class. Composite examples are in the final group; source is optional, with property and log feedback."
       },
       "RuntimeFlow": {
         "Desc": "Start server → connect → publish → query → observe logs: the event bus and logging chained into one continuous workflow, each step reusing the same capability pages."
@@ -189,7 +235,7 @@
       "PackageCount": "11 PACKAGES",
       "HeroLead": "Make infrastructure",
       "HeroAccent": "visible. Make it flow.",
-      "PageCount": "16 DEMO PAGES",
+      "PageCount": "49 demo pages",
       "SortName": "Name",
       "SortModule": "Module",
       "SortStatus": "Status",
@@ -893,6 +939,162 @@
       "DemoBootstrapper": {
         "Initialize001": "CodeWF.Toolkit started. Log directory: "
       }
+    },
+    "Api": {
+      "StringExtensions": {
+        "Desc": "Split and join strings with empty-entry handling."
+      },
+      "RegexExtensions": {
+        "Desc": "Convert wildcard patterns to regular expressions and match input text."
+      },
+      "DoubleExtensions": {
+        "Desc": "Format byte counts as readable sizes."
+      },
+      "NumberExtension": {
+        "Desc": "Convert numbers to Chinese numerals and monetary text."
+      },
+      "DateTimeExtension": {
+        "Desc": "Convert dates to Unix timestamps in seconds and milliseconds."
+      },
+      "TimeSpanExtensions": {
+        "Desc": "Format millisecond values as durations."
+      },
+      "RandomExtension": {
+        "Desc": "Generate random integers in a specified range."
+      },
+      "IConvertibleExtensions": {
+        "Desc": "Convert values and detect numeric types."
+      },
+      "ObjectExtension": {
+        "Desc": "Detect null or empty values and primitive types."
+      },
+      "LinqExtension": {
+        "Desc": "Combine predicate expressions and run queries with interpreted expressions."
+      },
+      "EnumExtension": {
+        "Desc": "Read a dictionary of enum values and names."
+      },
+      "AssemblyExtensions": {
+        "Desc": "Read assembly title, version and company metadata."
+      },
+      "ValidationExtension": {
+        "Desc": "Validate an object with data annotations and inspect validation errors."
+      },
+      "DateTimeConverter": {
+        "Desc": "Recognize ISO 8601 dates and convert Excel date values."
+      },
+      "ActionHelper": {
+        "Desc": "Run an action with timeout checking."
+      },
+      "IpHelper": {
+        "Desc": "Parse IP addresses and ports and list local IPv4 addresses."
+      },
+      "NativeLibraryHelper": {
+        "Desc": "Load kernel32 on Windows and resolve an exported function address."
+      },
+      "FileHelper": {
+        "Desc": "Write and read text in an isolated temporary directory."
+      },
+      "AppDataMigrator": {
+        "Desc": "Resolve application configuration paths with a portable-mode marker."
+      },
+      "UpdateChecker": {
+        "Desc": "Query GitHub releases on demand and compare the current version."
+      },
+      "FileExtension": {
+        "Desc": "Check whether a path is within the upper two levels of the current directory."
+      },
+      "SevenZipCompressor": {
+        "Desc": "Create and extract a ZIP archive and read the restored file."
+      },
+      "AppConfigHelper": {
+        "Desc": "Write and read a configuration entry to verify a round trip."
+      },
+      "JsonExtensions": {
+        "Desc": "Serialize JSON with generated metadata and restore the object."
+      },
+      "YamlExtensions": {
+        "Desc": "Serialize YAML with generated metadata and restore the object."
+      },
+      "DataTableExtensions": {
+        "Desc": "Export a DataTable to CSV, then import it and inspect the row count."
+      },
+      "ImageIcon": {
+        "Desc": "Generate multi-size ICO icons from an image."
+      },
+      "ImageQr": {
+        "Desc": "Generate a QR code image from input text."
+      },
+      "Bus": {
+        "Desc": "Subscribe, publish and query messages and inspect handler results."
+      },
+      "PrismExtensions": {
+        "Desc": "Register and scan event-bus handlers through Prism and execute a query."
+      },
+      "AspNetCoreExtensions": {
+        "Desc": "Register event-bus handlers with ASP.NET Core DI and execute a query."
+      },
+      "EventServer": {
+        "Desc": "Start a local message broker and verify subscriptions and delivery with clients."
+      },
+      "EventClient": {
+        "Desc": "Connect to a local broker, subscribe and receive published messages."
+      },
+      "NetPacket": {
+        "Desc": "Serialize a packet and inspect encoded bytes and decoded fields."
+      },
+      "TcpSocketServer": {
+        "Desc": "Start a loopback TCP server and receive a packet from its client."
+      },
+      "TcpSocketClient": {
+        "Desc": "Connect to a loopback TCP server and send a packet."
+      },
+      "UdpSocketServer": {
+        "Desc": "Start a UDP multicast sender and verify packet delivery to a local subscriber."
+      },
+      "UdpSocketClient": {
+        "Desc": "Subscribe to UDP multicast and receive and decode a locally sent packet."
+      },
+      "NetHelper": {
+        "Desc": "Generate a task ID and inspect the special task marker."
+      },
+      "TcpSocketClientFileSystemFeature": {
+        "Desc": "Request a remote directory through loopback TCP and inspect the response."
+      },
+      "TcpSocketServerFileSystemFeature": {
+        "Desc": "Set an isolated file root and create the server filesystem feature."
+      },
+      "LogCore": {
+        "Desc": "Write logs at different levels and inspect the live log panel."
+      },
+      "LogMicrosoft": {
+        "Desc": "Connect Microsoft ILogger to CodeWF logging."
+      },
+      "LogEventFeed": {
+        "Desc": "Subscribe to the log event feed and inspect delivery after writing a log."
+      },
+      "CodeWFLogHealth": {
+        "Desc": "Read a logging health snapshot with queue and diagnostic status."
+      }
+    },
+    "Catalog": {
+      "Title": "Helper catalog",
+      "Intro": "Find demos by API name. Ribbon and explorer share the same catalog.",
+      "Examples": "Examples and experiments",
+      "Source": "View source",
+      "Input": "Input",
+      "Run": "Run example",
+      "Output": "Output",
+      "Ready": "Edit the input and run the example.",
+      "Failed": "Call failed: {0}",
+      "About": "About this project",
+      "AboutDesc": "An open source API gallery. Ribbon organizes APIs; Dock hosts demos, properties and logs.",
+      "Project": "Project and installation",
+      "License": "MIT license · .NET 10 · Avalonia 12",
+      "Notification": "A log notification presented by LogNotifications.",
+      "Notifications": "Send log notification",
+      "Preview": "Browser interaction preview; the .NET demo runs the complete API call.",
+      "WindowsOnly": "This helper currently supports Windows only."
     }
   }
 }

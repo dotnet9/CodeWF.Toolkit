@@ -23,6 +23,7 @@ public sealed class WelcomeViewModel : ReactiveObject
     private bool _hasPublished;
     private int _stage = -1;
     private int _labIndex;
+    private bool _experimentsExpanded;
     private string _message = "Hello, CodeWF!";
     private string _busOutput = L.Instance.GetResource("Demo.Studio.BusReady");
     private string _integerText = "42";
@@ -76,7 +77,11 @@ public sealed class WelcomeViewModel : ReactiveObject
     public ICommand OpenOutputCommand { get; }
     public string InstallCommand => "dotnet add package CodeWF.Toolkit.EventBus";
     public string CopyStatus { get => _copyStatus; set => this.RaiseAndSetIfChanged(ref _copyStatus, value); }
+    public bool ExperimentsExpanded { get => _experimentsExpanded; set => this.RaiseAndSetIfChanged(ref _experimentsExpanded, value); }
     public int LabIndex { get => _labIndex; set => this.RaiseAndSetIfChanged(ref _labIndex, value); }
+    public IReadOnlyList<DemoGroupViewModel> CatalogGroups { get; } = DemoCatalog.CreateGroups()
+        .Where(group => group.TitleKey is not "Demo.Group.Home" and not "Demo.Group.Examples").ToArray();
+
     public string Message { get => _message; set => this.RaiseAndSetIfChanged(ref _message, value); }
     public string BusOutput { get => _busOutput; private set => this.RaiseAndSetIfChanged(ref _busOutput, value); }
     public string IntegerText { get => _integerText; set => this.RaiseAndSetIfChanged(ref _integerText, value); }

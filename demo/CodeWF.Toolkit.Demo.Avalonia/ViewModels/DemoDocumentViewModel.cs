@@ -15,22 +15,32 @@ public enum DemoSegment
 }
 
 /// <summary>
-/// 打开的演示文档：头部带 ShowMeCode 三段切换（演示 / XAML / C#），
+/// 打开的演示文档：演示始终可见，源码按需展开（XAML / C#），
 /// 右侧 PropertyGrid 绑定 <see cref="Page"/> 的属性定义。
 /// </summary>
 public class DemoDocumentViewModel : ReactiveObject
 {
-    private DemoSegment _segment = DemoSegment.Demo;
+    private DemoSegment _segment = DemoSegment.CSharp;
 
     public DemoDocumentViewModel(DemoItemViewModel item, DemoPageBase page)
     {
         Item = item;
         Page = page;
+        _segment = string.IsNullOrWhiteSpace(page.CSharpCode) ? DemoSegment.Xaml : DemoSegment.CSharp;
         ValueCommittedCommand = ReactiveCommand.Create<PropertyValueChange>(change => Page.OnPropertyCommitted(change));
         BrowseRequestedCommand = ReactiveCommand.Create<PropertyItem>(_ => { });
 
         I18nManager.Instance.CultureChanged += OnCultureChanged;
     }
+
+    private bool _showSource;
+    public bool ShowSource { get => _showSource; set => this.RaiseAndSetIfChanged(ref _showSource, value); }
+    public string Api => Item.Api;
+    public string Package => Item.Package;
+    public bool HasXaml => !string.IsNullOrWhiteSpace(Page.XamlCode);
+    public bool HasCSharp => !string.IsNullOrWhiteSpace(Page.CSharpCode);
+    public bool HasSource => HasXaml || HasCSharp;
+    public bool HasApi => !string.IsNullOrEmpty(Api);
 
     public DemoItemViewModel Item { get; }
 
@@ -55,7 +65,7 @@ public class DemoDocumentViewModel : ReactiveObject
         this.RaisePropertyChanged(nameof(DisplayTitle));
         if (DockDocument is not null) DockDocument.Title = DisplayTitle;
     }
-    public string Description => I18nManager.Instance.GetResource(Page.DescriptionKey);
+    public string Description => I18nManager.Instance.GetResource(HasApi ? "Demo.Api." + TitleKey.Split('.').Last() + ".Desc" : Page.DescriptionKey);
 
     /// <summary>ShowMeCode 当前段。</summary>
     public DemoSegment Segment
@@ -84,13 +94,13 @@ public class DemoDocumentViewModel : ReactiveObject
     public bool IsXamlSegment
     {
         get => Segment == DemoSegment.Xaml;
-        set => Segment = DemoSegment.Xaml;
+        set { if (value) Segment = DemoSegment.Xaml; }
     }
 
     public bool IsCSharpSegment
     {
         get => Segment == DemoSegment.CSharp;
-        set => Segment = DemoSegment.CSharp;
+        set { if (value) Segment = DemoSegment.CSharp; }
     }
 
     /// <summary>ShowMeCode 的 XAML 片段。</summary>

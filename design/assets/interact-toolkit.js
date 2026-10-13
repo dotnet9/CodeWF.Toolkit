@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    CodeWF.Toolkit.Demo 原型 · 外壳与公共件
-   信息架构：场景优先（运行态工作台 / 能力实验室）+ 能力字典（3 个页签）
+   信息架构：具体 API 优先（运行态工作台 / 能力实验室）+ 能力字典（3 个页签）
    外壳：Ribbon（7 页签 / 双击折叠）+ Dock 工作区 + 属性面板 + 日志面板 + 状态栏
    页面注册：assets/tk-pages-workbench.js（场景页）、assets/tk-pages-dict.js（能力字典）
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -39,7 +39,7 @@ var I18N = {
   "toast.copied": "已复制到剪贴板", "toast.exported": "已完成",
   "density.cozy": "舒适", "density.compact": "紧凑", "theme.light": "浅色", "theme.dark": "深色",
   "g.prev": "上一步", "g.next": "下一步", "g.skip": "跳过", "g.close": "关闭",
-  "g.1.t": "欢迎使用 Toolkit 演示台", "g.1.d": "7 个页签：首页 + 2 个场景工作流（运行态工作台 / 能力实验室）+ 3 个能力字典分区；双击页签折叠命令区。",
+  "g.1.t": "欢迎使用 Toolkit 演示台", "g.1.d": "Ribbon 按帮助类功能分组；菜单项对应具体 API。综合示例位于最后一组。",
   "g.2.t": "导航树", "g.2.d": "与 Ribbon 同源；顶部可过滤页面，双击条目可就地重命名。",
   "g.3.t": "文档区与空态", "g.3.d": "所有演示以文档页签承载：无文档时是空态，打开瞬间显示骨架屏。",
   "g.4.t": "属性面板", "g.4.d": "当前文档的可调项；被改动过的行左侧出现色条并加粗。",
@@ -130,15 +130,13 @@ function confirmDlg(title, body, onYes, danger) {
 function closeDlg() { $("dlgm").classList.remove("on"); _dlgYes = null; }
 
 /* ═══ 目录：7 页签 / 16 页（2 个场景页 + 14 个能力字典页） ═══ */
-var CATALOG = [
- { id: "home", items: [{ id: "welcome" }] },
- { id: "runtime", items: [{ id: "flow-runtime" }, { id: "bus" }, { id: "log-core" }, { id: "log-microsoft" }] },
- { id: "lab", items: [{ id: "flow-lab" }, { id: "files-json" }, { id: "files-archive" }, { id: "image-icon" }, { id: "image-qr" }] },
- { id: "core", items: [{ id: "core" }] },
- { id: "bus", items: [{ id: "bus-integrations" }, { id: "net-packet" }, { id: "net-socket" }] },
- { id: "files", items: [{ id: "files-format" }] },
- { id: "logging", items: [{ id: "logging-options" }] }
-];
+var CATALOG = window.CodeWFDemoCatalog.map(function (group) {
+ return { id:group.id, icon:"◆", items:group.items.map(function (entry) { return {id:entry.prototypeId}; }) };
+});
+window.CodeWFDemoCatalog.forEach(function (group) {
+ I18N["zh-CN"]["tabs."+group.id]=group.titleZh;
+ I18N["en-US"]["tabs."+group.id]=group.titleEn;
+});
 /* 页面短名：中文 ≤ 4 字，保证 Ribbon 按钮与树条目都放得下 */
 var PAGE_NAME = {
  "welcome": "欢迎总览", "flow-runtime": "运行工作台", "flow-lab": "能力实验室",

@@ -37,15 +37,19 @@ public partial class MainViewModel
         }
         SelectedPalette = Palettes[0];
         IsDarkMode = true;
+        overview.Overview.ExperimentsExpanded = true;
         for (var tab = 1; tab <= 2; tab++)
         {
             overview.Overview.LabIndex = tab;
             if (tab == 2) await overview.Overview.RunPipelineAsync();
             await Task.Delay(350);
             window.UpdateLayout();
+            overview.GetVisualDescendants().OfType<Expander>().First().BringIntoView();
+            await Task.Delay(250);
             Save("lab-" + tab);
         }
         overview.Overview.LabIndex = 0;
+        overview.Overview.ExperimentsExpanded = false;
         var scroll = overview.GetVisualDescendants().OfType<ScrollViewer>().First();
         scroll.Offset = new Vector(0, scroll.Extent.Height);
         await Task.Delay(250);
@@ -64,10 +68,19 @@ public partial class MainViewModel
         Save("compact-window");
         window.Width = 1440;
         window.Height = 860;
-        foreach (var key in new[] { DemoKeys.ItemBusIntegrations, DemoKeys.ItemNetPacket, DemoKeys.ItemFilesFormat, DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
+        foreach (var key in new[] { "Demo.Item.EventClient", DemoKeys.ItemNetPacket, "Demo.Item.JsonExtensions", DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
         {
             overview.Overview.NavigateCommand.Execute(key);
             await Task.Delay(500);
+            window.UpdateLayout();
+            Save(key.Split('.').Last());
+        }
+
+        foreach (var key in new[] { "Demo.Item.JsonExtensions", "Demo.Item.YamlExtensions", "Demo.Item.PrismExtensions", "Demo.Item.FileHelper", "Demo.Item.EventClient" })
+        {
+            overview.Overview.NavigateCommand.Execute(key);
+            if (ActiveDocument?.Page is Views.Pages.HelperDemoPage helper) await helper.ViewModel.RunAsync();
+            await Task.Delay(250);
             window.UpdateLayout();
             Save(key.Split('.').Last());
         }
@@ -134,7 +147,7 @@ public partial class MainViewModel
             if (new FileInfo(Path.Combine(output, "sample.ico")).Length <= 6) throw new InvalidOperationException("Empty ICO artifact");
             await SmokeLocalTransportsAsync(cancellation);
             Logger.Info("Artifact smoke: generated JSON/YAML metadata, quoted scalar types, ZIP, QR and ICO passed");
-            foreach (var key in new[] { DemoKeys.ItemBus, DemoKeys.ItemBusIntegrations, DemoKeys.ItemNetPacket, DemoKeys.ItemFilesFormat, DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
+            foreach (var key in new[] { DemoKeys.ItemBus, "Demo.Item.EventClient", DemoKeys.ItemNetPacket, "Demo.Item.JsonExtensions", DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
             {
                 overview.Overview.NavigateCommand.Execute(key);
                 if (ActiveDocument?.TitleKey != key) throw new InvalidOperationException("Overview navigation failed: " + key);

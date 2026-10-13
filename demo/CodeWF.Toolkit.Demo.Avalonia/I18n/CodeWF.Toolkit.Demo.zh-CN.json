@@ -61,25 +61,71 @@
       "Core": "能力字典·核心",
       "Bus": "能力字典·通信",
       "Files": "能力字典·数据",
-      "Logging": "能力字典·日志"
+      "Logging": "日志与观测",
+      "Extensions": "核心扩展",
+      "System": "系统与文件",
+      "Data": "数据与图像",
+      "Events": "事件与集成",
+      "Network": "协议与网络",
+      "Examples": "综合示例"
     },
     "Item": {
-      "Welcome": "欢迎",
-      "RuntimeFlow": "运行工作台",
-      "LabFlow": "能力实验室",
+      "Welcome": "介绍",
+      "RuntimeFlow": "运行态工作流",
+      "LabFlow": "文件处理工作流",
       "Core": "核心工具",
-      "Bus": "进程总线",
+      "Bus": "EventBus",
       "BusIntegrations": "总线集成",
       "FilesFormat": "格式读写",
       "FilesArchive": "压缩配置",
       "FilesIndex": "数据索引",
-      "ImageIcon": "图标生成",
-      "ImageQr": "二维码",
-      "LogCore": "日志核心",
-      "LogMicrosoft": "MEL 接入",
+      "ImageIcon": "ImageHelper",
+      "ImageQr": "QrCodeGenerator",
+      "LogCore": "Logger",
+      "LogMicrosoft": "CodeWFLoggingBuilderExtensions",
       "LoggingOptions": "日志选项",
-      "NetPacket": "序列化",
-      "NetSocket": "网络通信"
+      "NetPacket": "SerializeHelper",
+      "NetSocket": "网络通信",
+      "About": "关于",
+      "StringExtensions": "StringExtensions",
+      "RegexExtensions": "RegexExtensions",
+      "DoubleExtensions": "DoubleExtensions",
+      "NumberExtension": "NumberExtension",
+      "DateTimeExtension": "DateTimeExtension",
+      "TimeSpanExtensions": "TimeSpanExtensions",
+      "RandomExtension": "RandomExtension",
+      "IConvertibleExtensions": "IConvertibleExtensions",
+      "ObjectExtension": "ObjectExtension",
+      "LinqExtension": "LinqExtension",
+      "EnumExtension": "EnumExtension",
+      "AssemblyExtensions": "AssemblyExtensions",
+      "ValidationExtension": "ValidationExtension",
+      "DateTimeConverter": "DateTimeConverter",
+      "ActionHelper": "ActionHelper",
+      "IpHelper": "IpHelper",
+      "NativeLibraryHelper": "NativeLibraryHelper",
+      "FileHelper": "FileHelper",
+      "AppDataMigrator": "AppDataMigrator",
+      "UpdateChecker": "UpdateChecker",
+      "FileExtension": "FileExtension",
+      "SevenZipCompressor": "SevenZipCompressor",
+      "AppConfigHelper": "AppConfigHelper",
+      "JsonExtensions": "JsonExtensions",
+      "YamlExtensions": "YamlExtensions",
+      "DataTableExtensions": "DataTableExtensions",
+      "PrismExtensions": "Prism.EventBusExtensions",
+      "AspNetCoreExtensions": "AspNetCore.EventBusExtensions",
+      "EventServer": "EventServer",
+      "EventClient": "EventClient",
+      "TcpSocketServer": "TcpSocketServer",
+      "TcpSocketClient": "TcpSocketClient",
+      "UdpSocketServer": "UdpSocketServer",
+      "UdpSocketClient": "UdpSocketClient",
+      "NetHelper": "NetHelper",
+      "TcpSocketClientFileSystemFeature": "TcpSocketClientFileSystemFeature",
+      "TcpSocketServerFileSystemFeature": "TcpSocketServerFileSystemFeature",
+      "LogEventFeed": "LogEventFeed",
+      "CodeWFLogHealth": "CodeWFLogHealth"
     },
     "Scene": {
       "Step.Server": "启动服务端",
@@ -96,7 +142,7 @@
     },
     "Page": {
       "Welcome": {
-        "Desc": "CodeWF.Toolkit 演示台：场景优先 —— 2 条完整工作流（运行态工作台 / 能力实验室）+ 4 个能力字典分区，页面全部调用仓库里的真实 API。"
+        "Desc": "按功能分类，每个主菜单对应一个具体帮助类；综合示例位于最后一组，源码按需展开，属性与日志提供交互反馈。"
       },
       "RuntimeFlow": {
         "Desc": "启动服务端 → 客户端连接 → 发布订阅 → 查询集成 → 观测日志：把「事件总线 + 日志」串成一条连续工作流，每一步复用能力字典里的同一批页面。"
@@ -189,7 +235,7 @@
       "PackageCount": "11 个包",
       "HeroLead": "让底层能力，",
       "HeroAccent": "看得见，跑得通。",
-      "PageCount": "16 个交互页面",
+      "PageCount": "49 个演示页面",
       "SortName": "名称",
       "SortModule": "模块",
       "SortStatus": "状态",
@@ -893,6 +939,162 @@
       "DemoBootstrapper": {
         "Initialize001": "CodeWF.Toolkit 演示启动：日志目录 "
       }
+    },
+    "Api": {
+      "StringExtensions": {
+        "Desc": "分割并连接字符串，控制空项处理。"
+      },
+      "RegexExtensions": {
+        "Desc": "将通配模式转为正则表达式，并匹配输入文本。"
+      },
+      "DoubleExtensions": {
+        "Desc": "将字节数格式化为可读的容量。"
+      },
+      "NumberExtension": {
+        "Desc": "将数字转换为中文数值与金额表示。"
+      },
+      "DateTimeExtension": {
+        "Desc": "转换日期与 Unix 秒、毫秒时间戳。"
+      },
+      "TimeSpanExtensions": {
+        "Desc": "将毫秒数格式化为时长。"
+      },
+      "RandomExtension": {
+        "Desc": "在指定范围内生成多个随机整数。"
+      },
+      "IConvertibleExtensions": {
+        "Desc": "执行类型转换并检查数值类型。"
+      },
+      "ObjectExtension": {
+        "Desc": "检测空值、空字符串与基础类型。"
+      },
+      "LinqExtension": {
+        "Desc": "组合筛选表达式，并用解释执行方式运行查询。"
+      },
+      "EnumExtension": {
+        "Desc": "读取枚举值与名称字典。"
+      },
+      "AssemblyExtensions": {
+        "Desc": "读取程序集标题、版本与公司元数据。"
+      },
+      "ValidationExtension": {
+        "Desc": "用数据注解验证对象，查看错误结果。"
+      },
+      "DateTimeConverter": {
+        "Desc": "识别 ISO 8601 日期，转换 Excel 日期数值。"
+      },
+      "ActionHelper": {
+        "Desc": "执行带超时检查的操作。"
+      },
+      "IpHelper": {
+        "Desc": "解析 IP 与端口，列举本机 IPv4 地址。"
+      },
+      "NativeLibraryHelper": {
+        "Desc": "在 Windows 中加载 kernel32 并解析导出函数地址。"
+      },
+      "FileHelper": {
+        "Desc": "在独立临时目录写入并读取文本文件。"
+      },
+      "AppDataMigrator": {
+        "Desc": "使用便携模式标记解析应用配置文件位置。"
+      },
+      "UpdateChecker": {
+        "Desc": "点击运行后查询 GitHub Release，并比较当前版本。"
+      },
+      "FileExtension": {
+        "Desc": "检查路径是否处于当前目录的上两级范围。"
+      },
+      "SevenZipCompressor": {
+        "Desc": "生成 ZIP 归档并解压，读取还原文件。"
+      },
+      "AppConfigHelper": {
+        "Desc": "写入配置项并读取，验证配置往返。"
+      },
+      "JsonExtensions": {
+        "Desc": "通过源生成元数据序列化 JSON，并还原对象。"
+      },
+      "YamlExtensions": {
+        "Desc": "通过源生成元数据序列化 YAML，并还原对象。"
+      },
+      "DataTableExtensions": {
+        "Desc": "导出 DataTable 为 CSV，再导入并检查行数。"
+      },
+      "ImageIcon": {
+        "Desc": "从图片生成多尺寸 ICO 图标。"
+      },
+      "ImageQr": {
+        "Desc": "从输入内容生成二维码图片。"
+      },
+      "Bus": {
+        "Desc": "订阅、发布和查询消息，查看处理结果。"
+      },
+      "PrismExtensions": {
+        "Desc": "通过 Prism 容器注册、扫描并执行事件总线查询。"
+      },
+      "AspNetCoreExtensions": {
+        "Desc": "通过 ASP.NET Core 依赖注入注册并执行事件总线查询。"
+      },
+      "EventServer": {
+        "Desc": "启动本机消息代理，用客户端验证订阅与投递。"
+      },
+      "EventClient": {
+        "Desc": "连接本机消息代理，订阅并接收发布消息。"
+      },
+      "NetPacket": {
+        "Desc": "序列化数据包并查看编码字节与解码字段。"
+      },
+      "TcpSocketServer": {
+        "Desc": "启动回环 TCP 服务端，接收客户端发送的数据包。"
+      },
+      "TcpSocketClient": {
+        "Desc": "连接回环 TCP 服务端并发送数据包。"
+      },
+      "UdpSocketServer": {
+        "Desc": "启动 UDP 组播发送端，并验证本机订阅端收到的数据包。"
+      },
+      "UdpSocketClient": {
+        "Desc": "订阅 UDP 组播，接收并解码本机发送的数据包。"
+      },
+      "NetHelper": {
+        "Desc": "生成任务 ID，查看特殊任务标识。"
+      },
+      "TcpSocketClientFileSystemFeature": {
+        "Desc": "通过回环 TCP 请求远程文件目录，查看响应。"
+      },
+      "TcpSocketServerFileSystemFeature": {
+        "Desc": "设置独立文件根目录并创建服务端文件系统功能。"
+      },
+      "LogCore": {
+        "Desc": "写入不同级别日志，查看实时日志面板。"
+      },
+      "LogMicrosoft": {
+        "Desc": "将 Microsoft ILogger 接入 CodeWF 日志。"
+      },
+      "LogEventFeed": {
+        "Desc": "订阅日志事件流，写入日志并观察投递。"
+      },
+      "CodeWFLogHealth": {
+        "Desc": "读取日志健康快照，查看队列和诊断状态。"
+      }
+    },
+    "Catalog": {
+      "Title": "帮助类目录",
+      "Intro": "每个菜单对应一个帮助类；输入参数后调用真实 API。",
+      "Examples": "综合示例与交互实验",
+      "Source": "查看源码",
+      "Input": "输入参数",
+      "Run": "运行示例",
+      "Output": "运行结果",
+      "Ready": "修改输入后运行示例。",
+      "Failed": "调用失败：{0}",
+      "About": "关于项目",
+      "AboutDesc": "开源库的 API 演示。Ribbon 负责分类，Dock 承载演示、属性与日志。",
+      "Project": "项目与安装",
+      "License": "MIT 开源许可 · .NET 10 · Avalonia 12",
+      "Notification": "由 LogNotifications 发出的日志通知。",
+      "Notifications": "发送日志通知",
+      "Preview": "浏览器交互示意；完整调用结果由 .NET Demo 产生。",
+      "WindowsOnly": "此帮助类目前仅支持 Windows。"
     }
   }
 }

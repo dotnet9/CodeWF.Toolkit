@@ -38,6 +38,13 @@ public partial class MainViewModel
                 {
                     var page = item.PageFactory();
                     _ = page.Properties;
+                    if (page is Views.Pages.HelperDemoPage helper && helper.ViewModel.Example.Smoke)
+                    {
+                        await helper.ViewModel.RunAsync().WaitAsync(TimeSpan.FromSeconds(10), cancellation);
+                        if (!helper.ViewModel.Succeeded) throw new InvalidOperationException(helper.ViewModel.Output);
+                        Logger.Info($"API catalog smoke: {item.Api} passed");
+                    }
+
                     built++;
 
                     if (page is Views.ScenePageBase scene)

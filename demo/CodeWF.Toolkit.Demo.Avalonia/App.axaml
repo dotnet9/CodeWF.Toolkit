@@ -10,8 +10,8 @@
     <codewf:ACSemiTheme />
     <codewf:DockSemiTheme />
     <codewf:CodeWFLogTheme />
-    <StyleInclude Source="avares://CodeWF.Toolkit.Demo.Avalonia/Views/DemoStyles.axaml" />
     <codewf:StudioTheme />
+    <StyleInclude Source="avares://CodeWF.Toolkit.Demo.Avalonia/Views/DemoStyles.axaml" />
     <Style Selector="codewf|PropertyGrid">
       <Setter Property="ThemeOverrides" Value="{DynamicResource StudioPropertyGridTheme}" />
     </Style>
