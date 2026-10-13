@@ -33,7 +33,7 @@ A collection of UI-independent .NET infrastructure libraries: tool extensions, f
 | [CodeWF.Toolkit.Logging](https://www.nuget.org/packages/CodeWF.Toolkit.Logging) | 轻量日志核心：控制台输出、文件轮转、UI 日志事件 | Microsoft.Extensions.Logging.Abstractions（**唯一依赖**，无其它第三方库） |
 | [CodeWF.Toolkit.Logging.Microsoft](https://www.nuget.org/packages/CodeWF.Toolkit.Logging.Microsoft) | Microsoft.Extensions.Logging 提供程序，把 MEL 日志接入轻量核心 | Microsoft.Extensions.{DependencyInjection.Abstractions, Hosting.Abstractions, Logging, Logging.Configuration, Options} + 本仓 Logging |
 | [CodeWF.Toolkit.EventBus](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus) | 轻量进程内事件总线：Command/Query、`[EventHandler]` 特性、IOC 扫描注册 | 零第三方依赖 |
-| [CodeWF.Toolkit.EventBus.Prism](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Prism) | Prism 容器集成 | Prism.Core、DryIoc + 本仓 EventBus |
+| [CodeWF.Toolkit.EventBus.Prism](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Prism) | Prism 容器集成 | Prism.Core、DryIoc.dll + 本仓 EventBus |
 | [CodeWF.Toolkit.EventBus.AspNetCore](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.AspNetCore) | ASP.NET Core 集成 | FrameworkReference `Microsoft.AspNetCore.App` + 本仓 EventBus |
 | [CodeWF.Toolkit.EventBus.Socket](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Socket) | 基于 TCP 的分布式事件总线：Pub/Sub、Query/Response、心跳重连、离线补发，不依赖第三方 MQ | 本仓 EventBus、NetWrapper |
 | [CodeWF.Toolkit.NetWeaver](https://www.nuget.org/packages/CodeWF.Toolkit.NetWeaver) | AOT 友好的 TCP/UDP 数据包二进制序列化核心 | 零第三方依赖 |
@@ -173,7 +173,15 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 ## 演示 / Demos
 
-新版原生首页提供真实事件流、Int32 字节编码和 JSON → YAML → ZIP → QR 流水线，默认使用 .NET 紫，并支持 AI 极光与暖陶配色。**图形 Demo 当前需要相邻检出的 CodeWF.Avalonia 源码**；构建路径、双语资源与验证方式见 [原生演示台文档](docs/NativeDemo.md)。
+新版原生首页提供真实事件流、Int32 字节编码和 JSON → YAML → ZIP → QR 流水线，默认使用 .NET 紫，并支持 AI 极光与暖陶配色。图形 Demo 通过 NuGet 引用 UI 库，**只克隆本仓即可构建**；功能映射、双语资源与 Windows x64 NativeAOT 验收见 [原生演示台文档](docs/NativeDemo.md)。
+
+![.NET 紫色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dotnet.png)
+
+![AI 极光浅色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-aurora-light.png)
+
+![文件流水线与真实产物](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-pipeline.png)
+
+![主题与实验切换](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-interactions.gif)
 
 The native overview runs real event, serialization and file experiments. Building the GUI currently requires the sibling CodeWF.Avalonia source checkout; the console Demo and production libraries remain independently buildable.
 
