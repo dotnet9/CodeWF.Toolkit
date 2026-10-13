@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CodeWF.Avalonia.Lang;
 using CodeWF.Toolkit.Demo.Avalonia.Views;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
+using CodeWF.Toolkit.Demo.Avalonia.Views.Scenes;
 using ReactiveUI;
 using ReactiveUI.Primitives;
 
@@ -62,79 +63,94 @@ public class DemoGroupViewModel : ReactiveObject
     public override string ToString() => Title;
 }
 
-/// <summary>图标映射（与设计原型一致）。</summary>
+/// <summary>
+/// 图标映射（与设计原型一致）。使用几何符号而非 Emoji：
+/// 字形在浅深 / 6 色板下颜色统一，且不会出现彩色 Emoji 与主题冲突。
+/// 实现期若要换成矢量图标，可整体替换为 Semi / Ursa / Iconica 的图标控件。
+/// </summary>
 public static class DemoIcons
 {
     public static string ResolveItem(string titleKey) => titleKey switch
     {
-        DemoKeys.ItemWelcome => "🏠",
-        DemoKeys.ItemCore => "🧰",
-        DemoKeys.ItemBus => "📣",
-        DemoKeys.ItemBusIntegrations => "🔌",
-        DemoKeys.ItemFilesFormat => "📄",
-        DemoKeys.ItemFilesArchive => "🗜️",
-        DemoKeys.ItemImageIcon => "🎨",
-        DemoKeys.ItemImageQr => "🔳",
-        DemoKeys.ItemLogCore => "📋",
-        DemoKeys.ItemLogMicrosoft => "🧾",
-        DemoKeys.ItemNetPacket => "📦",
-        DemoKeys.ItemNetSocket => "🔗",
+        DemoKeys.ItemWelcome => "⌂",
+        DemoKeys.ItemRuntimeFlow => "▶",
+        DemoKeys.ItemLabFlow => "⚗",
+        DemoKeys.ItemCore => "◈",
+        DemoKeys.ItemBus => "◉",
+        DemoKeys.ItemBusIntegrations => "⇄",
+        DemoKeys.ItemFilesFormat => "▤",
+        DemoKeys.ItemFilesArchive => "▣",
+        DemoKeys.ItemFilesIndex => "☰",
+        DemoKeys.ItemImageIcon => "▥",
+        DemoKeys.ItemImageQr => "▦",
+        DemoKeys.ItemLogCore => "☰",
+        DemoKeys.ItemLogMicrosoft => "⊕",
+        DemoKeys.ItemLoggingOptions => "⚙",
+        DemoKeys.ItemNetPacket => "▦",
+        DemoKeys.ItemNetSocket => "⇅",
         _ => "•",
     };
 
     public static string ResolveGroup(string titleKey) => titleKey switch
     {
-        DemoKeys.GroupHome => "🏠",
-        DemoKeys.GroupCore => "🧰",
-        DemoKeys.GroupBus => "📡",
-        DemoKeys.GroupFiles => "📁",
-        DemoKeys.GroupImage => "🖼️",
-        DemoKeys.GroupLogging => "📋",
-        DemoKeys.GroupNet => "🌐",
+        DemoKeys.GroupHome => "⌂",
+        DemoKeys.GroupRuntime => "▶",
+        DemoKeys.GroupLab => "⚗",
+        DemoKeys.GroupCore => "◈",
+        DemoKeys.GroupBus => "◉",
+        DemoKeys.GroupFiles => "▤",
+        DemoKeys.GroupLogging => "☰",
         _ => "•",
     };
 }
 
 /// <summary>
 /// 演示目录：分组与 Ribbon 页签一一镜像（组节点 = 页签名，叶子 = 演示命令）。
+/// 信息架构与设计原型一致 ——「场景优先（运行态工作台 / 能力实验室）+ 能力字典（核心 / 通信 / 数据 / 日志）」。
 /// Prism 只做 Shell 解析，页面与 VM 不进容器，按目录工厂直接构造。
 /// </summary>
 public static class DemoCatalog
 {
     public static ObservableCollection<DemoGroupViewModel> CreateGroups() =>
     [
-        new(DemoKeys.GroupHome, "🏠",
+        new(DemoKeys.GroupHome, "⌂",
         [
             new DemoItemViewModel(DemoKeys.ItemWelcome, () => new WelcomePage()),
         ]),
-        new(DemoKeys.GroupCore, "🧰",
+        // ── 场景页：完整工作流，内部按步骤复用下面的能力页 ──
+        new(DemoKeys.GroupRuntime, "▶",
         [
-            new DemoItemViewModel(DemoKeys.ItemCore, () => new CorePage()),
-        ]),
-        new(DemoKeys.GroupBus, "📡",
-        [
+            new DemoItemViewModel(DemoKeys.ItemRuntimeFlow, () => new RuntimeFlowPage()),
             new DemoItemViewModel(DemoKeys.ItemBus, () => new EventBusPage()),
-            new DemoItemViewModel(DemoKeys.ItemBusIntegrations, () => new EventBusIntegrationsPage()),
-        ]),
-        new(DemoKeys.GroupFiles, "📁",
-        [
-            new DemoItemViewModel(DemoKeys.ItemFilesFormat, () => new FilesFormatPage()),
-            new DemoItemViewModel(DemoKeys.ItemFilesArchive, () => new FilesArchivePage()),
-        ]),
-        new(DemoKeys.GroupImage, "🖼️",
-        [
-            new DemoItemViewModel(DemoKeys.ItemImageIcon, () => new ImageIconPage()),
-            new DemoItemViewModel(DemoKeys.ItemImageQr, () => new ImageQrPage()),
-        ]),
-        new(DemoKeys.GroupLogging, "📋",
-        [
             new DemoItemViewModel(DemoKeys.ItemLogCore, () => new LoggingCorePage()),
             new DemoItemViewModel(DemoKeys.ItemLogMicrosoft, () => new LoggingMicrosoftPage()),
         ]),
-        new(DemoKeys.GroupNet, "🌐",
+        new(DemoKeys.GroupLab, "⚗",
         [
+            new DemoItemViewModel(DemoKeys.ItemLabFlow, () => new LabFlowPage()),
+            new DemoItemViewModel(DemoKeys.ItemFilesFormat, () => new FilesFormatPage()),
+            new DemoItemViewModel(DemoKeys.ItemFilesArchive, () => new FilesArchivePage()),
+            new DemoItemViewModel(DemoKeys.ItemImageIcon, () => new ImageIconPage()),
+            new DemoItemViewModel(DemoKeys.ItemImageQr, () => new ImageQrPage()),
+        ]),
+        // ── 能力字典 ──
+        new(DemoKeys.GroupCore, "◈",
+        [
+            new DemoItemViewModel(DemoKeys.ItemCore, () => new CorePage()),
+        ]),
+        new(DemoKeys.GroupBus, "◉",
+        [
+            new DemoItemViewModel(DemoKeys.ItemBusIntegrations, () => new EventBusIntegrationsPage()),
             new DemoItemViewModel(DemoKeys.ItemNetPacket, () => new NetPacketPage()),
             new DemoItemViewModel(DemoKeys.ItemNetSocket, () => new NetSocketPage()),
+        ]),
+        new(DemoKeys.GroupFiles, "▤",
+        [
+            new DemoItemViewModel(DemoKeys.ItemFilesIndex, () => new FilesIndexPage()),
+        ]),
+        new(DemoKeys.GroupLogging, "☰",
+        [
+            new DemoItemViewModel(DemoKeys.ItemLoggingOptions, () => new LoggingOptionsPage()),
         ]),
     ];
 }

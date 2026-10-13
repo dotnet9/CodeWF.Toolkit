@@ -143,6 +143,50 @@ public static class Ui
 
     public static ToggleSwitch Switch(bool value) => new() { IsChecked = value, OnContent = null, OffContent = null };
 
+    /// <summary>表头 + 数据行的简易表格（用于参数全览 / 能力矩阵这类只读索引）。</summary>
+    public static Grid Table(IReadOnlyList<string> headers, IReadOnlyList<string[]> rows)
+    {
+        var grid = new Grid
+        {
+            ColumnDefinitions = new ColumnDefinitions(string.Join(",", Enumerable.Repeat("Auto", headers.Count))),
+            RowDefinitions = new RowDefinitions(string.Join(",", Enumerable.Repeat("Auto", rows.Count + 1))),
+        };
+
+        for (var column = 0; column < headers.Count; column++)
+        {
+            var header = new TextBlock
+            {
+                Text = headers[column],
+                FontWeight = FontWeight.SemiBold,
+                FontSize = 11.5,
+                Margin = new Thickness(0, 0, 16, 6),
+            };
+            Grid.SetRow(header, 0);
+            Grid.SetColumn(header, column);
+            grid.Children.Add(header);
+        }
+
+        for (var row = 0; row < rows.Count; row++)
+        {
+            for (var column = 0; column < headers.Count && column < rows[row].Length; column++)
+            {
+                var cell = new TextBlock
+                {
+                    Text = rows[row][column],
+                    FontSize = 11.5,
+                    TextWrapping = TextWrapping.Wrap,
+                    Opacity = column == 0 ? 0.95 : 0.75,
+                    Margin = new Thickness(0, 0, 16, 4),
+                };
+                Grid.SetRow(cell, row + 1);
+                Grid.SetColumn(cell, column);
+                grid.Children.Add(cell);
+            }
+        }
+
+        return grid;
+    }
+
     public static ComboBox Select(IEnumerable<string> options, int selectedIndex = 0, double minWidth = 120)
     {
         var combo = new ComboBox { ItemsSource = options.ToList(), SelectedIndex = selectedIndex, MinWidth = minWidth, FontSize = 12 };

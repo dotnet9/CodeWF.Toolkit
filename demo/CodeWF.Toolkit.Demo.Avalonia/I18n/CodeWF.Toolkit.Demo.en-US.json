@@ -16,7 +16,9 @@
       "Reset": "Reset layout",
       "WriteLogs": "Write sample logs",
       "QuickSave": "Save layout",
-      "QuickSettings": "Settings"
+      "QuickSettings": "Settings",
+      "QuickGuide": "Open guidance (app-wide)",
+      "StatusReady": "Ready"
     },
     "Segment": {
       "Demo": "Demo",
@@ -33,30 +35,53 @@
     },
     "Group": {
       "Home": "Home",
-      "Core": "Core",
-      "Bus": "EventBus",
-      "Files": "Files",
-      "Image": "Image",
-      "Logging": "Logging",
-      "Net": "Net"
+      "Runtime": "Runtime Console",
+      "Lab": "Lab",
+      "Core": "Lib · Core",
+      "Bus": "Lib · Comm",
+      "Files": "Lib · Data",
+      "Logging": "Lib · Logging"
     },
     "Item": {
       "Welcome": "Welcome",
-      "Core": "Core Toolkit",
-      "Bus": "In-Process Bus",
-      "BusIntegrations": "Bus Integrations",
-      "FilesFormat": "File Formats",
-      "FilesArchive": "Archive & Config",
-      "ImageIcon": "Icon Generator",
-      "ImageQr": "QR & Image",
-      "LogCore": "Logger Core",
-      "LogMicrosoft": "MEL Integration",
-      "NetPacket": "NetWeaver Serializer",
-      "NetSocket": "NetWrapper Sockets"
+      "RuntimeFlow": "Runtime Flow",
+      "LabFlow": "Lab Flow",
+      "Core": "Core Kit",
+      "Bus": "Event Bus",
+      "BusIntegrations": "Integrations",
+      "FilesFormat": "Formats",
+      "FilesArchive": "Archive",
+      "FilesIndex": "Data Index",
+      "ImageIcon": "Icons",
+      "ImageQr": "QR Code",
+      "LogCore": "Log Core",
+      "LogMicrosoft": "MEL Bridge",
+      "LoggingOptions": "Log Options",
+      "NetPacket": "Serialization",
+      "NetSocket": "Networking"
+    },
+    "Scene": {
+      "Step.Server": "Start server",
+      "Step.Connect": "Connect",
+      "Step.Publish": "Publish",
+      "Step.Query": "Query",
+      "Step.Observe": "Observe logs",
+      "Step.Format": "Convert",
+      "Step.Archive": "Archive",
+      "Step.Image": "Icon / QR",
+      "Step.Export": "Export",
+      "Summary.Runtime": "5-step runtime flow · every step reuses the capability pages below",
+      "Summary.Lab": "4-step capability pipeline · every step reuses the capability pages below"
     },
     "Page": {
       "Welcome": {
-        "Desc": "CodeWF.Toolkit demo shell: ribbon tabs, dock workspace, property grid and log panel covering 6 capability domains with 12 real-API pages."
+        "Desc": "CodeWF.Toolkit showcase: scenario-first — two complete workflows (runtime console / lab) plus four capability-library sections, all driving the real APIs of this repository."
+      },
+      "RuntimeFlow": {
+        "Desc": "Start server → connect → publish → query → observe logs: the event bus and logging chained into one continuous workflow, each step reusing the same capability pages."
+      },
+      "LabFlow": {
+        "Desc": "Convert → archive → icons/QR → export: the Files / Image capabilities arranged as one pipeline, each step reusing the same capability pages."
       },
       "Core": {
         "Desc": "Dependency-free extensions and infrastructure: string/number/enum helpers, encoding detection and safe IO, app data migration, GitHub release update checking."
@@ -73,6 +98,9 @@
       "FilesArchive": {
         "Desc": "SevenZipCompressor over SharpCompress: LZMA compression, UTF-8 entry names, remote URL packing; AppConfigHelper reads and writes appSettings."
       },
+      "FilesIndex": {
+        "Desc": "Index of the Files capability matrix: APIs, dependencies and AOT notes in one place. Formats are exercised on the Formats page, archive and config on the Archive page."
+      },
       "ImageIcon": {
         "Desc": "ImageHelper over Magick.NET: merge one PNG into a multi-size ico, or split sizes into separate ico files."
       },
@@ -83,7 +111,10 @@
         "Desc": "Static Logger: console, rolling files and a UI event feed, with batched async writes, live line-template updates and self diagnostics."
       },
       "LogMicrosoft": {
-        "Desc": "Microsoft.Extensions.Logging provider: one AddCodeWF call keeps structured templates, scopes and Activity data, sharing the pipeline with the static Logger."
+        "Desc": "Microsoft.Extensions.Logging provider: one AddCodeWFLogger call keeps structured templates, scopes and Activity data, sharing the pipeline with the static Logger."
+      },
+      "LoggingOptions": {
+        "Desc": "Full LoggerOptions / FileLogOptions reference with live diagnostics: writer thread, queue depth, drop counters, and a LogEventFeed snapshot (what desktop log controls subscribe to)."
       },
       "NetPacket": {
         "Desc": "NetWeaver attribute-driven binary serialization: [NetHead] for the packet header, [NetFieldOrder] for wire order, big-endian and round-trip verified."

@@ -16,7 +16,9 @@
       "Reset": "重置工作区",
       "WriteLogs": "写入三类日志",
       "QuickSave": "保存工作区布局",
-      "QuickSettings": "设置"
+      "QuickSettings": "设置",
+      "QuickGuide": "打开引导（应用级）",
+      "StatusReady": "就绪"
     },
     "Segment": {
       "Demo": "演示",
@@ -33,30 +35,53 @@
     },
     "Group": {
       "Home": "首页",
-      "Core": "核心",
-      "Bus": "事件总线",
-      "Files": "文件",
-      "Image": "图像",
-      "Logging": "日志",
-      "Net": "网络"
+      "Runtime": "运行态工作台",
+      "Lab": "能力实验室",
+      "Core": "能力字典·核心",
+      "Bus": "能力字典·通信",
+      "Files": "能力字典·数据",
+      "Logging": "能力字典·日志"
     },
     "Item": {
       "Welcome": "欢迎",
-      "Core": "Core 工具箱",
-      "Bus": "进程内总线",
+      "RuntimeFlow": "运行工作台",
+      "LabFlow": "能力实验室",
+      "Core": "核心工具",
+      "Bus": "进程总线",
       "BusIntegrations": "总线集成",
-      "FilesFormat": "文件格式",
-      "FilesArchive": "压缩与配置",
+      "FilesFormat": "格式读写",
+      "FilesArchive": "压缩配置",
+      "FilesIndex": "数据索引",
       "ImageIcon": "图标生成",
-      "ImageQr": "二维码与处理",
-      "LogCore": "Logger 核心",
+      "ImageQr": "二维码",
+      "LogCore": "日志核心",
       "LogMicrosoft": "MEL 接入",
-      "NetPacket": "NetWeaver 序列化",
-      "NetSocket": "NetWrapper 通信"
+      "LoggingOptions": "日志选项",
+      "NetPacket": "序列化",
+      "NetSocket": "网络通信"
+    },
+    "Scene": {
+      "Step.Server": "启动服务端",
+      "Step.Connect": "客户端连接",
+      "Step.Publish": "发布订阅",
+      "Step.Query": "查询集成",
+      "Step.Observe": "观测日志",
+      "Step.Format": "格式转换",
+      "Step.Archive": "归档配置",
+      "Step.Image": "图标二维码",
+      "Step.Export": "导出",
+      "Summary.Runtime": "5 步运行态流程 · 每一步复用下方能力页",
+      "Summary.Lab": "4 步能力流水线 · 每一步复用下方能力页"
     },
     "Page": {
       "Welcome": {
-        "Desc": "CodeWF.Toolkit 演示台：Ribbon 页签 + Dock 工作区 + 属性面板 + 日志面板，12 个演示页覆盖 6 大能力域，全部调用仓库里的真实 API。"
+        "Desc": "CodeWF.Toolkit 演示台：场景优先 —— 2 条完整工作流（运行态工作台 / 能力实验室）+ 4 个能力字典分区，页面全部调用仓库里的真实 API。"
+      },
+      "RuntimeFlow": {
+        "Desc": "启动服务端 → 客户端连接 → 发布订阅 → 查询集成 → 观测日志：把「事件总线 + 日志」串成一条连续工作流，每一步复用能力字典里的同一批页面。"
+      },
+      "LabFlow": {
+        "Desc": "格式转换 → 归档配置 → 图标二维码 → 导出：把 Files / Image 的能力编排成一条流水线，每一步复用能力字典里的同一批页面。"
       },
       "Core": {
         "Desc": "零第三方依赖的扩展方法与基础设施：字符串/数值/枚举扩展、编码探测与安全读写、应用数据目录迁移、GitHub Release 更新检查。"
@@ -73,6 +98,9 @@
       "FilesArchive": {
         "Desc": "SevenZipCompressor 基于 SharpCompress：LZMA 压缩、UTF-8 条目名、远程 URL 打包；AppConfigHelper 读写传统 appSettings。"
       },
+      "FilesIndex": {
+        "Desc": "Files 能力矩阵索引：每种格式的 API、依赖与 AOT 注意点集中在此；读写实测在「格式读写」，压缩与配置实测在「压缩配置」。"
+      },
       "ImageIcon": {
         "Desc": "ImageHelper 基于 Magick.NET：一张 PNG 合成多尺寸 ico，或按尺寸拆分出多个 ico 文件。"
       },
@@ -83,7 +111,10 @@
         "Desc": "静态 Logger：控制台 + 文件轮转 + UI 事件流（LogEventFeed），支持批量异步写入、输出模板热更新与自身健康诊断。"
       },
       "LogMicrosoft": {
-        "Desc": "Microsoft.Extensions.Logging 提供程序：AddCodeWF 一句话接入，保留结构化模板、作用域与 Activity 信息，并与静态 Logger 共用管道。"
+        "Desc": "Microsoft.Extensions.Logging 提供程序：AddCodeWFLogger 一句话接入，保留结构化模板、作用域与 Activity 信息，并与静态 Logger 共用管道。"
+      },
+      "LoggingOptions": {
+        "Desc": "LoggerOptions / FileLogOptions 参数全览与现场自诊断：写线程、队列深度、丢弃计数，以及 LogEventFeed 快照（桌面端日志控件订阅的就是它）。"
       },
       "NetPacket": {
         "Desc": "NetWeaver 特性驱动二进制序列化：[NetHead] 声明包头、[NetFieldOrder] 声明字段顺序，大端序、定长包头、往返校验。"

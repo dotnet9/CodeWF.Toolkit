@@ -47,7 +47,7 @@
     <!--  Ribbon 页签行：快捷工具栏 + 7 页签（双击页签折叠/展开命令区）  -->
     <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
       <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,2,0">
-        <Button Classes="qk-btn" Content="💾" Margin="0,0,2,0"
+        <Button Classes="qk-btn" Content="▣" Margin="0,0,2,0"
                 ToolTip.Tip="{codewf:I18n Demo.Shell.QuickSave}"
                 Command="{Binding QuickSaveCommand}" />
         <Button Classes="qk-btn" Content="↺" Margin="0,0,2,0"
@@ -93,7 +93,7 @@
                       CommandParameter="{Binding}">
                 <StackPanel Spacing="4">
                   <TextBlock Text="{Binding Icon}" FontSize="20" HorizontalAlignment="Center" />
-                  <TextBlock Text="{Binding Title}" FontSize="11" MaxWidth="84"
+                  <TextBlock Text="{Binding Title}" FontSize="11" MaxWidth="64"
                              HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
                 </StackPanel>
               </Button>
@@ -148,12 +148,12 @@
       <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style Selector="Button.rbn-cmd">
-      <Setter Property="MinWidth" Value="84" />
-      <Setter Property="MinHeight" Value="64" />
-      <Setter Property="Padding" Value="8,8" />
-      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Width" Value="72" />
+      <Setter Property="MinHeight" Value="66" />
+      <Setter Property="Padding" Value="6,8,6,6" />
+      <Setter Property="CornerRadius" Value="7" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Top" />
     </Style>
     <Style Selector="Button.st-btn">
       <Setter Property="Padding" Value="8,2" />
