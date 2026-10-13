@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
 using Avalonia;
@@ -81,6 +81,14 @@ public partial class MainViewModel : ReactiveObject
 
         BuildLayout();
         OpenItem(Groups[0].Items[0]);
+
+
+        // 外壳实体化件：通知中心 / 命令面板 / 密度 / 布局记忆 / 就地重命名。
+        InitializeShellServices();
+        if (LoadLayout())
+        {
+            Notify(DemoNotificationKind.Info, T(DemoKeys.ShellLayoutLoaded), LayoutPath);
+        }
     }
 
     /// <summary>Ribbon 分组（左树镜像同一集合）。</summary>
@@ -256,7 +264,7 @@ public partial class MainViewModel : ReactiveObject
         var document = new DemoDocumentViewModel(item, page);
         var dockDocument = _dockFactory?.CreateDocument() ?? new Document();
         dockDocument.Id = "Doc." + item.TitleKey;
-        dockDocument.Title = item.Title;
+        dockDocument.Title = document.DisplayTitle;
         dockDocument.Context = new DemoDocumentView { DataContext = document };
         document.DockDocument = dockDocument;
 
@@ -517,6 +525,7 @@ public partial class MainViewModel : ReactiveObject
         var ok = true;
         WriteSampleLogs();
         ok &= await SmokeWalkCatalogAsync(cancellation);
+        ok &= await SmokeShellFeaturesAsync(cancellation);
 
         // 核心演示（同步、无网络）：扩展方法 / 事件总线 / 序列化
         try

@@ -1,4 +1,4 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CodeWF.Avalonia.Lang;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.Views;
@@ -43,6 +43,15 @@ public class DemoDocumentViewModel : ReactiveObject
 
     public string Title => I18nManager.Instance.GetResource(TitleKey);
 
+    /// <summary>文档页签显示名：跟随导航树的自定义名。</summary>
+    public string DisplayTitle => Item.DisplayTitle;
+
+    /// <summary>就地重命名后刷新页签标题。</summary>
+    public void RefreshTitle()
+    {
+        this.RaisePropertyChanged(nameof(Title));
+        this.RaisePropertyChanged(nameof(DisplayTitle));
+    }
     public string Description => I18nManager.Instance.GetResource(Page.DescriptionKey);
 
     /// <summary>ShowMeCode 当前段。</summary>

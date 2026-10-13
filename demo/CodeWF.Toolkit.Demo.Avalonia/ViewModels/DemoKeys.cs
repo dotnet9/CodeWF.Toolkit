@@ -1,4 +1,4 @@
-namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
+﻿namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 
 /// <summary>
 /// 演示台的全部 Lang 键（与 design/CodeWF.Toolkit.Demo原型.html 的信息架构一致：
@@ -82,6 +82,26 @@ public static class DemoKeys
     public const string ShellQuickSettings = "Demo.Shell.QuickSettings";
     public const string ShellQuickGuide = "Demo.Shell.QuickGuide";
     public const string ShellStatusReady = "Demo.Shell.StatusReady";
+
+    // 外壳实体化件：通知中心 / 命令面板 / 密度 / 布局记忆 / 就地重命名
+    public const string ShellGroup = "Demo.Shell.Group";
+    public const string ShellCommand = "Demo.Shell.Command";
+    public const string ShellCommandPlaceholder = "Demo.Shell.CommandPlaceholder";
+    public const string ShellCommandHint = "Demo.Shell.CommandHint";
+    public const string ShellDensity = "Demo.Shell.Density";
+    public const string ShellDensityCompact = "Demo.Shell.DensityCompact";
+    public const string ShellDensityComfort = "Demo.Shell.DensityComfort";
+    public const string ShellLayoutSaved = "Demo.Shell.LayoutSaved";
+    public const string ShellLayoutSaveFailed = "Demo.Shell.LayoutSaveFailed";
+    public const string ShellLayoutLoaded = "Demo.Shell.LayoutLoaded";
+    public const string ShellResetRenames = "Demo.Shell.ResetRenames";
+    public const string ShellResetRenamesHint = "Demo.Shell.ResetRenamesHint";
+    public const string ShellRenameHint = "Demo.Shell.RenameHint";
+    public const string ShellNotificationDismiss = "Demo.Shell.NotificationDismiss";
+    public const string ShellNotifyDemo = "Demo.Shell.NotifyDemo";
+    public const string ShellNotifyDemoHint = "Demo.Shell.NotifyDemoHint";
+    public const string ShellNavFilter = "Demo.Shell.NavFilter";
+    public const string ShellNavEmpty = "Demo.Shell.NavEmpty";
 
     // ShowMeCode 三段
     public const string SegmentDemo = "Demo.Segment.Demo";
