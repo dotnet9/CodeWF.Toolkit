@@ -13,6 +13,7 @@
   <ItemGroup>
     <AvaloniaResource Include="..\..\logo.ico" Link="Assets\logo.ico" />
     <AvaloniaResource Include="..\..\logo.png" Link="Assets\logo.png" />
+    <Content Include="..\..\logo.png" Link="Assets\logo.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,21 +26,10 @@
     <Content Include="I18n\**\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <CodeWFAvaloniaSource Condition="'$(CodeWFAvaloniaSource)' == ''">$(MSBuildThisFileDirectory)..\..\..\CodeWF.Avalonia</CodeWFAvaloniaSource>
-    <UseLocalCodeWFAvalonia Condition="'$(UseLocalCodeWFAvalonia)' == ''">true</UseLocalCodeWFAvalonia>
-  </PropertyGroup>
-
-  <Target Name="CheckStudioSource" BeforeTargets="PrepareForBuild" Condition="'$(UseLocalCodeWFAvalonia)' == 'true'">
-    <Error Condition="!Exists('$(CodeWFAvaloniaSource)/src/Controls/CodeWF.Avalonia.Controls/CodeWF.Avalonia.Controls.csproj')"
-           Text="StudioTheme 需要最新 CodeWF.Avalonia 源码。请将两个仓库相邻克隆，或通过 -p:CodeWFAvaloniaSource=源码路径 指定位置。使用已包含 StudioTheme 的 NuGet 版本后，可设置 -p:UseLocalCodeWFAvalonia=false。" />
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
-    <PackageReference Include="Avalonia.Themes.Simple" />
     <PackageReference Include="Semi.Avalonia" />
     <PackageReference Include="Prism.DryIoc.Avalonia" />
     <PackageReference Include="ReactiveUI.Avalonia" />
@@ -51,11 +41,11 @@
     <PackageReference Include="TreeDataGrid.Avalonia" />
     <PackageReference Include="Avalonia.Controls.ColorPicker" />
     <PackageReference Include="Avalonia.Skia" />
-    <PackageReference Include="CodeWF.Avalonia.Controls" Condition="'$(UseLocalCodeWFAvalonia)' != 'true'" />
-    <PackageReference Include="CodeWF.Avalonia.TreeDataGrid" Condition="'$(UseLocalCodeWFAvalonia)' != 'true'" />
-    <PackageReference Include="CodeWF.Avalonia.Dock" Condition="'$(UseLocalCodeWFAvalonia)' != 'true'" />
-    <PackageReference Include="CodeWF.Avalonia.Lang" Condition="'$(UseLocalCodeWFAvalonia)' != 'true'" />
-    <PackageReference Include="CodeWF.Avalonia.Log" Condition="'$(UseLocalCodeWFAvalonia)' != 'true'" />
+    <PackageReference Include="CodeWF.Avalonia.Controls" />
+    <PackageReference Include="CodeWF.Avalonia.TreeDataGrid" />
+    <PackageReference Include="CodeWF.Avalonia.Dock" />
+    <PackageReference Include="CodeWF.Avalonia.Lang" />
+    <PackageReference Include="CodeWF.Avalonia.Log" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +53,8 @@
     <ProjectReference Include="..\..\src\Core\CodeWF.Toolkit.Core\CodeWF.Toolkit.Core.csproj" />
     <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus\CodeWF.Toolkit.EventBus.csproj" />
     <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus.Socket\CodeWF.Toolkit.EventBus.Socket.csproj" />
+    <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus.Prism\CodeWF.Toolkit.EventBus.Prism.csproj" />
+    <ProjectReference Include="..\..\src\EventBus\CodeWF.Toolkit.EventBus.AspNetCore\CodeWF.Toolkit.EventBus.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Files\CodeWF.Toolkit.Files\CodeWF.Toolkit.Files.csproj" />
     <ProjectReference Include="..\..\src\Image\CodeWF.Toolkit.Image\CodeWF.Toolkit.Image.csproj" />
     <ProjectReference Include="..\..\src\Logging\CodeWF.Toolkit.Logging\CodeWF.Toolkit.Logging.csproj" />
@@ -71,13 +63,5 @@
     <ProjectReference Include="..\..\src\Net\CodeWF.Toolkit.NetWrapper\CodeWF.Toolkit.NetWrapper.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup Condition="'$(UseLocalCodeWFAvalonia)' == 'true'">
-    <ProjectReference Include="$(CodeWFAvaloniaSource)/src/Controls/CodeWF.Avalonia.Controls/CodeWF.Avalonia.Controls.csproj" />
-    <ProjectReference Include="$(CodeWFAvaloniaSource)/src/TreeDataGrid/CodeWF.Avalonia.TreeDataGrid/CodeWF.Avalonia.TreeDataGrid.csproj" />
-    <ProjectReference Include="$(CodeWFAvaloniaSource)/src/Dock/CodeWF.Avalonia.Dock/CodeWF.Avalonia.Dock.csproj" />
-    <ProjectReference Include="$(CodeWFAvaloniaSource)/src/Lang/CodeWF.Avalonia.Lang/CodeWF.Avalonia.Lang.csproj" />
-    <ProjectReference Include="$(CodeWFAvaloniaSource)/src/Log/CodeWF.Avalonia.Log/CodeWF.Avalonia.Log.csproj" />
-  </ItemGroup>
 
 </Project>

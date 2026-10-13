@@ -22,8 +22,6 @@ jobs:
         with:
           fetch-depth: 0 # SourceLink 与 EmbedUntrackedSources 需要完整历史
 
-      - uses: ./.github/actions/checkout-studio
-
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v4
         with:

@@ -11,19 +11,18 @@
     <PackageVersion Include="Avalonia" Version="12.1.4" />
     <PackageVersion Include="Avalonia.Desktop" Version="12.1.4" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.4" />
-    <PackageVersion Include="Avalonia.Themes.Simple" Version="12.1.4" />
     <PackageVersion Include="Semi.Avalonia" Version="12.1.0.1" />
     <PackageVersion Include="Prism.DryIoc.Avalonia" Version="8.1.97.11073" />
     <PackageVersion Include="ReactiveUI.Avalonia" Version="12.1.2" />
     <PackageVersion Include="Dock.Avalonia" Version="12.1.0.6" />
     <PackageVersion Include="Dock.Avalonia.Themes.Simple" Version="12.1.0.6" />
     <PackageVersion Include="Dock.Model.ReactiveUI" Version="12.1.0.6" />
-    <PackageVersion Include="CodeWF.Avalonia.Controls" Version="12.1.4.5" />
+    <PackageVersion Include="CodeWF.Avalonia.Controls" Version="12.1.4.6" />
     <!-- PropertyGrid 控件所在包（TreeDataGrid 增强 + 通用属性面板） -->
-    <PackageVersion Include="CodeWF.Avalonia.TreeDataGrid" Version="12.1.4.5" />
-    <PackageVersion Include="CodeWF.Avalonia.Dock" Version="12.1.4.5" />
-    <PackageVersion Include="CodeWF.Avalonia.Lang" Version="12.1.4.5" />
-    <PackageVersion Include="CodeWF.Avalonia.Log" Version="12.1.4.5" />
+    <PackageVersion Include="CodeWF.Avalonia.TreeDataGrid" Version="12.1.4.6" />
+    <PackageVersion Include="CodeWF.Avalonia.Dock" Version="12.1.4.6" />
+    <PackageVersion Include="CodeWF.Avalonia.Lang" Version="12.1.4.6" />
+    <PackageVersion Include="CodeWF.Avalonia.Log" Version="12.1.4.6" />
     <PackageVersion Include="Xaml.Behaviors" Version="12.0.7" />
     <!-- PropertyGrid（CodeWF.Avalonia.Controls）所需的传递依赖：全新还原时需要显式声明版本 -->
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
@@ -52,7 +51,7 @@
 
     <!-- CodeWF.Toolkit.EventBus.Prism -->
     <PackageVersion Include="Prism.Core" Version="8.1.97" />
-    <PackageVersion Include="DryIoc" Version="5.4.3" />
+    <PackageVersion Include="DryIoc.dll" Version="4.8.0" />
 
     <!-- 测试 -->
     <PackageVersion Include="Bogus" Version="35.6.5" />

@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
     <PackageReference Include="Prism.Core" />
-    <PackageReference Include="DryIoc" />
+    <PackageReference Include="DryIoc.dll" />
   </ItemGroup>
 
   <ItemGroup>
