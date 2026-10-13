@@ -1,3 +1,4 @@
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Globalization;
 using CodeWF.Avalonia.Lang;
 using CodeWF.Avalonia.Lang.Json;
@@ -39,6 +40,6 @@ public static class DemoBootstrapper
             File = new FileLogOptions { DirectoryPath = LogFolder },
         });
 
-        Logger.Info("CodeWF.Toolkit 演示台启动：日志目录 " + LogFolder);
+        Logger.Info(L.Instance.GetResource("Demo.Text.DemoBootstrapper.Initialize001") + LogFolder);
     }
 }

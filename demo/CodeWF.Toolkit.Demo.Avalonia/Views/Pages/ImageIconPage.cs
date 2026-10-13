@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
@@ -18,20 +20,7 @@ public sealed class ImageIconPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private const string CSharpSnippet = """
-        using CodeWF.Toolkit.Image;
-
-        // 多尺寸合成：一张 PNG → 多帧 ico
-        await ImageHelper.MergeGenerateIcon("logo.png", "logo.ico", [16, 24, 32, 48, 64, 128, 256]);
-
-        // 拆分：从源图分别按尺寸生成独立 ico 文件
-        await ImageHelper.SeparateGenerateIcon("logo.png", "out/icons", [16, 32]);
-
-        // 底层是 Magick.NET：也可以直接用它做转换 / 缩放 / 水印
-        using var image = new MagickImage("photo.jpg");
-        image.Resize(800, 0);
-        image.Write("photo.webp");
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.ImageIconPage.CSharpSnippet001");
 
     private static readonly uint[] DefaultSizes = [16, 24, 32, 48, 64, 128, 256];
 
@@ -51,36 +40,30 @@ public sealed class ImageIconPage : DemoPageBase
 
         _destIcon = Ui.Input("logo.ico");
         _separateSizes = Ui.Input("16,32");
-        _output = Ui.Code("等待操作（所有文件写入 %TEMP%\\CodeWFToolkitDemo\\image）", output: true);
+        _output = Ui.Code("@Demo.Text.ImageIconPage.Content002", output: true);
         _preview = new WrapPanel();
 
-        var merge = Ui.Card("合成（MergeGenerateIcon）",
-            Ui.Field("源图片", Ui.Key(_sourceImage)),
-            Ui.Field("输出文件", _destIcon),
+        var merge = Ui.Card("@Demo.Text.ImageIconPage.merge003",
+            Ui.Field(L.Instance.GetResource("Demo.Text.ImageIconPage.merge004"), Ui.Key(_sourceImage)),
+            Ui.Field(L.Instance.GetResource("Demo.Text.ImageIconPage.merge005"), _destIcon),
             Ui.Row(Ui.Button("MergeGenerateIcon", Merge, primary: true),
-                Ui.Button("用仓库 logo 重置", () => _destIcon.Text = "logo.ico")),
-            Ui.Card("尺寸预览（生成后填充）", _preview),
-            Ui.Hint("尺寸取自右侧属性面板的“包含尺寸”，默认 16,24,32,48,64,128,256。"));
+                Ui.Button("@Demo.Text.ImageIconPage.merge006", () => _destIcon.Text = "logo.ico")),
+            Ui.Card("@Demo.Text.ImageIconPage.merge007", _preview),
+            Ui.Hint("@Demo.Text.ImageIconPage.merge008"));
 
-        var separate = Ui.Card("拆分（SeparateGenerateIcon）",
-            Ui.Field("源图标", Ui.Key(_sourceImage)),
-            Ui.Field("输出目录", Ui.Key(Path.Combine(_outputDirectory, "icons"))),
-            Ui.Field("尺寸列表", _separateSizes),
+        var separate = Ui.Card("@Demo.Text.ImageIconPage.separate009",
+            Ui.Field(L.Instance.GetResource("Demo.Text.ImageIconPage.separate010"), Ui.Key(_sourceImage)),
+            Ui.Field(L.Instance.GetResource("Demo.Text.ImageIconPage.separate011"), Ui.Key(Path.Combine(_outputDirectory, "icons"))),
+            Ui.Field(L.Instance.GetResource("Demo.Text.ImageIconPage.separate012"), _separateSizes),
             Ui.Row(Ui.Button("SeparateGenerateIcon", Separate)),
             _output);
 
-        var others = Ui.Card("其它图像能力（同一套 Magick.NET 基础）",
-            Ui.Code("""
-                格式转换    png / jpg / webp / bmp 互转，可指定质量
-                缩放        等比缩放、指定宽高
-                水印        文字 / 图片水印，位置与透明度
-                ico         多尺寸合成、拆分（本页）
-                二维码      QrCodeGenerator（见“二维码与处理”页）
-                """));
+        var others = Ui.Card("@Demo.Text.ImageIconPage.others013",
+            Ui.Code("@Demo.Text.ImageIconPage.others014"));
 
         Content = Ui.Page(
-            Ui.Heading("图标生成：多尺寸 ico 合成与拆分"),
-            Ui.Sub("ImageHelper.MergeGenerateIcon / SeparateGenerateIcon，底层 Magick.NET-Q16；点按钮即在临时目录真实生成。"),
+            Ui.Heading("@Demo.Text.ImageIconPage.Content015"),
+            Ui.Sub("@Demo.Text.ImageIconPage.Content016"),
             Ui.TwoColumns(merge, separate),
             others);
 
@@ -97,13 +80,13 @@ public sealed class ImageIconPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("ic.opt", "图标选项", "ico 合成参数。",
-            DemoProperty.ReadOnly("ic.sizes", "包含尺寸", string.Join(",", DefaultSizes)),
-            DemoProperty.Bool("ic.compress", "PNG 压缩", true, "Magick.NET 写出时的压缩开关。"),
-            DemoProperty.Number("ic.quality", "质量", 92, 1, 100, 1, "%", "写出图片质量。")),
-        DemoProperty.Category("ic.io", "输入输出", "演示目录与源图。",
-            DemoProperty.ReadOnly("ic.source", "源图", "Assets/logo.png"),
-            DemoProperty.ReadOnly("ic.dest", "输出目录", Path.Combine("%TEMP%", "CodeWFToolkitDemo", "image"))));
+        DemoProperty.Category("ic.opt", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties017"), L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties018"),
+            DemoProperty.ReadOnly("ic.sizes", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties019"), string.Join(",", DefaultSizes)),
+            DemoProperty.Bool("ic.compress", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties020"), true, L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties021")),
+            DemoProperty.Number("ic.quality", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties022"), 92, 1, 100, 1, "%", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties023"))),
+        DemoProperty.Category("ic.io", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties024"), L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties025"),
+            DemoProperty.ReadOnly("ic.source", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties026"), "Assets/logo.png"),
+            DemoProperty.ReadOnly("ic.dest", L.Instance.GetResource("Demo.Text.ImageIconPage.BuildProperties027"), Path.Combine("%TEMP%", "CodeWFToolkitDemo", "image"))));
 
     private async void Merge()
     {
@@ -112,7 +95,7 @@ public sealed class ImageIconPage : DemoPageBase
             Directory.CreateDirectory(_outputDirectory);
             if (!File.Exists(_sourceImage))
             {
-                _output.Text = $"源图片不存在：{_sourceImage}";
+                _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageIconPage.Merge028"), _sourceImage);
                 return;
             }
 
@@ -120,14 +103,14 @@ public sealed class ImageIconPage : DemoPageBase
             await ImageHelper.MergeGenerateIcon(_sourceImage, dest, _sizes);
             var size = new FileInfo(dest).Length;
             _output.Text = $"MergeGenerateIcon(\"logo.png\", \"{Path.GetFileName(dest)}\", [{string.Join(",", _sizes)}])\n"
-                           + $"完成：{dest}\n{size} 字节 · {_sizes.Length} 个尺寸";
+                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageIconPage.Merge029"), dest, size, _sizes.Length);
             FillPreview();
-            Logger.Info($"图标合成完成：{_sizes.Length} 个尺寸，{size} 字节");
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageIconPage.Merge030"), _sizes.Length, size));
         }
         catch (Exception ex)
         {
-            _output.Text = "合成失败：" + ex.Message;
-            Logger.Error("图标合成失败", ex);
+            _output.Text = L.Instance.GetResource("Demo.Text.ImageIconPage.Merge031") + ex.Message;
+            Logger.Error(L.Instance.GetResource("Demo.Text.ImageIconPage.Merge032"), ex);
         }
     }
 
@@ -137,7 +120,7 @@ public sealed class ImageIconPage : DemoPageBase
         {
             if (!File.Exists(_sourceImage))
             {
-                _output.Text = $"源图片不存在：{_sourceImage}";
+                _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageIconPage.Separate033"), _sourceImage);
                 return;
             }
 
@@ -148,13 +131,13 @@ public sealed class ImageIconPage : DemoPageBase
 
             var files = Directory.GetFiles(folder, "*.ico").Select(Path.GetFileName).OrderBy(name => name).ToList();
             _output.Text = $"SeparateGenerateIcon(\"logo.png\", \"icons\", [{string.Join(",", sizes)}])\n"
-                           + $"完成，输出文件：\n  {string.Join("\n  ", files)}";
-            Logger.Info($"图标拆分完成：{files.Count} 个文件");
+                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageIconPage.Separate034"), string.Join("\n  ", files));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageIconPage.Separate035"), files.Count));
         }
         catch (Exception ex)
         {
-            _output.Text = "拆分失败：" + ex.Message;
-            Logger.Error("图标拆分失败", ex);
+            _output.Text = L.Instance.GetResource("Demo.Text.ImageIconPage.Separate036") + ex.Message;
+            Logger.Error(L.Instance.GetResource("Demo.Text.ImageIconPage.Separate037"), ex);
         }
     }
 

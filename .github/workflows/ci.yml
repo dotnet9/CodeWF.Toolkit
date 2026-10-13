@@ -18,6 +18,8 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - uses: ./.github/actions/checkout-studio
+
       - name: 还原
         run: dotnet restore CodeWF.Toolkit.slnx
 
@@ -48,6 +50,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/checkout-studio
 
       - uses: actions/setup-dotnet@v4
         with:

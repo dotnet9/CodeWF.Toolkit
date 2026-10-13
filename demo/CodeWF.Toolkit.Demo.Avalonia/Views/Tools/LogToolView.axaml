@@ -4,7 +4,7 @@
              xmlns:vm="using:CodeWF.Toolkit.Demo.Avalonia.ViewModels"
              x:Class="CodeWF.Toolkit.Demo.Avalonia.Views.Tools.LogToolView"
              x:DataType="vm:MainViewModel"
-             x:CompileBindings="True">
+             x:CompileBindings="True" Background="{DynamicResource StudioSurface}">
   <!--  底部日志工具面板内容（LogView 实时事件流）  -->
   <Grid RowDefinitions="Auto,*">
     <DockPanel Grid.Row="0" Margin="12,6">

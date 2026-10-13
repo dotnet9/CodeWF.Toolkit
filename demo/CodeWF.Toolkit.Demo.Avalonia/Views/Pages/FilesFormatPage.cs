@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Data;
 using System.Text;
 using Avalonia.Controls;
@@ -12,36 +14,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>文件格式页：Json / Yaml / Csv(Excel) 的真实往返，含 DataTable 导入导出。</summary>
 public sealed class FilesFormatPage : DemoPageBase
 {
-    private const string XamlSnippet = """
-        <!-- 文件包基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel -->
-        <ItemGroup>
-          <PackageReference Include="CodeWF.Toolkit.Files" Version="1.0.0.1" />
-        </ItemGroup>
-        """;
+    private static string XamlSnippet => L.Instance.GetResource("Demo.Text.FilesFormatPage.XamlSnippet001");
 
-    private const string CSharpSnippet = """
-        using CodeWF.Toolkit.Files.Extensions;
-        using CodeWF.Toolkit.Files.Exports;
-
-        var student = new Student { Name = "张三", Age = 20, City = "成都" };
-
-        // 对象 → 文本：扩展方法统一带 out error，失败不外抛
-        student.ToJson(out var json, out var error1);
-        student.ToYaml(out var yaml, out var error2);
-
-        // 文本 → 对象
-        json.FromJson<Student>(out var fromJson, out var error3);
-        yaml.FromYaml<Student>(out var fromYaml, out var error4);
-
-        // 格式化与互转
-        json.JsonPrettify(2, sortKeys: true, out var pretty, out _);
-        json.JsonToYaml(out var yaml2, out _);
-
-        // DataTable ↔ Csv / Excel
-        dataTable.ExportToCsv("students.csv", Encoding.UTF8, out var error5);
-        "students.csv".ImportFromCsv(out var error6, out var table);
-        dataTable.ExportToXlsx("students.xlsx", out var error7);
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.FilesFormatPage.CSharpSnippet002");
 
     private static readonly Student Sample = new();
 
@@ -50,45 +25,35 @@ public sealed class FilesFormatPage : DemoPageBase
 
     public FilesFormatPage()
     {
-        _forward = Ui.Code("选择一种格式输出", output: true);
-        _backward = Ui.Code("等待反向解析", output: true);
+        _forward = Ui.Code("@Demo.Text.FilesFormatPage.Content003", output: true);
+        _backward = Ui.Code("@Demo.Text.FilesFormatPage.Content004", output: true);
 
-        var forward = Ui.Card("对象 → 文本（真实调用）",
+        var forward = Ui.Card("@Demo.Text.FilesFormatPage.forward005",
             Ui.Row(
                 Ui.Button("ToJson", () => ToJson(), primary: true),
                 Ui.Button("ToYaml", () => ToYaml()),
-                Ui.Button("JsonPrettify + 排序", () => Prettify()),
+                Ui.Button("@Demo.Text.FilesFormatPage.forward006", () => Prettify()),
                 Ui.Button("Json → Yaml", () => JsonToYaml())),
             _forward);
 
-        var backward = Ui.Card("文本 → 对象",
+        var backward = Ui.Card("@Demo.Text.FilesFormatPage.backward007",
             Ui.Row(
                 Ui.Button("FromJson<Student>", () => FromJson()),
                 Ui.Button("FromYaml<Student>", () => FromYaml())),
             _backward,
-            Ui.Hint("全部扩展方法都带 out error 参数：解析失败返回 false 并给出错误文本，不抛异常。"));
+            Ui.Hint("@Demo.Text.FilesFormatPage.backward008"));
 
-        var model = Ui.Card("数据模型",
-            Ui.Code("""
-                public sealed class Student
-                {
-                    public string Name { get; set; } = "张三";
-                    public int Age { get; set; } = 20;
-                    public string City { get; set; } = "成都";
-                }
-                """));
+        var model = Ui.Card("@Demo.Text.FilesFormatPage.model009",
+            Ui.Code("@Demo.Text.FilesFormatPage.model010"));
 
-        var table = Ui.Card("DataTable ↔ Csv / Excel（真实写盘往返）",
-            Ui.Row(Ui.Button("导出 Csv 再导入", RunCsvRoundTrip, primary: true)),
-            Ui.Code("""
-                DataTableExtensions.ExportToCsv  / ExportToXlsx
-                DataTableExtensions.ImportFromCsv / ImportFromExcel / Import（按扩展名分派）
-                """, output: true),
-            Ui.Hint("写盘位置为临时目录 %TEMP%\\CodeWFToolkitDemo。"));
+        var table = Ui.Card("@Demo.Text.FilesFormatPage.table011",
+            Ui.Row(Ui.Button("@Demo.Text.FilesFormatPage.table012", RunCsvRoundTrip, primary: true)),
+            Ui.Code("@Demo.Text.FilesFormatPage.table013", output: true),
+            Ui.Hint("@Demo.Text.FilesFormatPage.table014"));
 
         Content = Ui.Page(
-            Ui.Heading("文件读写：Json / Yaml / Csv / Excel"),
-            Ui.Sub("基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel，下面是真实往返转换。"),
+            Ui.Heading("@Demo.Text.FilesFormatPage.Content015"),
+            Ui.Sub("@Demo.Text.FilesFormatPage.Content016"),
             Ui.TwoColumns(forward, backward),
             Ui.TwoColumns(model, table));
     }
@@ -102,33 +67,33 @@ public sealed class FilesFormatPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("files.fmt", "格式选项", "文件读写演示的默认选项（与原型一致）。",
-            DemoProperty.Choice("files.format", "默认格式", "Yaml", ["Json", "Yaml", "Csv", "Excel"]),
-            DemoProperty.Number("files.retry", "写入重试", 3, 0, 10, 1, "次", "FileHelper 安全读写的重试次数。"),
-            DemoProperty.Bool("files.bom", "UTF-8 BOM", false, "写文件时是否输出 BOM。")));
+        DemoProperty.Category("files.fmt", L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties017"), L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties018"),
+            DemoProperty.Choice("files.format", L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties019"), "Yaml", ["Json", "Yaml", "Csv", "Excel"]),
+            DemoProperty.Number("files.retry", L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties020"), 3, 0, 10, 1, L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties021"), L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties022")),
+            DemoProperty.Bool("files.bom", "UTF-8 BOM", false, L.Instance.GetResource("Demo.Text.FilesFormatPage.BuildProperties023"))));
 
     private void ToJson()
     {
         if (!Sample.ToJson(out var json, out var error))
         {
-            _forward.Text = "失败：" + error;
+            _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.ToJson024") + error;
             return;
         }
 
         _forward.Text = json;
-        Log("文件格式演示：ToJson");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.ToJson025"));
     }
 
     private void ToYaml()
     {
         if (!Sample.ToYaml(out var yaml, out var error))
         {
-            _forward.Text = "失败：" + error;
+            _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.ToYaml026") + error;
             return;
         }
 
         _forward.Text = yaml;
-        Log("文件格式演示：ToYaml");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.ToYaml027"));
     }
 
     private void Prettify()
@@ -136,12 +101,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToJson(out var json, out _);
         if (!json.JsonPrettify(2, sortKeys: true, out var pretty, out var error))
         {
-            _forward.Text = "失败：" + error;
+            _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.Prettify028") + error;
             return;
         }
 
         _forward.Text = pretty;
-        Log("文件格式演示：JsonPrettify（缩进 2、键排序）");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.Prettify029"));
     }
 
     private void JsonToYaml()
@@ -149,12 +114,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToJson(out var json, out _);
         if (!json.JsonToYaml(out var yaml, out var error))
         {
-            _forward.Text = "失败：" + error;
+            _forward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.JsonToYaml030") + error;
             return;
         }
 
         _forward.Text = yaml;
-        Log("文件格式演示：JsonToYaml");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.JsonToYaml031"));
     }
 
     private void FromJson()
@@ -162,12 +127,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToJson(out var json, out _);
         if (!json.FromJson<Student>(out var student, out var error) || student is null)
         {
-            _backward.Text = "失败：" + error;
+            _backward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.FromJson032") + error;
             return;
         }
 
         _backward.Text = $"FromJson<Student> → Name={student.Name}, Age={student.Age}, City={student.City}  (error = null)";
-        Log("文件格式演示：FromJson");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.FromJson033"));
     }
 
     private void FromYaml()
@@ -175,12 +140,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToYaml(out var yaml, out _);
         if (!yaml.FromYaml<Student>(out var student, out var error) || student is null)
         {
-            _backward.Text = "失败：" + error;
+            _backward.Text = L.Instance.GetResource("Demo.Text.FilesFormatPage.FromYaml034") + error;
             return;
         }
 
         _backward.Text = $"FromYaml<Student> → Name={student.Name}, Age={student.Age}, City={student.City}  (error = null)";
-        Log("文件格式演示：FromYaml");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.FromYaml035"));
     }
 
     private void RunCsvRoundTrip()
@@ -205,17 +170,17 @@ public sealed class FilesFormatPage : DemoPageBase
         };
         if (File.Exists(csvPath))
         {
-            lines.Add($"文件大小：{new FileInfo(csvPath).Length} 字节 · UTF-8 BOM：{(HasBom(csvPath) ? "有" : "无")}");
+            lines.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.FilesFormatPage.RunCsvRoundTrip038"), new FileInfo(csvPath).Length, (HasBom(csvPath) ? L.Instance.GetResource("Demo.Text.FilesFormatPage.RunCsvRoundTrip036") : L.Instance.GetResource("Demo.Text.FilesFormatPage.RunCsvRoundTrip037"))));
         }
 
         lines.Add($"ImportFromCsv → {(imported ? "true" : "false：" + importError)}");
         if (imported && back is not null)
         {
-            lines.Add($"还原：{back.Rows.Count} 行 {back.Columns.Count} 列 → 首行 {string.Join(", ", back.Rows[0].ItemArray)}");
+            lines.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.FilesFormatPage.RunCsvRoundTrip039"), back.Rows.Count, back.Columns.Count, string.Join(", ", back.Rows[0].ItemArray)));
         }
 
         _backward.Text = string.Join('\n', lines);
-        Log("文件格式演示：DataTable Csv 往返");
+        Log(L.Instance.GetResource("Demo.Text.FilesFormatPage.RunCsvRoundTrip040"));
     }
 
     private static bool HasBom(string path)

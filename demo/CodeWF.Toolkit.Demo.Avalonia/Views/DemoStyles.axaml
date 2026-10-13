@@ -48,4 +48,19 @@
     <Setter Property="MinHeight" Value="26" />
     <Setter Property="FontSize" Value="12" />
   </Style>
+
+  <Style Selector="Button.nav-leaf"><Setter Property="MinHeight" Value="30" /><Setter Property="CornerRadius" Value="6" /></Style>
+  <Style Selector="Button.rbn-cmd"><Setter Property="Background" Value="Transparent" /><Setter Property="MinHeight" Value="36" /></Style>
+  <Style Selector="Border.card"><Setter Property="Background" Value="{DynamicResource StudioSurface}" /><Setter Property="CornerRadius" Value="12" /><Setter Property="Padding" Value="18" /></Style>
+
+  <Style Selector="ToggleButton.nav-group TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource StudioText}" />
+  </Style>
+  <Style Selector="ToggleButton.nav-group /template/ ContentPresenter#PART_ContentPresenter, ToggleButton.nav-group:checked /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+  </Style>
+  <Style Selector="ToggleButton.nav-group:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource StudioRaised}" />
+  </Style>
 </Styles>

@@ -1,4 +1,4 @@
-﻿namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
+namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 
 /// <summary>
 /// 演示台的全部 Lang 键（与 design/CodeWF.Toolkit.Demo原型.html 的信息架构一致：

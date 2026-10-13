@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using CodeWF.Avalonia.Lang;
 using CodeWF.Toolkit.Demo.Avalonia.Views;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;

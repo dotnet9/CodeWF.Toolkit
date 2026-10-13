@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
@@ -20,33 +22,7 @@ public sealed class NetSocketPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private const string CSharpSnippet = """
-        using CodeWF.Toolkit.NetWrapper.Helpers;
-        using CodeWF.Toolkit.NetWrapper.Models;
-
-        // 服务端：开启远程文件系统（默认根目录 = 进程当前目录）
-        var server = new TcpSocketServer();
-        var (ok, error) = await server.StartAsync("文件服务", "127.0.0.1", 39561);
-        var fileSystem = server.UseFileSystem();
-        fileSystem.FileTransferProgress += (_, e) =>
-            Console.WriteLine($"{e.FileName} {e.Progress:F1}% ({e.BytesPerSecond / 1024 / 1024:F1} MB/s)");
-
-        // 客户端：连接后下载（自动分块 64KB、校验、断点续传）
-        var client = new TcpSocketClient();
-        await client.ConnectAsync("文件服务", "127.0.0.1", 39561);
-
-        var feature = client.UseFileSystem();
-        feature.FileTransferProgress += (_, e) => Console.WriteLine($"下载 {e.FileName} {e.Progress:F1}%");
-        feature.FileTransferOutcome += (_, e) => Console.WriteLine($"完成：{e.LocalFilePath}");
-
-        await client.DownloadFileAsync("demo-download.bin", localSaveDirectory);
-
-        // 命令下发：任意 INetObject 都会被序列化后发给对端
-        await client.SendCommandAsync(new Heartbeat { TaskId = 1001 });
-
-        client.Stop();
-        await server.StopAsync();
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.NetSocketPage.CSharpSnippet001");
 
     private readonly TextBox _clientCount;
     private readonly TextBox _sampleSize;
@@ -68,46 +44,40 @@ public sealed class NetSocketPage : DemoPageBase
     {
         _clientCount = Ui.Input("0", 80);
         _sampleSize = Ui.Input("2", 80);
-        _serverState = Ui.Key("● 未启动");
-        _clientState = Ui.Key("● 未连接");
-        _feed = Ui.Code("等待启动…", output: true);
-        _transferOutput = Ui.Code("等待下载", output: true);
+        _serverState = Ui.Key("@Demo.Text.NetSocketPage.Content002");
+        _clientState = Ui.Key("@Demo.Text.NetSocketPage.Content003");
+        _feed = Ui.Code("@Demo.Text.NetSocketPage.Content004", output: true);
+        _transferOutput = Ui.Code("@Demo.Text.NetSocketPage.Content005", output: true);
 
-        _startButton = Ui.Button("启动服务端 + 客户端", async () => await StartAsync(), primary: true);
-        _stopButton = Ui.Button("停止", async () => await StopAsync());
-        _downloadButton = Ui.Button("下载样本文件（分块 + 断点续传）", async () => await DownloadAsync(), primary: true);
+        _startButton = Ui.Button("@Demo.Text.NetSocketPage.Content006", async () => await StartAsync(), primary: true);
+        _stopButton = Ui.Button("@Demo.Text.NetSocketPage.Content007", async () => await StopAsync());
+        _downloadButton = Ui.Button("@Demo.Text.NetSocketPage.Content008", async () => await DownloadAsync(), primary: true);
 
-        var server = Ui.Card("服务端 / 客户端",
-            Ui.Field("监听地址", Ui.Key("127.0.0.1（回环）")),
-            Ui.Field("端口", Ui.Key("临时可用端口（IpHelper.GetAvailableTcpPort）")),
+        var server = Ui.Card("@Demo.Text.NetSocketPage.server009",
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetSocketPage.server010"), Ui.Key("@Demo.Text.NetSocketPage.server011")),
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetSocketPage.server012"), Ui.Key("@Demo.Text.NetSocketPage.server013")),
             Ui.Row(_startButton, _stopButton),
-            Ui.Field("服务端", _serverState),
-            Ui.Field("客户端", _clientState),
-            Ui.Field("客户端数", _clientCount),
-            Ui.Hint("客户端上线 / 断开、错误通过 SocketClientChangedCommand / TcpClientErrorCommand 经 EventBus 广播。"));
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetSocketPage.server014"), _serverState),
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetSocketPage.server015"), _clientState),
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetSocketPage.server016"), _clientCount),
+            Ui.Hint("@Demo.Text.NetSocketPage.server017"));
 
-        var messages = Ui.Card("消息与会话",
+        var messages = Ui.Card("@Demo.Text.NetSocketPage.messages018",
             _feed,
-            Ui.Row(Ui.Button("清空会话", () => _feed.Text = string.Empty),
-                Ui.Button("发送 Heartbeat", async () => await SendHeartbeatAsync())),
-            Ui.Code("""
-                TcpSocketServer.StartAsync(serverMark, ip, port, timeout)
-                TcpSocketClient.ConnectAsync(serverMark, ip, port)
-                client.SendCommandAsync(new Heartbeat { SystemId = ... })
-                server.SendCommandAsync(command)     // 广播给全部客户端
-                UdpSocketClient.SendAsync(command, time)
-                """, output: true),
-            Ui.Hint("服务端内置心跳检测：30 秒未活动的客户端由后台任务清理。"));
+            Ui.Row(Ui.Button("@Demo.Text.NetSocketPage.messages019", () => _feed.Text = string.Empty),
+                Ui.Button("@Demo.Text.NetSocketPage.messages020", async () => await SendHeartbeatAsync())),
+            Ui.Code("@Demo.Text.NetSocketPage.messages021", output: true),
+            Ui.Hint("@Demo.Text.NetSocketPage.messages022"));
 
-        var transfer = Ui.Card("远程文件系统（真实下载）",
-            Ui.Field("样本大小(MB)", _sampleSize),
+        var transfer = Ui.Card("@Demo.Text.NetSocketPage.transfer023",
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetSocketPage.transfer024"), _sampleSize),
             _downloadButton,
             _transferOutput,
-            Ui.Hint("下载即生成一个 2MB 样本文件（默认），走 FileDownloadRequest → FileChunkData → FileChunkAck → FileTransferComplete，64KB 分块、哈希校验、断点续传。"));
+            Ui.Hint("@Demo.Text.NetSocketPage.transfer025"));
 
         Content = Ui.Page(
-            Ui.Heading("NetWrapper：TCP/UDP 通信与远程文件"),
-            Ui.Sub("TcpSocketServer / TcpSocketClient 封装、命令分发，内置远程文件系统与断点续传；下方在回环地址上真实互通。"),
+            Ui.Heading("@Demo.Text.NetSocketPage.Content026"),
+            Ui.Sub("@Demo.Text.NetSocketPage.Content027"),
             Ui.TwoColumns(server, messages),
             transfer);
     }
@@ -121,20 +91,20 @@ public sealed class NetSocketPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("ns.conn", "连接参数", "演示用回环连接参数。",
-            DemoProperty.ReadOnly("ns.host", "主机", "127.0.0.1"),
-            DemoProperty.ReadOnly("ns.port", "端口", "临时可用端口"),
-            DemoProperty.Number("ns.timeout", "客户端超时(秒)", 30, 5, 300, 1, "s", "服务端心跳检测超时。"),
-            DemoProperty.Number("ns.chunk", "分块大小(KB)", 64, 4, 1024, 4, "KB", "FileTransferBlockSize。")),
-        DemoProperty.Category("ns.file", "文件传输", "远程文件系统演示参数。",
-            DemoProperty.Bool("ns.resume", "断点续传", true, "已传输字节由 .part 临时文件推断并续传。"),
-            DemoProperty.ReadOnly("ns.dir", "下载目录", Path.Combine("%TEMP%", "CodeWFToolkitDemo", "net"))));
+        DemoProperty.Category("ns.conn", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties028"), L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties029"),
+            DemoProperty.ReadOnly("ns.host", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties030"), "127.0.0.1"),
+            DemoProperty.ReadOnly("ns.port", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties031"), L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties032")),
+            DemoProperty.Number("ns.timeout", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties033"), 30, 5, 300, 1, "s", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties034")),
+            DemoProperty.Number("ns.chunk", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties035"), 64, 4, 1024, 4, "KB", "FileTransferBlockSize。")),
+        DemoProperty.Category("ns.file", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties036"), L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties037"),
+            DemoProperty.Bool("ns.resume", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties038"), true, L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties039")),
+            DemoProperty.ReadOnly("ns.dir", L.Instance.GetResource("Demo.Text.NetSocketPage.BuildProperties040"), Path.Combine("%TEMP%", "CodeWFToolkitDemo", "net"))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
         if (change.Item.Id == "ns.timeout" && _server is not null)
         {
-            Append("注意：超时时间需在启动前设置（TimeOut 属性只读）。");
+            Append(L.Instance.GetResource("Demo.Text.NetSocketPage.OnPropertyCommitted041"));
         }
     }
 
@@ -150,42 +120,42 @@ public sealed class NetSocketPage : DemoPageBase
         {
             _port = CodeWF.Toolkit.Core.Helpers.IpHelper.GetAvailableTcpPort();
             _server = new TcpSocketServer();
-            var (started, startError) = await _server.StartAsync("演示文件服务", "127.0.0.1", _port);
+            var (started, startError) = await _server.StartAsync(L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync042"), "127.0.0.1", _port);
             if (!started)
             {
-                Append("服务端启动失败：" + startError);
+                Append(L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync043") + startError);
                 await StopAsync();
                 return;
             }
 
             _server.UseFileSystem(Directory.GetCurrentDirectory());
-            _serverState.Text = $"● 运行中（127.0.0.1:{_port}）";
-            Append($"server.StartAsync(\"演示文件服务\", \"127.0.0.1\", {_port}) → 成功");
+            _serverState.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync044"), _port);
+            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync045"), _port));
             Append($"server.UseFileSystem(\"{Directory.GetCurrentDirectory()}\")");
 
             _client = new TcpSocketClient();
-            var (connected, connectError) = await _client.ConnectAsync("演示文件服务", "127.0.0.1", _port);
+            var (connected, connectError) = await _client.ConnectAsync(L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync046"), "127.0.0.1", _port);
             if (!connected)
             {
-                Append("客户端连接失败：" + connectError);
+                Append(L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync047") + connectError);
                 await StopAsync();
                 return;
             }
 
-            _clientState.Text = "● 已连接";
+            _clientState.Text = L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync048");
             _clientCount.Text = _server.Clients.Count.ToString();
-            Append($"client.ConnectAsync → 已连接（本地端点 {_client.LocalEndPoint}）");
+            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync049"), _client.LocalEndPoint));
 
             _clientFileSystem = _client.UseFileSystem();
             _clientFileSystem.FileTransferProgress += OnTransferProgress;
             _clientFileSystem.FileTransferOutcome += OnTransferOutcome;
 
-            Logger.Info($"NetWrapper 演示：TCP 已互通 127.0.0.1:{_port}");
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync050"), _port));
         }
         catch (Exception ex)
         {
-            Append("启动异常：" + ex.Message);
-            Logger.Error("NetWrapper 演示启动失败", ex);
+            Append(L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync051") + ex.Message);
+            Logger.Error(L.Instance.GetResource("Demo.Text.NetSocketPage.StartAsync052"), ex);
             await StopAsync();
         }
         finally
@@ -215,31 +185,31 @@ public sealed class NetSocketPage : DemoPageBase
             _server = null;
         }
 
-        _serverState.Text = "● 未启动";
-        _clientState.Text = "● 未连接";
+        _serverState.Text = L.Instance.GetResource("Demo.Text.NetSocketPage.StopAsync053");
+        _clientState.Text = L.Instance.GetResource("Demo.Text.NetSocketPage.StopAsync054");
         _clientCount.Text = "0";
         Append("client.Stop() / await server.StopAsync()");
-        Logger.Warn("NetWrapper 演示已停止");
+        Logger.Warn(L.Instance.GetResource("Demo.Text.NetSocketPage.StopAsync055"));
     }
 
     private async Task SendHeartbeatAsync()
     {
         if (_client is null || _server is null)
         {
-            Append("请先启动服务端与客户端。");
+            Append(L.Instance.GetResource("Demo.Text.NetSocketPage.SendHeartbeatAsync056"));
             return;
         }
 
         try
         {
             await _client.SendCommandAsync(new Heartbeat { TaskId = Random.Shared.Next(1, 10_000) });
-            Append("client.SendCommandAsync(new Heartbeat { ... }) → 已发送");
-            Logger.Info("NetWrapper 演示：心跳已发送");
+            Append(L.Instance.GetResource("Demo.Text.NetSocketPage.SendHeartbeatAsync057"));
+            Logger.Info(L.Instance.GetResource("Demo.Text.NetSocketPage.SendHeartbeatAsync058"));
         }
         catch (Exception ex)
         {
-            Append("发送失败：" + ex.Message);
-            Logger.Error("NetWrapper 演示心跳发送失败", ex);
+            Append(L.Instance.GetResource("Demo.Text.NetSocketPage.SendHeartbeatAsync059") + ex.Message);
+            Logger.Error(L.Instance.GetResource("Demo.Text.NetSocketPage.SendHeartbeatAsync060"), ex);
         }
     }
 
@@ -247,7 +217,7 @@ public sealed class NetSocketPage : DemoPageBase
     {
         if (_client is null)
         {
-            Append("请先启动服务端与客户端。");
+            Append(L.Instance.GetResource("Demo.Text.NetSocketPage.DownloadAsync061"));
             return;
         }
 
@@ -261,16 +231,16 @@ public sealed class NetSocketPage : DemoPageBase
             var fileName = Path.GetFileName(_sampleFilePath);
 
             _downloadButton.IsEnabled = false;
-            _transferOutput.Text = $"准备样本：{fileName}（{new FileInfo(_sampleFilePath).Length:N0} 字节）\n"
-                                   + "client.DownloadFileAsync(...) → 等待服务端分块…";
+            _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.DownloadAsync062"), fileName, new FileInfo(_sampleFilePath).Length)
+                                   + L.Instance.GetResource("Demo.Text.NetSocketPage.DownloadAsync063");
             Append($"client.DownloadFileAsync(\"{_sampleFilePath}\", \"{downloadDirectory}\")");
 
             await _client.DownloadFileAsync(_sampleFilePath, downloadDirectory);
         }
         catch (Exception ex)
         {
-            _transferOutput.Text = "下载失败：" + ex.Message;
-            Logger.Error("NetWrapper 演示下载失败", ex);
+            _transferOutput.Text = L.Instance.GetResource("Demo.Text.NetSocketPage.DownloadAsync064") + ex.Message;
+            Logger.Error(L.Instance.GetResource("Demo.Text.NetSocketPage.DownloadAsync065"), ex);
             _downloadButton.IsEnabled = true;
         }
     }
@@ -300,26 +270,26 @@ public sealed class NetSocketPage : DemoPageBase
 
     private void OnTransferProgress(object? sender, FileTransferProgressEventArgs e)
     {
-        _transferOutput.Text = $"下载 {e.FileName}\n"
-                               + $"进度 {e.Progress:F1}% · {e.TransferredBytes:N0} / {e.TotalBytes:N0} 字节\n"
-                               + $"分块大小 {TcpSocketClientFileSystemFeature.FileTransferBlockSize / 1024} KB · 任务号 {e.TaskId}";
+        _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferProgress066"), e.FileName)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferProgress067"), e.Progress, e.TransferredBytes, e.TotalBytes)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferProgress068"), TcpSocketClientFileSystemFeature.FileTransferBlockSize / 1024, e.TaskId);
     }
 
     private void OnTransferOutcome(object? sender, FileTransferOutcomeEventArgs e)
     {
         var localPath = Path.Combine(Path.GetTempPath(), "CodeWFToolkitDemo", "net", e.FileName);
-        _transferOutput.Text = $"下载{(e.Success ? "完成" : "失败")}：{localPath}\n"
-                               + $"方向 {(e.IsUpload ? "上传" : "下载")} · 任务号 {e.TaskId} · 取消 {e.IsCancelled}\n"
-                               + $"结果：{e.Message}";
-        Append($"FileTransferOutcome → {e.FileName}（{(e.Success ? "成功" : "失败")}）");
-        Logger.Info($"NetWrapper 演示下载结束：{e.FileName}，成功={e.Success}");
+        _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome071"), (e.Success ? L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome069") : L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome070")), localPath)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome074"), (e.IsUpload ? L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome072") : L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome073")), e.TaskId, e.IsCancelled)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome075"), e.Message);
+        Append($"FileTransferOutcome → {e.FileName}（{(e.Success ? L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome076") : L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome077"))}）");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetSocketPage.OnTransferOutcome078"), e.FileName, e.Success));
         _downloadButton.IsEnabled = true;
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith("等待启动", StringComparison.Ordinal)
+        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource("Demo.Text.NetSocketPage.Append079"), StringComparison.Ordinal)
             ? line
             : current + "\n" + line;
     }

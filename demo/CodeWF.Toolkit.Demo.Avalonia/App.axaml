@@ -4,12 +4,16 @@
                         xmlns:semi="https://irihi.tech/semi"
                         xmlns:codewf="https://codewf.com"
                         x:Class="CodeWF.Toolkit.Demo.Avalonia.App"
-                        RequestedThemeVariant="Default">
+                        RequestedThemeVariant="Dark">
   <Application.Styles>
     <semi:SemiTheme Locale="zh-CN" />
     <codewf:ACSemiTheme />
     <codewf:DockSemiTheme />
     <codewf:CodeWFLogTheme />
     <StyleInclude Source="avares://CodeWF.Toolkit.Demo.Avalonia/Views/DemoStyles.axaml" />
+    <codewf:StudioTheme />
+    <Style Selector="codewf|PropertyGrid">
+      <Setter Property="ThemeOverrides" Value="{DynamicResource StudioPropertyGridTheme}" />
+    </Style>
   </Application.Styles>
 </prism:PrismApplication>

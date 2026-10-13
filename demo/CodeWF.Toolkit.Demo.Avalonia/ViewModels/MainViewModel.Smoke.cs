@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
@@ -23,7 +23,7 @@ public partial class MainViewModel
         var host = await AttachSmokeHostAsync(cancellation);
         if (host is null)
         {
-            Logger.Warn("冒烟：没有可挂载的窗口，本次只做页面构建，未逐色板渲染");
+            Logger.Warn("Smoke: no window; page construction only, palette rendering skipped");
         }
 
         var variants = Palettes.SelectMany(p => new[] { p.ResolveVariant(false), p.ResolveVariant(true) })
@@ -50,7 +50,7 @@ public partial class MainViewModel
 
                         if (scene.StepCount == 0)
                         {
-                            Logger.Warn($"冒烟：场景页没有步骤（{item.Title}）");
+                            Logger.Warn($"Smoke: scene has no steps ({item.Title})");
                         }
                     }
 
@@ -73,7 +73,7 @@ public partial class MainViewModel
                             {
                                 failed++;
                                 Logger.Warn(
-                                    $"冒烟：{variant.Key} 变体渲染失败（{item.Title}）：{ex.GetType().Name}: {ex.Message}");
+                                    $"Smoke: {variant.Key} render failed ({item.Title}): {ex.GetType().Name}: {ex.Message}");
                             }
                         }
 
@@ -85,7 +85,7 @@ public partial class MainViewModel
                 catch (Exception ex)
                 {
                     failed++;
-                    Logger.Warn($"冒烟：页面失败（{item.Title}）：{ex.GetType().Name}: {ex.Message}");
+                    Logger.Warn($"Smoke: page failed ({item.Title}): {ex.GetType().Name}: {ex.Message}");
                 }
             }
         }
@@ -96,7 +96,7 @@ public partial class MainViewModel
             restore.RequestedThemeVariant = SelectedPalette.ResolveVariant(IsDarkMode);
         }
 
-        Logger.Info($"冒烟：构建 {built} 个页面（含 {sceneSteps} 次场景步骤切换，渲染 {rendered} 次），失败 {failed} 个");
+        Logger.Info($"Smoke: {built} pages, {sceneSteps} scene steps, {rendered} renders, {failed} failures");
         return failed == 0;
     }
 

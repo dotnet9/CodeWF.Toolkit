@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
@@ -9,35 +11,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>总线集成页：Prism / ASP.NET Core 注册形态讲解 + 真实的 Socket 分布式总线互通。</summary>
 public sealed class EventBusIntegrationsPage : DemoPageBase
 {
-    private const string XamlSnippet = """
-        <!-- 分布式总线只需引用 Socket 包 -->
-        <ItemGroup>
-          <PackageReference Include="CodeWF.Toolkit.EventBus.Socket" Version="1.0.0.1" />
-        </ItemGroup>
-        """;
+    private static string XamlSnippet => L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.XamlSnippet001");
 
-    private const string CSharpSnippet = """
-        // Prism（桌面）
-        containerRegistry.RegisterEventBus(assemblies);   // 或 Container.UseEventBus();
-        // ASP.NET Core
-        builder.Services.AddEventBus(assemblies); app.UseEventBus();
-        // 通用 IOC
-        services.AddEventBus(addSingleton, addScoped, assemblies); Container.UseEventBus(resolve, assemblies);
-
-        // Socket 分布式总线：跨进程 / 跨机
-        var server = new EventServer();
-        server.Start("127.0.0.1", 39561);
-
-        var client = new EventClient();
-        await client.ConnectAsync("127.0.0.1", 39561);
-
-        client.Subscribe<string>("demo.greeting", msg => Console.WriteLine(msg));
-        client.Publish("demo.greeting", "hello", out var error);
-
-        var (result, error2) = await client.QueryAsync<Ping, Pong>(new Ping { Value = 1 });
-        client.Disconnect();
-        server.Stop();
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.CSharpSnippet002");
 
     private readonly TextBox _host;
     private readonly TextBox _port;
@@ -62,32 +38,32 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         _host = Ui.Input("127.0.0.1");
         _port = Ui.Input("39561");
         _heartbeat = Ui.Input("10");
-        _serverState = Ui.Key("● 已停止");
-        _clientState = Ui.Key("● 未连接");
-        _feed = Ui.Code("等待启动服务端…", output: true);
+        _serverState = Ui.Key("@Demo.Text.EventBusIntegrationsPage.Content003");
+        _clientState = Ui.Key("@Demo.Text.EventBusIntegrationsPage.Content004");
+        _feed = Ui.Code("@Demo.Text.EventBusIntegrationsPage.Content005", output: true);
         _topic = Ui.Input("demo.greeting");
         _payload = Ui.Input("hello");
 
-        _subscriberHandler = message => Append($"[客户端订阅] {message}");
+        _subscriberHandler = message => Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.Content006"), message));
 
-        _startButton = Ui.Button("启动服务端 + 客户端", async () => await StartAsync(), primary: true);
-        _stopButton = Ui.Button("停止", async () => await StopAsync());
+        _startButton = Ui.Button("@Demo.Text.EventBusIntegrationsPage.Content007", async () => await StartAsync(), primary: true);
+        _stopButton = Ui.Button("@Demo.Text.EventBusIntegrationsPage.Content008", async () => await StopAsync());
         _publishButton = Ui.Button("Publish", Publish, primary: true);
 
-        var socket = Ui.Card("Socket 分布式总线 EventServer / EventClient（真实互通）",
+        var socket = Ui.Card("@Demo.Text.EventBusIntegrationsPage.socket009",
             Ui.TwoColumns(
-                Ui.Card("服务端 / 客户端",
-                    Ui.Field("监听地址", _host),
-                    Ui.Field("端口", _port),
-                    Ui.Field("心跳(秒)", _heartbeat),
+                Ui.Card("@Demo.Text.EventBusIntegrationsPage.socket010",
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket011"), _host),
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket012"), _port),
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket013"), _heartbeat),
                     Ui.Row(_startButton, _stopButton),
-                    Ui.Field("服务端", _serverState),
-                    Ui.Field("客户端", _clientState),
-                    Ui.Hint("心跳保活、断线重连、离线消息补发；底层传输由 NetWrapper 承担。")),
-                Ui.Card("发布 / 订阅",
-                    Ui.Field("主题", _topic),
-                    Ui.Field("内容", _payload),
-                    Ui.Row(_publishButton, Ui.Button("清空会话", () => _feed.Text = string.Empty)),
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket014"), _serverState),
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket015"), _clientState),
+                    Ui.Hint("@Demo.Text.EventBusIntegrationsPage.socket016")),
+                Ui.Card("@Demo.Text.EventBusIntegrationsPage.socket017",
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket018"), _topic),
+                    Ui.Field(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.socket019"), _payload),
+                    Ui.Row(_publishButton, Ui.Button("@Demo.Text.EventBusIntegrationsPage.socket020", () => _feed.Text = string.Empty)),
                     _feed)),
             Ui.Code("""
                 var server = new EventServer(); server.Start("127.0.0.1", 39561);
@@ -98,23 +74,19 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
                 """));
 
         var prism = Ui.Card("Prism",
-            Ui.Code("""
-                containerRegistry.RegisterEventBus(assemblies);
-                // 或在 PrismApplication 中
-                Container.UseEventBus();
-                """),
-            Ui.Hint("适合 Prism.DryIoc.Avalonia 桌面应用：容器内注册处理器并随模块启动。"));
+            Ui.Code("@Demo.Text.EventBusIntegrationsPage.prism021"),
+            Ui.Hint("@Demo.Text.EventBusIntegrationsPage.prism022"));
 
         var aspnet = Ui.Card("ASP.NET Core",
             Ui.Code("""
                 builder.Services.AddEventBus(assemblies);
                 app.UseEventBus();
                 """),
-            Ui.Hint("处理器自动发现，随请求管线启动。"));
+            Ui.Hint("@Demo.Text.EventBusIntegrationsPage.aspnet023"));
 
         Content = Ui.Page(
-            Ui.Heading("总线集成形态"),
-            Ui.Sub("同一套处理器模型，三种宿主形态；Socket 形态用于跨进程 / 跨机，下方可真实启动服务端与客户端互通。"),
+            Ui.Heading("@Demo.Text.EventBusIntegrationsPage.Content024"),
+            Ui.Sub("@Demo.Text.EventBusIntegrationsPage.Content025"),
             Ui.TwoColumns(prism, aspnet),
             socket);
 
@@ -134,11 +106,11 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("busint.host", "宿主形态", "分布式总线的连接与保活参数。",
-            DemoProperty.Choice("busint.mode", "宿主形态", "Socket", ["进程内", "Prism", "ASP.NET Core", "Socket"]),
-            DemoProperty.Number("busint.port", "端口", 39561, 1024, 65535, 1, null, "EventServer 监听端口。"),
-            DemoProperty.Number("busint.heartbeat", "心跳(秒)", 10, 1, 120, 1, "s", "客户端心跳间隔。"),
-            DemoProperty.Bool("busint.resend", "离线补发", true, "客户端离线期间的消息在重连后补发。")));
+        DemoProperty.Category("busint.host", L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties026"), L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties027"),
+            DemoProperty.Choice("busint.mode", L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties028"), "Socket", [L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties029"), "Prism", "ASP.NET Core", "Socket"]),
+            DemoProperty.Number("busint.port", L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties030"), 39561, 1024, 65535, 1, null, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties031")),
+            DemoProperty.Number("busint.heartbeat", L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties032"), 10, 1, 120, 1, "s", L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties033")),
+            DemoProperty.Bool("busint.resend", L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties034"), true, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.BuildProperties035"))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -167,13 +139,13 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         {
             _server = new EventServer();
             _server.Start(host, port);
-            _serverState.Text = $"● 运行中（{host}:{port}）";
+            _serverState.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync036"), host, port);
             Append($"EventServer.Start(\"{host}\", {port})");
 
             _client = new EventClient();
             var connected = await _client.ConnectAsync(host, port).WaitAsync(TimeSpan.FromSeconds(5));
-            _clientState.Text = connected ? "● 已连接" : "● 连接失败";
-            Append(connected ? $"EventClient.ConnectAsync → 已连接 {host}:{port}" : "EventClient.ConnectAsync → 失败");
+            _clientState.Text = connected ? L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync037") : L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync038");
+            Append(connected ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync039"), host, port) : L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync040"));
             if (!connected)
             {
                 await StopAsync();
@@ -182,13 +154,13 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
 
             _client.Subscribe("demo.greeting", _subscriberHandler);
             _subscribed = true;
-            Append("client.Subscribe<string>(\"demo.greeting\", …) → 已订阅");
-            Logger.Info($"Socket 总线已启动：{host}:{port}");
+            Append(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync041"));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync042"), host, port));
         }
         catch (Exception ex)
         {
-            Append($"启动失败：{ex.Message}");
-            Logger.Error("Socket 总线启动失败", ex);
+            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync043"), ex.Message));
+            Logger.Error(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StartAsync044"), ex);
             await StopAsync();
         }
         finally
@@ -219,10 +191,10 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
             _server = null;
         }
 
-        _serverState.Text = "● 已停止";
-        _clientState.Text = "● 未连接";
+        _serverState.Text = L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StopAsync045");
+        _clientState.Text = L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StopAsync046");
         Append("EventServer.Stop() / EventClient.Disconnect()");
-        Logger.Warn("Socket 总线已停止");
+        Logger.Warn(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.StopAsync047"));
         await Task.CompletedTask;
     }
 
@@ -230,7 +202,7 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
     {
         if (_client is null || !_subscribed)
         {
-            Append("请先启动服务端与客户端。");
+            Append(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.Publish048"));
             return;
         }
 
@@ -238,15 +210,15 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         var payload = _payload.Text ?? string.Empty;
         var ok = _client.Publish(topic, payload, out var error);
         Append(ok
-            ? $"client.Publish(\"{topic}\", \"{payload}\") → 已投递"
-            : $"client.Publish 失败：{error}");
-        Logger.Info($"Socket 总线发布：{topic} = {payload}");
+            ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.Publish049"), topic, payload)
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.Publish050"), error));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.Publish051"), topic, payload));
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith("等待启动", StringComparison.Ordinal)
+        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource("Demo.Text.EventBusIntegrationsPage.Append052"), StringComparison.Ordinal)
             ? line
             : current + "\n" + line;
     }

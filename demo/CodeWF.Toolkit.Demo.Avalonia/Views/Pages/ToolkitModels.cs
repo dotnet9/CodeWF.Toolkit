@@ -1,4 +1,6 @@
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Collections.ObjectModel;
+using Avalonia.Threading;
 using CodeWF.Toolkit.EventBus;
 using CodeWF.Toolkit.Logging;
 using CodeWF.Toolkit.NetWeaver.Base;
@@ -8,11 +10,11 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>演示用数据模型（文件格式页的往返对象）。</summary>
 public sealed class Student
 {
-    public string Name { get; set; } = "张三";
+    public string Name { get; set; } = L.Instance.GetResource("Demo.Text.ToolkitModels.Name001");
 
     public int Age { get; set; } = 20;
 
-    public string City { get; set; } = "成都";
+    public string City { get; set; } = L.Instance.GetResource("Demo.Text.ToolkitModels.City002");
 }
 
 /// <summary>[NetHead] / [NetFieldOrder] 特性驱动的二进制协议包。</summary>
@@ -59,6 +61,7 @@ public sealed class LogStream : IDisposable
 {
     private readonly List<CodeWFLogEvent> _all = [];
     private readonly IDisposable? _subscription;
+    private bool _disposed;
 
     public LogStream(int capacity = 300)
     {
@@ -84,10 +87,21 @@ public sealed class LogStream : IDisposable
         Lines.Clear();
     }
 
-    public void Dispose() => _subscription?.Dispose();
+    public void Dispose()
+    {
+        _disposed = true;
+        _subscription?.Dispose();
+    }
 
     private void OnEvent(CodeWFLogEvent logEvent)
     {
+        // ObservableCollection notifications must be raised on the UI thread.
+        if (!Dispatcher.UIThread.CheckAccess())
+        {
+            Dispatcher.UIThread.Post(() => OnEvent(logEvent));
+            return;
+        }
+        if (_disposed) return;
         lock (_all)
         {
             _all.Add(logEvent);
@@ -103,6 +117,7 @@ public sealed class LogStream : IDisposable
         }
 
         Lines.Add(Format(logEvent));
+        while (Lines.Count > Capacity) Lines.RemoveAt(0);
     }
 
     private static string Format(CodeWFLogEvent logEvent)

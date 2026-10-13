@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
@@ -8,43 +10,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>事件总线页：真实的进程内总线（订阅 / 发布 / 查询 / 退订）。</summary>
 public sealed class EventBusPage : DemoPageBase
 {
-    private const string XamlSnippet = """
-        <!-- Core 页与总线页均为代码构建；总线演示只需引用 EventBus 包 -->
-        <ItemGroup>
-          <PackageReference Include="CodeWF.Toolkit.EventBus" Version="1.0.0.1" />
-        </ItemGroup>
-        """;
+    private static string XamlSnippet => L.Instance.GetResource("Demo.Text.EventBusPage.XamlSnippet001");
 
-    private const string CSharpSnippet = """
-        using CodeWF.Toolkit.EventBus;
-
-        var bus = new EventBus();
-
-        // 1) lambda 订阅
-        Action<GreetCommand> first = cmd => Console.WriteLine($"[lambda] {cmd.Name}");
-        bus.Subscribe(first);
-
-        // 2) 扫描式订阅：[EventHandler] 标记的私有方法，按 Order 顺序执行
-        bus.Subscribe(new TimeQueryHandler());
-        bus.Subscribe<GreetCommand>(cmd => Console.WriteLine($"[lambda2] {cmd.Name}"));
-
-        // 发布（同步 / 异步）
-        bus.Publish(new GreetCommand("CodeWF"));
-        await bus.PublishAsync(new GreetCommand("Toolkit"));
-
-        // 查询：处理器把结果写回 Query.Result
-        var query = new TimeQuery();
-        bus.Query(query);
-        Console.WriteLine($"服务器时间：{query.Result:HH:mm:ss.fff}");
-
-        // 退订：句柄、类型、宿主对象三种粒度
-        bus.Unsubscribe(first);
-        bus.Unsubscribe<TimeQueryHandler>();
-        bus.Unsubscribe(handler);
-
-        // 程序集扫描：一次注册整程序集里的全部处理器
-        bus.Subscribe([typeof(TimeQueryHandler).Assembly]);
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.EventBusPage.CSharpSnippet002");
 
     private readonly CodeWF.Toolkit.EventBus.EventBus _bus = new();
     private readonly SelectableTextBlock _feed;
@@ -64,27 +32,23 @@ public sealed class EventBusPage : DemoPageBase
         _bus.Subscribe(_secondSubscription);
         _bus.Subscribe(new TimeQueryHandler());
 
-        _feed = Ui.Code("总线就绪：2 个 GreetCommand 订阅、1 个 TimeQuery 处理器已注册", output: true);
+        _feed = Ui.Code("@Demo.Text.EventBusPage.Content003", output: true);
         _message = Ui.Input("hello");
-        _unsubscribeButton = Ui.Button("取消第二条订阅", ToggleSecondSubscription);
-        _subscriptionState = Ui.Key("已订阅");
+        _unsubscribeButton = Ui.Button("@Demo.Text.EventBusPage.Content004", ToggleSecondSubscription);
+        _subscriptionState = Ui.Key("@Demo.Text.EventBusPage.Content005");
 
-        var session = Ui.Card("会话（真实总线）",
+        var session = Ui.Card("@Demo.Text.EventBusPage.session006",
             _feed,
             Ui.Row(_message, Ui.Button("Publish(GreetCommand)", Publish, primary: true)),
             Ui.Row(
                 Ui.Button("Query(TimeQuery)", Query),
                 Ui.Button("PublishAsync(GreetCommand)", () => _ = PublishAsync()),
-                Ui.Button("清空", ClearFeed)),
-            Ui.Hint("处理器抛异常不会被静默吞掉；异步发布走 PublishAsync，订阅方按注册顺序执行。"));
+                Ui.Button("@Demo.Text.EventBusPage.session007", ClearFeed)),
+            Ui.Hint("@Demo.Text.EventBusPage.session008"));
 
-        var subscriptions = Ui.Card("订阅表",
-            Ui.Code("""
-                GreetCommand   lambda               已注册
-                GreetCommand   [EventHandler]       已注册（Order 靠后）
-                TimeQuery      [EventHandler]       已注册（查询回写）
-                """, output: true),
-            Ui.Row(_unsubscribeButton, Ui.Key("第二条 GreetCommand 订阅："), _subscriptionState),
+        var subscriptions = Ui.Card("@Demo.Text.EventBusPage.subscriptions009",
+            Ui.Code("@Demo.Text.EventBusPage.subscriptions010", output: true),
+            Ui.Row(_unsubscribeButton, Ui.Key("@Demo.Text.EventBusPage.subscriptions011"), _subscriptionState),
             Ui.Code("""
                 public sealed class TimeQueryHandler
                 {
@@ -93,18 +57,12 @@ public sealed class EventBusPage : DemoPageBase
                 }
                 """));
 
-        var registration = Ui.Card("注册方式",
-            Ui.Code("""
-                EventBus                      手动 Subscribe / Publish，零依赖
-                EventBus.Prism                Prism 容器注册、扫描与启动
-                EventBus.AspNetCore           DI 注册 + 请求管线启动，处理器自动发现
-                EventBusRegistrationExtensions 通用 IOC：AddEventBus(...) + UseEventBus(resolve, assemblies)
-                EventBus.Socket               EventServer / EventClient，跨进程跨机
-                """));
+        var registration = Ui.Card("@Demo.Text.EventBusPage.registration012",
+            Ui.Code("@Demo.Text.EventBusPage.registration013"));
 
         Content = Ui.Page(
-            Ui.Heading("进程内事件总线"),
-            Ui.Sub("发布订阅 + Command/Query。下面的总线是真实运行的：订阅、发布、查询、退订都在本地执行。"),
+            Ui.Heading("@Demo.Text.EventBusPage.Content014"),
+            Ui.Sub("@Demo.Text.EventBusPage.Content015"),
             Ui.TwoColumns(session, subscriptions),
             registration);
 
@@ -120,11 +78,11 @@ public sealed class EventBusPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("bus.core", "总线实例", "演示页持有的真实 EventBus 实例。",
-            DemoProperty.ReadOnly("bus.name", "总线实例", "EventBus"),
-            DemoProperty.Bool("bus.async", "异步发布", false, "开启后 Publish 走 PublishAsync。"),
-            DemoProperty.Bool("bus.scan", "程序集扫描", false, "按程序集注册 [EventHandler]。"),
-            DemoProperty.Number("bus.order", "处理器顺序", 1, 0, 100, 1, null, "同命令多处理器时的执行顺序。")));
+        DemoProperty.Category("bus.core", L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties016"), L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties017"),
+            DemoProperty.ReadOnly("bus.name", L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties018"), "EventBus"),
+            DemoProperty.Bool("bus.async", L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties019"), false, L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties020")),
+            DemoProperty.Bool("bus.scan", L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties021"), false, L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties022")),
+            DemoProperty.Number("bus.order", L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties023"), 1, 0, 100, 1, null, L.Instance.GetResource("Demo.Text.EventBusPage.BuildProperties024"))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -135,8 +93,8 @@ public sealed class EventBusPage : DemoPageBase
         else if (change.Item.Id == "bus.scan" && DemoProperty.Flag(change))
         {
             _bus.Subscribe([typeof(TimeQueryHandler).Assembly]);
-            Append("程序集扫描：已注册 TimeQueryHandler");
-            Logger.Info("事件总线：程序集扫描注册处理器");
+            Append(L.Instance.GetResource("Demo.Text.EventBusPage.OnPropertyCommitted025"));
+            Logger.Info(L.Instance.GetResource("Demo.Text.EventBusPage.OnPropertyCommitted026"));
         }
     }
 
@@ -145,7 +103,7 @@ public sealed class EventBusPage : DemoPageBase
         var name = _message.Text ?? string.Empty;
         Append($"Publish(new GreetCommand(\"{name}\"))");
         _bus.Publish(new GreetCommand(name));
-        Logger.Info($"事件总线发布：GreetCommand(\"{name}\")");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusPage.Publish027"), name));
     }
 
     private async Task PublishAsync()
@@ -153,15 +111,15 @@ public sealed class EventBusPage : DemoPageBase
         var name = _message.Text ?? string.Empty;
         Append($"PublishAsync(new GreetCommand(\"{name}\"))");
         await _bus.PublishAsync(new GreetCommand(name));
-        Logger.Info($"事件总线异步发布：GreetCommand(\"{name}\")");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusPage.PublishAsync028"), name));
     }
 
     private void Query()
     {
         var query = new TimeQuery();
         _bus.Query(query);
-        Append($"[查询] TimeQuery.Result = {query.Result:HH:mm:ss.fff}");
-        Logger.Info("事件总线查询：TimeQuery");
+        Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusPage.Query029"), query.Result));
+        Logger.Info(L.Instance.GetResource("Demo.Text.EventBusPage.Query030"));
     }
 
     private void ToggleSecondSubscription()
@@ -170,28 +128,28 @@ public sealed class EventBusPage : DemoPageBase
         if (_secondSubscriptionActive)
         {
             _bus.Subscribe(_secondSubscription);
-            _unsubscribeButton.Content = "取消第二条订阅";
-            _subscriptionState.Text = "已订阅";
+            _unsubscribeButton.Content = L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription031");
+            _subscriptionState.Text = L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription032");
         }
         else
         {
             _bus.Unsubscribe(_secondSubscription);
-            _unsubscribeButton.Content = "恢复第二条订阅";
-            _subscriptionState.Text = "已取消";
+            _unsubscribeButton.Content = L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription033");
+            _subscriptionState.Text = L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription034");
         }
 
-        Logger.Info($"事件总线第二条订阅：{(_secondSubscriptionActive ? "启用" : "取消")}");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription037"), (_secondSubscriptionActive ? L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription035") : L.Instance.GetResource("Demo.Text.EventBusPage.ToggleSecondSubscription036"))));
     }
 
     private void ClearFeed()
     {
-        _feed.Text = "会话已清空";
-        Logger.Info("事件总线会话已清空");
+        _feed.Text = L.Instance.GetResource("Demo.Text.EventBusPage.ClearFeed038");
+        Logger.Info(L.Instance.GetResource("Demo.Text.EventBusPage.ClearFeed039"));
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current == "会话已清空" ? line : current + "\n" + line;
+        _feed.Text = string.IsNullOrEmpty(current) || current == L.Instance.GetResource("Demo.Text.EventBusPage.Append040") ? line : current + "\n" + line;
     }
 }

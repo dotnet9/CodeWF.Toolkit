@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Collections.ObjectModel;
 using System.Text;
 using Avalonia.Controls;
@@ -19,33 +21,7 @@ public sealed class NetPacketPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private const string CSharpSnippet = """
-        using CodeWF.Toolkit.NetWeaver;
-        using CodeWF.Toolkit.NetWeaver.Base;
-
-        [NetHead(0x01, 1)]
-        public sealed class SamplePacket : INetObject
-        {
-            [NetFieldOrder(0)]
-            public int Id { get; set; }
-
-            [NetFieldOrder(1)]
-            public float Score { get; set; }
-
-            [NetFieldOrder(2)]
-            public string Title { get; set; } = string.Empty;
-        }
-
-        var packet = new SamplePacket { Id = 42, Score = 1.0f, Title = "hello" };
-
-        var buffer = packet.Serialize(systemId: 1);     // 包头 [NetHead(0x01, 1)] + 字段
-        var restored = buffer.Deserialize<SamplePacket>();
-
-        Console.WriteLine($"{buffer.Length} 字节 → Id={restored.Id}, Score={restored.Score}, Title={restored.Title}");
-
-        // [NetIgnoreMember] 跳过成员；位域场景用 NetFieldOffsetAttribute 精确布局
-        // 裁剪 / AOT 下通过 DynamicDependency 保留反射成员
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.NetPacketPage.CSharpSnippet001");
 
     private readonly ObservableCollection<string> _fieldRows = [];
     private readonly ListBox _fieldList;
@@ -59,7 +35,7 @@ public sealed class NetPacketPage : DemoPageBase
         _systemId = Ui.Input("1", 110);
         _version = Ui.Input("1", 110);
         _newField = Ui.Input("Remark", 160);
-        _output = Ui.Code("等待序列化", output: true);
+        _output = Ui.Code("@Demo.Text.NetPacketPage.Content002", output: true);
 
         _fieldList = new ListBox
         {
@@ -71,20 +47,20 @@ public sealed class NetPacketPage : DemoPageBase
 
         DrawFields();
 
-        var fields = Ui.Card("协议字段（真实序列化）",
+        var fields = Ui.Card("@Demo.Text.NetPacketPage.fields003",
             _fieldList,
-            Ui.Row(_newField, Ui.Button("添加字段", AddField), Ui.Button("清空字段", () => _fieldRows.Clear())),
+            Ui.Row(_newField, Ui.Button("@Demo.Text.NetPacketPage.fields004", AddField), Ui.Button("@Demo.Text.NetPacketPage.fields005", () => _fieldRows.Clear())),
             Ui.Row(Ui.Button("Serialize", Serialize, primary: true), Ui.Button("Deserialize", Deserialize)),
             _output);
 
-        var head = Ui.Card("包头",
+        var head = Ui.Card("@Demo.Text.NetPacketPage.head006",
             Ui.Field("systemId", _systemId),
             Ui.Field("version", _version),
-            Ui.Field("字节序", Ui.Key("大端（Big-Endian）")),
-            Ui.Field("固定头长", Ui.Key($"{SerializeHelper.PacketHeadLen} 字节")),
-            Ui.Hint("包头由 [NetHead(systemId, version)] 声明，序列化时按 INetObject 的类型元数据写入；反序列化按同一元数据校验版本。"));
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetPacketPage.head007"), Ui.Key("@Demo.Text.NetPacketPage.head008")),
+            Ui.Field(L.Instance.GetResource("Demo.Text.NetPacketPage.head009"), Ui.Key(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.head010"), SerializeHelper.PacketHeadLen))),
+            Ui.Hint("@Demo.Text.NetPacketPage.head011"));
 
-        var declaration = Ui.Card("协议声明",
+        var declaration = Ui.Card("@Demo.Text.NetPacketPage.declaration012",
             Ui.Code("""
                 [NetHead(0x01, 1)]
                 public sealed class SamplePacket : INetObject
@@ -97,17 +73,12 @@ public sealed class NetPacketPage : DemoPageBase
                 var buffer = packet.Serialize(systemId: 0);
                 var restored = buffer.Deserialize<SamplePacket>();
                 """),
-            Ui.Code("""
-                [NetIgnoreMember]           跳过该成员
-                NetFieldOffsetAttribute     位域 / 精确偏移布局
-                SerializeObject(obj, type)  非泛型重载（配合 DynamicDependency）
-                PacketHeadLen               固定包头长度
-                """, output: true),
-            Ui.Hint("字段类型映射：int → 4 字节、float → 4 字节（IEEE754 大端）、string → 长度前缀 + UTF-8。"));
+            Ui.Code("@Demo.Text.NetPacketPage.declaration013", output: true),
+            Ui.Hint("@Demo.Text.NetPacketPage.declaration014"));
 
         Content = Ui.Page(
-            Ui.Heading("NetWeaver：特性驱动的二进制序列化"),
-            Ui.Sub("属性即协议：[NetHead(systemId, version)] 声明包头，[NetFieldOrder(n)] 声明字段顺序；下方按钮执行真实序列化与反序列化。"),
+            Ui.Heading("@Demo.Text.NetPacketPage.Content015"),
+            Ui.Sub("@Demo.Text.NetPacketPage.Content016"),
             Ui.TwoColumns(fields, head),
             declaration);
     }
@@ -121,11 +92,11 @@ public sealed class NetPacketPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("pkt.head", "包头", "与 [NetHead] 对应的声明值（演示用）。",
-            DemoProperty.Number("pkt.systemid", "systemId", 1, 0, 255, 1, null, "写入包头的系统标识。"),
-            DemoProperty.Number("pkt.version", "version", 1, 0, 255, 1, null, "写入包头的协议版本。"),
-            DemoProperty.Bool("pkt.bigendian", "大端序", true, "NetWeaver 固定使用大端序。"),
-            DemoProperty.Bool("pkt.offset", "位域布局", false, "使用 NetFieldOffsetAttribute 精确布局。")));
+        DemoProperty.Category("pkt.head", L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties017"), L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties018"),
+            DemoProperty.Number("pkt.systemid", "systemId", 1, 0, 255, 1, null, L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties019")),
+            DemoProperty.Number("pkt.version", "version", 1, 0, 255, 1, null, L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties020")),
+            DemoProperty.Bool("pkt.bigendian", L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties021"), true, L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties022")),
+            DemoProperty.Bool("pkt.offset", L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties023"), false, L.Instance.GetResource("Demo.Text.NetPacketPage.BuildProperties024"))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -163,13 +134,13 @@ public sealed class NetPacketPage : DemoPageBase
         var name = (_newField.Text ?? string.Empty).Trim();
         if (name.Length == 0)
         {
-            _output.Text = "字段名不能为空。";
+            _output.Text = L.Instance.GetResource("Demo.Text.NetPacketPage.AddField025");
             return;
         }
 
-        _fieldRows.Add($"[演示] {name,-6} string = (仅 UI 演示，真实协议需改 C# 声明)");
-        _output.Text = $"已添加占位字段 {name}：协议字段由编译期特性声明，运行时不能真正改变包结构。";
-        Logger.Warn($"NetWeaver 演示：新增占位字段 {name}");
+        _fieldRows.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.AddField026"), name));
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.AddField027"), name);
+        Logger.Warn(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.AddField028"), name));
     }
 
     private void Serialize()
@@ -185,10 +156,10 @@ public sealed class NetPacketPage : DemoPageBase
         var buffer = packet.Serialize(systemId);
         var hex = string.Join(' ', buffer.Select(b => "0x" + b.ToString("X2")));
 
-        _output.Text = $"Serialize(systemId: {systemId}) → {buffer.Length} 字节\n"
-                       + $"包头 [NetHead(0x01, {_version.Text})] · {SerializeHelper.PacketHeadLen} 字节\n\n"
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.Serialize029"), systemId, buffer.Length)
+                       + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.Serialize030"), _version.Text, SerializeHelper.PacketHeadLen)
                        + hex;
-        Logger.Info($"NetWeaver 序列化：{buffer.Length} 字节（systemId={systemId}）");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.Serialize031"), buffer.Length, systemId));
     }
 
     private void Deserialize()
@@ -198,7 +169,7 @@ public sealed class NetPacketPage : DemoPageBase
         var restored = buffer.Deserialize<SamplePacket>();
 
         var builder = new StringBuilder();
-        builder.AppendLine($"Deserialize<SamplePacket>() ← {buffer.Length} 字节");
+        builder.AppendLine(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.NetPacketPage.Deserialize032"), buffer.Length));
         builder.AppendLine($"  Id    = {restored.Id}");
         builder.AppendLine($"  Score = {restored.Score}");
         builder.AppendLine($"  Title = \"{restored.Title}\"");
@@ -206,11 +177,11 @@ public sealed class NetPacketPage : DemoPageBase
         builder.Append(restored.Id == packet.Id
                        && Math.Abs(restored.Score - packet.Score) < 0.001f
                        && restored.Title == packet.Title
-            ? "往返校验：一致"
-            : "往返校验：不一致！");
+            ? L.Instance.GetResource("Demo.Text.NetPacketPage.Deserialize033")
+            : L.Instance.GetResource("Demo.Text.NetPacketPage.Deserialize034"));
 
         _output.Text = builder.ToString();
-        Logger.Info("NetWeaver 反序列化：往返校验完成");
+        Logger.Info(L.Instance.GetResource("Demo.Text.NetPacketPage.Deserialize035"));
     }
 
     private static string PropertyTypeName(Type type) => type == typeof(int) ? "int"

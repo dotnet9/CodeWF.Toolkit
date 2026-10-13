@@ -173,6 +173,10 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 ## 演示 / Demos
 
+新版原生首页提供真实事件流、Int32 字节编码和 JSON → YAML → ZIP → QR 流水线，默认使用 .NET 紫，并支持 AI 极光与暖陶配色。**图形 Demo 当前需要相邻检出的 CodeWF.Avalonia 源码**；构建路径、双语资源与验证方式见 [原生演示台文档](docs/NativeDemo.md)。
+
+The native overview runs real event, serialization and file experiments. Building the GUI currently requires the sibling CodeWF.Avalonia source checkout; the console Demo and production libraries remain independently buildable.
+
 ```bash
 # 控制台演示：依次跑日志、进程内总线、分布式总线、序列化，然后进入交互菜单
 dotnet run --project demo/CodeWF.Toolkit.Demo

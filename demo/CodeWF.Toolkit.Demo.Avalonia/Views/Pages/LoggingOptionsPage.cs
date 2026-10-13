@@ -1,3 +1,5 @@
+using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
@@ -17,53 +19,28 @@ public sealed class LoggingOptionsPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private const string CSharpSnippet = """
-        using CodeWF.Toolkit.Logging;
-
-        // 全量选项：控制台 / 文件轮转 / 保留策略 / 行模板 / 本地化
-        Logger.TryInitialize(new LoggerOptions
-        {
-            MinimumLevel = LogLevel.Debug,
-            EnableConsole = false,
-            File = new FileLogOptions
-            {
-                DirectoryPath = Path.Combine(AppContext.BaseDirectory, "logs"),
-                MaxFileSizeBytes = 32 * 1024 * 1024,
-                RetentionDays = 30,
-            },
-        });
-
-        // 健康诊断：丢弃计数（按级别细分）
-        var snapshot = Logger.Health.GetSnapshot();
-        var dropped = snapshot.DroppedCount;
-
-        // UI 事件流：CodeWF.Avalonia.Log 的 LogView 订阅的就是它
-        var recent = Logger.Events.GetRecentEvents();
-
-        // 退出前刷盘，避免批量异步写入丢失
-        await Logger.ShutdownAsync();
-        """;
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.LoggingOptionsPage.CSharpSnippet001");
 
     private readonly SelectableTextBlock _output;
 
     public LoggingOptionsPage()
     {
-        _output = Ui.Code("等待操作：点击上方按钮查看诊断 / 事件流快照", output: true);
+        _output = Ui.Code("@Demo.Text.LoggingOptionsPage.Content002", output: true);
 
         Content = Ui.Page(
             Ui.Heading(I18n(DemoKeys.ItemLoggingOptions)),
             Ui.Sub(I18n(DemoKeys.DescLoggingOptions)),
-            Ui.Card("参数全览", BuildOptionsTable()),
-            Ui.Card("健康与事件流",
+            Ui.Card("@Demo.Text.LoggingOptionsPage.Content003", BuildOptionsTable()),
+            Ui.Card("@Demo.Text.LoggingOptionsPage.Content004",
                 Ui.Row(
-                    Ui.Button("Logger.Health 诊断", ShowHealth, primary: true),
-                    Ui.Button("Logger.Events 快照", ShowFeed),
-                    Ui.Button("写入三条示例日志", WriteSamples)),
+                    Ui.Button("@Demo.Text.LoggingOptionsPage.Content005", ShowHealth, primary: true),
+                    Ui.Button("@Demo.Text.LoggingOptionsPage.Content006", ShowFeed),
+                    Ui.Button("@Demo.Text.LoggingOptionsPage.Content007", WriteSamples)),
                 _output,
-                Ui.Hint("UI 事件流的回调在后台线程触发，界面订阅方需自行调度到 UI 线程。")),
-            Ui.Card("与 CodeWF.Avalonia 的对接",
-                Ui.Hint("CodeWF.Avalonia.Log 的 LogView 直接订阅这份 UI 事件流；"
-                        + "桌面演示台的底部日志面板就是它的一个实例。")));
+                Ui.Hint("@Demo.Text.LoggingOptionsPage.Content008")),
+            Ui.Card("@Demo.Text.LoggingOptionsPage.Content009",
+                Ui.Hint("@Demo.Text.LoggingOptionsPage.Content010"
+                        + L.Instance.GetResource("Demo.Text.LoggingOptionsPage.Content011"))));
     }
 
     public override string TitleKey => DemoKeys.ItemLoggingOptions;
@@ -79,30 +56,30 @@ public sealed class LoggingOptionsPage : DemoPageBase
         new PropertyItem
         {
             Id = "logging.level",
-            Name = "最低级别",
+            Name = L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildProperties012"),
             Kind = PropertyItemKind.Choice,
             Options = ["Trace", "Debug", "Information", "Warning", "Error"],
             Value = "Information",
             DefaultValue = "Information",
-            Description = "低于该级别的日志会被丢弃。",
+            Description = L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildProperties013"),
         },
         new PropertyItem
         {
             Id = "logging.rotating",
-            Name = "文件轮转",
+            Name = L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildProperties014"),
             Kind = PropertyItemKind.Boolean,
             Value = true,
             DefaultValue = true,
-            Description = "按单文件上限轮转，并按保留天数清理。",
+            Description = L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildProperties015"),
         },
         new PropertyItem
         {
             Id = "logging.feed",
-            Name = "UI 事件流",
+            Name = L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildProperties016"),
             Kind = PropertyItemKind.Boolean,
             Value = true,
             DefaultValue = true,
-            Description = "开启 UI 事件流，供桌面端日志控件订阅。",
+            Description = L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildProperties017"),
         },
     ];
 
@@ -110,44 +87,44 @@ public sealed class LoggingOptionsPage : DemoPageBase
     {
         var rows = new (string Option, string Default, string Note)[]
         {
-            ("MinimumLevel", "Information", "低于该级别的日志直接丢弃"),
-            ("EnableConsole", "true", "控制台输出（桌面应用可关闭）"),
-            ("File.DirectoryPath", "BaseDirectory/logs", "日志目录"),
-            ("File.MaxFileSizeBytes", "32 MB", "单文件上限，超限轮转"),
-            ("File.RetentionDays", "30", "保留天数"),
-            ("LineTemplate", "DefaultTemplate", "LineTemplateController 可自定义输出模板"),
-            ("LocalizedLevelFormatter", "zh / en", "级别文案本地化"),
+            ("MinimumLevel", "Information", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable018")),
+            ("EnableConsole", "true", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable019")),
+            ("File.DirectoryPath", "BaseDirectory/logs", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable020")),
+            ("File.MaxFileSizeBytes", "32 MB", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable021")),
+            ("File.RetentionDays", "30", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable022")),
+            ("LineTemplate", "DefaultTemplate", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable023")),
+            ("LocalizedLevelFormatter", "zh / en", L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable024")),
         };
 
-        return Ui.Table(["参数", "默认", "说明"], rows.Select(r => new[] { r.Option, r.Default, r.Note }).ToArray());
+        return Ui.Table([L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable025"), L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable026"), L.Instance.GetResource("Demo.Text.LoggingOptionsPage.BuildOptionsTable027")], rows.Select(r => new[] { r.Option, r.Default, r.Note }).ToArray());
     }
 
     private void ShowHealth()
     {
         var snapshot = Logger.Health.GetSnapshot();
         var byLevel = snapshot.DroppedByLevel.Count == 0
-            ? "  （无丢弃）"
+            ? L.Instance.GetResource("Demo.Text.LoggingOptionsPage.ShowHealth028")
             : string.Join(Environment.NewLine, snapshot.DroppedByLevel.Select(p => $"  {p.Key}: {p.Value}"));
 
         _output.Text = $"Logger.Health.GetSnapshot()" + Environment.NewLine
             + $"  DroppedCount = {snapshot.DroppedCount}" + Environment.NewLine
             + "  DroppedByLevel:" + Environment.NewLine + byLevel;
-        Logger.Info($"日志健康检查：丢弃 {snapshot.DroppedCount} 条");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.LoggingOptionsPage.ShowHealth029"), snapshot.DroppedCount));
     }
 
     private void ShowFeed()
     {
         var recent = Logger.Events.GetRecentEvents();
-        _output.Text = $"Logger.Events.GetRecentEvents() → {recent.Count} 条" + Environment.NewLine
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.LoggingOptionsPage.ShowFeed030"), recent.Count) + Environment.NewLine
             + string.Join(Environment.NewLine, recent.Take(8).Select(e => $"  [{e.Level}] {e.Message}"));
-        Logger.Info($"UI 事件流快照：{recent.Count} 条");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.LoggingOptionsPage.ShowFeed031"), recent.Count));
     }
 
     private void WriteSamples()
     {
-        Logger.Info("演示：一条信息日志");
-        Logger.Warn("演示：一条警告日志");
-        Logger.Error("演示：一条错误日志", new InvalidOperationException("示例异常"));
+        Logger.Info(L.Instance.GetResource("Demo.Text.LoggingOptionsPage.WriteSamples032"));
+        Logger.Warn(L.Instance.GetResource("Demo.Text.LoggingOptionsPage.WriteSamples033"));
+        Logger.Error(L.Instance.GetResource("Demo.Text.LoggingOptionsPage.WriteSamples034"), new InvalidOperationException(L.Instance.GetResource("Demo.Text.LoggingOptionsPage.WriteSamples035")));
         ShowFeed();
     }
 

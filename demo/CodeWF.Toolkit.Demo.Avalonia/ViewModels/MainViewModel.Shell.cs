@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -399,8 +400,8 @@ public partial class MainViewModel
         var text = RenameText.Trim();
         target.CustomTitle = text.Length == 0 || text == target.Title ? null : text;
         Logger.Info(string.IsNullOrEmpty(target.CustomTitle)
-            ? $"恢复原名：{target.Title}"
-            : $"重命名：{target.Title} → {target.CustomTitle}");
+            ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.MainViewModelShell.CommitRename001"), target.Title)
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.MainViewModelShell.CommitRename002"), target.Title, target.CustomTitle));
         RenameTarget = null;
         this.RaisePropertyChanged(nameof(HasRenames));
         RefreshDocumentTitles();
@@ -524,7 +525,7 @@ public partial class MainViewModel
             LayoutPath);
     }
 
-    public bool LoadLayout() => !Program.IsSmokeMode && LoadLayoutFrom(LayoutPath);
+    public bool LoadLayout() => !Program.IsSmokeMode && Program.CaptureDirectory is null && LoadLayoutFrom(LayoutPath);
 
     /// <summary>把当前布局写入指定文件（冒烟用临时路径，避免污染用户存档）。</summary>
     public bool SaveLayoutTo(string path)
@@ -558,7 +559,7 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            Logger.Warn("保存布局失败：" + ex.Message);
+            Logger.Warn(L.Instance.GetResource("Demo.Text.MainViewModelShell.SaveLayoutTo003") + ex.Message);
             return false;
         }
     }
@@ -634,12 +635,12 @@ public partial class MainViewModel
             SetPanelVisible(_logTool, state.LogVisible);
 
             this.RaisePropertyChanged(nameof(HasRenames));
-            Logger.Info("已恢复布局：" + path);
+            Logger.Info(L.Instance.GetResource("Demo.Text.MainViewModelShell.LoadLayoutFrom004") + path);
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Warn("恢复布局失败：" + ex.Message);
+            Logger.Warn(L.Instance.GetResource("Demo.Text.MainViewModelShell.LoadLayoutFrom005") + ex.Message);
             return false;
         }
     }

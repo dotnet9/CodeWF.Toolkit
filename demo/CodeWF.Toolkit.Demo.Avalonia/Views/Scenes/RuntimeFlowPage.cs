@@ -1,3 +1,4 @@
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 
@@ -26,28 +27,7 @@ public sealed class RuntimeFlowPage : ScenePageBase
 
     protected override string SummaryKey => DemoKeys.SummaryRuntime;
 
-    public override string XamlCode => """
-        <!-- 运行态工作台：同一套处理器模型，进程内 / 集成 / 分布式三种形态 -->
-        builder.Services.AddEventBus(assemblies);
-        app.UseEventBus();
+    public override string XamlCode => L.Instance.GetResource("Demo.Text.RuntimeFlowPage.XamlCode001");
 
-        var server = new EventServer();
-        server.Start("127.0.0.1", 39561);
-        await client.ConnectAsync("127.0.0.1", 39561);
-        """;
-
-    public override string CSharpCode => """
-        // 场景页把「启动 → 连接 → 发布 → 查询 → 观测」编成一条工作流，
-        // 每一步复用能力字典里的同一个页面实例：
-        AddStep(DemoKeys.StepServer, new EventBusPage());
-        AddStep(DemoKeys.StepConnect, new EventBusIntegrationsPage());
-        AddStep(DemoKeys.StepPublish, new EventBusPage());
-        AddStep(DemoKeys.StepQuery, new EventBusIntegrationsPage());
-        AddStep(DemoKeys.StepObserve, new LoggingCorePage());
-        AttachSceneShell();
-
-        // 运行态的日志与总线是同一个进程里的两侧：
-        Logger.Info("EventServer 启动成功，服务地址是：127.0.0.1:39561");
-        client.Publish("demo.greeting", "hello", out _);
-        """;
+    public override string CSharpCode => L.Instance.GetResource("Demo.Text.RuntimeFlowPage.CSharpCode002");
 }

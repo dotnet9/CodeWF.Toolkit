@@ -431,3 +431,6 @@ FodyWeavers.xsd
 !src/Log/
 !src/Log/CodeWF.Avalonia.Log/
 !tests/CodeWF.Avalonia.Controls.Tests/Log/
+
+# Pinned external source checkout used by the native Demo build
+.sources/

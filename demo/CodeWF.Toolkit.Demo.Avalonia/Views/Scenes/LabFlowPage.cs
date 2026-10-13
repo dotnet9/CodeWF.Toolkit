@@ -1,3 +1,4 @@
+using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 
@@ -25,28 +26,7 @@ public sealed class LabFlowPage : ScenePageBase
 
     protected override string SummaryKey => DemoKeys.SummaryLab;
 
-    public override string XamlCode => """
-        <!-- 能力实验室：Files / Image 的入口 API 一览 -->
-        <PackageReference Include="CodeWF.Toolkit.Files" />
-        <PackageReference Include="CodeWF.Toolkit.Image" />
+    public override string XamlCode => L.Instance.GetResource("Demo.Text.LabFlowPage.XamlCode001");
 
-        await ImageHelper.MergeGenerateIcon("logo.png", "logo.ico", [24, 32, 48]);
-        QrCodeGenerator.GenerateQrCode("CodeWF", "https://codewf.com", "qr.png");
-        """;
-
-    public override string CSharpCode => """
-        // 场景页把「格式转换 → 归档 → 图标/二维码 → 导出」编成一条流水线
-        AddStep(DemoKeys.StepFormat, new FilesFormatPage());
-        AddStep(DemoKeys.StepArchive, new FilesArchivePage());
-        AddStep(DemoKeys.StepImage, new ImageIconPage());
-        AddStep(DemoKeys.StepExport, new ImageQrPage());
-        AttachSceneShell();
-
-        // 各步底层就是能力字典里那批 API：
-        var yaml = student.ToYaml(out var error);
-        var compressor = new SevenZipCompressor(httpClient);
-        compressor.Zip(sourceDirectory, "archive.7z");
-        await ImageHelper.MergeGenerateIcon("logo.png", "logo.ico", [16, 24, 32, 48, 64, 128, 256]);
-        QrCodeGenerator.GenerateQrCode("CodeWF", "https://codewf.com", "qrcode.png");
-        """;
+    public override string CSharpCode => L.Instance.GetResource("Demo.Text.LabFlowPage.CSharpCode002");
 }
