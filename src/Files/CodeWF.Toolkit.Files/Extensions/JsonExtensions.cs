@@ -236,7 +236,7 @@ public static class JsonExtensions
                 return sequence;
 
             case JsonValueKind.String:
-                return new YamlScalarNode(element.GetString());
+                return new YamlScalarNode(element.GetString()) { Style = YamlDotNet.Core.ScalarStyle.DoubleQuoted };
 
             case JsonValueKind.Number:
                 return new YamlScalarNode(element.GetRawText());

@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using YamlDotNet.Core;
 using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
@@ -14,6 +15,28 @@ namespace CodeWF.Toolkit.Files.Extensions;
 
 public static class YamlExtensions
 {
+    /// <summary>Serializes using generated JSON metadata and the YAML document model. JSON naming and converters define the data contract.</summary>
+    public static bool ToYaml<T>(this T obj, JsonTypeInfo<T> jsonTypeInfo, out string? yaml, out string? errorMsg)
+    {
+        if (!obj.ToJson(jsonTypeInfo, out var json, out errorMsg))
+        {
+            yaml = null;
+            return false;
+        }
+        return json.JsonToYaml(out yaml, out errorMsg);
+    }
+
+    /// <summary>Reads a YAML document using generated JSON metadata, without runtime model discovery.</summary>
+    public static bool FromYaml<T>(this string? yaml, JsonTypeInfo<T> jsonTypeInfo, out T? obj, out string? errorMsg)
+    {
+        if (!yaml.YamlToJson(out var json, out errorMsg))
+        {
+            obj = default;
+            return false;
+        }
+        return json.FromJson(jsonTypeInfo, out obj, out errorMsg);
+    }
+
     [RequiresDynamicCode("YamlDotNet reflection-based SerializerBuilder is not Native AOT safe. Use YamlDotNet static source-generated serializers for Native AOT.")]
     public static bool ToYaml<T>(this T obj, out string? yaml, out string? errorMsg)
     {
