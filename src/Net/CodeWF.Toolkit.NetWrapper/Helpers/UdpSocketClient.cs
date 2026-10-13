@@ -177,11 +177,11 @@ public class UdpSocketClient
             {
                 if (client.Client == null)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    await Task.Delay(TimeSpan.FromMilliseconds(10)).ConfigureAwait(false);
                     continue;
                 }
 
-                var result = await client.ReceiveAsync();
+                var result = await client.ReceiveAsync().ConfigureAwait(false);
                 var data = result.Buffer;
                 var readIndex = 0;
                 if (!data.ReadHead(ref readIndex, out var headInfo)
@@ -218,7 +218,7 @@ public class UdpSocketClient
     /// </summary>
     private async Task CheckCommandMeAsync(ChannelReader<SocketCommand> receivedBuffers)
     {
-        await foreach (var message in receivedBuffers.ReadAllAsync())
+        await foreach (var message in receivedBuffers.ReadAllAsync().ConfigureAwait(false))
         {
             DispatchToSubscribers(message);
         }

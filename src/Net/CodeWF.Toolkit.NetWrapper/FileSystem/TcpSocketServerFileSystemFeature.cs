@@ -15,6 +15,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
 
     public TcpSocketServerFileSystemFeature(TcpSocketServer server)
     {
+        FileSystemProtocolMetadata.Preserve();
         _server = server ?? throw new ArgumentNullException(nameof(server));
         _registration = server.RegisterCommandHandler(TryHandleCommandAsync);
     }

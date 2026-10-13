@@ -171,7 +171,7 @@ public class UdpSocketServer
         }
 
         var buffer = command.Serialize(SystemId, time);
-        var sendCount = await _client!.SendAsync(buffer, buffer.Length, _udpIpEndPoint);
+        var sendCount = await _client!.SendAsync(buffer, buffer.Length, _udpIpEndPoint).ConfigureAwait(false);
         if (sendCount < buffer.Length)
         {
             Console.WriteLine($"UDP发送失败一包：{buffer.Length}=>{sendCount}");

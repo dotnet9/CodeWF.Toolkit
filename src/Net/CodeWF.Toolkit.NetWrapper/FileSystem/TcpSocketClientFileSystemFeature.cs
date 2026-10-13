@@ -15,6 +15,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     private readonly ConcurrentDictionary<string, UploadContext> _uploadContexts = new();
     public TcpSocketClientFileSystemFeature(TcpSocketClient client)
     {
+        FileSystemProtocolMetadata.Preserve();
         _client = client ?? throw new ArgumentNullException(nameof(client));
         _registration = client.RegisterCommandHandler(TryHandleCommandAsync);
     }

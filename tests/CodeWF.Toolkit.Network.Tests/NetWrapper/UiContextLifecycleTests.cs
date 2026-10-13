@@ -34,6 +34,27 @@ public sealed class UiContextLifecycleTests
         }
     }
 
+    [Fact]
+    public async Task UdpSynchronousStopDoesNotRequireTheCallerContextToPump()
+    {
+        await Task.Run(() =>
+        {
+            var previous = SynchronizationContext.Current;
+            SynchronizationContext.SetSynchronizationContext(new NonPumpingContext());
+            try
+            {
+                using var probe = new System.Net.Sockets.UdpClient(0);
+                var port = ((IPEndPoint)probe.Client.LocalEndPoint!).Port;
+                probe.Close();
+                var client = new UdpSocketClient();
+                client.ConnectAsync("udp-context-regression", "127.0.0.1", port, "127.0.0.1", 1).GetAwaiter().GetResult();
+                Assert.True(client.IsRunning);
+                Assert.True(client.Stop());
+            }
+            finally { SynchronizationContext.SetSynchronizationContext(previous); }
+        }).WaitAsync(TimeSpan.FromSeconds(10));
+    }
+
     private sealed class NonPumpingContext : SynchronizationContext
     {
         public override void Post(SendOrPostCallback callback, object? state) { }
