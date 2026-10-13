@@ -1,6 +1,9 @@
 # 更新日志
 
-## 未发布
+## 1.0.0.3 (2026-10-13)
+
+- 🚀[发布]-全平台安装包：推送 v* 标签即由 GitHub Actions 产出 5 个 RID 的 NativeAOT 产物，Windows 出 Inno Setup 安装向导与便携 zip，Linux 出 deb，macOS 出 dmg，均附 sha256；本地同款脚本在 scripts/ 下（publish_toolkit_demo.ps1、package_linux_deb.ps1、package_macos.sh、package_demo_artifacts.ps1、CodeWF.Toolkit.Demo.iss）。
+- 🔨[优化]-CI 的 Avalonia 演示台冒烟改用发布脚本，产物路径与发布流水线保持一致。
 
 - ✨[新功能]-新增桌面演示台 demo/CodeWF.Toolkit.Demo.Avalonia：与 design 原型同款外壳（CodeWFWindow 标题栏 + Ribbon 页签 + Dock 工作区 + PropertyGrid + LogView），12 个演示页覆盖 Core/EventBus/Files/Image/Logging/Net 六条产品线，全部调用仓库真实 API。
 
