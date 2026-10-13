@@ -1,36 +1,42 @@
-# CodeWF.Toolkit · Infrastructure Lab
+# CodeWF.Toolkit Demo 设计
 
-直接用现代浏览器打开 `CodeWF.Toolkit.Demo原型.html`，无需安装依赖。
+直接打开 `CodeWF.Toolkit.Demo原型.html`。原型与原生 Demo 共用 `catalog.json` 目录；Ribbon 与导航树读取同一份分类。
 
-## 设计方向
+## 信息架构
 
-用可观察的过程展示无 UI 依赖的基础设施库：发布消息时点亮 Publisher → EventBus → Subscriber → Logger 路径，修改整数查看编码后的字节与解码结果，运行文件处理流程示意。六个能力入口对应事件驱动、跨进程消息、二进制协议、文件数据、图片工具链、运行期观测。原有 16 个页面与场景工作流保留。
+按功能分类，每个主导航叶子对应一个具体帮助类或公开 API；介绍、关于和综合示例是明确的辅助入口。保留 Ribbon + Dock 外壳，将组合工作流集中到最后一组，首页先展示 API 目录，再提供默认折叠的实验区。
 
-沿用桌面应用的 Ribbon、导航、文档页签、属性与日志布局，以新的表面、间距、字重与动效统一外观。首页快速入口可以直接进入运行工作台、能力实验室、协议与日志页。
+| Ribbon 分类 | 菜单对应 API |
+|---|---|
+| 首页 / Home | `介绍`、`关于` |
+| 核心扩展 / Core Extensions | `StringExtensions`、`RegexExtensions`、`DoubleExtensions`、`NumberExtension`、`DateTimeExtension`、`TimeSpanExtensions`、`RandomExtension`、`IConvertibleExtensions`、`ObjectExtension`、`LinqExtension`、`EnumExtension`、`AssemblyExtensions`、`ValidationExtension`、`DateTimeConverter` |
+| 系统与文件 / System & Files | `ActionHelper`、`IpHelper`、`NativeLibraryHelper`、`FileHelper`、`AppDataMigrator`、`UpdateChecker`、`FileExtension`、`SevenZipCompressor`、`AppConfigHelper` |
+| 数据与图像 / Data & Images | `JsonExtensions`、`YamlExtensions`、`DataTableExtensions`、`ImageHelper`、`QrCodeGenerator` |
+| 事件与集成 / Events & Integration | `EventBus`、`Prism.EventBusExtensions`、`AspNetCore.EventBusExtensions`、`EventServer`、`EventClient` |
+| 协议与网络 / Protocol & Network | `SerializeHelper`、`TcpSocketServer`、`TcpSocketClient`、`UdpSocketServer`、`UdpSocketClient`、`NetHelper`、`TcpSocketClientFileSystemFeature`、`TcpSocketServerFileSystemFeature` |
+| 日志与观测 / Logging & Diagnostics | `Logger`、`CodeWFLoggingBuilderExtensions`、`LogEventFeed`、`CodeWFLogHealth` |
+| 综合示例 / Examples | `运行态工作流`、`文件处理工作流` |
 
-## 配色
+共 8 个分类、49 个页面。文档区默认完整展示功能演示；源码面板由“查看源码”打开，只提供有内容的 XAML / C# 标签。页面标题展示 API 名、NuGet 包与功能说明。
 
-| 配色 | 用途 | 颜色 |
-|---|---|---|
-| .NET Purple（默认） | .NET 品牌识别 | 品牌紫 `#512BD4`，深色文字使用更亮的紫色以保持可读性 |
-| AI Aurora | 科技感的视觉主题 | 紫色与青色渐变 `#8968FF → #26D4CC` |
-| AI Ember | 柔和、暖色的视觉主题 | 陶土色 `#BD674D` 与暖杏色 |
+## 配色与交互
 
-AI 配色是设计方向名称，不是统一的 AI 官方品牌色，也不代表本库新增了 AI 能力。原有六套配色继续可选，九套配色均支持深浅切换；这些新增配色目前仅用于 HTML 原型。
+默认 .NET 品牌紫 `#512BD4`，另有 AI Aurora（紫 / 青）与 AI Ember（暖陶）视觉主题，均支持深浅切换。AI 配色是视觉设计名称。标题栏色圈与下拉框共享选中状态，继续提供 Semi 原有配色。
 
-## 交互与动效
+保留主题、语言、密度、命令搜索、布局存档、Dock 面板显隐与引导。页面进入和按钮悬停有动画，并遵循浏览器“减少动态效果”设置。主导航菜单与首页目录点击后同步当前 Ribbon 分类。
 
-- 首页：消息路径逐步点亮、真实 Int32 小端字节编码 / 解码、四步流水线状态流转、安装命令复制。切换视图后停止旧视图的异步更新。
-- 全局：页面进入、卡片悬浮、品牌轨道、面板切换与弹层动效；遵循系统「减少动态效果」设置。
-- 快捷键：`Ctrl+K` 搜索命令，`Ctrl+S` 保存布局，`Ctrl+D` 深浅切换，`Ctrl+L` 语言切换，`F1` 引导。
-- 修复旧原型丢失事件绑定、场景页无法嵌入静态能力页、运行态最后一步缺少子页映射的问题。
+## 维护
 
-## 实现边界
+1. 在 `catalog.json` 维护分类、API、NuGet 包、页面工厂说明和原型路由。
+2. 在 Demo 的 `I18n/` 配置中维护双语标题与 `Demo.Api.*.Desc` 功能说明。
+3. 为原生 `DemoCatalog` 添加显式页面工厂，为原型注册对应演示。
+4. 执行 `pwsh scripts/sync_design_catalog.ps1` 更新浏览器目录与文案。
+5. 执行目录一致性测试与 Demo 冒烟检查。
 
-首页消息总线和文件流水线是浏览器交互示意，不建立 TCP 连接，不实际执行压缩、图片处理或 .NET 代码。协议预览用浏览器 DataView 编码一个 Int32 字段，不模拟完整 NetWeaver 数据包头。完整 API 能力与约束以仓库源码为准。
+`assets/catalog-data.js` 是生成文件；`catalog-gallery.js` 和 `catalog-gallery.css` 负责目录布局与浏览器预览。各仓库独立携带所有原型资源。
 
-新增视觉层位于 `assets/studio.css`，首页与交互增强位于 `assets/studio.js`。两仓的这两个文件保持相同，通过页面上的 `data-product` 选择内容，分发时各自独立运行。
+## 实现与验证边界
 
-## 验证
+浏览器原型展示交互与布局，不运行 .NET、原生窗口、Socket 或文件导出。页面明确提示仅为浏览器预览；实际 API 结果在原生 Demo 中产生。原生控件使用 Semi 与 Dock 的模板，字体、窗口按钮和平台交互存在差异。
 
-使用 Chromium / Edge 检查了 16 页渲染、消息交互、字节编码与非法输入、流程运行与切换取消、运行态第五步、实验室子页切换、九套配色的深浅模式、布局保存恢复、命令面板、320 / 390 / 768 / 1024 / 1440 像素首页布局与减少动态效果设置。未变更或验证原生 .NET 演示程序。
+浏览器逐页检查 49 个路由、中英文和导航切换，未发现脚本异常。NativeAOT 运行范围、命令与限制见 [原生 Demo 文档](../docs/NativeDemo.md)。

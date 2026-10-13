@@ -173,17 +173,19 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 ## 演示 / Demos
 
-新版原生首页提供真实事件流、Int32 字节编码和 JSON → YAML → ZIP → QR 流水线，默认使用 .NET 紫，并支持 AI 极光与暖陶配色。图形 Demo 通过 NuGet 引用 UI 库，**只克隆本仓即可构建**；功能映射、双语资源与 Windows x64 NativeAOT 验收见 [原生演示台文档](docs/NativeDemo.md)。
+Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，49 个页面按类名查找，组合工作流集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
 
 ![.NET 紫色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dotnet.png)
 
 ![AI 极光浅色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-aurora-light.png)
 
+![JsonExtensions 独立演示](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-json.png)
+
 ![文件流水线与真实产物](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-pipeline.png)
 
 ![主题与实验切换](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-interactions.gif)
 
-The native overview runs real event, serialization and file experiments. Building the GUI currently requires the sibling CodeWF.Avalonia source checkout; the console Demo and production libraries remain independently buildable.
+The Ribbon and Dock demo groups APIs by function, with one helper class per primary menu entry. Composite workflows are in the final category. Its UI libraries come from NuGet; cloning CodeWF.Toolkit alone is sufficient to build the GUI and console demos.
 
 ```bash
 # 控制台演示：依次跑日志、进程内总线、分布式总线、序列化，然后进入交互菜单
