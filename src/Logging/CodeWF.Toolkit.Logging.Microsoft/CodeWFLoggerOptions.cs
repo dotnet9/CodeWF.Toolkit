@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.Microsoft.I18n.ResourceKeys;
 using CodeWF.Toolkit.Logging;
 using Microsoft.Extensions.Logging;
 
@@ -77,7 +78,7 @@ public sealed class CodeWFFileLoggerOptions
     {
         if (!Enabled) return;
         if (string.IsNullOrWhiteSpace(DirectoryPath))
-            throw new ArgumentException(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.DirectoryRequired"), nameof(DirectoryPath));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Validation.DirectoryRequired), nameof(DirectoryPath));
         ToCoreOptions(AppContext.BaseDirectory).Validate();
     }
 
@@ -111,7 +112,7 @@ public sealed class CodeWFEventFeedOptions
     internal void Validate()
     {
         if (RecentCapacity <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RecentCapacity), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.EventCapacity"));
+            throw new ArgumentOutOfRangeException(nameof(RecentCapacity), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Validation.EventCapacity));
     }
 }
 
@@ -131,8 +132,8 @@ public sealed class CodeWFQueueOptions
 
     internal void Validate()
     {
-        if (Capacity <= 0) throw new ArgumentOutOfRangeException(nameof(Capacity), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.QueueCapacity"));
-        if (!Enum.IsDefined(FullMode)) throw new ArgumentOutOfRangeException(nameof(FullMode), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.QueuePolicy"));
-        if (EnqueueTimeout < TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.EnqueueTimeout"));
+        if (Capacity <= 0) throw new ArgumentOutOfRangeException(nameof(Capacity), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Validation.QueueCapacity));
+        if (!Enum.IsDefined(FullMode)) throw new ArgumentOutOfRangeException(nameof(FullMode), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Validation.QueuePolicy));
+        if (EnqueueTimeout < TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Validation.EnqueueTimeout));
     }
 }

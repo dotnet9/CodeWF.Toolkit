@@ -4,17 +4,32 @@ using System.Security.Cryptography;
 using CodeWF.Toolkit.Core.UpdateChecking;
 using CodeWF.Toolkit.Lang;
 using CodeWF.Toolkit.Lang.Json;
+using CodeWF.Toolkit.Core.Extensions;
+using System.Reflection;
 
 // Controlled network fixtures exercise the real update pipeline without contacting a release server or installing anything.
 var temporaryDirectory = Path.Combine(Path.GetTempPath(), "CodeWF-AotSmoke-" + Guid.NewGuid().ToString("N"));
 try
 {
-    var plugin = new JsonLangPlugin { ScanResourceFolder = false };
-    I18nManager.Instance.Register(plugin, CultureInfo.GetCultureInfo("en-US"));
+    var buildTime = Assembly.GetExecutingAssembly().CompileTime();
+    Require(buildTime is { } time && time <= DateTime.Now.AddMinutes(5) && time > DateTime.Now.AddDays(-1), "AOT build timestamp metadata failed.");
+    // Library defaults must work in a fresh process before any application resource registration.
+    CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
     var english = MissingRepositoryMessage();
-    I18nManager.Instance.Culture = CultureInfo.GetCultureInfo("zh-CN");
+    Require(english == "Specify a GitHub repository (UpdateServiceOptions.Repository).", "Unregistered embedded default failed.");
+    CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("zh-CN");
     var chinese = MissingRepositoryMessage();
     Require(english != chinese && !chinese.Contains("Toolkit.", StringComparison.Ordinal), "Embedded localization did not switch.");
+    CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
+    Require(MissingRepositoryMessage() == english, "Unsupported culture did not fall back to embedded English.");
+
+    var plugin = new JsonLangPlugin { ScanResourceFolder = false };
+    plugin.ScanResourceFolder = true;
+    plugin.ResourceFolder = Path.Combine(AppContext.BaseDirectory, "I18n");
+    I18nManager.Instance.Register(plugin, CultureInfo.GetCultureInfo("en-US"));
+    Require(MissingRepositoryMessage() == "Custom repository validation.", "Optional application override failed.");
+    var missingInstall = await new UpdateInstaller().InstallAsync(string.Empty);
+    Require(missingInstall.Message == "The installer no longer exists. Download it again.", "Missing application key did not fall back to the library.");
 
     using var http = new HttpClient(new FixtureHandler());
     using var updates = new UpdateService(http, new UpdateServiceOptions

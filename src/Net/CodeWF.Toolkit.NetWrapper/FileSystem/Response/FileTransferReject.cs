@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Response;
 
 /// <summary>
@@ -32,5 +33,5 @@ public class FileTransferReject : INetObject
     public string FileName { get; set; } = string.Empty;
 
     public override string ToString() =>
-        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.TransferRejected", TaskId, ErrorCode, RemoteFilePath, Message);
+        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.TransferRejected, TaskId, ErrorCode, RemoteFilePath, Message);
 }

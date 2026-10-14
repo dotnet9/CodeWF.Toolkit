@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Requests;
 
 /// <summary>
@@ -21,5 +22,5 @@ public class DeletePathRequest : INetObject
     /// </summary>
     public bool IsDirectory { get; set; }
 
-    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.DeleteRequest", TaskId, FilePath, IsDirectory);
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.DeleteRequest, TaskId, FilePath, IsDirectory);
 }

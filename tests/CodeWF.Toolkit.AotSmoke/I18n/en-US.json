@@ -1,0 +1,6 @@
+{
+  "language": "English",
+  "description": "Optional application override fixture",
+  "cultureName": "en-US",
+  "Toolkit.Core.Update.RepositoryRequired": "Custom repository validation."
+}

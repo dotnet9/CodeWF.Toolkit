@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Requests;
 
 /// <summary>
@@ -37,5 +38,5 @@ public class FileUploadRequest : INetObject
     public string RemoteFilePath { get; set; } = string.Empty;
 
     public override string ToString() =>
-        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.UploadRequest", TaskId, FileName, FileSize, RemoteFilePath, AlreadyTransferredBytes);
+        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.UploadRequest, TaskId, FileName, FileSize, RemoteFilePath, AlreadyTransferredBytes);
 }

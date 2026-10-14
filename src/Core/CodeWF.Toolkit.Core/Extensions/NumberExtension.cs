@@ -1,4 +1,5 @@
-﻿using System;
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,7 +24,7 @@ public static class NumberExtension
         var result = "";
         if (x[0] == '-')
         {
-            result = global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Negative");
+            result = global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Negative);
             x = x.Remove(0, 1);
         }
 
@@ -39,7 +40,7 @@ public static class NumberExtension
 
         if (x.IndexOf(".") > -1)
         {
-            result += ToInt(x.Substring(0, x.IndexOf("."))) + global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.DecimalPoint") +
+            result += ToInt(x.Substring(0, x.IndexOf("."))) + global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.DecimalPoint) +
                       x.Substring(x.IndexOf(".") + 1).Aggregate("", (current, t) => current + ToNum(t));
         }
         else
@@ -59,7 +60,7 @@ public static class NumberExtension
         var m = Convert.ToDecimal(number, CultureInfo.InvariantCulture);
         if (m == 0)
         {
-            return global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.ZeroMoney");
+            return global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.ZeroMoney);
         }
 
         /*
@@ -92,8 +93,8 @@ public static class NumberExtension
         /*
          * 将其转换为对应的中文大写字符，例如将'1'转换为'壹'，将'2'转换为'贰'，以此类推。Lambda表达式中使用了一个映射表，通过字符的ASCII码值来查找对应的中文字符。
          */
-        return Regex.Replace(d, ".", t => global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.MoneyAlphabet")[t.Value[0] - '-'].ToString())
-            .Next(x => m < 0 ? global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Negative") + x : x);
+        return Regex.Replace(d, ".", t => global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.MoneyAlphabet)[t.Value[0] - '-'].ToString())
+            .Next(x => m < 0 ? global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Negative) + x : x);
     }
 
     // 转换整数
@@ -108,11 +109,11 @@ public static class NumberExtension
         }
         else if (len <= 8)
         {
-            result = ChangeInt(x.Substring(0, len - 4)) + global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.TenThousand");
+            result = ChangeInt(x.Substring(0, len - 4)) + global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.TenThousand);
             temp = ChangeInt(x.Substring(len - 4, 4));
-            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand"), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
+            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Thousand), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
             {
-                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Zero") + temp;
+                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Zero) + temp;
             }
             else
             {
@@ -121,22 +122,22 @@ public static class NumberExtension
         }
         else
         {
-            result = ChangeInt(x.Substring(0, len - 8)) + global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.HundredMillion");
+            result = ChangeInt(x.Substring(0, len - 8)) + global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.HundredMillion);
             temp = ChangeInt(x.Substring(len - 8, 4));
-            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand"), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
+            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Thousand), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
             {
-                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Zero") + temp;
+                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Zero) + temp;
             }
             else
             {
                 result += temp;
             }
 
-            result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.TenThousand");
+            result += global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.TenThousand);
             temp = ChangeInt(x.Substring(len - 4, 4));
-            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand"), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
+            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Thousand), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
             {
-                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Zero") + temp;
+                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Zero) + temp;
             }
             else
             {
@@ -145,12 +146,12 @@ public static class NumberExtension
         }
 
         int i;
-        if ((i = result.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.ZeroTenThousand"), StringComparison.Ordinal)) != -1)
+        if ((i = result.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.ZeroTenThousand), StringComparison.Ordinal)) != -1)
         {
             result = result.Remove(i + 1, 1);
         }
 
-        while ((i = result.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.DoubleZero"), StringComparison.Ordinal)) != -1)
+        while ((i = result.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.DoubleZero), StringComparison.Ordinal)) != -1)
         {
             result = result.Remove(i, 1);
         }
@@ -169,9 +170,9 @@ public static class NumberExtension
         string[] strArrayLevelNames =
         {
             "",
-            global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Ten"),
-            global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Hundred"),
-            global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand")
+            global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Ten),
+            global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Hundred),
+            global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Thousand)
         };
         string ret = "";
         int i;
@@ -187,7 +188,7 @@ public static class NumberExtension
             }
         }
 
-        while ((i = ret.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.DoubleZero"), StringComparison.Ordinal)) != -1)
+        while ((i = ret.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.DoubleZero), StringComparison.Ordinal)) != -1)
         {
             ret = ret.Remove(i, 1);
         }
@@ -197,7 +198,7 @@ public static class NumberExtension
             ret = ret.Remove(ret.Length - 1, 1);
         }
 
-        if (ret.Length >= 2 && ret.Substring(0, 2) == global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.OneTen"))
+        if (ret.Length >= 2 && ret.Substring(0, 2) == global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.OneTen))
         {
             ret = ret.Remove(0, 1);
         }
@@ -208,7 +209,7 @@ public static class NumberExtension
     // 转换数字
     private static char ToNum(char x)
     {
-        var strChnNames = global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Digits");
+        var strChnNames = global::CodeWF.Toolkit.Core.LibraryText.Invariant(LibraryResources.ChineseNumber.Digits);
         const string strNumNames = "0123456789";
         return strChnNames[strNumNames.IndexOf(x)];
     }

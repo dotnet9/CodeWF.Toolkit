@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Response;
 
 /// <summary>
@@ -37,5 +38,5 @@ public class BrowseFileSystemResponse : INetObject
     public List<FileSystemEntry>? Entries { get; set; }
 
     public override string ToString() =>
-        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.BrowseResponse", TaskId, PageIndex + 1, PageCount, Entries?.Count ?? 0);
+        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.BrowseResponse, TaskId, PageIndex + 1, PageCount, Entries?.Count ?? 0);
 }

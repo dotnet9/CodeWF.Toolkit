@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.FileSystem;
 
 public sealed class TcpSocketServerFileSystemFeature : IDisposable
@@ -122,8 +123,8 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.RequestFailed", _server.ServerMark), ex,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.RequestFailedHint", _server.ServerMark));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.RequestFailed, _server.ServerMark), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.RequestFailedHint, _server.ServerMark));
             return true;
         }
     }
@@ -172,7 +173,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             Disks = ManagedFileSystem.GetDrives().ToList()
         };
         await _server.SendCommandAsync(client, response);
-        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DrivesListed", _server.ServerMark, clientKey, response.Disks?.Count ?? 0));
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DrivesListed, _server.ServerMark, clientKey, response.Disks?.Count ?? 0));
     }
 
     /// <summary>
@@ -181,12 +182,12 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
     private async Task SendDirectoryNotFoundErrorAsync(Socket client, int taskId, string directoryPath,
         string clientKey)
     {
-        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.BrowseMissing", _server.ServerMark, clientKey, directoryPath));
+        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.BrowseMissing, _server.ServerMark, clientKey, directoryPath));
         var reject = new FileTransferReject
         {
             TaskId = taskId,
             ErrorCode = FileTransferErrorCode.DirectoryNotFound,
-            Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.DirectoryMissing"),
+            Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.DirectoryMissing),
             RemoteFilePath = directoryPath
         };
         await _server.SendCommandAsync(client, reject);
@@ -198,7 +199,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
     private async Task SendDirectoryAccessDeniedErrorAsync(Socket client, int taskId, string directoryPath,
         string clientKey, string message)
     {
-        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.BrowseDenied", _server.ServerMark, clientKey, directoryPath, message));
+        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.BrowseDenied, _server.ServerMark, clientKey, directoryPath, message));
         var reject = new FileTransferReject
         {
             TaskId = taskId,
@@ -249,23 +250,23 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 await _server.SendCommandAsync(client, response);
             }
 
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DirectoryListed", _server.ServerMark, clientKey, directoryPath, directoryEntries.Count));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DirectoryListed, _server.ServerMark, clientKey, directoryPath, directoryEntries.Count));
         }
         catch (UnauthorizedAccessException ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.BrowseUnauthorized", _server.ServerMark, clientKey, directoryPath), ex);
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.BrowseUnauthorized, _server.ServerMark, clientKey, directoryPath), ex);
             var reject = new FileTransferReject
             {
                 TaskId = taskId,
                 ErrorCode = FileTransferErrorCode.DirectoryAccessDenied,
-                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.AccessDeniedPrefix") + ex.Message,
+                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.AccessDeniedPrefix) + ex.Message,
                 RemoteFilePath = directoryPath
             };
             await _server.SendCommandAsync(client, reject);
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.BrowseFailed", _server.ServerMark, clientKey, directoryPath), ex);
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.BrowseFailed, _server.ServerMark, clientKey, directoryPath), ex);
             var reject = new FileTransferReject
             {
                 TaskId = taskId,
@@ -348,10 +349,10 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 TaskId = taskId,
                 Success = true,
                 DirectoryPath = requestedDirectoryPath,
-                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.DirectoryExists")
+                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.DirectoryExists)
             };
             await _server.SendCommandAsync(client, ack);
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.CreateExists", _server.ServerMark, clientKey, directoryPath));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.CreateExists, _server.ServerMark, clientKey, directoryPath));
             return;
         }
 
@@ -363,14 +364,14 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 TaskId = taskId,
                 Success = true,
                 DirectoryPath = requestedDirectoryPath,
-                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.CreateComplete")
+                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.CreateComplete)
             };
             await _server.SendCommandAsync(client, ack);
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.Created", _server.ServerMark, clientKey, directoryPath));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.Created, _server.ServerMark, clientKey, directoryPath));
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.CreateFailed", _server.ServerMark, clientKey, directoryPath), ex);
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.CreateFailed, _server.ServerMark, clientKey, directoryPath), ex);
             var ack = new CreateDirectoryResponse
             {
                 TaskId = taskId,
@@ -413,7 +414,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 TaskId = taskId,
                 Success = false,
                 FilePath = requestedFilePath,
-                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.CannotDeleteSandbox")
+                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.CannotDeleteSandbox)
             };
             await _server.SendCommandAsync(client, denyAck);
             return;
@@ -428,10 +429,10 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                     TaskId = taskId,
                     Success = false,
                     FilePath = requestedFilePath,
-                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.DirectoryMissing")
+                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.DirectoryMissing)
                 };
                 await _server.SendCommandAsync(client, ack);
-                Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DeleteDirectoryMissing", _server.ServerMark, clientKey, filePath));
+                Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DeleteDirectoryMissing, _server.ServerMark, clientKey, filePath));
                 return;
             }
 
@@ -443,14 +444,14 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                     TaskId = taskId,
                     Success = true,
                     FilePath = requestedFilePath,
-                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.DeleteComplete")
+                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.DeleteComplete)
                 };
                 await _server.SendCommandAsync(client, ack);
-                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DirectoryDeleted", _server.ServerMark, clientKey, filePath));
+                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DirectoryDeleted, _server.ServerMark, clientKey, filePath));
             }
             catch (Exception ex)
             {
-                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DeleteDirectoryFailed", _server.ServerMark, clientKey, filePath), ex);
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DeleteDirectoryFailed, _server.ServerMark, clientKey, filePath), ex);
                 var ack = new DeletePathResponse
                 {
                     TaskId = taskId,
@@ -470,10 +471,10 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                     TaskId = taskId,
                     Success = false,
                     FilePath = requestedFilePath,
-                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.FileMissing")
+                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.FileMissing)
                 };
                 await _server.SendCommandAsync(client, ack);
-                Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DeleteFileMissing", _server.ServerMark, clientKey, filePath));
+                Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DeleteFileMissing, _server.ServerMark, clientKey, filePath));
                 return;
             }
 
@@ -485,14 +486,14 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                     TaskId = taskId,
                     Success = true,
                     FilePath = requestedFilePath,
-                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.DeleteComplete")
+                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.DeleteComplete)
                 };
                 await _server.SendCommandAsync(client, ack);
-                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.FileDeleted", _server.ServerMark, clientKey, filePath));
+                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.FileDeleted, _server.ServerMark, clientKey, filePath));
             }
             catch (Exception ex)
             {
-                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DeleteFileFailed", _server.ServerMark, clientKey, filePath), ex);
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DeleteFileFailed, _server.ServerMark, clientKey, filePath), ex);
                 var ack = new DeletePathResponse
                 {
                     TaskId = taskId,
@@ -547,7 +548,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         if (actualTransferredBytes > request.FileSize)
         {
             await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.UploadServerFileLarger,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerFileLargerThanRequest"), requestedRemoteFilePath, request.FileName);
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ServerFileLargerThanRequest), requestedRemoteFilePath, request.FileName);
             return;
         }
 
@@ -557,12 +558,12 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                     StringComparison.OrdinalIgnoreCase))
             {
                 await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.UploadFileAlreadyExists,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadAlreadyExists"), requestedRemoteFilePath, request.FileName);
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.UploadAlreadyExists), requestedRemoteFilePath, request.FileName);
             }
             else
             {
                 await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.UploadFileHashMismatch,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.HashConflict"), requestedRemoteFilePath, request.FileName);
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.HashConflict), requestedRemoteFilePath, request.FileName);
             }
 
             return;
@@ -581,7 +582,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         if (transferredBytes > request.FileSize)
         {
             await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.UploadServerFileLarger,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerPartialLargerThanRequest"), requestedRemoteFilePath, request.FileName);
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ServerPartialLargerThanRequest), requestedRemoteFilePath, request.FileName);
             return;
         }
 
@@ -597,7 +598,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                     Accept = true,
                     AlreadyTransferredBytes = request.FileSize,
                     RemoteFilePath = requestedRemoteFilePath,
-                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.AlreadyComplete")
+                    Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.AlreadyComplete)
                 };
                 await _server.SendCommandAsync(client, completeResponse);
                 return;
@@ -634,7 +635,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 ManagedFileSystem.DeleteFile(tempFilePath);
                 _uploadContexts.TryRemove(contextKey, out _);
                 await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.UploadFileHashMismatch,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.EmptyFileHashFailed"), requestedRemoteFilePath, request.FileName);
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.EmptyFileHashFailed), requestedRemoteFilePath, request.FileName);
                 return;
             }
 
@@ -648,11 +649,11 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             Accept = true,
             AlreadyTransferredBytes = request.FileSize == 0 ? 0 : transferredBytes,
             RemoteFilePath = requestedRemoteFilePath,
-            Message = request.FileSize == 0 ? global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.EmptyFileUploaded") : global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ReceiveAccepted")
+            Message = request.FileSize == 0 ? global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.EmptyFileUploaded) : global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ReceiveAccepted)
         };
         await _server.SendCommandAsync(client, response);
         Logger.Info(
-            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.UploadAccepted", _server.ServerMark, clientKey, request.FileName, remoteFilePath, transferredBytes));
+            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.UploadAccepted, _server.ServerMark, clientKey, request.FileName, remoteFilePath, transferredBytes));
     }
 
     /// <summary>
@@ -665,7 +666,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         var requestedRemoteFilePath = chunkData.RemoteFilePath;
         if (string.IsNullOrEmpty(requestedRemoteFilePath))
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Transfer.ChunkPathMissing", _server.ServerMark));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Transfer.ChunkPathMissing, _server.ServerMark));
             return;
         }
 
@@ -673,13 +674,13 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         var contextKey = GetTransferKey(clientKey, requestedRemoteFilePath, chunkData.TaskId);
         if (!_uploadContexts.TryGetValue(contextKey, out var context))
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.UploadSessionMissing", _server.ServerMark, clientKey, requestedRemoteFilePath));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.UploadSessionMissing, _server.ServerMark, clientKey, requestedRemoteFilePath));
             var missingAck = new FileChunkAck
             {
                 TaskId = chunkData.TaskId,
                 BlockIndex = chunkData.BlockIndex,
                 Success = false,
-                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadSessionMissing"),
+                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.UploadSessionMissing),
                 RemoteFilePath = requestedRemoteFilePath
             };
             await _server.SendCommandAsync(client, missingAck);
@@ -712,7 +713,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             {
                 if (fs.Length != context.AlreadyTransferredBytes)
                 {
-                    throw new InvalidDataException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerPartialLengthMismatch"));
+                    throw new InvalidDataException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ServerPartialLengthMismatch));
                 }
 
                 fs.Position = chunkData.Offset;
@@ -732,14 +733,14 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 if (!string.Equals(currentHash, context.FileHash, StringComparison.OrdinalIgnoreCase))
                 {
                     success = false;
-                    message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadHashFailed");
+                    message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.UploadHashFailed);
                     ManagedFileSystem.DeleteFile(tempFilePath);
-                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.UploadHashFailed", _server.ServerMark, clientKey, remoteFilePath));
+                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.UploadHashFailed, _server.ServerMark, clientKey, remoteFilePath));
                 }
                 else
                 {
                     ManagedFileSystem.MoveFile(tempFilePath, remoteFilePath, true);
-                    Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.UploadComplete", _server.ServerMark, clientKey, remoteFilePath));
+                    Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.UploadComplete, _server.ServerMark, clientKey, remoteFilePath));
                 }
 
                 _uploadContexts.TryRemove(contextKey, out _);
@@ -750,7 +751,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         catch (Exception ex)
         {
             _uploadContexts.TryRemove(contextKey, out _);
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Transfer.ChunkProcessingFailed", _server.ServerMark, chunkData.BlockIndex), ex);
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Transfer.ChunkProcessingFailed, _server.ServerMark, chunkData.BlockIndex), ex);
             await SendChunkAckAsync(client, context, chunkData, false, ex.Message,
                 context.AlreadyTransferredBytes);
         }
@@ -781,12 +782,12 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
 
         if (!ManagedFileSystem.FileExists(remoteFilePath))
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.FileMissing", _server.ServerMark, remoteFilePath));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileClient.FileMissing, _server.ServerMark, remoteFilePath));
             var reject = new FileTransferReject
             {
                 TaskId = taskId,
                 ErrorCode = FileTransferErrorCode.DownloadServerFileNotFound,
-                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerFileMissing"),
+                Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ServerFileMissing),
                 RemoteFilePath = requestedRemoteFilePath,
                 FileName = request.FileName
             };
@@ -812,13 +813,13 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             if (string.Equals(fileHash, request.FileHash, StringComparison.OrdinalIgnoreCase))
             {
                 await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.DownloadFileIdentical,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.DownloadNotNeeded"), requestedRemoteFilePath, request.FileName);
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.DownloadNotNeeded), requestedRemoteFilePath, request.FileName);
                 return;
             }
             else
             {
                 await SendTransferRejectAsync(client, taskId, FileTransferErrorCode.DownloadFileHashMismatch,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.HashConflict"), requestedRemoteFilePath, request.FileName);
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.HashConflict), requestedRemoteFilePath, request.FileName);
                 return;
             }
         }
@@ -844,11 +845,11 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             FileHash = resolvedFileHash,
             AlreadyTransferredBytes = alreadyTransferredBytes,
             RemoteFilePath = requestedRemoteFilePath,
-            Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.SendAccepted")
+            Message = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.SendAccepted)
         };
         await _server.SendCommandAsync(client, response);
         Logger.Info(
-            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DownloadAccepted", _server.ServerMark, clientKey, remoteFilePath, alreadyTransferredBytes, totalFileSize));
+            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DownloadAccepted, _server.ServerMark, clientKey, remoteFilePath, alreadyTransferredBytes, totalFileSize));
         await SendFileBlockAsync(clientKey, remoteFilePath, requestedRemoteFilePath, alreadyTransferredBytes,
             totalFileSize, request.FileName, resolvedFileHash, taskId);
     }
@@ -878,12 +879,12 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         var clientKey = client.RemoteEndPoint?.ToString() ?? string.Empty;
         if (!chunkAck.Success)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.ChunkRejected", _server.ServerMark, clientKey, chunkAck.BlockIndex, chunkAck.Message));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.ChunkRejected, _server.ServerMark, clientKey, chunkAck.BlockIndex, chunkAck.Message));
             _downloadContexts.TryRemove(GetTransferKey(clientKey, chunkAck.RemoteFilePath, chunkAck.TaskId), out _);
         }
         else
         {
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.ChunkConfirmed", _server.ServerMark, clientKey, chunkAck.BlockIndex));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.ChunkConfirmed, _server.ServerMark, clientKey, chunkAck.BlockIndex));
             var contextKey = GetTransferKey(clientKey, chunkAck.RemoteFilePath, chunkAck.TaskId);
             if (!_downloadContexts.TryGetValue(contextKey, out var context))
             {
@@ -896,7 +897,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             {
                 _downloadContexts.TryRemove(contextKey, out _);
                 Logger.Error(
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.InvalidConfirmedOffset", _server.ServerMark, clientKey, chunkAck.AlreadyTransferredBytes, expectedOffset));
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.InvalidConfirmedOffset, _server.ServerMark, clientKey, chunkAck.AlreadyTransferredBytes, expectedOffset));
                 return;
             }
 
@@ -906,7 +907,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             if (chunkAck.AlreadyTransferredBytes >= context.FileSize)
             {
                 _downloadContexts.TryRemove(contextKey, out _);
-                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DownloadComplete", _server.ServerMark, clientKey, context.ActualFilePath));
+                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DownloadComplete, _server.ServerMark, clientKey, context.ActualFilePath));
                 return;
             }
 
@@ -930,13 +931,13 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
     {
         if (!_server.Clients.TryGetValue(clientKey, out var session) || session.TcpSocket == null)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.ClientDisconnected", _server.ServerMark, clientKey));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.ClientDisconnected, _server.ServerMark, clientKey));
             return;
         }
 
         if (!ManagedFileSystem.FileExists(localFilePath))
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.FileMissing", _server.ServerMark, localFilePath));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileClient.FileMissing, _server.ServerMark, localFilePath));
             return;
         }
 
@@ -976,7 +977,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         }
 
         await _server.SendCommandAsync(session.TcpSocket, chunkData);
-        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.ChunkSent", _server.ServerMark, clientKey, blockIndex, bytesRead));
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.ChunkSent, _server.ServerMark, clientKey, blockIndex, bytesRead));
         var newTransferredBytes = alreadyTransferredBytes + bytesRead;
         NotifyServerTransferProgress(fileName, newTransferredBytes, fileSize, false);
     }
@@ -1000,7 +1001,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             Success = true
         };
         await _server.SendCommandAsync(session.TcpSocket, completeCommand);
-        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.CompletionSent", _server.ServerMark, clientKey));
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.CompletionSent, _server.ServerMark, clientKey));
     }
 
     /// <summary>
@@ -1079,14 +1080,14 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         var uploadKey = GetTransferKey(clientKey, reject.RemoteFilePath, reject.TaskId);
         if (_uploadContexts.TryRemove(uploadKey, out _))
         {
-            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.UploadCanceled", _server.ServerMark, clientKey, reject.RemoteFilePath, reject.Message));
+            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.UploadCanceled, _server.ServerMark, clientKey, reject.RemoteFilePath, reject.Message));
             return Task.CompletedTask;
         }
 
         var downloadKey = GetTransferKey(clientKey, reject.RemoteFilePath, reject.TaskId);
         if (_downloadContexts.TryRemove(downloadKey, out _))
         {
-            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileServer.DownloadCanceled", _server.ServerMark, clientKey, reject.RemoteFilePath, reject.Message));
+            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileServer.DownloadCanceled, _server.ServerMark, clientKey, reject.RemoteFilePath, reject.Message));
         }
 
         return Task.CompletedTask;
@@ -1124,13 +1125,13 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
     {
         if (fileSize < 0)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.NegativeFileSize");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.NegativeFileSize);
             return false;
         }
 
         if (alreadyTransferredBytes < 0 || alreadyTransferredBytes > fileSize)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.OffsetOutOfRange");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.OffsetOutOfRange);
             return false;
         }
 
@@ -1143,32 +1144,32 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
     {
         if (chunkData.Data == null || chunkData.Data.Length == 0)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkRequired");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ChunkRequired);
             return false;
         }
 
         if (chunkData.BlockSize != chunkData.Data.Length ||
             chunkData.BlockSize > TcpSocketServerFileSystemFeature.FileTransferBlockSize)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkLengthMismatch");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ChunkLengthMismatch);
             return false;
         }
 
         if (chunkData.Offset != context.AlreadyTransferredBytes || chunkData.Offset < 0)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkOffsetMismatch");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ChunkOffsetMismatch);
             return false;
         }
 
         if (chunkData.BlockIndex != chunkData.Offset / TcpSocketServerFileSystemFeature.FileTransferBlockSize)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkIndexMismatch");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ChunkIndexMismatch);
             return false;
         }
 
         if (chunkData.Offset > context.FileSize - chunkData.BlockSize)
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkOutOfRange");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Transfer.ChunkOutOfRange);
             return false;
         }
 
@@ -1200,7 +1201,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
 
         if (string.IsNullOrWhiteSpace(requestedPath))
         {
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.PathRequired");
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.PathRequired);
             return false;
         }
 
@@ -1213,7 +1214,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
 
             if (!ManagedFileSystem.PathIsRooted(requestedPath))
             {
-                errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.AbsolutePathRequired");
+                errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.AbsolutePathRequired);
                 return false;
             }
 
@@ -1224,7 +1225,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
                 if (!IsPathWithinRoot(rootPath, resolvedPath))
                 {
                     resolvedPath = null;
-                    errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.OutsideSandbox");
+                    errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.OutsideSandbox);
                     return false;
                 }
             }
@@ -1232,7 +1233,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
             if (PathAuthorization != null && !PathAuthorization(operation, resolvedPath))
             {
                 resolvedPath = null;
-                errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileSystem.AuthorizationDenied");
+                errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.FileSystem.AuthorizationDenied);
                 return false;
             }
 
@@ -1241,7 +1242,7 @@ public sealed class TcpSocketServerFileSystemFeature : IDisposable
         catch (Exception ex) when (ex is ArgumentException or IOException or NotSupportedException)
         {
             resolvedPath = null;
-            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileSystem.InvalidPath", ex.Message);
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.FileSystem.InvalidPath, ex.Message);
             return false;
         }
     }

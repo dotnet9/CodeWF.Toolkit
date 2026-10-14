@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWeaver.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWeaver;
 
 /// <summary>
@@ -166,12 +167,12 @@ public partial class SerializeHelper
     {
         if (offset < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(offset), global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.BitField.NegativeOffset"));
+            throw new ArgumentOutOfRangeException(nameof(offset), global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.BitField.NegativeOffset));
         }
 
         if (size <= 0 || size > sizeof(int) * 8)
         {
-            throw new ArgumentOutOfRangeException(nameof(size), global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.BitField.InvalidSize"));
+            throw new ArgumentOutOfRangeException(nameof(size), global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.BitField.InvalidSize));
         }
     }
 

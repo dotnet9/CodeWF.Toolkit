@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Helpers;
 
 /// <summary>
@@ -39,7 +40,7 @@ public static class NetHelper
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Socket.CloseFailed", remoteEndPoint), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Socket.CloseFailedHint", remoteEndPoint));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Socket.CloseFailed, remoteEndPoint), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Socket.CloseFailedHint, remoteEndPoint));
         }
         finally
         {

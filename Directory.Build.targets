@@ -1,0 +1,6 @@
+<Project>
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)/I18n/Language.tt')">
+    <None Update="I18n/Language.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="Language.g.cs" />
+    <Compile Update="I18n/Language.g.cs" AutoGen="true" DesignTime="true" DependentUpon="Language.tt" />
+  </ItemGroup>
+</Project>

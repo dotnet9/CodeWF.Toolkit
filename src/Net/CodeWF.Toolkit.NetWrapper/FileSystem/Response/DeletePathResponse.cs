@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Response;
 
 /// <summary>
@@ -26,5 +27,5 @@ public class DeletePathResponse : INetObject
     /// </summary>
     public string Message { get; set; } = string.Empty;
 
-    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.DeleteResponse", TaskId, Success, FilePath, Message);
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.DeleteResponse, TaskId, Success, FilePath, Message);
 }

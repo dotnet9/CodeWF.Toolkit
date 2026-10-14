@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 using CodeWF.Toolkit.Logging.Extensions;
 using System.Text;
 
@@ -144,7 +145,7 @@ internal sealed class FileLogSink : ILogSink
             }
             catch (Exception ex)
             {
-                LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.TimerFlushFailed"), ex);
+                LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.TimerFlushFailed), ex);
             }
         }
     }
@@ -203,7 +204,7 @@ internal sealed class FileLogSink : ILogSink
 
         if (!string.IsNullOrWhiteSpace(logEvent.UserMessage) &&
             !string.Equals(logEvent.UserMessage, logEvent.Message, StringComparison.Ordinal))
-            builder.Append(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.UserMessagePrefix")).AppendLine(logEvent.UserMessage);
+            builder.Append(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.UserMessagePrefix)).AppendLine(logEvent.UserMessage);
 
         AppendProperties(builder, "Properties", logEvent.Properties);
         AppendScopes(builder, logEvent.Scopes);
@@ -298,7 +299,7 @@ internal sealed class FileLogSink : ILogSink
         }
         catch (Exception ex)
         {
-            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.RetentionFailed"), ex);
+            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.RetentionFailed), ex);
         }
     }
 }

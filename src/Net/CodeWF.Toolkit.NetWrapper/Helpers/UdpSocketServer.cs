@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Helpers;
 
 /// <summary>
@@ -105,16 +106,16 @@ public class UdpSocketServer
 
             IsRunning = true;
 
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStarted", ServerMark, ServerIP, ServerIP, ServerPort, localNic));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStarted, ServerMark, ServerIP, ServerIP, ServerPort, localNic));
             return (IsSuccess: true, ErrorMessage: null);
         }
         catch (Exception ex)
         {
             IsRunning = false;
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStartFailed", ServerMark, ServerIP, ServerIP, ServerPort), ex,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStartFailedHint", ServerMark, ServerIP, ServerIP, ServerPort));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStartFailed, ServerMark, ServerIP, ServerIP, ServerPort), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStartFailedHint, ServerMark, ServerIP, ServerIP, ServerPort));
             return (IsSuccess: false,
-                ErrorMessage: global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStartFailedReason", ServerMark, ServerIP, ServerIP, ServerPort, ex.Message));
+                ErrorMessage: global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStartFailedReason, ServerMark, ServerIP, ServerIP, ServerPort, ex.Message));
         }
     }
 
@@ -132,7 +133,7 @@ public class UdpSocketServer
 
         if (localAddress.AddressFamily != AddressFamily.InterNetwork)
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.Ipv4Required", localAddress));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.Ipv4Required, localAddress));
         }
 
         return IPAddress.IsLoopback(localAddress) ? IPAddress.Any : localAddress;
@@ -147,11 +148,11 @@ public class UdpSocketServer
         {
             _client?.Close();
             _client = null;
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStopped", ServerMark, ServerIP));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStopped, ServerMark, ServerIP));
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStopFailed", ServerMark, ServerIP), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.MulticastStopFailedHint", ServerMark, ServerIP));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStopFailed, ServerMark, ServerIP), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.MulticastStopFailedHint, ServerMark, ServerIP));
         }
 
         IsRunning = false;
@@ -167,14 +168,14 @@ public class UdpSocketServer
         var netObjInfo = command.GetType().GetNetObjectHead();
         if (!CanSend)
         {
-            throw new Exception(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Socket.CommandDisconnected", ServerMark, netObjInfo.Id, netObjInfo.Version));
+            throw new Exception(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Socket.CommandDisconnected, ServerMark, netObjInfo.Id, netObjInfo.Version));
         }
 
         var buffer = command.Serialize(SystemId, time);
         var sendCount = await _client!.SendAsync(buffer, buffer.Length, _udpIpEndPoint).ConfigureAwait(false);
         if (sendCount < buffer.Length)
         {
-            Console.WriteLine(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.PartialSend", buffer.Length, sendCount));
+            Console.WriteLine(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.PartialSend, buffer.Length, sendCount));
         }
     }
 

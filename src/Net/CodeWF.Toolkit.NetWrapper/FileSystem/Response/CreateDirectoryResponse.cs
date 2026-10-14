@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Response;
 
 /// <summary>
@@ -26,5 +27,5 @@ public class CreateDirectoryResponse : INetObject
     /// </summary>
     public string Message { get; set; } = string.Empty;
 
-    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.CreateResponse", TaskId, Success, DirectoryPath, Message);
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.CreateResponse, TaskId, Success, DirectoryPath, Message);
 }

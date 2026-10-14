@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.Prism.I18n.ResourceKeys;
 using CodeWF.Toolkit.EventBus;
 using DryIoc;
 using Prism.Ioc;
@@ -17,7 +18,7 @@ namespace CodeWF.Toolkit.EventBus.Prism
             var requestedAssemblies = assemblies ?? Array.Empty<Assembly>();
             if (requestedAssemblies.Any(assembly => assembly == null))
             {
-                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Prism.LibraryText.Get("Toolkit.EventBus.Prism.Registration.NullAssembly"), nameof(assemblies));
+                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Prism.LibraryText.Get(LibraryResources.Registration.NullAssembly), nameof(assemblies));
             }
 
             var entryAssembly = Assembly.GetEntryAssembly();
@@ -57,7 +58,7 @@ namespace CodeWF.Toolkit.EventBus.Prism
             ArgumentNullException.ThrowIfNull(app);
             if (app.Resolve<IEventBus>() is not { } messenger)
             {
-                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Prism.LibraryText.Get("Toolkit.EventBus.Prism.Registration.AddBeforeUse"));
+                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Prism.LibraryText.Get(LibraryResources.Registration.AddBeforeUse));
             }
 
             var allAssemblies = GetAssemblies(assemblies);

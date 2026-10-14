@@ -2,5 +2,6 @@
   "language": "English",
   "description": "Test resources",
   "cultureName": "en-US",
-  "Library": { "Greeting": "Hello {0}", "Fallback": "Default", "Empty": "" }
+  "Library": { "Greeting": "Hello {0}", "Fallback": "Default", "Empty": "" },
+  "Toolkit.Core.Update.AssetMissing": "Custom application download message."
 }

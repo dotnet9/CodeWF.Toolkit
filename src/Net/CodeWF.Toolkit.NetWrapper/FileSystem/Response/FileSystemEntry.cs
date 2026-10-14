@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Response;
 
 /// <summary>
@@ -8,32 +9,32 @@ public enum FileType
     /// <summary>
     ///     未知类型。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.Unknown")] Unknown = 0,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), LibraryResources.Entry.Unknown)] Unknown = 0,
 
     /// <summary>
     ///     普通文件。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.File")] File = 1,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), LibraryResources.Entry.File)] File = 1,
 
     /// <summary>
     ///     目录。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.Directory")] Directory = 2,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), LibraryResources.Entry.Directory)] Directory = 2,
 
     /// <summary>
     ///     快捷方式。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.Shortcut")] Shortcut = 3,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), LibraryResources.Entry.Shortcut)] Shortcut = 3,
 
     /// <summary>
     ///     符号链接。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.SymbolicLink")] SymbolicLink = 4,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), LibraryResources.Entry.SymbolicLink)] SymbolicLink = 4,
 
     /// <summary>
     ///     重解析点。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.ReparsePoint")] ReparsePoint = 5
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), LibraryResources.Entry.ReparsePoint)] ReparsePoint = 5
 }
 
 /// <summary>

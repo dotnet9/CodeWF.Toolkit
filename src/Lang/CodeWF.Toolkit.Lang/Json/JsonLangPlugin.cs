@@ -1,3 +1,4 @@
+﻿using LibraryResources = global::CodeWF.Toolkit.Lang.I18n.ResourceKeys;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -29,7 +30,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
     /// </summary>
     public string ResourceFolder { get; set; } = AppDomain.CurrentDomain.BaseDirectory;
 
-    /// <summary>Whether to scan the resource folder in addition to explicitly added assemblies.</summary>
+    /// <summary>除已添加的程序集外，是否同时扫描宿主资源目录。</summary>
     public bool ScanResourceFolder { get; set; } = true;
 
     /// <summary>
@@ -77,7 +78,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
 
             if (ScanResourceFolder && !Directory.Exists(ResourceFolder))
             {
-                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.FolderMissing", ResourceFolder));
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.FolderMissing, ResourceFolder));
             }
             else if (ScanResourceFolder)
             {
@@ -91,7 +92,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
 
             if (Resources.Count == 0)
             {
-                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Get("Toolkit.Lang.Diagnostics.JsonResourcesRequired"));
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Get(LibraryResources.Diagnostics.JsonResourcesRequired));
             }
         }
     }
@@ -170,12 +171,12 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
                 return true;
             }
 
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonMetadataSkipped", filePath));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.JsonMetadataSkipped, filePath));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonFileSkipped", filePath));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.JsonFileSkipped, filePath));
             return false;
         }
     }
@@ -196,12 +197,12 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
                 return true;
             }
 
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonEmbeddedMetadataSkipped", assembly.GetName().Name, resourceName));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.JsonEmbeddedMetadataSkipped, assembly.GetName().Name, resourceName));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonEmbeddedSkipped", assembly.GetName().Name, resourceName));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.JsonEmbeddedSkipped, assembly.GetName().Name, resourceName));
             return false;
         }
     }
@@ -302,7 +303,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
     }
 }
 
-/// <summary>JSON resource loader using the default language metadata type.</summary>
+/// <summary>使用默认语言元数据类型的 JSON 资源加载器。</summary>
 public class JsonLangPlugin : JsonLangPlugin<LocalizationLanguage>
 {
 }

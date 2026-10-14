@@ -1,4 +1,5 @@
-﻿using CsvHelper;
+using LibraryResources = global::CodeWF.Toolkit.Files.I18n.ResourceKeys;
+using CsvHelper;
 using MiniExcelLibs;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ public static class DataTableExtensions
             return dataTable.ExportToXlsx(saveFilePath, out errorMsg, containColumnHeader);
         }
 
-        throw new Exception(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.CsvExcel.UnsupportedExport"));
+        throw new Exception(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.CsvExcel.UnsupportedExport));
     }
 
 
@@ -97,7 +98,7 @@ public static class DataTableExtensions
             return ImportFromExcel(openFilePath, out errorMsg, out dataTable, containColumnHeader);
         }
 
-        throw new Exception(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.CsvExcel.UnsupportedImport"));
+        throw new Exception(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.CsvExcel.UnsupportedImport));
     }
 
     public static bool ImportFromCsv(this string csvFilePath, out string errorMsg, out DataTable? dataTable,
@@ -116,7 +117,7 @@ public static class DataTableExtensions
                 var headers = csv.HeaderRecord;
                 if (headers is null)
                 {
-                    throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.CsvExcel.HeadersUnreadable"));
+                    throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.CsvExcel.HeadersUnreadable));
                 }
 
                 foreach (var header in headers)
@@ -170,7 +171,7 @@ public static class DataTableExtensions
             var columnNames = (excelData.First() as IDictionary<string, object>)?.Keys.ToArray();
             if (columnNames == null)
             {
-                throw new Exception(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.CsvExcel.ColumnsUnreadable"));
+                throw new Exception(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.CsvExcel.ColumnsUnreadable));
             }
 
             var targetColumnNames = new string[columnNames.Length];

@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 using Microsoft.Extensions.Logging;
 
 namespace CodeWF.Toolkit.Logging;
@@ -28,15 +29,15 @@ public sealed record LoggerOptions
     internal void Validate()
     {
         if (!Enum.IsDefined(MinimumLevel))
-            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.MinimumLevel"));
+            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.MinimumLevel));
         if (!Enum.IsDefined(QueueFullMode))
-            throw new ArgumentOutOfRangeException(nameof(QueueFullMode), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.QueuePolicy"));
+            throw new ArgumentOutOfRangeException(nameof(QueueFullMode), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.QueuePolicy));
         if (QueueCapacity <= 0)
-            throw new ArgumentOutOfRangeException(nameof(QueueCapacity), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.QueueCapacity"));
+            throw new ArgumentOutOfRangeException(nameof(QueueCapacity), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.QueueCapacity));
         if (RecentEventCapacity <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RecentEventCapacity), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.RecentCapacity"));
+            throw new ArgumentOutOfRangeException(nameof(RecentEventCapacity), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.RecentCapacity));
         if (EnqueueTimeout < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.EnqueueTimeout"));
+            throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.EnqueueTimeout));
         if (!LogTemplateFormatter.TryValidate(LineTemplate, out var error))
             throw new ArgumentException(error, nameof(LineTemplate));
 

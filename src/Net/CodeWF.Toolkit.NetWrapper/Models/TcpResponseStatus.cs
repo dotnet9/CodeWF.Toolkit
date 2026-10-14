@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Models;
 
 /// <summary>
@@ -8,10 +9,10 @@ public enum TcpResponseStatus
     /// <summary>
     ///     成功。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(TcpResponseStatus), "Toolkit.NetWrapper.Status.Success")] Success,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(TcpResponseStatus), LibraryResources.Status.Success)] Success,
 
     /// <summary>
     ///     失败。
     /// </summary>
-    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(TcpResponseStatus), "Toolkit.NetWrapper.Status.Fail")] Fail
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(TcpResponseStatus), LibraryResources.Status.Fail)] Fail
 }

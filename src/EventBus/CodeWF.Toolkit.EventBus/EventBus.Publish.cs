@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.I18n.ResourceKeys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +39,14 @@ namespace CodeWF.Toolkit.EventBus
             Task? task = null;
             var methodInfo = handler.Method;
             var serviceHandlerAction = _serviceHandlerAction ?? throw new InvalidOperationException(
-                global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.ResolverRequired") +
-                global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.ResolverInstructions"));
+                global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Registration.ResolverRequired) +
+                global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Registration.ResolverInstructions));
             serviceHandlerAction(handler.RecipientType, recipient =>
             {
                 if (recipient == null)
                 {
                     throw new InvalidOperationException(
-                        global::CodeWF.Toolkit.EventBus.LibraryText.Format("Toolkit.EventBus.Registration.ResolverReturnedNull", handler.RecipientType.FullName));
+                        global::CodeWF.Toolkit.EventBus.LibraryText.Format(LibraryResources.Registration.ResolverReturnedNull, handler.RecipientType.FullName));
                 }
 
                 var delegateType = methodInfo.ReturnType == typeof(Task)
@@ -64,14 +65,14 @@ namespace CodeWF.Toolkit.EventBus
             if (handlers.Any(handler => handler.Action.Method.ReturnType == typeof(Task)))
             {
                 throw new InvalidOperationException(
-                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Dispatch.AsyncHandlerRequiresAsync"));
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Dispatch.AsyncHandlerRequiresAsync));
             }
 
             var autoHandlers = GetAutoHandlerSnapshot(commandType);
             if (autoHandlers.Any(handler => handler.Method.ReturnType == typeof(Task)))
             {
                 throw new InvalidOperationException(
-                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Dispatch.AsyncHandlerRequiresAsync"));
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Dispatch.AsyncHandlerRequiresAsync));
             }
         }
 
@@ -93,7 +94,7 @@ namespace CodeWF.Toolkit.EventBus
                 // 此时阻塞等待可能在持有同步上下文的线程（如 UI 线程）上死锁，
                 // 因此与异步处理器保持一致的快速失败策略。
                 throw new InvalidOperationException(
-                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Dispatch.AsyncHandlerRequiresAsync"));
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Dispatch.AsyncHandlerRequiresAsync));
             }
 
             publishing.GetAwaiter().GetResult();

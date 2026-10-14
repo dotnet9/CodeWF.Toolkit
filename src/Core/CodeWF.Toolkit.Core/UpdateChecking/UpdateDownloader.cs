@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
 using System;
 using System.IO;
 using System.Linq;
@@ -34,23 +35,23 @@ public sealed class UpdateDownloader
         ArgumentNullException.ThrowIfNull(update);
         if (string.IsNullOrWhiteSpace(update.AssetUrl))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.AssetMissing"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.AssetMissing));
         }
 
         if (string.IsNullOrWhiteSpace(update.ChecksumUrl))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.ChecksumMissing"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.ChecksumMissing));
         }
 
         if (!IsHttpsUrl(update.AssetUrl) || !IsHttpsUrl(update.ChecksumUrl))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.HttpsRequired"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.HttpsRequired));
         }
 
         string fileName = Path.GetFileName((update.AssetName ?? string.Empty).Replace('\\', '/'));
         if (string.IsNullOrWhiteSpace(fileName) || fileName is "." or ".." || fileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.InvalidAssetName"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.InvalidAssetName));
         }
 
         string directory = _options.EffectiveDownloadDirectory;
@@ -94,7 +95,7 @@ public sealed class UpdateDownloader
 
             if (totalBytes is { } expectedBytes && received != expectedBytes)
             {
-                throw new InvalidDataException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.LengthMismatch"));
+                throw new InvalidDataException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.LengthMismatch));
             }
 
             await VerifyChecksumAsync(partialPath, update.ChecksumUrl!, cancellationToken).ConfigureAwait(false);
@@ -108,7 +109,7 @@ public sealed class UpdateDownloader
         }
 
         progress?.Report(new UpdateDownloadProgress(received, totalBytes ?? received));
-        _options.Log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.Downloaded", finalPath));
+        _options.Log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.Downloaded, finalPath));
         return new UpdateDownloadResult(finalPath, fileName, received);
     }
 
@@ -127,14 +128,14 @@ public sealed class UpdateDownloader
         string[] checksumTokens = checksumText.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
         if (checksumTokens.Length == 0 || checksumTokens[0].Length != 64 || !checksumTokens[0].All(Uri.IsHexDigit))
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.InvalidChecksum"));
+            throw new InvalidDataException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.InvalidChecksum));
         }
 
         await using FileStream downloaded = File.OpenRead(path);
         byte[] actualHash = await SHA256.HashDataAsync(downloaded, cancellationToken).ConfigureAwait(false);
         if (!string.Equals(Convert.ToHexString(actualHash), checksumTokens[0], StringComparison.OrdinalIgnoreCase))
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.ChecksumMismatch"));
+            throw new InvalidDataException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.ChecksumMismatch));
         }
     }
 

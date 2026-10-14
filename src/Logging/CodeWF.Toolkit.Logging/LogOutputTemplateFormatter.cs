@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 using CodeWF.Toolkit.Logging.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
@@ -54,7 +55,7 @@ public static class LogTemplateFormatter
     {
         if (string.IsNullOrWhiteSpace(template))
         {
-            error = global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Template.Required");
+            error = global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Template.Required);
             return false;
         }
 
@@ -71,21 +72,21 @@ public static class LogTemplateFormatter
                 var end = template.IndexOf('}', index + 1);
                 if (end < 0)
                 {
-                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.MissingClosingBrace", index);
+                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Template.MissingClosingBrace, index);
                     return false;
                 }
 
                 var rawToken = template[(index + 1)..end];
                 if (rawToken.Contains('{'))
                 {
-                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnescapedOpeningBrace", index);
+                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Template.UnescapedOpeningBrace, index);
                     return false;
                 }
 
                 var (name, format) = SplitToken(rawToken);
                 if (!SupportedTokens.Contains(name))
                 {
-                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnsupportedToken", name);
+                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Template.UnsupportedToken, name);
                     return false;
                 }
 
@@ -101,7 +102,7 @@ public static class LogTemplateFormatter
                 continue;
             }
 
-            error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnescapedClosingBrace", index);
+            error = global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Template.UnescapedClosingBrace, index);
             return false;
         }
 
@@ -256,7 +257,7 @@ public static class LogTemplateFormatter
             try { _ = DateTimeOffset.Now.ToString(format, CultureInfo.InvariantCulture); }
             catch (FormatException)
             {
-                error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.InvalidTimestamp", format);
+                error = global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Template.InvalidTimestamp, format);
                 return false;
             }
             error = null;
@@ -269,7 +270,7 @@ public static class LogTemplateFormatter
             return true;
         }
 
-        error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnsupportedFormat", name, format);
+        error = global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Template.UnsupportedFormat, name, format);
         return false;
     }
 

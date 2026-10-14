@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Helpers;
 
 /// <summary>
@@ -86,7 +87,7 @@ public class UdpSocketClient
             var receivedBuffers = ResetReceivedBuffers();
             if (!IPAddress.TryParse(ServerIP, out var multicastAddress))
             {
-                throw new InvalidOperationException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.InvalidMulticastAddress", ServerIP));
+                throw new InvalidOperationException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.InvalidMulticastAddress, ServerIP));
             }
 
             var localAddress = ResolveLocalAddress(endpoint);
@@ -121,9 +122,9 @@ public class UdpSocketClient
             CompleteReceivedBuffers();
             IsRunning = false;
             Logger.Error(
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ConnectFailed", ServerMark),
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.ConnectFailed, ServerMark),
                 ex,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ConnectFailedHint", ServerMark, ex.Message));
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.ConnectFailedHint, ServerMark, ex.Message));
         }
     }
 
@@ -151,12 +152,12 @@ public class UdpSocketClient
                 WaitForBackgroundTask(consumerTask);
             }
 
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.Stopped", ServerMark));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.Stopped, ServerMark));
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.StopFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.StopFailedHint", ServerMark));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.StopFailed, ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.StopFailedHint, ServerMark));
             IsRunning = false;
             return false;
         }
@@ -199,15 +200,15 @@ public class UdpSocketClient
                 if (IsRunning && ReferenceEquals(_client, client))
                 {
                     Logger.Error(ex.SocketErrorCode == SocketError.Interrupted
-                        ? global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ReceiveInterrupted", ServerMark)
-                        : global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ReceiveFailed", ServerMark, ex.Message));
+                        ? global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.ReceiveInterrupted, ServerMark)
+                        : global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.ReceiveFailed, ServerMark, ex.Message));
                 }
             }
             catch (Exception ex)
             {
                 if (IsRunning && ReferenceEquals(_client, client))
                 {
-                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ReceiveError", ex.Message));
+                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.ReceiveError, ex.Message));
                 }
             }
         }
@@ -253,8 +254,8 @@ public class UdpSocketClient
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.DispatchFailed", ServerMark), ex,
-                            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.DispatchFailedHint", ServerMark));
+                        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.DispatchFailed, ServerMark), ex,
+                            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Udp.DispatchFailedHint, ServerMark));
                     }
                 }
             }
@@ -297,7 +298,7 @@ public class UdpSocketClient
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Udp.BackgroundFailed"), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Udp.BackgroundFailedHint"));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Udp.BackgroundFailed), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.Udp.BackgroundFailedHint));
         }
     }
 

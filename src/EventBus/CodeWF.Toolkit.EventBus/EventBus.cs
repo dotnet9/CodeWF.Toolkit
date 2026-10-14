@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.I18n.ResourceKeys;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -98,8 +99,8 @@ namespace CodeWF.Toolkit.EventBus
             if (_serviceHandlerAction == null)
             {
                 throw new InvalidOperationException(
-                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.ResolverRequired") +
-                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.ResolverInstructions"));
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Registration.ResolverRequired) +
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Registration.ResolverInstructions));
             }
         }
 

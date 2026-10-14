@@ -1,4 +1,5 @@
-﻿using System;
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -197,19 +198,19 @@ public static class IpHelper
 
         if (!IPAddress.TryParse(ip, out var ipAddress))
         {
-            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidIp", ip);
+            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.InvalidIp, ip);
             return false;
         }
 
         if (ipAddress.AddressFamily != AddressFamily.InterNetwork)
         {
-            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.Ipv4Required", ip);
+            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.Ipv4Required, ip);
             return false;
         }
 
         if (port is < MinPort or > MaxPort)
         {
-            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidPort", port, MinPort, MaxPort);
+            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.InvalidPort, port, MinPort, MaxPort);
             return false;
         }
 
@@ -246,17 +247,17 @@ public static class IpHelper
     {
         if (!IPAddress.TryParse(ip, out var ipAddress))
         {
-            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidIp", ip));
+            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.InvalidIp, ip));
         }
 
         if (ipAddress.AddressFamily != AddressFamily.InterNetwork)
         {
-            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.Ipv4Required", ip));
+            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.Ipv4Required, ip));
         }
 
         if (port is < MinPort or > MaxPort)
         {
-            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidPort", port, MinPort, MaxPort));
+            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.InvalidPort, port, MinPort, MaxPort));
         }
 
         UdpClient? udpClient = null;
@@ -307,17 +308,17 @@ public static class IpHelper
     {
         if (startPort is < MinPort or > MaxPort)
         {
-            throw new ArgumentOutOfRangeException(nameof(startPort), global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidStartPort", MinPort, MaxPort));
+            throw new ArgumentOutOfRangeException(nameof(startPort), global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.InvalidStartPort, MinPort, MaxPort));
         }
 
         if (endPort is < MinPort or > MaxPort)
         {
-            throw new ArgumentOutOfRangeException(nameof(endPort), global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidEndPort", MinPort, MaxPort));
+            throw new ArgumentOutOfRangeException(nameof(endPort), global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.InvalidEndPort, MinPort, MaxPort));
         }
 
         if (startPort > endPort)
         {
-            throw new ArgumentOutOfRangeException(nameof(startPort), global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Network.InvalidPortRange"));
+            throw new ArgumentOutOfRangeException(nameof(startPort), global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Network.InvalidPortRange));
         }
 
         ip = string.Empty;
@@ -342,7 +343,7 @@ public static class IpHelper
 
             if (tempPort > endPort)
             {
-                throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.NoAvailablePort", startPort, endPort));
+                throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Network.NoAvailablePort, startPort, endPort));
             }
 
             port = tempPort;

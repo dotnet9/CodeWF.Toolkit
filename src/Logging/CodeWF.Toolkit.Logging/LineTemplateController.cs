@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.Logging;
 
 public interface ILineTemplateController
@@ -35,7 +36,7 @@ public sealed class LineTemplateController : ILineTemplateController
             foreach (EventHandler handler in changed.GetInvocationList())
             {
                 try { handler(this, EventArgs.Empty); }
-                catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.TemplateNotificationFailed"), ex); }
+                catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.TemplateNotificationFailed), ex); }
             }
         }
         return true;

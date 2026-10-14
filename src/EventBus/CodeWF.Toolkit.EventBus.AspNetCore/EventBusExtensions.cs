@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.AspNetCore.I18n.ResourceKeys;
 using CodeWF.Toolkit.EventBus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@ namespace CodeWF.Toolkit.EventBus.AspNetCore
             var requestedAssemblies = assemblies ?? Array.Empty<Assembly>();
             if (requestedAssemblies.Any(assembly => assembly == null))
             {
-                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.AspNetCore.LibraryText.Get("Toolkit.EventBus.AspNetCore.Registration.NullAssembly"), nameof(assemblies));
+                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.AspNetCore.LibraryText.Get(LibraryResources.Registration.NullAssembly), nameof(assemblies));
             }
 
             var entryAssembly = Assembly.GetEntryAssembly();
@@ -57,7 +58,7 @@ namespace CodeWF.Toolkit.EventBus.AspNetCore
             ArgumentNullException.ThrowIfNull(app);
             if (app.ApplicationServices.GetService<IEventBus>() is not { } messenger)
             {
-                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.AspNetCore.LibraryText.Get("Toolkit.EventBus.AspNetCore.Registration.AddBeforeUse"));
+                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.AspNetCore.LibraryText.Get(LibraryResources.Registration.AddBeforeUse));
             }
 
             var allAssemblies = GetAssemblies(assemblies);

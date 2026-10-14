@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWeaver.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWeaver;
 
 public static partial class SerializeHelper
@@ -25,7 +26,7 @@ public static partial class SerializeHelper
             if (value < PacketHeadLen)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), value,
-                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Socket.PacketTooSmall", PacketHeadLen));
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Socket.PacketTooSmall, PacketHeadLen));
             }
 
             Volatile.Write(ref _maxTcpPacketSize, value);

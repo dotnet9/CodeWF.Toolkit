@@ -1,3 +1,4 @@
+﻿using LibraryResources = global::CodeWF.Toolkit.Lang.I18n.ResourceKeys;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -74,7 +75,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
 
             if (!Directory.Exists(ResourceFolder))
             {
-                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.FolderMissing", ResourceFolder));
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.FolderMissing, ResourceFolder));
             }
             else
             {
@@ -88,7 +89,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
 
             if (Resources.Count == 0)
             {
-                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Get("Toolkit.Lang.Diagnostics.XmlResourcesRequired"));
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Get(LibraryResources.Diagnostics.XmlResourcesRequired));
             }
         }
     }
@@ -166,12 +167,12 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
                 return true;
             }
 
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlMetadataSkipped", filePath));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.XmlMetadataSkipped, filePath));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlFileSkipped", filePath));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.XmlFileSkipped, filePath));
             return false;
         }
     }
@@ -191,12 +192,12 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
                 return true;
             }
 
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlEmbeddedMetadataSkipped", assembly.GetName().Name, resourceName));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.XmlEmbeddedMetadataSkipped, assembly.GetName().Name, resourceName));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlEmbeddedSkipped", assembly.GetName().Name, resourceName));
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format(LibraryResources.Diagnostics.XmlEmbeddedSkipped, assembly.GetName().Name, resourceName));
             return false;
         }
     }
@@ -256,7 +257,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
     }
 }
 
-/// <summary>XML resource loader using the default language metadata type.</summary>
+/// <summary>使用默认语言元数据类型的 XML 资源加载器。</summary>
 public class XmlLangPlugin : XmlLangPlugin<LocalizationLanguage>
 {
 }

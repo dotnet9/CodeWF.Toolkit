@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Response;
 
 /// <summary>
@@ -16,5 +17,5 @@ public class DriveListResponse : INetObject
     /// </summary>
     public List<DiskInfo>? Disks { get; set; }
 
-    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.DrivesResponse", TaskId, Disks?.Count ?? 0);
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.DrivesResponse, TaskId, Disks?.Count ?? 0);
 }

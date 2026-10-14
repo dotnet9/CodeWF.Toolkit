@@ -1,4 +1,5 @@
-﻿using System;
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -54,13 +55,13 @@ public static class FileHelper
             {
                 attempt++;
                 if (attempt >= retryCount)
-                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.ReadRetryFailed", filePath, retryCount), ex);
+                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.File.ReadRetryFailed, filePath, retryCount), ex);
 
                 await Task.Delay(retryDelayMs); // 等待后重试
             }
         }
 
-        throw new FileNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.Unavailable", filePath), filePath);
+        throw new FileNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.File.Unavailable, filePath), filePath);
     }
 
     /// <summary>
@@ -104,13 +105,13 @@ public static class FileHelper
             {
                 attempt++;
                 if (attempt >= retryCount)
-                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.WriteRetryFailed", filePath, retryCount), ex);
+                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.File.WriteRetryFailed, filePath, retryCount), ex);
 
                 await Task.Delay(retryDelayMs);
             }
         }
 
-        throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.WriteFailed", filePath, retryCount));
+        throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.File.WriteFailed, filePath, retryCount));
     }
 
     /// <summary>
@@ -135,7 +136,7 @@ public static class FileHelper
             {
                 attempt++;
                 if (attempt >= retryCount)
-                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.DeleteRetryFailed", filePath, retryCount), ex);
+                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.File.DeleteRetryFailed, filePath, retryCount), ex);
 
                 await Task.Delay(retryDelayMs);
             }
@@ -152,7 +153,7 @@ public static class FileHelper
         // 校验文件是否存在
         if (!File.Exists(fileFullName))
         {
-            throw new FileNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.SpecifiedFileMissing"), fileFullName);
+            throw new FileNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.File.SpecifiedFileMissing), fileFullName);
         }
 
         string normalizedPath = NormalizePathSeparators(fileFullName);
@@ -198,7 +199,7 @@ public static class FileHelper
         // 校验文件夹是否存在
         if (!Directory.Exists(folderFullName))
         {
-            throw new DirectoryNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.SpecifiedDirectoryMissing") + folderFullName);
+            throw new DirectoryNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.File.SpecifiedDirectoryMissing) + folderFullName);
         }
 
         string normalizedPath = NormalizePathSeparators(folderFullName);
@@ -234,7 +235,7 @@ public static class FileHelper
         }
         else
         {
-            throw new PlatformNotSupportedException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.UnsupportedOperatingSystem"));
+            throw new PlatformNotSupportedException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.File.UnsupportedOperatingSystem));
         }
     }
 
@@ -338,7 +339,7 @@ public static class FileHelper
         // 基础校验：仅判空，不做其他校验
         if (string.IsNullOrWhiteSpace(inputPath))
         {
-            throw new ArgumentNullException(nameof(inputPath), global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.InputPathRequired"));
+            throw new ArgumentNullException(nameof(inputPath), global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.File.InputPathRequired));
         }
 
         // 1. 获取当前系统的标准分隔符

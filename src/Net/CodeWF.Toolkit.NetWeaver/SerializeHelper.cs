@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWeaver.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWeaver;
 
 /// <summary>
@@ -61,7 +62,7 @@ public partial class SerializeHelper
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), value,
-                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.NegativeCollectionCount"));
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.Deserialize.NegativeCollectionCount));
             }
 
             Volatile.Write(ref _maxCollectionItemCount, value);
@@ -76,7 +77,7 @@ public partial class SerializeHelper
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), value,
-                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.NegativeStringLength"));
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.Deserialize.NegativeStringLength));
             }
 
             Volatile.Write(ref _maxStringByteLength, value);
@@ -145,7 +146,7 @@ public partial class SerializeHelper
         }
         else
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedEnum", underlyingType.FullName));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Serialize.UnsupportedEnum, underlyingType.FullName));
         }
     }
 
@@ -169,7 +170,7 @@ public partial class SerializeHelper
                                     : underlyingType == typeof(ulong)
                                         ? reader.ReadUInt64()
                                         : throw new InvalidOperationException(
-                                            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedEnum", underlyingType.FullName));
+                                            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Serialize.UnsupportedEnum, underlyingType.FullName));
 
         return Enum.ToObject(enumType, value);
     }
@@ -284,8 +285,8 @@ public partial class SerializeHelper
         if (!RuntimeFeature.IsDynamicCodeSupported)
         {
             throw new NotSupportedException(
-                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.RuntimeCollectionConstruction", type.FullName) +
-                global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.AotCollectionInstructions"));
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.RuntimeCollectionConstruction, type.FullName) +
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.Deserialize.AotCollectionInstructions));
         }
 
         var fallbackType = isDictionary
@@ -293,7 +294,7 @@ public partial class SerializeHelper
             : typeof(List<>).MakeGenericType(genericArguments[0]);
 
         return Activator.CreateInstance(fallbackType)
-               ?? throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.CollectionConstructionFailed", type.FullName));
+               ?? throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.CollectionConstructionFailed, type.FullName));
     }
 
     /// <summary>
@@ -307,7 +308,7 @@ public partial class SerializeHelper
             var read = reader.Read(buffer[totalRead..]);
             if (read == 0)
             {
-                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.FixedValueTruncated"));
+                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.Deserialize.FixedValueTruncated));
             }
 
             totalRead += read;
@@ -324,7 +325,7 @@ public partial class SerializeHelper
     {
         var attribute = netObjectType.GetCustomAttribute<NetHeadAttribute>();
         return attribute ?? throw new Exception(
-            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.HeadAttributeMissing", netObjectType.Name, nameof(NetHeadAttribute)));
+            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Metadata.HeadAttributeMissing, netObjectType.Name, nameof(NetHeadAttribute)));
     }
 
     /// <summary>
@@ -337,7 +338,7 @@ public partial class SerializeHelper
         var netObjectType = typeof(T);
         var attribute = netObjectType.GetCustomAttribute<NetHeadAttribute>();
         return attribute ?? throw new Exception(
-            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.HeadAttributeMissing", netObjectType.Name, nameof(NetHeadAttribute)));
+            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Metadata.HeadAttributeMissing, netObjectType.Name, nameof(NetHeadAttribute)));
     }
 
     /// <summary>

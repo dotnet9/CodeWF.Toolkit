@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
 
@@ -74,7 +75,7 @@ internal sealed class LoggerHost : IAsyncDisposable
             }
             catch (Exception exception)
             {
-                LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.LevelTextFailed"), exception);
+                LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.LevelTextFailed), exception);
             }
         }
 
@@ -159,14 +160,14 @@ internal sealed class LoggerHost : IAsyncDisposable
         }
 
         await FlushSinksAsync(CancellationToken.None).ConfigureAwait(false);
-        await DisposeSinkSafelyAsync(_fileSink, global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.FileDisposeFailed")).ConfigureAwait(false);
-        await DisposeSinkSafelyAsync(_consoleSink, global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.ConsoleDisposeFailed")).ConfigureAwait(false);
+        await DisposeSinkSafelyAsync(_fileSink, global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.FileDisposeFailed)).ConfigureAwait(false);
+        await DisposeSinkSafelyAsync(_consoleSink, global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.ConsoleDisposeFailed)).ConfigureAwait(false);
     }
 
     private async Task ProcessLogAsync(CodeWFLogEvent logEvent, bool fileOnly)
     {
         if (_fileSink is not null && _options.File is { } file && logEvent.Level >= file.MinimumLevel)
-            await WriteSafelyAsync(_fileSink, logEvent, global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.FileWriteFailed")).ConfigureAwait(false);
+            await WriteSafelyAsync(_fileSink, logEvent, global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.FileWriteFailed)).ConfigureAwait(false);
 
         if (fileOnly) return;
 
@@ -174,7 +175,7 @@ internal sealed class LoggerHost : IAsyncDisposable
         {
             var minimumLevel = _options.Console?.MinimumLevel ?? LogLevel.Trace;
             if (logEvent.Level >= minimumLevel)
-                await WriteSafelyAsync(_consoleSink, logEvent, global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.ConsoleWriteFailed")).ConfigureAwait(false);
+                await WriteSafelyAsync(_consoleSink, logEvent, global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.ConsoleWriteFailed)).ConfigureAwait(false);
         }
 
         if (_options.EnableEventFeed) Events.Publish(logEvent);
@@ -191,7 +192,7 @@ internal sealed class LoggerHost : IAsyncDisposable
         if (_fileSink is not null)
         {
             try { await _fileSink.FlushAsync(cancellationToken).ConfigureAwait(false); }
-            catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.FileFlushFailed"), ex); }
+            catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Sink.FileFlushFailed), ex); }
         }
 
         if (_consoleSink is not null) await _consoleSink.FlushAsync(cancellationToken).ConfigureAwait(false);

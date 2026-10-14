@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.Microsoft.I18n.ResourceKeys;
 using CodeWF.Toolkit.Logging;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -64,7 +65,7 @@ internal sealed class CodeWFLogger(string categoryName, CodeWFLoggerProvider pro
             provider.ScopeProvider.ForEachScope(static (scope, state) =>
                 state.Add(LogStateSnapshot.CaptureScope(scope)), scopes);
         }
-        catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Diagnostics.ScopeCaptureFailed"), ex); }
+        catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Diagnostics.ScopeCaptureFailed), ex); }
         return scopes;
     }
 
@@ -73,7 +74,7 @@ internal sealed class CodeWFLogger(string categoryName, CodeWFLoggerProvider pro
         try { return LogStateSnapshot.Capture(state); }
         catch (Exception ex)
         {
-            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Diagnostics.StateCaptureFailed"), ex);
+            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Diagnostics.StateCaptureFailed), ex);
             var userState = state as ICodeWFUserLogState;
             return new LogStateSnapshot(null, [], userState?.UserMessage, userState?.RequestNotification == true);
         }
@@ -84,7 +85,7 @@ internal sealed class CodeWFLogger(string categoryName, CodeWFLoggerProvider pro
         try { return formatter(state, exception) ?? string.Empty; }
         catch (Exception ex)
         {
-            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Diagnostics.MessageFormatFailed"), ex);
+            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get(LibraryResources.Diagnostics.MessageFormatFailed), ex);
             try { return state?.ToString() ?? string.Empty; }
             catch { return string.Empty; }
         }

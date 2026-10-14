@@ -1,11 +1,11 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CodeWF.Toolkit.Lang.Json;
 
 namespace CodeWF.Toolkit.Lang;
 
-/// <summary>A description resolved from the owning library's embedded JSON on each access.</summary>
+/// <summary>每次访问时从所属库的内嵌 JSON 中查询当前语言的说明。</summary>
 [AttributeUsage(AttributeTargets.All)]
 public sealed class LocalizedDescriptionAttribute(Type resourceOwner, string key) : DescriptionAttribute(key)
 {

@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 using System.Diagnostics;
 
 namespace CodeWF.Toolkit.Logging;
@@ -19,7 +20,7 @@ internal static class LoggerSelfDiagnostics
 
         try
         {
-            Console.Error.WriteLine(global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Diagnostics.Failure", message));
+            Console.Error.WriteLine(global::CodeWF.Toolkit.Logging.LibraryText.Format(LibraryResources.Diagnostics.Failure, message));
         }
         catch
         {

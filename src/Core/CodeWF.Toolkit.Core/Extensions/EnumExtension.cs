@@ -1,4 +1,5 @@
-﻿using CodeWF.Toolkit.Core.Attributers;
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
+using CodeWF.Toolkit.Core.Attributers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ public static class EnumExtension
     {
         if (!enumType.IsEnum)
         {
-            throw new Exception(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Enum.TypeRequired"));
+            throw new Exception(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Enum.TypeRequired));
         }
 
         return EnumNameValueDict.GetOrAdd(enumType, _ => GetDictionaryItems(enumType));

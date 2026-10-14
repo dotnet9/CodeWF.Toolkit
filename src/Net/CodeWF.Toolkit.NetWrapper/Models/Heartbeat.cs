@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Models;
 
 /// <summary>
@@ -11,5 +12,5 @@ public class Heartbeat : INetObject
     /// </summary>
     public int TaskId { get; set; }
 
-    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.Heartbeat", TaskId);
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.Heartbeat, TaskId);
 }

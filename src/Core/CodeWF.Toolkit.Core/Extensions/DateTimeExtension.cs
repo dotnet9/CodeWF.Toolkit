@@ -1,4 +1,5 @@
-﻿using System;
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -179,12 +180,12 @@ namespace CodeWF.Toolkit.Core.Extensions
         {
             if (interval < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(interval), global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.EndBeforeStart"));
+                throw new ArgumentOutOfRangeException(nameof(interval), global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.EndBeforeStart));
             }
 
             if (interval.TotalMilliseconds > uint.MaxValue)
             {
-                throw new OverflowException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.IntervalOverflow"));
+                throw new OverflowException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.IntervalOverflow));
             }
         }
 
@@ -429,13 +430,13 @@ namespace CodeWF.Toolkit.Core.Extensions
         {
             return now.DayOfWeek switch
             {
-                DayOfWeek.Monday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Monday"),
-                DayOfWeek.Tuesday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Tuesday"),
-                DayOfWeek.Wednesday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Wednesday"),
-                DayOfWeek.Thursday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Thursday"),
-                DayOfWeek.Friday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Friday"),
-                DayOfWeek.Saturday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Saturday"),
-                DayOfWeek.Sunday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Sunday"),
+                DayOfWeek.Monday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Monday),
+                DayOfWeek.Tuesday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Tuesday),
+                DayOfWeek.Wednesday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Wednesday),
+                DayOfWeek.Thursday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Thursday),
+                DayOfWeek.Friday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Friday),
+                DayOfWeek.Saturday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Saturday),
+                DayOfWeek.Sunday => global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.Sunday),
                 _ => ""
             };
         }
@@ -464,11 +465,11 @@ namespace CodeWF.Toolkit.Core.Extensions
             var ts = dateTime2 - dateTime1;
             if (ts.TotalDays >= 1)
             {
-                dateDiff = ts.TotalDays >= 30 ? (ts.TotalDays / 30) + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.MonthsAgoSuffix") : ts.TotalDays + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.DaysAgoSuffix");
+                dateDiff = ts.TotalDays >= 30 ? (ts.TotalDays / 30) + global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.MonthsAgoSuffix) : ts.TotalDays + global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.DaysAgoSuffix);
             }
             else
             {
-                dateDiff = ts.Hours > 1 ? ts.Hours + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.HoursAgoSuffix") : ts.Minutes + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.MinutesAgoSuffix");
+                dateDiff = ts.Hours > 1 ? ts.Hours + global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.HoursAgoSuffix) : ts.Minutes + global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.MinutesAgoSuffix);
             }
 
             return dateDiff;
@@ -492,7 +493,7 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             // 如果时间差为0
             if (beginTime == endTime)
-                return global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.ZeroSeconds");
+                return global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.ZeroSeconds);
 
             var result = new List<string>();
             var current = beginTime;
@@ -506,7 +507,7 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             if (years > 0)
             {
-                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Years", years));
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.Years, years));
                 current = current.AddYears(years);
             }
 
@@ -523,7 +524,7 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             if (months > 0)
             {
-                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Months", months));
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.Months, months));
                 current = current.AddMonths(months);
             }
 
@@ -532,19 +533,19 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             if (remaining.Days > 0)
             {
-                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Days", remaining.Days));
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.Days, remaining.Days));
             }
             if (remaining.Hours > 0)
             {
-                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Hours", remaining.Hours));
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.Hours, remaining.Hours));
             }
             if (remaining.Minutes > 0)
             {
-                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Minutes", remaining.Minutes));
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.Minutes, remaining.Minutes));
             }
             if (remaining.Seconds > 0 || result.Count == 0)
             {
-                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Seconds", remaining.Seconds));
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.Seconds, remaining.Seconds));
             }
 
             return string.Join("", result);
@@ -694,17 +695,17 @@ namespace CodeWF.Toolkit.Core.Extensions
         {
             var timeSpan = current - compareTime;
             if (timeSpan.TotalDays > 365)
-                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.YearsAgo", (int)(timeSpan.TotalDays / 365));
+                return global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.YearsAgo, (int)(timeSpan.TotalDays / 365));
             if (timeSpan.TotalDays > 30)
-                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.MonthsAgo", (int)(timeSpan.TotalDays / 30));
+                return global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.MonthsAgo, (int)(timeSpan.TotalDays / 30));
             if (timeSpan.TotalDays >= 1)
-                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.DaysAgo", (int)timeSpan.TotalDays);
+                return global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.DaysAgo, (int)timeSpan.TotalDays);
             if (timeSpan.TotalHours >= 1)
-                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.HoursAgo", (int)timeSpan.TotalHours);
+                return global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.HoursAgo, (int)timeSpan.TotalHours);
             if (timeSpan.TotalMinutes >= 1)
-                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.MinutesAgo", (int)timeSpan.TotalMinutes);
+                return global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.DateTime.MinutesAgo, (int)timeSpan.TotalMinutes);
             
-            return global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.JustNow");
+            return global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.DateTime.JustNow);
         }
 
         #endregion

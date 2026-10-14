@@ -1,4 +1,5 @@
-﻿using SharpCompress.Archives;
+using LibraryResources = global::CodeWF.Toolkit.Files.I18n.ResourceKeys;
+using SharpCompress.Archives;
 using SharpCompress.Common;
 using SharpCompress.Writers.Zip;
 using System.Collections.Concurrent;
@@ -68,7 +69,7 @@ public class SevenZipCompressor : ISevenZipCompressor
         {
             if (!string.IsNullOrEmpty(entry.LinkTarget))
             {
-                throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format("Toolkit.Files.Archive.SymbolicLinkUnsupported", entry.Key));
+                throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format(LibraryResources.Archive.SymbolicLinkUnsupported, entry.Key));
             }
 
             if (entry.IsDirectory)
@@ -94,19 +95,19 @@ public class SevenZipCompressor : ISevenZipCompressor
     {
         if (string.IsNullOrWhiteSpace(entryKey))
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.Archive.EntryPathRequired"));
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.Archive.EntryPathRequired));
         }
 
         if (entryKey.Contains('\0'))
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.Archive.EntryNullCharacter"));
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.Archive.EntryNullCharacter));
         }
 
         var relativePath = entryKey.Replace('/', Path.DirectorySeparatorChar)
             .Replace('\\', Path.DirectorySeparatorChar);
         if (Path.IsPathRooted(relativePath) || !string.IsNullOrEmpty(Path.GetPathRoot(relativePath)))
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format("Toolkit.Files.Archive.AbsoluteEntry", entryKey));
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format(LibraryResources.Archive.AbsoluteEntry, entryKey));
         }
 
         var fullPath = Path.GetFullPath(Path.Combine(destinationDirectory, relativePath));
@@ -115,7 +116,7 @@ public class SevenZipCompressor : ISevenZipCompressor
             relativeToDestination.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal) ||
             Path.IsPathRooted(relativeToDestination))
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format("Toolkit.Files.Archive.EntryOutsideDestination", entryKey));
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format(LibraryResources.Archive.EntryOutsideDestination, entryKey));
         }
 
         return fullPath;
@@ -248,7 +249,7 @@ public class SevenZipCompressor : ISevenZipCompressor
         if (uniqueFiles.Any(file => !string.Equals(Path.GetPathRoot(file), commonRoot,
                 OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal)))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.Archive.MixedVolumes"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.Archive.MixedVolumes));
         }
 
         foreach (var file in uniqueFiles.Skip(1))

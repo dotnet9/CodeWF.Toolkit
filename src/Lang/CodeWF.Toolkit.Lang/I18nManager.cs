@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -8,7 +8,7 @@ using System.Threading;
 namespace CodeWF.Toolkit.Lang;
 
 /// <summary>
-/// Runtime localization manager that registers plugins, switches culture, and refreshes bindings.
+/// 运行时国际化管理器，负责注册插件、切换语言并刷新绑定。
 /// </summary>
 public class I18nManager : INotifyPropertyChanged
 {
@@ -19,7 +19,7 @@ public class I18nManager : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
-    /// Global localization manager instance.
+    /// 全局国际化管理器实例。
     /// </summary>
     public static I18nManager Instance { get; } = new();
 
@@ -28,7 +28,7 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Registers a plugin and loads resources for the default culture.
+    /// 注册语言插件，并按默认语言加载资源。
     /// </summary>
     public void Register(ILangPlugin plugin, CultureInfo? defaultCulture = null)
     {
@@ -41,7 +41,7 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Registers a plugin and loads resources for the default culture.
+    /// 注册语言插件，并按默认语言加载资源。
     /// </summary>
     public bool Register(ILangPlugin plugin, CultureInfo defaultCulture, out string? error)
     {
@@ -71,7 +71,7 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Adds resources from extra assemblies.
+    /// 添加额外程序集中的语言资源。
     /// </summary>
     public void AddResource(params Assembly[] assemblies)
     {
@@ -90,7 +90,7 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Current culture. Setting it updates thread cultures and refreshes bindings.
+    /// 当前语言，修改后同步线程区域设置并刷新绑定。
     /// </summary>
     public CultureInfo? Culture
     {
@@ -123,7 +123,7 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Gets the languages known by the current plugin.
+    /// 获取当前插件已加载的语言列表。
     /// </summary>
     public List<LocalizationLanguage>? GetLanguages()
     {
@@ -134,7 +134,7 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Gets localized text by key.
+    /// 按资源键查询本地化文本。
     /// </summary>
     public string GetResource(string key, string? cultureName = null)
     {
@@ -145,12 +145,12 @@ public class I18nManager : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Raised when the current culture changes.
+    /// 当前语言切换后触发。
     /// </summary>
     public event EventHandler<EventArgs>? CultureChanged;
 
     /// <summary>
-    /// Monotonically increasing version of the loaded resource set.
+    /// 语言资源每次刷新后递增的版本号。
     /// </summary>
     public int ResourceVersion
     {
@@ -173,7 +173,7 @@ public class I18nManager : INotifyPropertyChanged
     private int _resourceVersion;
 
     /// <summary>
-    /// Raised after resources are added to the current plugin.
+    /// 向当前插件添加资源后触发。
     /// </summary>
     public event EventHandler<EventArgs>? ResourcesChanged;
 

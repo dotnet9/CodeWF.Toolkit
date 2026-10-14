@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
 using System;
 using System.IO;
 
@@ -54,7 +55,7 @@ public static class AppDataMigrator
             {
                 CopyDirectory(legacyDirectory, dataDirectory, overwrite: true);
                 CleanupLocalRootStrays(configFileName);
-                log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.AppData.LegacyRepair", legacyDirectory, dataDirectory));
+                log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.AppData.LegacyRepair, legacyDirectory, dataDirectory));
                 return dataDirectory;
             }
 
@@ -62,12 +63,12 @@ public static class AppDataMigrator
             if (hasLegacy && !hasNew)
             {
                 CopyDirectory(legacyDirectory, dataDirectory, overwrite: false);
-                log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.AppData.Migrated", legacyDirectory, dataDirectory));
+                log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.AppData.Migrated, legacyDirectory, dataDirectory));
             }
         }
         catch (Exception ex)
         {
-            log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.AppData.MigrationFailed", ex.Message));
+            log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.AppData.MigrationFailed, ex.Message));
         }
 
         return dataDirectory;

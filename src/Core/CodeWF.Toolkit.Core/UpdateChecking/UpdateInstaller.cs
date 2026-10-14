@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -64,7 +65,7 @@ public sealed class UpdateInstaller
         if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
         {
             return Task.FromResult(new UpdateInstallResult(
-                UpdateInstallKind.Unsupported, global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.InstallFileMissing")));
+                UpdateInstallKind.Unsupported, global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.InstallFileMissing)));
         }
 
         string extension = Path.GetExtension(filePath).ToLowerInvariant();
@@ -86,7 +87,7 @@ public sealed class UpdateInstaller
         if (_platform == OSPlatform.OSX)
         {
             return Task.FromResult(extension is ".dmg" or ".pkg"
-                ? LaunchVia("open", filePath, global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.MacInstallerOpened"))
+                ? LaunchVia("open", filePath, global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.MacInstallerOpened))
                 : Manual(filePath));
         }
 
@@ -101,9 +102,9 @@ public sealed class UpdateInstaller
             return Manual(filePath);
         }
 
-        _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.InstallerStartedLog", filePath));
+        _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.InstallerStartedLog, filePath));
         return new UpdateInstallResult(
-            UpdateInstallKind.Launched, global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.WindowsInstallerStarted")) { ShouldExitApplication = true };
+            UpdateInstallKind.Launched, global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.WindowsInstallerStarted)) { ShouldExitApplication = true };
     }
 
     /// <summary>交给系统处理器打开（Linux 的 xdg-open、macOS 的 open）；命令不存在时降级为手动。</summary>
@@ -111,25 +112,25 @@ public sealed class UpdateInstaller
     {
         if (TryStart(new ProcessStartInfo(command) { UseShellExecute = false, ArgumentList = { filePath } }))
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.OpenedWith", command, filePath));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.OpenedWith, command, filePath));
             return new UpdateInstallResult(
                 UpdateInstallKind.Launched,
-                message ?? global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.SystemInstallerStarted")) { ShouldExitApplication = false };
+                message ?? global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.SystemInstallerStarted)) { ShouldExitApplication = false };
         }
 
-        _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.CommandUnavailableLog", command, filePath));
-        return Manual(filePath, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.CommandUnavailable", command, filePath));
+        _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.CommandUnavailableLog, command, filePath));
+        return Manual(filePath, global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.CommandUnavailable, command, filePath));
     }
 
     private static UpdateInstallResult Manual(string filePath, string? message = null)
-        => new(UpdateInstallKind.Manual, message ?? global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.InstallManually", filePath));
+        => new(UpdateInstallKind.Manual, message ?? global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.InstallManually, filePath));
 
     private UpdateInstallResult OpenFolder(string filePath)
     {
         string? directory = Path.GetDirectoryName(filePath);
         if (string.IsNullOrEmpty(directory))
         {
-            return new UpdateInstallResult(UpdateInstallKind.Unsupported, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.InstallerDownloaded", filePath));
+            return new UpdateInstallResult(UpdateInstallKind.Unsupported, global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.InstallerDownloaded, filePath));
         }
 
         ProcessStartInfo info = _platform == OSPlatform.Windows
@@ -141,7 +142,7 @@ public sealed class UpdateInstaller
         {
             return Manual(filePath);
         }
-        return new UpdateInstallResult(UpdateInstallKind.OpenedFolder, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.PortableFolderOpened", directory));
+        return new UpdateInstallResult(UpdateInstallKind.OpenedFolder, global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.PortableFolderOpened, directory));
     }
 
     private bool TryStart(ProcessStartInfo info)
@@ -152,7 +153,7 @@ public sealed class UpdateInstaller
         }
         catch (Exception ex)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.InstallerFailed", ex.Message));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.InstallerFailed, ex.Message));
             return false;
         }
     }

@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.Socket.I18n.ResourceKeys;
 using CodeWF.Toolkit.EventBus;
 
 // ReSharper disable once CheckNamespace
@@ -66,7 +67,7 @@ public class EventClient : IEventClient, IDisposable
         var connected = ConnectAsync(host, port, timeout.Token).GetAwaiter().GetResult();
         if (!connected)
         {
-            throw new TimeoutException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ConnectionTimeout"));
+            throw new TimeoutException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.ConnectionTimeout));
         }
     }
 
@@ -161,7 +162,7 @@ public class EventClient : IEventClient, IDisposable
         catch (Exception ex)
         {
             errorMessage = ex.Message;
-            Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.PublishFailed"), ex);
+            Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.PublishFailed), ex);
             return false;
         }
     }
@@ -218,23 +219,23 @@ public class EventClient : IEventClient, IDisposable
             var updateEvent = await responseChannel.Reader.ReadAsync(linkedCancellation.Token).ConfigureAwait(false);
             if (updateEvent.Buffer is null)
             {
-                return (default, global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.NoResponse"));
+                return (default, global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.NoResponse));
             }
 
             var response = updateEvent.Buffer.DeserializeObject(typeof(TResponse));
             return response is TResponse typedResponse
                 ? (typedResponse, string.Empty)
-                : (default, global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.InvalidResponse"));
+                : (default, global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.InvalidResponse));
         }
         catch (OperationCanceledException)
         {
             return (default, cancellationToken.IsCancellationRequested || ConnectStatus == ConnectStatus.Disconnected
-                ? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Query.Canceled")
-                : global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Query.Timeout"));
+                ? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Query.Canceled)
+                : global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Query.Timeout));
         }
         catch (Exception ex)
         {
-            Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.QueryFailed"), ex);
+            Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.QueryFailed), ex);
             return (default, ex.Message);
         }
         finally
@@ -307,7 +308,7 @@ public class EventClient : IEventClient, IDisposable
             cancellationToken.ThrowIfCancellationRequested();
             if (!isSuccess)
             {
-                throw new InvalidOperationException(errorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ConnectionFailed"));
+                throw new InvalidOperationException(errorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.ConnectionFailed));
             }
 
             session.CommandRegistration = client.RegisterCommandHandler(
@@ -326,7 +327,7 @@ public class EventClient : IEventClient, IDisposable
         }
         catch (Exception ex)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ConnectError"), ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.ConnectError), ex);
             await StopSessionAsync(session).ConfigureAwait(false);
             ConnectStatus = ConnectStatus.Disconnected;
             return false;
@@ -353,7 +354,7 @@ public class EventClient : IEventClient, IDisposable
             timeout.Token);
         if (!await session.HandshakeCompletion.Task.WaitAsync(linked.Token).ConfigureAwait(false))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.AuthenticationConfiguration"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.AuthenticationConfiguration));
         }
 
         session.HandshakeCompletion = null;
@@ -450,7 +451,7 @@ public class EventClient : IEventClient, IDisposable
         var accepted = session.Inbound.Writer.TryWrite(command);
         if (!accepted)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.InboundQueueFull"));
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.InboundQueueFull));
         }
 
         return Task.FromResult(accepted);
@@ -465,7 +466,7 @@ public class EventClient : IEventClient, IDisposable
         }
 
         ConnectStatus = ConnectStatus.Disconnected;
-        _options.Report(error.ErrorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.TcpConnectionError"));
+        _options.Report(error.ErrorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.TcpConnectionError));
         ScheduleReconnect(session);
         return Task.CompletedTask;
     }
@@ -486,7 +487,7 @@ public class EventClient : IEventClient, IDisposable
         catch (Exception ex)
         {
             ConnectStatus = ConnectStatus.Disconnected;
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.HeartbeatFailed"), ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.HeartbeatFailed), ex);
             ScheduleReconnect(session);
         }
     }
@@ -515,7 +516,7 @@ public class EventClient : IEventClient, IDisposable
                 }
                 catch (Exception ex)
                 {
-                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ResponseFailed"), ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.ResponseFailed), ex);
                 }
             }
         }
@@ -549,7 +550,7 @@ public class EventClient : IEventClient, IDisposable
                 catch (Exception ex)
                 {
                     ConnectStatus = ConnectStatus.Disconnected;
-                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.SendFailed"), ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.SendFailed), ex);
                     ScheduleReconnect(session);
                 }
             }
@@ -617,7 +618,7 @@ public class EventClient : IEventClient, IDisposable
             }
             catch (Exception ex)
             {
-                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.DispatchFailed"), ex);
+                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.DispatchFailed), ex);
             }
         }
     }
@@ -628,7 +629,7 @@ public class EventClient : IEventClient, IDisposable
 
     private void SendCommand(INetObject command, bool needCheckConnectStatus = true)
     {
-        var session = _session ?? throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.NotConnected"));
+        var session = _session ?? throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.NotConnected));
         SendCommand(session, command, needCheckConnectStatus);
     }
 
@@ -636,7 +637,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (!session.Outbound.Writer.TryWrite(new OutboundCommand(command, needCheckConnectStatus)))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.SendQueueClosed"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.SendQueueClosed));
         }
     }
 
@@ -735,7 +736,7 @@ public class EventClient : IEventClient, IDisposable
         }
         catch (Exception ex)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.CloseFailed"), ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.CloseFailed), ex);
         }
 
         session.Inbound.Writer.TryComplete();
@@ -748,7 +749,7 @@ public class EventClient : IEventClient, IDisposable
         }
         catch (Exception ex) when (ex is OperationCanceledException or TimeoutException)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ShutdownTimeout"), ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Client.ShutdownTimeout), ex);
         }
         finally
         {
@@ -805,7 +806,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (string.IsNullOrWhiteSpace(subject) || subject.Length > _options.MaxSubjectLength)
         {
-            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.InvalidSubject"), nameof(subject));
+            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Validation.InvalidSubject), nameof(subject));
         }
     }
 
@@ -813,7 +814,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (buffer is not null && buffer.Length > _options.MaxMessageSizeBytes)
         {
-            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.MessageTooLarge"), nameof(buffer));
+            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Validation.MessageTooLarge), nameof(buffer));
         }
     }
 
@@ -821,7 +822,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (string.IsNullOrWhiteSpace(host))
         {
-            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.HostRequired"), nameof(host));
+            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Validation.HostRequired), nameof(host));
         }
 
         if (port is < IPEndPoint.MinPort or > IPEndPoint.MaxPort)

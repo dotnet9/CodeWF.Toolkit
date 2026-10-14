@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWeaver.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWeaver;
 
 /// <summary>
@@ -65,7 +66,7 @@ public partial class SerializeHelper
         // 这里复用前面统一的集合识别逻辑，避免在多个地方重复判断 List/Dictionary/接口集合。
         if (!TryGetCollectionMetadata(type, out var itemTypes, out var isDictionary))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.UnsupportedCollection", type.FullName));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Metadata.UnsupportedCollection, type.FullName));
         }
 
         return CreateCollectionInstance(type, itemTypes, isDictionary);
@@ -99,7 +100,7 @@ public partial class SerializeHelper
             }
             catch (Exception ex)
             {
-                throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.PropertyAnalysisFailed", property.Name), ex);
+                throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Metadata.PropertyAnalysisFailed, property.Name), ex);
             }
         }
     }
@@ -293,18 +294,18 @@ public partial class SerializeHelper
             if (byteLength < 0 || byteLength > MaxStringByteLength)
             {
                 throw new InvalidDataException(
-                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.StringTooLarge", byteLength, MaxStringByteLength));
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.StringTooLarge, byteLength, MaxStringByteLength));
             }
 
             if (byteLength > reader.BaseStream.Length - reader.BaseStream.Position)
             {
-                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.StringTruncated"));
+                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.Deserialize.StringTruncated));
             }
 
             var bytes = reader.ReadBytes(byteLength);
             if (bytes.Length != byteLength)
             {
-                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.StringTruncated"));
+                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get(LibraryResources.Deserialize.StringTruncated));
             }
 
             return DefaultEncoding.GetString(bytes);
@@ -315,7 +316,7 @@ public partial class SerializeHelper
             return reader.ReadBoolean();
         }
 
-        throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedType", propertyType.Name));
+        throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Serialize.UnsupportedType, propertyType.Name));
     }
 
     /// <summary>
@@ -329,18 +330,18 @@ public partial class SerializeHelper
         var count = reader.ReadInt32();
         if (count < 0)
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.CollectionCountNegative", propertyType.FullName));
+            throw new InvalidDataException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.CollectionCountNegative, propertyType.FullName));
         }
 
         if (count > MaxCollectionItemCount)
         {
             throw new InvalidDataException(
-                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.CollectionTooLarge", propertyType.FullName, MaxCollectionItemCount));
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.CollectionTooLarge, propertyType.FullName, MaxCollectionItemCount));
         }
 
         if (!TryGetCollectionMetadata(propertyType, out var genericArguments, out var isDictionary))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.UnsupportedCollection", propertyType.FullName));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Metadata.UnsupportedCollection, propertyType.FullName));
         }
 
         var complexObj = CreateCollectionInstance(propertyType, genericArguments, isDictionary);
@@ -358,7 +359,7 @@ public partial class SerializeHelper
                 var value = DeserializeValue(reader, genericArguments[1]);
                 if (key == null)
                 {
-                    throw new InvalidDataException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.NullDictionaryKey", propertyType.FullName));
+                    throw new InvalidDataException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.NullDictionaryKey, propertyType.FullName));
                 }
 
                 (complexObj as IDictionary)?[key] = value;
@@ -381,13 +382,13 @@ public partial class SerializeHelper
         var length = reader.ReadInt32();
         if (length < 0)
         {
-            throw new InvalidDataException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.ArrayLengthNegative", propertyType.FullName));
+            throw new InvalidDataException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.ArrayLengthNegative, propertyType.FullName));
         }
 
         if (length > MaxCollectionItemCount)
         {
             throw new InvalidDataException(
-                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.ArrayTooLarge", propertyType.FullName, MaxCollectionItemCount));
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.ArrayTooLarge, propertyType.FullName, MaxCollectionItemCount));
         }
 
         // GetElementType() 返回数组元素类型，例如 int[] 返回 int。
@@ -421,7 +422,7 @@ public partial class SerializeHelper
         // Activator.CreateInstance(type) 会按运行时类型动态创建实例，
         // 适合这里这种“编译期不知道具体 DTO 类型”的反射场景。
         var data = Activator.CreateInstance(type)
-                   ?? throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.InstanceConstructionFailed", type.FullName));
+                   ?? throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Deserialize.InstanceConstructionFailed, type.FullName));
         DeserializeProperties(reader, data, type);
         return data;
     }

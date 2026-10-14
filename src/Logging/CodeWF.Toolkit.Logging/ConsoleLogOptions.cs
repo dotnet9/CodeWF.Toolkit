@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.Logging;
 
 using Microsoft.Extensions.Logging;
@@ -11,9 +12,9 @@ public sealed record ConsoleLogOptions
     internal void Validate()
     {
         if (!Enum.IsDefined(MinimumLevel))
-            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.ConsoleLevel"));
+            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.ConsoleLevel));
         if (string.IsNullOrWhiteSpace(TimestampFormat))
-            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.ConsoleTimestampRequired"), nameof(TimestampFormat));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.ConsoleTimestampRequired), nameof(TimestampFormat));
 
         try
         {
@@ -21,7 +22,7 @@ public sealed record ConsoleLogOptions
         }
         catch (FormatException ex)
         {
-            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.ConsoleTimestampInvalid"), nameof(TimestampFormat), ex);
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.ConsoleTimestampInvalid), nameof(TimestampFormat), ex);
         }
     }
 }

@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWeaver.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWeaver;
 
 /// <summary>
@@ -146,7 +147,7 @@ public partial class SerializeHelper
         else
         {
             throw new InvalidOperationException(
-                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.NullReference", valueType.FullName));
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Serialize.NullReference, valueType.FullName));
         }
     }
 
@@ -293,7 +294,7 @@ public partial class SerializeHelper
         }
         else
         {
-            throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedType", valueType.Name));
+            throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Serialize.UnsupportedType, valueType.Name));
         }
     }
 
@@ -363,6 +364,6 @@ public partial class SerializeHelper
         }
 
         throw new InvalidOperationException(
-            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedCollectionValue", string.Join(", ", genericArguments.Select(x => x.Name))));
+            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format(LibraryResources.Serialize.UnsupportedCollectionValue, string.Join(", ", genericArguments.Select(x => x.Name))));
     }
 }

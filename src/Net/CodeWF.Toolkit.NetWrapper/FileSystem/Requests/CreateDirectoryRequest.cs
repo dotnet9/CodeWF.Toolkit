@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Requests;
 
 /// <summary>
@@ -16,5 +17,5 @@ public class CreateDirectoryRequest : INetObject
     /// </summary>
     public string DirectoryPath { get; set; } = string.Empty;
 
-    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.CreateRequest", TaskId, DirectoryPath);
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Packet.CreateRequest, TaskId, DirectoryPath);
 }

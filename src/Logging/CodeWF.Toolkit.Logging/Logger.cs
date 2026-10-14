@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 using Microsoft.Extensions.Logging;
 
 namespace CodeWF.Toolkit.Logging;
@@ -39,7 +40,7 @@ public static class Logger
     public static void Initialize(LoggerOptions options)
     {
         if (!TryInitialize(options))
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Lifecycle.AlreadyInitialized"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Lifecycle.AlreadyInitialized));
     }
 
     public static bool TryInitialize(LoggerOptions options)
@@ -113,7 +114,7 @@ public static class Logger
         bool ownsHost;
         lock (SyncRoot)
         {
-            host = _host ?? throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Lifecycle.NotInitialized"));
+            host = _host ?? throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Lifecycle.NotInitialized));
             ownsHost = ReferenceEquals(_hostOwner, LegacyOwner);
         }
 
@@ -215,7 +216,7 @@ public static class Logger
     }
 
     private static LoggerHost GetHost() => Volatile.Read(ref _host) ??
-        throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Lifecycle.NotInitialized"));
+        throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Lifecycle.NotInitialized));
 
     private static LogEventFeed GetOrCreateEvents()
     {
@@ -225,6 +226,6 @@ public static class Logger
 
     private static void ValidateLogLevel(LogLevel level)
     {
-        if (!Enum.IsDefined(level)) throw new ArgumentOutOfRangeException(nameof(level), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.LevelInvalid"));
+        if (!Enum.IsDefined(level)) throw new ArgumentOutOfRangeException(nameof(level), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.LevelInvalid));
     }
 }

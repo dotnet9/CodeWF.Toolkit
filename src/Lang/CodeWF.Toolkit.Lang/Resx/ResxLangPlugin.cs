@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -294,13 +294,13 @@ public class ResxLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
 
 }
 
-/// <summary>RESX resource loader using the default language metadata type.</summary>
+/// <summary>使用默认语言元数据类型的 RESX 资源加载器。</summary>
 public class ResxLangPlugin : ResxLangPlugin<LocalizationLanguage>
 {
-    /// <summary>Creates a loader with convention-based resource discovery.</summary>
+    /// <summary>创建按约定查找资源的加载器。</summary>
     public ResxLangPlugin() { }
-    /// <summary>Creates a loader with an explicit resource manager.</summary>
+    /// <summary>为指定的资源管理器创建加载器。</summary>
     public ResxLangPlugin(ResourceManager resourceManager) : base(resourceManager) { }
-    /// <summary>Creates a loader for a resource designer type.</summary>
+    /// <summary>为资源设计器类型创建加载器。</summary>
     public ResxLangPlugin([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] Type resourceType) : base(resourceType) { }
 }

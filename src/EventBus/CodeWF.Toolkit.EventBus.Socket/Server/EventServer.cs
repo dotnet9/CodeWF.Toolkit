@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.Socket.I18n.ResourceKeys;
 // ReSharper disable once CheckNamespace
 namespace CodeWF.Toolkit.EventBus.Socket;
 
@@ -110,7 +111,7 @@ public class EventServer : IEventServer, IDisposable
                 cancellationToken.ThrowIfCancellationRequested();
                 if (!isSuccess)
                 {
-                    throw new InvalidOperationException(errorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.StartFailed"));
+                    throw new InvalidOperationException(errorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.StartFailed));
                 }
 
                 session.CommandRegistration = server.RegisterCommandHandler(
@@ -126,7 +127,7 @@ public class EventServer : IEventServer, IDisposable
             }
             catch (Exception ex)
             {
-                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.StartError"), ex);
+                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.StartError), ex);
                 await StopSessionAsync(session).ConfigureAwait(false);
                 ClearState();
                 ConnectStatus = ConnectStatus.Disconnected;
@@ -197,7 +198,7 @@ public class EventServer : IEventServer, IDisposable
         var accepted = session.Inbound.Writer.TryWrite(command);
         if (!accepted)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format("Toolkit.EventBus.Socket.Server.InboundQueueFull", clientKey));
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format(LibraryResources.Server.InboundQueueFull, clientKey));
         }
 
         return Task.FromResult(accepted);
@@ -226,7 +227,7 @@ public class EventServer : IEventServer, IDisposable
                     }
                     else if (!IsAuthorized(socketClient))
                     {
-                        _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.HandshakeRequired"));
+                        _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.HandshakeRequired));
                     }
                     else if (command.IsCommand<RequestSubscribe>())
                     {
@@ -251,7 +252,7 @@ public class EventServer : IEventServer, IDisposable
                 }
                 catch (Exception ex)
                 {
-                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.CommandFailed"), ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.CommandFailed), ex);
                 }
             }
         }
@@ -279,13 +280,13 @@ public class EventServer : IEventServer, IDisposable
                 }
                 catch (SocketException ex)
                 {
-                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.SendFailedRemoveClient"), ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.SendFailedRemoveClient), ex);
                     RemoveClient(session, client);
                     break;
                 }
                 catch (Exception ex)
                 {
-                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.SendFailed"), ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.SendFailed), ex);
                     RemoveClient(session, client);
                     break;
                 }
@@ -332,7 +333,7 @@ public class EventServer : IEventServer, IDisposable
             {
                 TaskId = command.TaskId,
                 Status = (byte)ResponseCommonStatus.Fail,
-                Message = global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.AuthenticationFailed")
+                Message = global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.AuthenticationFailed)
             });
             return;
         }
@@ -348,7 +349,7 @@ public class EventServer : IEventServer, IDisposable
                     continue;
                 }
 
-                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format("Toolkit.EventBus.Socket.Server.ClientReconnected", clientId));
+                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format(LibraryResources.Server.ClientReconnected, clientId));
                 RemoveClient(session, pair.Key);
             }
         }
@@ -432,7 +433,7 @@ public class EventServer : IEventServer, IDisposable
             DateTimeOffset.UtcNow.Add(_options.PendingQueryTimeout));
         if (!_pendingQueries.TryAdd(query.TaskId, pendingQuery))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.DuplicateQuery"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.DuplicateQuery));
         }
 
         if (!PublishQueryToSubscribers(session, query))
@@ -561,7 +562,7 @@ public class EventServer : IEventServer, IDisposable
             !IsSubscribed(response.Subject, responder) ||
             !_pendingQueries.TryRemove(response.QueryTaskId, out pendingQuery))
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format("Toolkit.EventBus.Socket.Server.InvalidQueryResponse", response.QueryTaskId));
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format(LibraryResources.Server.InvalidQueryResponse, response.QueryTaskId));
             return;
         }
 
@@ -662,7 +663,7 @@ public class EventServer : IEventServer, IDisposable
         if (!queue.Commands.Writer.TryWrite(command))
         {
             RemoveClient(session, client);
-            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.SendQueueClosed"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.SendQueueClosed));
         }
     }
 
@@ -710,7 +711,7 @@ public class EventServer : IEventServer, IDisposable
         }
         catch (Exception ex)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.CloseFailed"), ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.CloseFailed), ex);
         }
 
         session.Inbound.Writer.TryComplete();
@@ -735,7 +736,7 @@ public class EventServer : IEventServer, IDisposable
         }
         catch (Exception ex) when (ex is OperationCanceledException or TimeoutException)
         {
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.ShutdownTimeout"), ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.ShutdownTimeout), ex);
         }
         finally
         {
@@ -757,7 +758,7 @@ public class EventServer : IEventServer, IDisposable
                 continue;
             }
 
-            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.ClientIdleTimeout"));
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Server.ClientIdleTimeout));
             RemoveClient(session, pair.Key);
         }
     }
@@ -827,12 +828,12 @@ public class EventServer : IEventServer, IDisposable
     {
         if (string.IsNullOrWhiteSpace(subject) || subject.Length > _options.MaxSubjectLength)
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.InvalidSubject"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Validation.InvalidSubject));
         }
 
         if (buffer is not null && buffer.Length > _options.MaxMessageSizeBytes)
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.MessageTooLarge"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get(LibraryResources.Validation.MessageTooLarge));
         }
     }
 

@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.Logging;
 
 using Microsoft.Extensions.Logging;
@@ -48,23 +49,23 @@ public sealed record FileLogOptions
     internal void Validate()
     {
         if (string.IsNullOrWhiteSpace(DirectoryPath))
-            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.DirectoryRequired"), nameof(DirectoryPath));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.DirectoryRequired), nameof(DirectoryPath));
         if (MaxFileSizeBytes <= 0)
-            throw new ArgumentOutOfRangeException(nameof(MaxFileSizeBytes), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FileSizePositive"));
+            throw new ArgumentOutOfRangeException(nameof(MaxFileSizeBytes), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.FileSizePositive));
         if (RetentionDays <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RetentionDays), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.RetentionDaysPositive"));
+            throw new ArgumentOutOfRangeException(nameof(RetentionDays), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.RetentionDaysPositive));
         if (RetainedFileCountLimit <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RetainedFileCountLimit), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FileCountPositive"));
+            throw new ArgumentOutOfRangeException(nameof(RetainedFileCountLimit), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.FileCountPositive));
         if (MaxDirectorySizeBytes <= 0)
-            throw new ArgumentOutOfRangeException(nameof(MaxDirectorySizeBytes), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.DirectorySizePositive"));
+            throw new ArgumentOutOfRangeException(nameof(MaxDirectorySizeBytes), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.DirectorySizePositive));
         if (!Enum.IsDefined(MinimumLevel))
-            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FileLevel"));
+            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.FileLevel));
         if (BatchSize <= 0)
-            throw new ArgumentOutOfRangeException(nameof(BatchSize), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.BatchSizePositive"));
+            throw new ArgumentOutOfRangeException(nameof(BatchSize), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.BatchSizePositive));
         if (FlushInterval <= TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(FlushInterval), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FlushIntervalPositive"));
+            throw new ArgumentOutOfRangeException(nameof(FlushInterval), global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.FlushIntervalPositive));
         if (string.IsNullOrWhiteSpace(TimestampFormat))
-            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.TimestampRequired"), nameof(TimestampFormat));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.TimestampRequired), nameof(TimestampFormat));
         if (OutputTemplate is not null && !LogTemplateFormatter.TryValidate(OutputTemplate, out var templateError))
             throw new ArgumentException(templateError, nameof(OutputTemplate));
 
@@ -74,7 +75,7 @@ public sealed record FileLogOptions
         }
         catch (FormatException ex)
         {
-            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.TimestampInvalid"), nameof(TimestampFormat), ex);
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Validation.TimestampInvalid), nameof(TimestampFormat), ex);
         }
     }
 }

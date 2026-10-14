@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -54,7 +55,7 @@ public sealed class UpdateServiceOptions
     {
         if (string.IsNullOrWhiteSpace(Repository))
         {
-            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.RepositoryRequired"));
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.RepositoryRequired));
         }
     }
 

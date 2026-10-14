@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.Logging.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.Logging;
 
 /// <summary>
@@ -140,7 +141,7 @@ public sealed class LogEventFeed
                     try { handler(item); }
                     catch (Exception exception)
                     {
-                        LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Feed.SubscriberFailed"), exception);
+                        LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get(LibraryResources.Feed.SubscriberFailed), exception);
                     }
                 }
 

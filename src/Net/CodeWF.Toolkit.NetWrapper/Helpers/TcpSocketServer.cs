@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.NetWrapper.I18n.ResourceKeys;
 namespace CodeWF.Toolkit.NetWrapper.Helpers;
 
 /// <summary>
@@ -94,7 +95,7 @@ public partial class TcpSocketServer
             Server.Bind(ipEndPoint);
             Server.Listen(10);
             IsRunning = true;
-            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.Started", ServerMark, ServerIP, ServerPort));
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Server.Started, ServerMark, ServerIP, ServerPort));
 
             _listenTokenSource = new CancellationTokenSource();
             var requestChannels = ResetRequestChannels();
@@ -110,9 +111,9 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.StartFailed", ServerMark, ServerIP, ServerPort), ex,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.StartFailedHint", ServerMark, ServerIP, ServerPort));
-            return (IsSuccess: false, ErrorMessage: global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.StartFailedReason", ServerMark, ex.Message));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Server.StartFailed, ServerMark, ServerIP, ServerPort), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Server.StartFailedHint, ServerMark, ServerIP, ServerPort));
+            return (IsSuccess: false, ErrorMessage: global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Server.StartFailedReason, ServerMark, ex.Message));
         }
     }
 
@@ -166,7 +167,7 @@ public partial class TcpSocketServer
     {
         if (Clients.IsEmpty)
         {
-            Logger.Debug(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.NoClients", ServerMark));
+            Logger.Debug(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.NoClients, ServerMark));
             return;
         }
 
@@ -187,8 +188,8 @@ public partial class TcpSocketServer
             }
             catch (SocketException ex)
             {
-                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.SendFailed", ServerMark, clientKey), ex,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.SendFailedHint", ServerMark, clientKey));
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.SendFailed, ServerMark, clientKey), ex,
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.SendFailedHint, ServerMark, clientKey));
                 await RemoveClientAsync(clientKey);
             }
         }
@@ -258,7 +259,7 @@ public partial class TcpSocketServer
         Clients.TryRemove(key, out _);
 
         await EventBus.EventBus.Default.PublishAsync(new SocketClientChangedCommand(this)).ConfigureAwait(false);
-        Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientRemoved", ServerMark, key));
+        Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.ClientRemoved, ServerMark, key));
     }
 
     /// <summary>
@@ -279,7 +280,7 @@ public partial class TcpSocketServer
 
                 var socketClientKey = $"{socketClient.RemoteEndPoint}";
 
-                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientConnected", ServerMark, socketClientKey));
+                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.ClientConnected, ServerMark, socketClientKey));
 
                 var clientTask = HandleClientAsync(session, listenTokenSource, requestChannels);
                 _clientTasks[socketClientKey] = clientTask;
@@ -289,7 +290,7 @@ public partial class TcpSocketServer
             {
                 if (IsRunning && ReferenceEquals(_listenTokenSource, listenTokenSource))
                 {
-                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.AcceptFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.AcceptFailedHint", ServerMark));
+                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.AcceptFailed, ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.AcceptFailedHint, ServerMark));
                 }
             }
         }
@@ -317,7 +318,7 @@ public partial class TcpSocketServer
                 var (success, buffer, headInfo) = await client.TcpSocket!.ReadPacketAsync(receiveTokenSource.Token);
                 if (!success || buffer == null || headInfo == null)
                 {
-                    Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientDisconnected", ServerMark, tcpClientKey));
+                    Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.ClientDisconnected, ServerMark, tcpClientKey));
                     await RemoveClientAsync(tcpClientKey);
                     break;
                 }
@@ -336,19 +337,19 @@ public partial class TcpSocketServer
             catch (SocketException ex) when (IsClientReceiveStopped(client, listenTokenSource) ||
                                              IsSocketOperationAborted(ex))
             {
-                Logger.Debug(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ReceiveCanceled", ServerMark, tcpClientKey));
+                Logger.Debug(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.ReceiveCanceled, ServerMark, tcpClientKey));
                 break;
             }
             catch (SocketException ex)
             {
-                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RemoteFailed", ServerMark, tcpClientKey), ex,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RemoteFailedHint", ServerMark, tcpClientKey));
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.RemoteFailed, ServerMark, tcpClientKey), ex,
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.RemoteFailedHint, ServerMark, tcpClientKey));
                 await RemoveClientAsync(tcpClientKey);
                 break;
             }
             catch (Exception ex)
             {
-                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.ReceiveFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.ReceiveFailedHint", ServerMark));
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Server.ReceiveFailed, ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.Server.ReceiveFailedHint, ServerMark));
                 await Task.Delay(TimeSpan.FromMilliseconds(100));
             }
         }
@@ -396,8 +397,8 @@ public partial class TcpSocketServer
             }
             catch (Exception ex)
             {
-                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RequestFailed", ServerMark), ex,
-                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RequestFailedHint", ServerMark));
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.RequestFailed, ServerMark), ex,
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.RequestFailedHint, ServerMark));
             }
         }
     }
@@ -440,8 +441,8 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientBackgroundFailed", ServerMark, clientKey), ex,
-                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientBackgroundFailedHint", ServerMark, clientKey));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.ClientBackgroundFailed, ServerMark, clientKey), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.ClientBackgroundFailedHint, ServerMark, clientKey));
         }
         finally
         {
@@ -460,7 +461,7 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.TcpServer.BackgroundFailed"), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.TcpServer.BackgroundFailedHint"));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.TcpServer.BackgroundFailed), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get(LibraryResources.TcpServer.BackgroundFailedHint));
         }
     }
 
@@ -550,7 +551,7 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.HeartbeatFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.HeartbeatFailedHint", ServerMark));
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.HeartbeatFailed, ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format(LibraryResources.TcpServer.HeartbeatFailedHint, ServerMark));
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+using LibraryResources = global::CodeWF.Toolkit.Core.I18n.ResourceKeys;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -121,16 +122,16 @@ public sealed class UpdateChecker : IUpdateChecker
             }
 
             cancellationToken.ThrowIfCancellationRequested();
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.ApiFallback", viaWeb.Error));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.ApiFallback, viaWeb.Error));
             return await CheckViaApiAsync(current, cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
-            return UpdateCheckResult.Failed(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.Canceled"));
+            return UpdateCheckResult.Failed(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.Canceled));
         }
         catch (Exception ex)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.CheckFailed", ex.Message));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.CheckFailed, ex.Message));
             return UpdateCheckResult.Failed(ex.Message);
         }
     }
@@ -143,7 +144,7 @@ public sealed class UpdateChecker : IUpdateChecker
             string? tag = await FetchLatestTagViaRedirectAsync(cancellationToken).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(tag) || VersionUtil.Parse(tag) is not { } candidate)
             {
-                return UpdateCheckResult.Failed(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.InvalidReleaseVersion"));
+                return UpdateCheckResult.Failed(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.InvalidReleaseVersion));
             }
 
             if (!VersionUtil.IsNewer(candidate, current))
@@ -195,8 +196,8 @@ public sealed class UpdateChecker : IUpdateChecker
         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
         {
             // HttpClient 超时也抛 TaskCanceledException：按失败展示，让界面给出提示
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.WebTimedOut"));
-            return UpdateCheckResult.Failed(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Update.WebTimeout"));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.WebTimedOut));
+            return UpdateCheckResult.Failed(global::CodeWF.Toolkit.Core.LibraryText.Get(LibraryResources.Update.WebTimeout));
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -208,7 +209,7 @@ public sealed class UpdateChecker : IUpdateChecker
         }
         catch (Exception ex)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.WebFailed", ex.Message));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.WebFailed, ex.Message));
             return UpdateCheckResult.Failed(ex.Message);
         }
     }
@@ -228,7 +229,7 @@ public sealed class UpdateChecker : IUpdateChecker
                 .ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.NotesHttpFailed", (int)response.StatusCode));
+                _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.NotesHttpFailed, (int)response.StatusCode));
                 return null;
             }
 
@@ -236,7 +237,7 @@ public sealed class UpdateChecker : IUpdateChecker
             string? notes = ParseReleaseNotes(feed, tag);
             if (string.IsNullOrWhiteSpace(notes))
             {
-                _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.NotesEmpty", tag));
+                _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.NotesEmpty, tag));
             }
 
             return notes;
@@ -247,7 +248,7 @@ public sealed class UpdateChecker : IUpdateChecker
         }
         catch (Exception ex)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.NotesFailed", ex.Message));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.NotesFailed, ex.Message));
             return null;
         }
     }
@@ -373,7 +374,7 @@ public sealed class UpdateChecker : IUpdateChecker
         string? tag = ExtractTag(finalUri);
         if (tag is null)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.TagMissing", (int)response.StatusCode));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.TagMissing, (int)response.StatusCode));
         }
 
         return tag;
@@ -388,7 +389,7 @@ public sealed class UpdateChecker : IUpdateChecker
         }
         catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.AssetsUnavailable", ex.Message));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.AssetsUnavailable, ex.Message));
             return null;
         }
     }
@@ -402,7 +403,7 @@ public sealed class UpdateChecker : IUpdateChecker
         using HttpResponseMessage response = await _http.SendAsync(request, cancellationToken).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.AssetsHttpFailed", (int)response.StatusCode));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.AssetsHttpFailed, (int)response.StatusCode));
             return null;
         }
 
@@ -453,13 +454,13 @@ public sealed class UpdateChecker : IUpdateChecker
         if (response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.TooManyRequests)
         {
             _blockedUntilUtc = ParseBlockedUntil(response);
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.ApiRateLimited", (int)response.StatusCode));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.ApiRateLimited, (int)response.StatusCode));
             return UpdateCheckResult.Failed(RateLimitMessage);
         }
 
         if (!response.IsSuccessStatusCode)
         {
-            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.CheckHttpFailed", (int)response.StatusCode));
+            _log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.CheckHttpFailed, (int)response.StatusCode));
             return UpdateCheckResult.Failed($"HTTP {(int)response.StatusCode}");
         }
 
@@ -581,7 +582,7 @@ public sealed class UpdateChecker : IUpdateChecker
     }
 
     private string RateLimitMessage
-        => global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Update.RateLimitedUntil", _blockedUntilUtc.ToLocalTime().ToString("HH:mm", CultureInfo.CurrentCulture));
+        => global::CodeWF.Toolkit.Core.LibraryText.Format(LibraryResources.Update.RateLimitedUntil, _blockedUntilUtc.ToLocalTime().ToString("HH:mm", CultureInfo.CurrentCulture));
 
     /// <summary>从 Retry-After 或 X-RateLimit-Reset 推算限流恢复时间，兜底 10 分钟，最长封顶 1 小时。</summary>
     private static DateTime ParseBlockedUntil(HttpResponseMessage response)

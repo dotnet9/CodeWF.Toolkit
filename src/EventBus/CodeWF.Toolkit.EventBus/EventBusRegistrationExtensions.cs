@@ -1,3 +1,4 @@
+using LibraryResources = global::CodeWF.Toolkit.EventBus.I18n.ResourceKeys;
 using CodeWF.Toolkit.EventBus;
 using System;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace CodeWF.Toolkit.EventBus
             var requestedAssemblies = assemblies ?? Array.Empty<Assembly>();
             if (requestedAssemblies.Any(assembly => assembly == null))
             {
-                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.NullAssembly"), nameof(assemblies));
+                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Registration.NullAssembly), nameof(assemblies));
             }
 
             var entryAssembly = Assembly.GetEntryAssembly();
@@ -55,7 +56,7 @@ namespace CodeWF.Toolkit.EventBus
             ArgumentNullException.ThrowIfNull(resolveAction);
             if (resolveAction(typeof(IEventBus)) is not IEventBus messenger)
             {
-                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.AddBeforeUse"));
+                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.LibraryText.Get(LibraryResources.Registration.AddBeforeUse));
             }
 
             var allAssemblies = GetAssemblies(assemblies);
