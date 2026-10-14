@@ -39,7 +39,7 @@ dotnet test CodeWF.Toolkit.slnx -c Release
 
 ## Windows NativeAOT 验收
 
-验收环境为 Windows x64、.NET SDK 10.0.401，版本 `1.0.0.7`。用本仓脚本发布后直接启动原生 EXE：
+验收环境为 Windows x64、.NET SDK 10.0.303，版本 `1.0.0.8`。`global.json` 选择稳定版 .NET 10 SDK，允许使用后续 10.0 功能版本，不自动选择预览版 SDK。用本仓脚本发布后直接启动原生 EXE：
 
 ```powershell
 pwsh scripts/publish_toolkit_demo.ps1 -RuntimeIdentifier win-x64
@@ -58,7 +58,7 @@ Start-Process $demo -ArgumentList '--capture ./artifacts/studio-qa' -Wait -PassT
 
 第三方库及动态反射路径仍有裁剪 / AOT 分析警告。本轮文件传输限于本机配套服务和临时目录，未验证跨网段、断网重连及大规模并发；Linux / macOS 未在本机验收。NativeLibraryHelper 目前只支持 Windows。 页面渲染通过不等于全部 API、异常路径和平台行为均已验证。
 
-版本标签 `v1.0.0.7` 触发现有 NuGet 与 Demo 发布流程。
+版本标签 `v1.0.0.8` 触发现有 NuGet 与 Demo 发布流程。
 
 ## 本轮改进
 
@@ -70,4 +70,19 @@ Start-Process $demo -ArgumentList '--capture ./artifacts/studio-qa' -Wait -PassT
 
 自动传输检查使用 256 KB 样例，界面默认提供 4 MB 样例。取消后再次上传复用原文件以便观察续传；完整下载后比较 SHA256。失败、跨平台及长时间运行仍需按实际使用环境补充验证。
 
-本轮记录：2026-10-14，Windows x64 / .NET SDK 10.0.401。本仓 235 项单元测试通过；两个仓库各自发布脚本执行成功，最终原生 EXE 的 `--smoke` 均退出 0。浏览器全部目录页以及重点交互检查无脚本异常。仅使用公开 NuGet 源且没有相邻 Avalonia 仓库的源码快照，独立恢复、构建及完整托管冒烟均通过。
+本轮记录：2026-10-14，Windows x64 / .NET SDK 10.0.303。本仓 235 项单元测试通过。本仓发布脚本成功，最终原生 EXE 的 `--smoke`、`--capture` 均退出 0；捕获 48 个非首页目录页和 32 个 Ribbon 状态，实际按钮的数量与顺序均与目录一致。浏览器 49 个路由和重点交互检查无脚本异常。UI 继续引用公开 NuGet 包，没有跨仓库工程引用或本地包源配置。
+
+## 字体、布局与分类对照
+
+| 项目 | 原型与原生采用的指标 |
+|---|---|
+| 标题栏 / 分类行 | 52px / 42px |
+| Ribbon 分类 / 命令 / 子组字号 | 12px / 11px / 10px |
+| 页面标题 / 说明 / 导航叶子 | 19px / 12px / 11.5px |
+| 命令排列 | 按用途分子组；密集分类双行，完整类名不换行，窄窗口可横向滚动 |
+| 检查尺寸 / 语言 | 1440×860、1120×640；中文、英文 |
+| 文档内容 | 单个帮助类的输入、真实 API 调用和可核对结果；源码按需展开 |
+
+`IpHelper` 属于协议与网络。属性栏有页面参数时显示参数，否则回退全局设置，原型不再额外堆放空参数和状态统计。原型的全局设置标签和配色名称从原生双语资源生成。
+
+README 图片及 GIF 已替换成本轮原生 EXE 的截图；其中 GIF 是主题与实验截图巡览。字体度量、Dock 页签、PropertyGrid 编辑器和原生窗口行为仍取决于 Semi / Dock 与平台，不承诺与 HTML 逐像素一致。第三方 Prism 默认对话框及旧运行时 XAML 加载器存在兼容性分析警告，本轮验收覆盖 Demo 实际调用路径。

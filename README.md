@@ -175,6 +175,10 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，49 个页面按类名查找；CSV / Excel 提供真实表格回读，网络与文件系统提供可保持的会话和传输操作，组合示例集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
 
+核心扩展再按文本、数值、日期时间、类型与查询分组，密集命令使用双行排列，保留完整帮助类名。UI 从公开 NuGet 安装 CodeWF.Avalonia 包，单独克隆本仓即可构建；`global.json` 选择稳定版 .NET 10 SDK。
+
+![Ribbon 帮助类分组与原生 Dock 工作区](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-ribbon.png)
+
 ![.NET 紫色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dotnet.png)
 
 ![AI 极光浅色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-aurora-light.png)
