@@ -59,9 +59,11 @@ public partial class MainViewModel
                         var session = transport.ViewModel;
                         try
                         {
-                            await session.StartAsync();
+                            Logger.Info($"Transport session smoke: {item.Api} starting");
+                            await session.StartAsync().WaitAsync(TimeSpan.FromSeconds(10), cancellation);
                             if (!session.IsRunning) throw new InvalidOperationException(session.Output);
-                            await session.SendAsync();
+                            Logger.Info($"Transport session smoke: {item.Api} sending");
+                            await session.SendAsync().WaitAsync(TimeSpan.FromSeconds(10), cancellation);
                             if (!session.Succeeded || session.ReceivedCount != 1) throw new InvalidOperationException(session.Output);
                             if (session.IsEvent)
                             {
@@ -73,7 +75,16 @@ public partial class MainViewModel
                                 if (!session.Succeeded || session.ReceivedCount != 2) throw new InvalidOperationException(session.Output);
                             }
                         }
-                        finally { await session.StopAsync(); }
+                        catch (Exception error)
+                        {
+                            Logger.Error($"Transport session smoke: {item.Api} failed before cleanup", error);
+                            throw;
+                        }
+                        finally
+                        {
+                            Logger.Info($"Transport session smoke: {item.Api} stopping");
+                            await session.StopAsync().WaitAsync(TimeSpan.FromSeconds(10), cancellation);
+                        }
                         if (session.IsRunning) throw new InvalidOperationException("Transport session did not stop.");
                         Logger.Info($"Transport session smoke: {item.Api} start, send, receive and stop passed");
                     }

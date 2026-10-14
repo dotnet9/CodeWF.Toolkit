@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Styling;
+using CodeWF.Avalonia.Controls.Themes;
 using CodeWF.Avalonia.Lang;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.Infrastructure;
@@ -25,14 +26,15 @@ namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 /// Shell 视图模型：Ribbon 分组、导航树镜像、Dock 文档区、右侧 PropertyGrid 与底部日志面板的调度中枢。
 /// 页面与文档 VM 不进 Prism 容器，按演示目录工厂直接构造。
 /// </summary>
-public partial class MainViewModel : ReactiveObject
+public partial class MainViewModel : ReactiveObject, IDisposable
 {
     private DemoDocumentViewModel? _activeDocument;
     private DemoItemViewModel? _selectedNavItem;
     private string _statusText = string.Empty;
     private bool _ribbonExpanded = true;
     private AppearanceOption _selectedPalette;
-    private bool _isDarkMode = true;
+    private StudioThemeMode _themeMode = StudioThemeMode.System;
+    private StudioThemeController? _themeController;
     private CultureOption _selectedCulture;
     private DemoGroupViewModel? _selectedGroup;
     private PropertyItem? _densityItem;
@@ -69,7 +71,6 @@ public partial class MainViewModel : ReactiveObject
             AppearanceOption.Desert(),
             AppearanceOption.Dusk(),
             AppearanceOption.NightSky(),
-            AppearanceOption.HighContrast(),
         };
         _selectedPalette = Palettes[0];
 
@@ -86,7 +87,7 @@ public partial class MainViewModel : ReactiveObject
         GlobalProperties = BuildGlobalProperties();
         ApplyAppearance();
 
-        I18nManager.Instance.CultureChanged += (_, _) => this.RaisePropertyChanged(nameof(StatusText));
+        I18nManager.Instance.CultureChanged += OnCultureChanged;
 
         BuildLayout();
         OpenItem(Groups[0].Items[0]);
@@ -247,20 +248,40 @@ public partial class MainViewModel : ReactiveObject
         }
     }
 
-    /// <summary>浅/深模式；对固定配色的色板（水生等）无效果，切回默认色板时生效。</summary>
-    public bool IsDarkMode
+    public IReadOnlyList<ThemeModeOption> ThemeModeOptions { get; } =
+    [
+        new(DemoResources.Shell.GlobalSettings.SystemMode),
+        new(DemoResources.Shell.GlobalSettings.LightMode),
+        new(DemoResources.Shell.GlobalSettings.DarkMode),
+    ];
+
+    /// <summary>标题栏与属性面板共用的三态主题模式。</summary>
+    public IReadOnlyList<string> ThemeModes =>
+    [
+        T(DemoResources.Shell.GlobalSettings.SystemMode),
+        T(DemoResources.Shell.GlobalSettings.LightMode),
+        T(DemoResources.Shell.GlobalSettings.DarkMode),
+    ];
+
+    public int ThemeModeIndex
     {
-        get => _isDarkMode;
+        get => (int)_themeMode;
         set
         {
-            if (Equals(_isDarkMode, value))
-            {
-                return;
-            }
-
-            this.RaiseAndSetIfChanged(ref _isDarkMode, value);
+            if (value is < 0 or > 2 || value == (int)_themeMode) return;
+            _themeMode = (StudioThemeMode)value;
+            this.RaisePropertyChanged();
             ApplyAppearance();
         }
+    }
+
+    /// <summary>快捷键与回归脚本使用的显式浅深切换，退出跟随系统模式。</summary>
+    public bool IsDarkMode
+    {
+        get => Application.Current is { } app
+            ? app.ActualThemeVariant == SelectedPalette.ResolveVariant(true)
+            : _themeMode == StudioThemeMode.Dark;
+        set => ThemeModeIndex = (int)(value ? StudioThemeMode.Dark : StudioThemeMode.Light);
     }
 
     public ObservableCollection<CultureOption> Cultures { get; }
@@ -280,6 +301,9 @@ public partial class MainViewModel : ReactiveObject
             this.RaisePropertyChanged(nameof(RibbonSections));
             SyncToolTitles();
             foreach (var palette in Palettes) palette.RefreshTitle();
+            foreach (var mode in ThemeModeOptions) mode.RefreshTitle();
+            this.RaisePropertyChanged(nameof(ThemeModes));
+            this.RaisePropertyChanged(nameof(ThemeModeIndex));
             GlobalProperties = BuildGlobalProperties();
             SyncGlobalItems();
             foreach (var document in Documents)
@@ -634,9 +658,16 @@ public partial class MainViewModel : ReactiveObject
             return;
         }
 
-        Application.Current.RequestedThemeVariant = SelectedPalette.ResolveVariant(IsDarkMode);
+        if (_themeController is null)
+        {
+            _themeController = new StudioThemeController(Application.Current);
+            Application.Current.PropertyChanged += OnApplicationPropertyChanged;
+        }
+        _themeController.Palette = SelectedPalette.Palette;
+        _themeController.Mode = _themeMode;
+        this.RaisePropertyChanged(nameof(IsDarkMode));
         SyncGlobalItems();
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Shell.ApplyAppearance.AppearanceFormat), SelectedPalette.Title, (IsDarkMode ? L.Instance.GetResource(DemoResources.Content.Shell.ApplyAppearance.Dark) : L.Instance.GetResource(DemoResources.Content.Shell.ApplyAppearance.Light))));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Shell.ApplyAppearance.AppearanceFormat), SelectedPalette.Title, ThemeModes[ThemeModeIndex]));
     }
 
     private IReadOnlyList<PropertyItem> BuildGlobalProperties()
@@ -666,10 +697,10 @@ public partial class MainViewModel : ReactiveObject
         {
             Id = "shell.mode",
             Name = L.Instance.GetResource(DemoResources.Shell.GlobalSettings.ModeLabel),
-            Kind = PropertyItemKind.Radio,
-            Options = [L.Instance.GetResource(DemoResources.Shell.GlobalSettings.LightMode), L.Instance.GetResource(DemoResources.Shell.GlobalSettings.DarkMode)],
-            Value = L.Instance.GetResource(DemoResources.Shell.GlobalSettings.DarkMode),
-            DefaultValue = L.Instance.GetResource(DemoResources.Shell.GlobalSettings.DarkMode),
+            Kind = PropertyItemKind.Choice,
+            Options = ThemeModes,
+            Value = ThemeModes[ThemeModeIndex],
+            DefaultValue = ThemeModes[0],
             Description = L.Instance.GetResource(DemoResources.Shell.GlobalSettings.ModeDescription),
         };
         _langItem = new PropertyItem
@@ -726,7 +757,7 @@ public partial class MainViewModel : ReactiveObject
                 SelectedPalette = Palettes.FirstOrDefault(p => p.Title == value) ?? SelectedPalette;
                 break;
             case "shell.mode" when value is not null:
-                IsDarkMode = value == L.Instance.GetResource(DemoResources.Content.Shell.OnGlobalPropertyCommitted.Dark);
+                ThemeModeIndex = Array.IndexOf(ThemeModes.ToArray(), value);
                 break;
             case "shell.lang" when value is not null:
                 var culture = Cultures.FirstOrDefault(c => c.DisplayName == value);
@@ -754,7 +785,23 @@ public partial class MainViewModel : ReactiveObject
 
         Sync(_densityItem, DensityLabel);
         Sync(_paletteItem, SelectedPalette.Title);
-        Sync(_modeItem, IsDarkMode ? L.Instance.GetResource(DemoResources.Content.Shell.SyncGlobalItems.Dark) : L.Instance.GetResource(DemoResources.Content.Shell.SyncGlobalItems.Light));
+        Sync(_modeItem, ThemeModes[ThemeModeIndex]);
         Sync(_langItem, SelectedCulture.DisplayName);
     }
+
+    private void OnCultureChanged(object? sender, EventArgs args) => this.RaisePropertyChanged(nameof(StatusText));
+
+    private void OnApplicationPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs args)
+    {
+        if (args.Property == Application.ActualThemeVariantProperty) this.RaisePropertyChanged(nameof(IsDarkMode));
+    }
+
+    public void Dispose()
+    {
+        I18nManager.Instance.CultureChanged -= OnCultureChanged;
+        if (Application.Current is { } app) app.PropertyChanged -= OnApplicationPropertyChanged;
+        _themeController?.Dispose();
+        foreach (var document in Documents) document.Dispose();
+    }
+
 }
