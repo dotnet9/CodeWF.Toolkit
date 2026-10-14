@@ -37,5 +37,5 @@ public class FileUploadRequest : INetObject
     public string RemoteFilePath { get; set; } = string.Empty;
 
     public override string ToString() =>
-        $"请求上传文件(TaskId={TaskId},文件名={FileName},大小={FileSize},远程路径={RemoteFilePath},已传输={AlreadyTransferredBytes})";
+        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.UploadRequest", TaskId, FileName, FileSize, RemoteFilePath, AlreadyTransferredBytes);
 }

@@ -64,7 +64,7 @@ internal sealed class CodeWFLogger(string categoryName, CodeWFLoggerProvider pro
             provider.ScopeProvider.ForEachScope(static (scope, state) =>
                 state.Add(LogStateSnapshot.CaptureScope(scope)), scopes);
         }
-        catch (Exception ex) { LoggerSelfDiagnostics.Report("捕获日志 Scope 失败。", ex); }
+        catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Diagnostics.ScopeCaptureFailed"), ex); }
         return scopes;
     }
 
@@ -73,7 +73,7 @@ internal sealed class CodeWFLogger(string categoryName, CodeWFLoggerProvider pro
         try { return LogStateSnapshot.Capture(state); }
         catch (Exception ex)
         {
-            LoggerSelfDiagnostics.Report("捕获 Microsoft.Extensions.Logging State 失败。", ex);
+            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Diagnostics.StateCaptureFailed"), ex);
             var userState = state as ICodeWFUserLogState;
             return new LogStateSnapshot(null, [], userState?.UserMessage, userState?.RequestNotification == true);
         }
@@ -84,7 +84,7 @@ internal sealed class CodeWFLogger(string categoryName, CodeWFLoggerProvider pro
         try { return formatter(state, exception) ?? string.Empty; }
         catch (Exception ex)
         {
-            LoggerSelfDiagnostics.Report("格式化 Microsoft.Extensions.Logging 消息失败。", ex);
+            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Diagnostics.MessageFormatFailed"), ex);
             try { return state?.ToString() ?? string.Empty; }
             catch { return string.Empty; }
         }

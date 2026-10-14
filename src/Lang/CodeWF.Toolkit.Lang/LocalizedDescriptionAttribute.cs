@@ -12,5 +12,5 @@ public sealed class LocalizedDescriptionAttribute(Type resourceOwner, string key
     private static readonly ConditionalWeakTable<Assembly, JsonLocalizer> Localizers = new();
 
     /// <inheritdoc />
-    public override string Description => Localizers.GetValue(resourceOwner.Assembly, assembly => new JsonLocalizer(assembly)).GetResource(key);
+    public override string Description => Localizers.GetValue(resourceOwner.Assembly, assembly => new JsonLocalizer(assembly)).GetResource(DescriptionValue);
 }

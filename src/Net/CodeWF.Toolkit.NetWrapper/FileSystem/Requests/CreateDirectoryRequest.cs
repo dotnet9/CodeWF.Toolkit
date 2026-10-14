@@ -16,5 +16,5 @@ public class CreateDirectoryRequest : INetObject
     /// </summary>
     public string DirectoryPath { get; set; } = string.Empty;
 
-    public override string ToString() => $"请求创建目录(TaskId={TaskId},路径={DirectoryPath})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.CreateRequest", TaskId, DirectoryPath);
 }

@@ -267,7 +267,8 @@ namespace CodeWF.Toolkit.Network.Tests.EventBus
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
                 eventBus.PublishAsync(new AutoResolverCommand()));
 
-            Assert.Contains("returned null", exception.Message);
+            Assert.Contains(typeof(AutoResolverHandler).FullName!, exception.Message);
+            Assert.DoesNotContain("Toolkit.EventBus.", exception.Message);
         }
 
         [Event]

@@ -16,5 +16,5 @@ public class BrowseFileSystemRequest : INetObject
     /// </summary>
     public string DirectoryPath { get; set; } = string.Empty;
 
-    public override string ToString() => $"请求浏览文件系统(TaskId={TaskId},路径={DirectoryPath})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.BrowseRequest", TaskId, DirectoryPath);
 }

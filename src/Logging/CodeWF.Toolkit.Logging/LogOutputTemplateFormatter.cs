@@ -54,7 +54,7 @@ public static class LogTemplateFormatter
     {
         if (string.IsNullOrWhiteSpace(template))
         {
-            error = "日志模板不能为空。";
+            error = global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Template.Required");
             return false;
         }
 
@@ -71,21 +71,21 @@ public static class LogTemplateFormatter
                 var end = template.IndexOf('}', index + 1);
                 if (end < 0)
                 {
-                    error = $"模板位置 {index} 缺少右花括号。";
+                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.MissingClosingBrace", index);
                     return false;
                 }
 
                 var rawToken = template[(index + 1)..end];
                 if (rawToken.Contains('{'))
                 {
-                    error = $"模板位置 {index} 包含未转义的左花括号。";
+                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnescapedOpeningBrace", index);
                     return false;
                 }
 
                 var (name, format) = SplitToken(rawToken);
                 if (!SupportedTokens.Contains(name))
                 {
-                    error = $"不支持模板占位符 {{{name}}}。";
+                    error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnsupportedToken", name);
                     return false;
                 }
 
@@ -101,7 +101,7 @@ public static class LogTemplateFormatter
                 continue;
             }
 
-            error = $"模板位置 {index} 包含未转义的右花括号。";
+            error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnescapedClosingBrace", index);
             return false;
         }
 
@@ -256,7 +256,7 @@ public static class LogTemplateFormatter
             try { _ = DateTimeOffset.Now.ToString(format, CultureInfo.InvariantCulture); }
             catch (FormatException)
             {
-                error = $"Timestamp 格式 '{format}' 无效。";
+                error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.InvalidTimestamp", format);
                 return false;
             }
             error = null;
@@ -269,7 +269,7 @@ public static class LogTemplateFormatter
             return true;
         }
 
-        error = $"占位符 {{{name}}} 不支持格式 '{format}'。";
+        error = global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Template.UnsupportedFormat", name, format);
         return false;
     }
 

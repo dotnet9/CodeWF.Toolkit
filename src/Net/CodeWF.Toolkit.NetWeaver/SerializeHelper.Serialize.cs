@@ -146,7 +146,7 @@ public partial class SerializeHelper
         else
         {
             throw new InvalidOperationException(
-                $"Reference type {valueType.FullName} is null. Non-collection reference types do not support null serialization.");
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.NullReference", valueType.FullName));
         }
     }
 
@@ -293,7 +293,7 @@ public partial class SerializeHelper
         }
         else
         {
-            throw new Exception($"Unsupported data type: {valueType.Name}");
+            throw new Exception(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedType", valueType.Name));
         }
     }
 
@@ -363,6 +363,6 @@ public partial class SerializeHelper
         }
 
         throw new InvalidOperationException(
-            $"Unsupported collection value for {string.Join(", ", genericArguments.Select(x => x.Name))}.");
+            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedCollectionValue", string.Join(", ", genericArguments.Select(x => x.Name))));
     }
 }

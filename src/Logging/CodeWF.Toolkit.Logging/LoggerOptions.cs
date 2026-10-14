@@ -28,15 +28,15 @@ public sealed record LoggerOptions
     internal void Validate()
     {
         if (!Enum.IsDefined(MinimumLevel))
-            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), "最低日志级别无效。");
+            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.MinimumLevel"));
         if (!Enum.IsDefined(QueueFullMode))
-            throw new ArgumentOutOfRangeException(nameof(QueueFullMode), "队列满策略无效。");
+            throw new ArgumentOutOfRangeException(nameof(QueueFullMode), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.QueuePolicy"));
         if (QueueCapacity <= 0)
-            throw new ArgumentOutOfRangeException(nameof(QueueCapacity), "日志队列容量必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(QueueCapacity), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.QueueCapacity"));
         if (RecentEventCapacity <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RecentEventCapacity), "日志事件缓存容量必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(RecentEventCapacity), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.RecentCapacity"));
         if (EnqueueTimeout < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), "入队超时不能小于 0。");
+            throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.EnqueueTimeout"));
         if (!LogTemplateFormatter.TryValidate(LineTemplate, out var error))
             throw new ArgumentException(error, nameof(LineTemplate));
 

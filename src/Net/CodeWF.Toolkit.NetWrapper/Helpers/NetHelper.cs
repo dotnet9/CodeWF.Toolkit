@@ -39,7 +39,7 @@ public static class NetHelper
         }
         catch (Exception ex)
         {
-            Logger.Error($"关闭Socket连接（{remoteEndPoint}）时发生异常", ex, $"关闭Socket连接（{remoteEndPoint}）时发生异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Socket.CloseFailed", remoteEndPoint), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Socket.CloseFailedHint", remoteEndPoint));
         }
         finally
         {

@@ -1,0 +1,16 @@
+{
+  "language": "简体中文",
+  "description": "CodeWF.Toolkit.Lang",
+  "cultureName": "zh-CN",
+  "Toolkit.Lang.Diagnostics.FolderMissing": "未找到语言资源目录：{0}",
+  "Toolkit.Lang.Diagnostics.JsonResourcesRequired": "请提供有效的 JSON 语言文件。",
+  "Toolkit.Lang.Diagnostics.JsonMetadataSkipped": "已跳过无效的语言 JSON 元数据：{0}",
+  "Toolkit.Lang.Diagnostics.JsonFileSkipped": "已跳过无效的语言 JSON 文件：{0}",
+  "Toolkit.Lang.Diagnostics.JsonEmbeddedMetadataSkipped": "已跳过无效的嵌入语言 JSON 元数据：{0}/{1}",
+  "Toolkit.Lang.Diagnostics.JsonEmbeddedSkipped": "已跳过无效的嵌入语言 JSON 资源：{0}/{1}",
+  "Toolkit.Lang.Diagnostics.XmlResourcesRequired": "请提供有效的 XML 语言文件。",
+  "Toolkit.Lang.Diagnostics.XmlMetadataSkipped": "已跳过无效的语言 XML 元数据：{0}",
+  "Toolkit.Lang.Diagnostics.XmlFileSkipped": "已跳过无效的语言 XML 文件：{0}",
+  "Toolkit.Lang.Diagnostics.XmlEmbeddedMetadataSkipped": "已跳过无效的嵌入语言 XML 元数据：{0}/{1}",
+  "Toolkit.Lang.Diagnostics.XmlEmbeddedSkipped": "已跳过无效的嵌入语言 XML 资源：{0}/{1}"
+}

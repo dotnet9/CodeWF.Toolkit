@@ -68,7 +68,7 @@ public class SevenZipCompressor : ISevenZipCompressor
         {
             if (!string.IsNullOrEmpty(entry.LinkTarget))
             {
-                throw new InvalidDataException($"Symbolic link entries are not supported: {entry.Key}");
+                throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format("Toolkit.Files.Archive.SymbolicLinkUnsupported", entry.Key));
             }
 
             if (entry.IsDirectory)
@@ -94,19 +94,19 @@ public class SevenZipCompressor : ISevenZipCompressor
     {
         if (string.IsNullOrWhiteSpace(entryKey))
         {
-            throw new InvalidDataException("Archive entry path cannot be empty.");
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.Archive.EntryPathRequired"));
         }
 
         if (entryKey.Contains('\0'))
         {
-            throw new InvalidDataException("Archive entry path cannot contain null characters.");
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.Archive.EntryNullCharacter"));
         }
 
         var relativePath = entryKey.Replace('/', Path.DirectorySeparatorChar)
             .Replace('\\', Path.DirectorySeparatorChar);
         if (Path.IsPathRooted(relativePath) || !string.IsNullOrEmpty(Path.GetPathRoot(relativePath)))
         {
-            throw new InvalidDataException($"Archive entry path is absolute: {entryKey}");
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format("Toolkit.Files.Archive.AbsoluteEntry", entryKey));
         }
 
         var fullPath = Path.GetFullPath(Path.Combine(destinationDirectory, relativePath));
@@ -115,7 +115,7 @@ public class SevenZipCompressor : ISevenZipCompressor
             relativeToDestination.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal) ||
             Path.IsPathRooted(relativeToDestination))
         {
-            throw new InvalidDataException($"Archive entry path escapes the destination directory: {entryKey}");
+            throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Format("Toolkit.Files.Archive.EntryOutsideDestination", entryKey));
         }
 
         return fullPath;
@@ -248,7 +248,7 @@ public class SevenZipCompressor : ISevenZipCompressor
         if (uniqueFiles.Any(file => !string.Equals(Path.GetPathRoot(file), commonRoot,
                 OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal)))
         {
-            throw new InvalidOperationException("Files on different volume roots cannot be added to one archive.");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Files.LibraryText.Get("Toolkit.Files.Archive.MixedVolumes"));
         }
 
         foreach (var file in uniqueFiles.Skip(1))

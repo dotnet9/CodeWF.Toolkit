@@ -35,7 +35,7 @@ public sealed class LineTemplateController : ILineTemplateController
             foreach (EventHandler handler in changed.GetInvocationList())
             {
                 try { handler(this, EventArgs.Empty); }
-                catch (Exception ex) { LoggerSelfDiagnostics.Report("通知 LineTemplate 更新失败。", ex); }
+                catch (Exception ex) { LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.TemplateNotificationFailed"), ex); }
             }
         }
         return true;

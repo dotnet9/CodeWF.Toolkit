@@ -74,7 +74,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
 
             if (!Directory.Exists(ResourceFolder))
             {
-                _loadDiagnostics.Add($"Language resource folder not found: {ResourceFolder}");
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.FolderMissing", ResourceFolder));
             }
             else
             {
@@ -88,7 +88,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
 
             if (Resources.Count == 0)
             {
-                _loadDiagnostics.Add("Please provide valid language XML files.");
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Get("Toolkit.Lang.Diagnostics.XmlResourcesRequired"));
             }
         }
     }
@@ -166,12 +166,12 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
                 return true;
             }
 
-            _loadDiagnostics.Add($"Invalid language XML metadata skipped: {filePath}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlMetadataSkipped", filePath));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add($"Invalid language XML file skipped: {filePath}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlFileSkipped", filePath));
             return false;
         }
     }
@@ -191,12 +191,12 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
                 return true;
             }
 
-            _loadDiagnostics.Add($"Invalid embedded language XML metadata skipped: {assembly.GetName().Name}/{resourceName}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlEmbeddedMetadataSkipped", assembly.GetName().Name, resourceName));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add($"Invalid embedded language XML resource skipped: {assembly.GetName().Name}/{resourceName}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.XmlEmbeddedSkipped", assembly.GetName().Name, resourceName));
             return false;
         }
     }

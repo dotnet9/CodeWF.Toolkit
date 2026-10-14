@@ -77,7 +77,7 @@ public sealed class CodeWFFileLoggerOptions
     {
         if (!Enabled) return;
         if (string.IsNullOrWhiteSpace(DirectoryPath))
-            throw new ArgumentException("日志目录不能为空。", nameof(DirectoryPath));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.DirectoryRequired"), nameof(DirectoryPath));
         ToCoreOptions(AppContext.BaseDirectory).Validate();
     }
 
@@ -111,7 +111,7 @@ public sealed class CodeWFEventFeedOptions
     internal void Validate()
     {
         if (RecentCapacity <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RecentCapacity), "事件缓存容量必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(RecentCapacity), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.EventCapacity"));
     }
 }
 
@@ -131,8 +131,8 @@ public sealed class CodeWFQueueOptions
 
     internal void Validate()
     {
-        if (Capacity <= 0) throw new ArgumentOutOfRangeException(nameof(Capacity), "日志队列容量必须大于 0。");
-        if (!Enum.IsDefined(FullMode)) throw new ArgumentOutOfRangeException(nameof(FullMode), "日志队列满策略无效。");
-        if (EnqueueTimeout < TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), "入队超时不能小于 0。");
+        if (Capacity <= 0) throw new ArgumentOutOfRangeException(nameof(Capacity), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.QueueCapacity"));
+        if (!Enum.IsDefined(FullMode)) throw new ArgumentOutOfRangeException(nameof(FullMode), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.QueuePolicy"));
+        if (EnqueueTimeout < TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(EnqueueTimeout), global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Validation.EnqueueTimeout"));
     }
 }

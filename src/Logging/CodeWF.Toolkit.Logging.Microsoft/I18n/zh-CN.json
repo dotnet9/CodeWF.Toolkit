@@ -1,0 +1,19 @@
+{
+  "language": "简体中文",
+  "description": "CodeWF.Toolkit.Logging.Microsoft",
+  "cultureName": "zh-CN",
+  "Toolkit.Logging.Microsoft.Diagnostics.ScopeCaptureFailed": "捕获日志 Scope 失败。",
+  "Toolkit.Logging.Microsoft.Diagnostics.StateCaptureFailed": "捕获 Microsoft.Extensions.Logging State 失败。",
+  "Toolkit.Logging.Microsoft.Diagnostics.MessageFormatFailed": "格式化 Microsoft.Extensions.Logging 消息失败。",
+  "Toolkit.Logging.Microsoft.Validation.DirectoryRequired": "日志目录不能为空。",
+  "Toolkit.Logging.Microsoft.Validation.EventCapacity": "事件缓存容量必须大于 0。",
+  "Toolkit.Logging.Microsoft.Validation.QueueCapacity": "日志队列容量必须大于 0。",
+  "Toolkit.Logging.Microsoft.Validation.QueuePolicy": "日志队列满策略无效。",
+  "Toolkit.Logging.Microsoft.Validation.EnqueueTimeout": "入队超时不能小于 0。",
+  "Toolkit.Logging.Microsoft.Configuration.Boolean": "true 或 false",
+  "Toolkit.Logging.Microsoft.Configuration.Integer": "整数",
+  "Toolkit.Logging.Microsoft.Configuration.NullableInteger": "整数或空值",
+  "Toolkit.Logging.Microsoft.Configuration.TimeSpan": "TimeSpan（例如 00:00:00.100）",
+  "Toolkit.Logging.Microsoft.Configuration.EnumValue": "{0} 枚举值",
+  "Toolkit.Logging.Microsoft.Configuration.InvalidValue": "配置项 '{0}' 的值 '{1}' 无效，应为{2}。"
+}

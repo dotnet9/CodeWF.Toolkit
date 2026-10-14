@@ -11,9 +11,9 @@ public sealed record ConsoleLogOptions
     internal void Validate()
     {
         if (!Enum.IsDefined(MinimumLevel))
-            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), "控制台最低日志级别无效。");
+            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.ConsoleLevel"));
         if (string.IsNullOrWhiteSpace(TimestampFormat))
-            throw new ArgumentException("控制台日志时间格式不能为空。", nameof(TimestampFormat));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.ConsoleTimestampRequired"), nameof(TimestampFormat));
 
         try
         {
@@ -21,7 +21,7 @@ public sealed record ConsoleLogOptions
         }
         catch (FormatException ex)
         {
-            throw new ArgumentException("控制台日志时间格式不正确。", nameof(TimestampFormat), ex);
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.ConsoleTimestampInvalid"), nameof(TimestampFormat), ex);
         }
     }
 }

@@ -16,5 +16,5 @@ public class DriveListResponse : INetObject
     /// </summary>
     public List<DiskInfo>? Disks { get; set; }
 
-    public override string ToString() => $"返回磁盘列表(TaskId={TaskId},磁盘数={Disks?.Count ?? 0})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.DrivesResponse", TaskId, Disks?.Count ?? 0);
 }

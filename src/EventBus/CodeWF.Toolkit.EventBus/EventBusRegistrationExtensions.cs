@@ -15,7 +15,7 @@ namespace CodeWF.Toolkit.EventBus
             var requestedAssemblies = assemblies ?? Array.Empty<Assembly>();
             if (requestedAssemblies.Any(assembly => assembly == null))
             {
-                throw new ArgumentException("The assemblies collection cannot contain null entries.", nameof(assemblies));
+                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.NullAssembly"), nameof(assemblies));
             }
 
             var entryAssembly = Assembly.GetEntryAssembly();
@@ -55,7 +55,7 @@ namespace CodeWF.Toolkit.EventBus
             ArgumentNullException.ThrowIfNull(resolveAction);
             if (resolveAction(typeof(IEventBus)) is not IEventBus messenger)
             {
-                throw new InvalidOperationException("Please call AddEventBus before calling UseEventBus");
+                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.AddBeforeUse"));
             }
 
             var allAssemblies = GetAssemblies(assemblies);

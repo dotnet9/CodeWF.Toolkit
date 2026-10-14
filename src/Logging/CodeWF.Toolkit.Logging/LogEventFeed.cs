@@ -140,7 +140,7 @@ public sealed class LogEventFeed
                     try { handler(item); }
                     catch (Exception exception)
                     {
-                        LoggerSelfDiagnostics.Report("日志事件订阅者处理失败。", exception);
+                        LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Feed.SubscriberFailed"), exception);
                     }
                 }
 

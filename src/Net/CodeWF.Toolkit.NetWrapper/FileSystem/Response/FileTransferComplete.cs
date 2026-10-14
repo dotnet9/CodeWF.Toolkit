@@ -26,5 +26,5 @@ public class FileTransferComplete : INetObject
     /// </summary>
     public string Message { get; set; } = string.Empty;
 
-    public override string ToString() => $"文件传输完成(TaskId={TaskId},成功={Success},消息={Message})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.TransferComplete", TaskId, Success, Message);
 }

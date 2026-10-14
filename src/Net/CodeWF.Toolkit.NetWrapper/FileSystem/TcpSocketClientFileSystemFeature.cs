@@ -47,7 +47,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (!_client.CanSend)
         {
-            Logger.Error($"{_client.ServerMark} 未连接，无法查询服务端目录");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.BrowseDisconnected", _client.ServerMark));
             return;
         }
 
@@ -59,7 +59,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
 
         await _client.SendCommandAsync(queryCommand, cancellationToken);
-        Logger.Info($"{_client.ServerMark} 请求查询服务端目录：{serverDirectoryPath}");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.BrowseRequest", _client.ServerMark, serverDirectoryPath));
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (!_client.CanSend)
         {
-            Logger.Error($"{_client.ServerMark} 未连接，无法创建服务端目录");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.CreateDisconnected", _client.ServerMark));
             return;
         }
 
@@ -84,7 +84,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
 
         await _client.SendCommandAsync(createCommand, cancellationToken);
-        Logger.Info($"{_client.ServerMark} 请求创建服务端目录：{serverDirectoryPath}");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.CreateRequest", _client.ServerMark, serverDirectoryPath));
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (!_client.CanSend)
         {
-            Logger.Error($"{_client.ServerMark} 未连接，无法删除服务端路径");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DeleteDisconnected", _client.ServerMark));
             return;
         }
 
@@ -111,7 +111,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
 
         await _client.SendCommandAsync(deleteCommand, cancellationToken);
-        Logger.Info($"{_client.ServerMark} 请求删除服务端路径：{serverPath}，IsDirectory={isDirectory}");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DeleteRequest", _client.ServerMark, serverPath, isDirectory));
     }
 
     /// <summary>
@@ -125,14 +125,14 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (!_client.CanSend)
         {
-            Logger.Error($"{_client.ServerMark} 未连接，无法开始文件上传");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.UploadDisconnected", _client.ServerMark));
             return;
         }
 
         var fileInfo = new FileInfo(localFilePath);
         if (!fileInfo.Exists)
         {
-            Logger.Error($"{_client.ServerMark} 文件不存在：{localFilePath}");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.FileMissing", _client.ServerMark, localFilePath));
             return;
         }
 
@@ -165,7 +165,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
 
         await _client.SendCommandAsync(startCommand, cancellationToken);
-        Logger.Info($"{_client.ServerMark} 请求上传文件：{localFilePath} -> {remoteFilePath}，大小：{fileInfo.Length}字节，等待服务端响应...");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.UploadRequest", _client.ServerMark, localFilePath, remoteFilePath, fileInfo.Length));
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (!_client.CanSend)
         {
-            Logger.Error($"{_client.ServerMark} 未连接，无法开始文件下载");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadDisconnected", _client.ServerMark));
             return;
         }
 
@@ -229,7 +229,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
 
         await _client.SendCommandAsync(startCommand, cancellationToken);
-        Logger.Info($"{_client.ServerMark} 请求下载文件：{serverFilePath} -> {localSaveDirectory}，已传输：{alreadyTransferredBytes}字节");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadRequest", _client.ServerMark, serverFilePath, localSaveDirectory, alreadyTransferredBytes));
     }
 
     /// <summary>
@@ -284,8 +284,8 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         }
         catch (Exception ex)
         {
-            Logger.Error($"{_client.ServerMark} 处理文件传输响应异常", ex,
-                $"{_client.ServerMark} 处理文件传输响应异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.ResponseFailed", _client.ServerMark), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.ResponseFailedHint", _client.ServerMark));
             return true;
         }
     }
@@ -332,7 +332,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
         await _client.SendCommandAsync(response);
         Logger.Info(
-            $"{_client.ServerMark} 收到服务端下载请求：{request.FileName}，已传输：{request.AlreadyTransferredBytes}字节，等待服务端发送文件块...");
+            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadAccepted", _client.ServerMark, request.FileName, request.AlreadyTransferredBytes));
     }
 
     /// <summary>
@@ -345,7 +345,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         {
             if (context.CancellationToken.IsCancellationRequested)
             {
-                await CancelUploadAsync(context, "客户端已取消上传");
+                await CancelUploadAsync(context, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileClient.UploadCanceled"));
                 return;
             }
 
@@ -362,12 +362,12 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
             if (response.AlreadyTransferredBytes < 0 ||
                 response.AlreadyTransferredBytes > context.FileSize)
             {
-                await CancelUploadAsync(context, "服务端返回的上传偏移无效");
+                await CancelUploadAsync(context, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileClient.InvalidUploadOffset"));
                 return;
             }
 
             context.AlreadyTransferredBytes = response.AlreadyTransferredBytes;
-            Logger.Info($"{_client.ServerMark} 收到服务端上传响应：已传输{response.AlreadyTransferredBytes}字节，开始发送文件块...");
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.UploadAccepted", _client.ServerMark, response.AlreadyTransferredBytes));
             if (context.FileSize == 0 || context.AlreadyTransferredBytes == context.FileSize)
             {
                 _uploadContexts.TryRemove(
@@ -375,7 +375,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
                 TryDeleteTransferProgress(context.LocalFilePath);
                 FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(
                     context.TaskId, context.FileName, context.RemoteFilePath, true, true, false,
-                    "上传完成"));
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadComplete")));
                 return;
             }
 
@@ -384,7 +384,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         }
         else
         {
-            Logger.Warn($"{_client.ServerMark} 收到服务端上传响应但无上传会话，忽略");
+            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.UploadSessionMissing", _client.ServerMark));
         }
     }
 
@@ -398,20 +398,20 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         {
             if (context.CancellationToken.IsCancellationRequested)
             {
-                await CancelDownloadAsync(context, "客户端已取消下载");
+                await CancelDownloadAsync(context, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileClient.DownloadCanceled"));
                 return;
             }
 
             if (response.FileSize < 0 || response.AlreadyTransferredBytes < 0 ||
                 response.AlreadyTransferredBytes > response.FileSize)
             {
-                await CancelDownloadAsync(context, "服务端返回的下载范围无效");
+                await CancelDownloadAsync(context, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileClient.InvalidDownloadRange"));
                 return;
             }
 
             if (!response.Accept)
             {
-                Logger.Warn($"{_client.ServerMark} 服务端拒绝下载请求：{response.Message}");
+                Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadRejected", _client.ServerMark, response.Message));
                 _downloadContexts.TryRemove(
                     ClientTransferContextKeys.GetTransferKey(response.RemoteFilePath, response.TaskId), out _);
                 FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(
@@ -429,7 +429,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
             context.FileSize = response.FileSize > 0 ? response.FileSize : context.FileSize;
             context.FileHash = response.FileHash;
             Logger.Info(
-                $"{_client.ServerMark} 收到服务端下载响应：文件大小{context.FileSize}字节，已传输{response.AlreadyTransferredBytes}字节，等待接收文件块...");
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadRange", _client.ServerMark, context.FileSize, response.AlreadyTransferredBytes));
 
             if (context.FileSize == 0 || context.AlreadyTransferredBytes == context.FileSize)
             {
@@ -438,7 +438,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         }
         else
         {
-            Logger.Warn($"{_client.ServerMark} 收到服务端下载响应但无下载会话，忽略");
+            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadSessionMissing", _client.ServerMark));
         }
     }
 
@@ -453,7 +453,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         {
             if (context.CancellationToken.IsCancellationRequested)
             {
-                await CancelUploadAsync(context, "客户端已取消上传");
+                await CancelUploadAsync(context, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileClient.UploadCanceled"));
                 return;
             }
 
@@ -464,7 +464,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
                 _uploadContexts.TryRemove(
                     ClientTransferContextKeys.GetTransferKey(chunkAck.RemoteFilePath, chunkAck.TaskId), out _);
                 TryDeleteTransferProgress(context.LocalFilePath);
-                Logger.Info($"{_client.ServerMark} 文件上传完成：{context.LocalFilePath} -> {context.RemoteFilePath}");
+                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.UploadComplete", _client.ServerMark, context.LocalFilePath, context.RemoteFilePath));
                 FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(
                     context.TaskId,
                     context.FileName,
@@ -472,7 +472,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
                     true,
                     true,
                     false,
-                    "上传完成"));
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadComplete")));
                 return;
             }
 
@@ -481,7 +481,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         }
         else if (!chunkAck.Success)
         {
-            Logger.Error($"{_client.ServerMark} 服务器报告文件块传输失败：{chunkAck.Message}");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.ChunkRejected", _client.ServerMark, chunkAck.Message));
             if (_uploadContexts.TryRemove(
                     ClientTransferContextKeys.GetTransferKey(chunkAck.RemoteFilePath, chunkAck.TaskId),
                     out var failedContext))
@@ -505,18 +505,18 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         var errorMessage = reject.ErrorCode switch
         {
-            FileTransferErrorCode.UploadServerFileLarger => "服务端文件大于客户端已有文件",
-            FileTransferErrorCode.UploadFileAlreadyExists => "文件已存在，无需重复上传",
-            FileTransferErrorCode.UploadFileHashMismatch => "文件大小相同但Hash不同，拒绝上传",
-            FileTransferErrorCode.DownloadServerFileNotFound => "服务端文件不存在",
-            FileTransferErrorCode.DownloadServerFileSmaller => "服务端文件小于客户端已有文件",
-            FileTransferErrorCode.DownloadFileIdentical => "文件相同，不需要下载",
-            FileTransferErrorCode.DownloadFileHashMismatch => "文件大小相同但Hash不同",
-            FileTransferErrorCode.InvalidTransferRequest => "传输请求参数无效",
-            _ => $"未知错误：{reject.ErrorCode}，{reject.Message}"
+            FileTransferErrorCode.UploadServerFileLarger => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerFileLargerThanLocal"),
+            FileTransferErrorCode.UploadFileAlreadyExists => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadAlreadyExists"),
+            FileTransferErrorCode.UploadFileHashMismatch => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.UploadHashConflict"),
+            FileTransferErrorCode.DownloadServerFileNotFound => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerFileMissing"),
+            FileTransferErrorCode.DownloadServerFileSmaller => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ServerFileSmallerThanLocal"),
+            FileTransferErrorCode.DownloadFileIdentical => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.DownloadNotNeeded"),
+            FileTransferErrorCode.DownloadFileHashMismatch => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.HashConflict"),
+            FileTransferErrorCode.InvalidTransferRequest => global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.InvalidRequest"),
+            _ => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Transfer.UnknownError", reject.ErrorCode, reject.Message)
         };
 
-        Logger.Warn($"{_client.ServerMark} 文件传输被拒绝：{reject.FileName}，错误码：{reject.ErrorCode}，原因：{errorMessage}");
+        Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.TransferRejected", _client.ServerMark, reject.FileName, reject.ErrorCode, errorMessage));
 
         if (_uploadContexts.TryGetValue(ClientTransferContextKeys.GetTransferKey(reject.RemoteFilePath, reject.TaskId),
                 out var uploadContext))
@@ -588,14 +588,14 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         var remoteFilePath = chunkData.RemoteFilePath;
         if (string.IsNullOrEmpty(remoteFilePath))
         {
-            Logger.Error($"{_client.ServerMark} 文件块数据缺少RemoteFilePath");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Transfer.ChunkPathMissing", _client.ServerMark));
             return;
         }
 
         if (!_downloadContexts.TryGetValue(ClientTransferContextKeys.GetTransferKey(remoteFilePath, chunkData.TaskId),
                 out var context))
         {
-            Logger.Warn($"{_client.ServerMark} 收到文件块但未找到下载会话：{remoteFilePath}");
+            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.ChunkSessionMissing", _client.ServerMark, remoteFilePath));
             return;
         }
 
@@ -603,7 +603,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         {
             if (context.CancellationToken.IsCancellationRequested)
             {
-                await CancelDownloadAsync(context, "客户端已取消下载");
+                await CancelDownloadAsync(context, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.FileClient.DownloadCanceled"));
                 return;
             }
 
@@ -628,7 +628,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
             {
                 if (fs.Length != context.AlreadyTransferredBytes)
                 {
-                    throw new InvalidDataException("本地临时文件长度与下载会话不一致");
+                    throw new InvalidDataException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.LocalPartialLengthMismatch"));
                 }
 
                 fs.Position = chunkData.Offset;
@@ -657,15 +657,15 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
                 if (!string.IsNullOrWhiteSpace(context.FileHash) &&
                     !string.Equals(localHash, context.FileHash, StringComparison.OrdinalIgnoreCase))
                 {
-                    Logger.Error($"{_client.ServerMark} 文件下载完成但哈希校验失败：{localFilePath}");
+                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadHashFailed", _client.ServerMark, localFilePath));
                     TryDeleteFile(localFilePath);
                     TryDeleteTransferProgress(localFilePath);
                     _downloadContexts.TryRemove(
                         ClientTransferContextKeys.GetTransferKey(remoteFilePath, chunkData.TaskId), out _);
-                    await SendChunkAckAsync(context, chunkData, false, "下载完成，但哈希校验失败", totalBytes);
+                    await SendChunkAckAsync(context, chunkData, false, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.DownloadHashFailed"), totalBytes);
                     FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(
                         context.TaskId, context.FileName, context.RemoteFilePath, false, false, false,
-                        "下载完成，但哈希校验失败"));
+                        global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.DownloadHashFailed")));
                     return;
                 }
 
@@ -678,7 +678,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         }
         catch (Exception ex)
         {
-            Logger.Error($"{_client.ServerMark} 处理文件块({chunkData.BlockIndex})异常", ex);
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Transfer.ChunkProcessingFailed", _client.ServerMark, chunkData.BlockIndex), ex);
             await SendChunkAckAsync(context, chunkData, false, ex.Message, context.AlreadyTransferredBytes);
         }
     }
@@ -698,12 +698,12 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (fileSize < 0 || alreadyTransferredBytes < 0 || alreadyTransferredBytes > fileSize)
         {
-            throw new InvalidDataException("上传文件范围无效");
+            throw new InvalidDataException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.InvalidUploadRange"));
         }
 
         if (!File.Exists(localFilePath))
         {
-            Logger.Error($"{_client.ServerMark} 文件不存在：{localFilePath}");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.FileMissing", _client.ServerMark, localFilePath));
             return;
         }
 
@@ -736,7 +736,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         };
 
         await _client.SendCommandAsync(chunkData, cancellationToken);
-        Logger.Info($"{_client.ServerMark} 发送文件块({blockIndex})：{bytesRead}字节");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.ChunkSent", _client.ServerMark, blockIndex, bytesRead));
 
         var newTransferredBytes = alreadyTransferredBytes + bytesRead;
         var progress = fileSize > 0 ? (double)newTransferredBytes / fileSize * 100 : 0;
@@ -784,7 +784,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
                     ClientTransferContextKeys.GetTransferKey(context.RemoteFilePath, context.TaskId), out _);
                 FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(
                     context.TaskId, context.FileName, context.RemoteFilePath, false, false, false,
-                    "下载完成，但哈希校验失败"));
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.DownloadHashFailed")));
                 return;
             }
         }
@@ -793,9 +793,9 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         TryDeleteTransferProgress(tempFilePath);
         _downloadContexts.TryRemove(ClientTransferContextKeys.GetTransferKey(context.RemoteFilePath, context.TaskId),
             out _);
-        Logger.Info($"{_client.ServerMark} 文件下载完成：{context.RemoteFilePath} -> {context.LocalFilePath}");
+        Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.FileClient.DownloadComplete", _client.ServerMark, context.RemoteFilePath, context.LocalFilePath));
         FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(
-            context.TaskId, context.FileName, context.RemoteFilePath, false, true, false, "下载完成"));
+            context.TaskId, context.FileName, context.RemoteFilePath, false, true, false, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.DownloadComplete")));
     }
 
     private static bool IsValidChunk(DownloadContext context, FileChunkData chunkData,
@@ -803,32 +803,32 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
     {
         if (chunkData.Data == null || chunkData.Data.Length == 0)
         {
-            errorMessage = "文件块不能为空";
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkRequired");
             return false;
         }
 
         if (chunkData.BlockSize != chunkData.Data.Length ||
             chunkData.BlockSize > TcpSocketClientFileSystemFeature.FileTransferBlockSize)
         {
-            errorMessage = "文件块大小与数据长度不一致";
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkLengthMismatch");
             return false;
         }
 
         if (chunkData.Offset != context.AlreadyTransferredBytes || chunkData.Offset < 0)
         {
-            errorMessage = "文件块偏移不是当前下载位置";
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkDownloadOffsetMismatch");
             return false;
         }
 
         if (chunkData.BlockIndex != chunkData.Offset / TcpSocketClientFileSystemFeature.FileTransferBlockSize)
         {
-            errorMessage = "文件块序号与偏移不一致";
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkIndexMismatch");
             return false;
         }
 
         if (chunkData.Offset > context.FileSize - chunkData.BlockSize)
         {
-            errorMessage = "文件块超出文件大小";
+            errorMessage = global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Transfer.ChunkOutOfRange");
             return false;
         }
 
@@ -866,7 +866,7 @@ public sealed class TcpSocketClientFileSystemFeature : IDisposable
         }
         catch (Exception ex)
         {
-            Logger.Warn($"{_client.ServerMark} 发送取消传输通知失败：{remoteFilePath}，{ex.Message}");
+            Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Transfer.CancelNotificationFailed", _client.ServerMark, remoteFilePath, ex.Message));
         }
 
         FileTransferOutcome?.Invoke(this, new FileTransferOutcomeEventArgs(

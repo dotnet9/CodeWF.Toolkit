@@ -91,5 +91,13 @@
   "Toolkit.Core.Update.PortableFolderOpened": "Portable package downloaded; containing folder opened: {0}",
   "Toolkit.Core.Update.InstallerFailed": "Could not start the installer: {0}",
   "Toolkit.Core.Update.RepositoryRequired": "Specify a GitHub repository (UpdateServiceOptions.Repository).",
-  "Toolkit.Core.Update.RateLimitedUntil": "GitHub API rate limited; resumes at {0}"
+  "Toolkit.Core.Update.RateLimitedUntil": "GitHub API rate limited; resumes at {0}",
+  "Toolkit.Core.File.SpecifiedFileMissing": "The specified file does not exist",
+  "Toolkit.Core.File.SpecifiedDirectoryMissing": "The specified folder does not exist：",
+  "Toolkit.Core.File.UnsupportedOperatingSystem": "The current operating system does not support this operation",
+  "Toolkit.Core.Network.InvalidStartPort": "startPort must be between {0} and {1}.",
+  "Toolkit.Core.Network.InvalidEndPort": "endPort must be between {0} and {1}.",
+  "Toolkit.Core.Network.InvalidPortRange": "startPort must be less than or equal to endPort.",
+  "Toolkit.Core.Network.NoAvailablePort": "No available port was found between {0} and {1}.",
+  "Toolkit.Core.File.InvalidExcelFormat": "Invalid Excel format."
 }

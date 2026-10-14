@@ -1,0 +1,11 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit.EventBus",
+  "cultureName": "en-US",
+  "Toolkit.EventBus.Registration.ResolverRequired": "Instance event handlers discovered from assemblies require a service resolver. ",
+  "Toolkit.EventBus.Registration.ResolverInstructions": "Call RegisterServiceHandlerAction or use one of the IOC integration packages before publishing.",
+  "Toolkit.EventBus.Registration.ResolverReturnedNull": "The service resolver returned null for event handler type '{0}'.",
+  "Toolkit.EventBus.Dispatch.AsyncHandlerRequiresAsync": "Synchronous publishing cannot execute asynchronous handlers. Use PublishAsync or QueryAsync instead.",
+  "Toolkit.EventBus.Registration.NullAssembly": "The assemblies collection cannot contain null entries.",
+  "Toolkit.EventBus.Registration.AddBeforeUse": "Please call AddEventBus before calling UseEventBus"
+}

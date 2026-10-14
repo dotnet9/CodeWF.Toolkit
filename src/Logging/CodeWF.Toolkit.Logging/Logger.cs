@@ -39,7 +39,7 @@ public static class Logger
     public static void Initialize(LoggerOptions options)
     {
         if (!TryInitialize(options))
-            throw new InvalidOperationException("日志组件已经初始化，不能重复初始化。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Lifecycle.AlreadyInitialized"));
     }
 
     public static bool TryInitialize(LoggerOptions options)
@@ -113,7 +113,7 @@ public static class Logger
         bool ownsHost;
         lock (SyncRoot)
         {
-            host = _host ?? throw new InvalidOperationException("日志组件尚未初始化，请先调用 Logger.Initialize 或 AddCodeWF。");
+            host = _host ?? throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Lifecycle.NotInitialized"));
             ownsHost = ReferenceEquals(_hostOwner, LegacyOwner);
         }
 
@@ -215,7 +215,7 @@ public static class Logger
     }
 
     private static LoggerHost GetHost() => Volatile.Read(ref _host) ??
-        throw new InvalidOperationException("日志组件尚未初始化，请先调用 Logger.Initialize 或 AddCodeWF。");
+        throw new InvalidOperationException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Lifecycle.NotInitialized"));
 
     private static LogEventFeed GetOrCreateEvents()
     {
@@ -225,6 +225,6 @@ public static class Logger
 
     private static void ValidateLogLevel(LogLevel level)
     {
-        if (!Enum.IsDefined(level)) throw new ArgumentOutOfRangeException(nameof(level), "日志级别无效。");
+        if (!Enum.IsDefined(level)) throw new ArgumentOutOfRangeException(nameof(level), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.LevelInvalid"));
     }
 }

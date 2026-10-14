@@ -1,0 +1,7 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit.EventBus.AspNetCore",
+  "cultureName": "en-US",
+  "Toolkit.EventBus.AspNetCore.Registration.NullAssembly": "The assemblies collection cannot contain null entries.",
+  "Toolkit.EventBus.AspNetCore.Registration.AddBeforeUse": "Please call AddEventBus before calling UseEventBus"
+}

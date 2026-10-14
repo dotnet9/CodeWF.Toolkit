@@ -26,5 +26,5 @@ public class DeletePathResponse : INetObject
     /// </summary>
     public string Message { get; set; } = string.Empty;
 
-    public override string ToString() => $"返回删除路径结果(TaskId={TaskId},成功={Success},路径={FilePath},消息={Message})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.DeleteResponse", TaskId, Success, FilePath, Message);
 }

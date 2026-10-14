@@ -1,0 +1,15 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit.Files",
+  "cultureName": "en-US",
+  "Toolkit.Files.CsvExcel.UnsupportedExport": "Currently only supports .csv and .xlsx file exports",
+  "Toolkit.Files.CsvExcel.UnsupportedImport": "Currently only supports .csv and .xlsx file imports",
+  "Toolkit.Files.CsvExcel.HeadersUnreadable": "Can't read table headers",
+  "Toolkit.Files.CsvExcel.ColumnsUnreadable": "Can't read table columns",
+  "Toolkit.Files.Archive.SymbolicLinkUnsupported": "Symbolic link entries are not supported: {0}",
+  "Toolkit.Files.Archive.EntryPathRequired": "Archive entry path cannot be empty.",
+  "Toolkit.Files.Archive.EntryNullCharacter": "Archive entry path cannot contain null characters.",
+  "Toolkit.Files.Archive.AbsoluteEntry": "Archive entry path is absolute: {0}",
+  "Toolkit.Files.Archive.EntryOutsideDestination": "Archive entry path escapes the destination directory: {0}",
+  "Toolkit.Files.Archive.MixedVolumes": "Files on different volume roots cannot be added to one archive."
+}

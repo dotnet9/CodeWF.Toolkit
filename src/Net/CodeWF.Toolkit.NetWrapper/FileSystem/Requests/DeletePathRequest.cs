@@ -21,5 +21,5 @@ public class DeletePathRequest : INetObject
     /// </summary>
     public bool IsDirectory { get; set; }
 
-    public override string ToString() => $"请求删除路径(TaskId={TaskId},路径={FilePath},目录={IsDirectory})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.DeleteRequest", TaskId, FilePath, IsDirectory);
 }

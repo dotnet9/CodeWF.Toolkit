@@ -307,17 +307,17 @@ public static class IpHelper
     {
         if (startPort is < MinPort or > MaxPort)
         {
-            throw new ArgumentOutOfRangeException(nameof(startPort), $"startPort must be between {MinPort} and {MaxPort}.");
+            throw new ArgumentOutOfRangeException(nameof(startPort), global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidStartPort", MinPort, MaxPort));
         }
 
         if (endPort is < MinPort or > MaxPort)
         {
-            throw new ArgumentOutOfRangeException(nameof(endPort), $"endPort must be between {MinPort} and {MaxPort}.");
+            throw new ArgumentOutOfRangeException(nameof(endPort), global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidEndPort", MinPort, MaxPort));
         }
 
         if (startPort > endPort)
         {
-            throw new ArgumentOutOfRangeException(nameof(startPort), "startPort must be less than or equal to endPort.");
+            throw new ArgumentOutOfRangeException(nameof(startPort), global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Network.InvalidPortRange"));
         }
 
         ip = string.Empty;
@@ -342,7 +342,7 @@ public static class IpHelper
 
             if (tempPort > endPort)
             {
-                throw new InvalidOperationException($"No available port was found between {startPort} and {endPort}.");
+                throw new InvalidOperationException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.NoAvailablePort", startPort, endPort));
             }
 
             port = tempPort;

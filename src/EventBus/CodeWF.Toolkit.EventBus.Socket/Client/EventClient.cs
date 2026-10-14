@@ -66,7 +66,7 @@ public class EventClient : IEventClient, IDisposable
         var connected = ConnectAsync(host, port, timeout.Token).GetAwaiter().GetResult();
         if (!connected)
         {
-            throw new TimeoutException("连接事件服务超时。");
+            throw new TimeoutException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ConnectionTimeout"));
         }
     }
 
@@ -161,7 +161,7 @@ public class EventClient : IEventClient, IDisposable
         catch (Exception ex)
         {
             errorMessage = ex.Message;
-            Report("发布事件失败", ex);
+            Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.PublishFailed"), ex);
             return false;
         }
     }
@@ -218,23 +218,23 @@ public class EventClient : IEventClient, IDisposable
             var updateEvent = await responseChannel.Reader.ReadAsync(linkedCancellation.Token).ConfigureAwait(false);
             if (updateEvent.Buffer is null)
             {
-                return (default, "未从服务端收到响应。");
+                return (default, global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.NoResponse"));
             }
 
             var response = updateEvent.Buffer.DeserializeObject(typeof(TResponse));
             return response is TResponse typedResponse
                 ? (typedResponse, string.Empty)
-                : (default, "服务端响应反序列化失败。");
+                : (default, global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.InvalidResponse"));
         }
         catch (OperationCanceledException)
         {
             return (default, cancellationToken.IsCancellationRequested || ConnectStatus == ConnectStatus.Disconnected
-                ? "操作已取消。"
-                : "查询超时，请重试。");
+                ? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Query.Canceled")
+                : global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Query.Timeout"));
         }
         catch (Exception ex)
         {
-            Report("查询事件失败", ex);
+            Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.QueryFailed"), ex);
             return (default, ex.Message);
         }
         finally
@@ -307,7 +307,7 @@ public class EventClient : IEventClient, IDisposable
             cancellationToken.ThrowIfCancellationRequested();
             if (!isSuccess)
             {
-                throw new InvalidOperationException(errorMessage ?? "连接事件总线服务失败。");
+                throw new InvalidOperationException(errorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ConnectionFailed"));
             }
 
             session.CommandRegistration = client.RegisterCommandHandler(
@@ -326,7 +326,7 @@ public class EventClient : IEventClient, IDisposable
         }
         catch (Exception ex)
         {
-            _options.Report("连接事件服务失败", ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ConnectError"), ex);
             await StopSessionAsync(session).ConfigureAwait(false);
             ConnectStatus = ConnectStatus.Disconnected;
             return false;
@@ -353,7 +353,7 @@ public class EventClient : IEventClient, IDisposable
             timeout.Token);
         if (!await session.HandshakeCompletion.Task.WaitAsync(linked.Token).ConfigureAwait(false))
         {
-            throw new InvalidOperationException("请检查事件总线服务认证配置。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.AuthenticationConfiguration"));
         }
 
         session.HandshakeCompletion = null;
@@ -450,7 +450,7 @@ public class EventClient : IEventClient, IDisposable
         var accepted = session.Inbound.Writer.TryWrite(command);
         if (!accepted)
         {
-            _options.Report("客户端入站队列已满");
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.InboundQueueFull"));
         }
 
         return Task.FromResult(accepted);
@@ -465,7 +465,7 @@ public class EventClient : IEventClient, IDisposable
         }
 
         ConnectStatus = ConnectStatus.Disconnected;
-        _options.Report(error.ErrorMessage ?? "TCP 客户端连接异常");
+        _options.Report(error.ErrorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.TcpConnectionError"));
         ScheduleReconnect(session);
         return Task.CompletedTask;
     }
@@ -486,7 +486,7 @@ public class EventClient : IEventClient, IDisposable
         catch (Exception ex)
         {
             ConnectStatus = ConnectStatus.Disconnected;
-            _options.Report("发送心跳失败", ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.HeartbeatFailed"), ex);
             ScheduleReconnect(session);
         }
     }
@@ -515,7 +515,7 @@ public class EventClient : IEventClient, IDisposable
                 }
                 catch (Exception ex)
                 {
-                    _options.Report("处理服务端响应失败", ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ResponseFailed"), ex);
                 }
             }
         }
@@ -549,7 +549,7 @@ public class EventClient : IEventClient, IDisposable
                 catch (Exception ex)
                 {
                     ConnectStatus = ConnectStatus.Disconnected;
-                    _options.Report("发送事件失败", ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.SendFailed"), ex);
                     ScheduleReconnect(session);
                 }
             }
@@ -617,7 +617,7 @@ public class EventClient : IEventClient, IDisposable
             }
             catch (Exception ex)
             {
-                _options.Report("分发订阅消息失败", ex);
+                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.DispatchFailed"), ex);
             }
         }
     }
@@ -628,7 +628,7 @@ public class EventClient : IEventClient, IDisposable
 
     private void SendCommand(INetObject command, bool needCheckConnectStatus = true)
     {
-        var session = _session ?? throw new InvalidOperationException("事件服务未连接。");
+        var session = _session ?? throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.NotConnected"));
         SendCommand(session, command, needCheckConnectStatus);
     }
 
@@ -636,7 +636,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (!session.Outbound.Writer.TryWrite(new OutboundCommand(command, needCheckConnectStatus)))
         {
-            throw new InvalidOperationException("客户端发送队列已关闭或已满。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.SendQueueClosed"));
         }
     }
 
@@ -735,7 +735,7 @@ public class EventClient : IEventClient, IDisposable
         }
         catch (Exception ex)
         {
-            _options.Report("关闭客户端连接失败", ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.CloseFailed"), ex);
         }
 
         session.Inbound.Writer.TryComplete();
@@ -748,7 +748,7 @@ public class EventClient : IEventClient, IDisposable
         }
         catch (Exception ex) when (ex is OperationCanceledException or TimeoutException)
         {
-            _options.Report("等待客户端后台任务退出超时", ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Client.ShutdownTimeout"), ex);
         }
         finally
         {
@@ -805,7 +805,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (string.IsNullOrWhiteSpace(subject) || subject.Length > _options.MaxSubjectLength)
         {
-            throw new ArgumentException("主题不能为空且长度不能超过配置上限。", nameof(subject));
+            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.InvalidSubject"), nameof(subject));
         }
     }
 
@@ -813,7 +813,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (buffer is not null && buffer.Length > _options.MaxMessageSizeBytes)
         {
-            throw new ArgumentException("消息体超过配置大小限制。", nameof(buffer));
+            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.MessageTooLarge"), nameof(buffer));
         }
     }
 
@@ -821,7 +821,7 @@ public class EventClient : IEventClient, IDisposable
     {
         if (string.IsNullOrWhiteSpace(host))
         {
-            throw new ArgumentException("主机地址不能为空。", nameof(host));
+            throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.HostRequired"), nameof(host));
         }
 
         if (port is < IPEndPoint.MinPort or > IPEndPoint.MaxPort)

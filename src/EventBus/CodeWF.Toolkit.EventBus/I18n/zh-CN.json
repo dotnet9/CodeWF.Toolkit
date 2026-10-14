@@ -1,0 +1,11 @@
+{
+  "language": "简体中文",
+  "description": "CodeWF.Toolkit.EventBus",
+  "cultureName": "zh-CN",
+  "Toolkit.EventBus.Registration.ResolverRequired": "从程序集发现的实例事件处理器需要服务解析器。 ",
+  "Toolkit.EventBus.Registration.ResolverInstructions": "发布前请调用 RegisterServiceHandlerAction 或使用 IOC 集成包。",
+  "Toolkit.EventBus.Registration.ResolverReturnedNull": "服务解析器未返回事件处理器类型 '{0}' 的实例。",
+  "Toolkit.EventBus.Dispatch.AsyncHandlerRequiresAsync": "同步发布不能执行异步处理器，请使用 PublishAsync 或 QueryAsync。",
+  "Toolkit.EventBus.Registration.NullAssembly": "程序集集合不能包含空项。",
+  "Toolkit.EventBus.Registration.AddBeforeUse": "调用 UseEventBus 前请先调用 AddEventBus。"
+}

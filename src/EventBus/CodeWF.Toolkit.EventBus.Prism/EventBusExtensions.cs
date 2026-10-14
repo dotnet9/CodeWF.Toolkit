@@ -17,7 +17,7 @@ namespace CodeWF.Toolkit.EventBus.Prism
             var requestedAssemblies = assemblies ?? Array.Empty<Assembly>();
             if (requestedAssemblies.Any(assembly => assembly == null))
             {
-                throw new ArgumentException("The assemblies collection cannot contain null entries.", nameof(assemblies));
+                throw new ArgumentException(global::CodeWF.Toolkit.EventBus.Prism.LibraryText.Get("Toolkit.EventBus.Prism.Registration.NullAssembly"), nameof(assemblies));
             }
 
             var entryAssembly = Assembly.GetEntryAssembly();
@@ -57,7 +57,7 @@ namespace CodeWF.Toolkit.EventBus.Prism
             ArgumentNullException.ThrowIfNull(app);
             if (app.Resolve<IEventBus>() is not { } messenger)
             {
-                throw new InvalidOperationException("Please call AddEventBus before calling UseEventBus");
+                throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Prism.LibraryText.Get("Toolkit.EventBus.Prism.Registration.AddBeforeUse"));
             }
 
             var allAssemblies = GetAssemblies(assemblies);

@@ -77,7 +77,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
 
             if (ScanResourceFolder && !Directory.Exists(ResourceFolder))
             {
-                _loadDiagnostics.Add($"Language resource folder not found: {ResourceFolder}");
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.FolderMissing", ResourceFolder));
             }
             else if (ScanResourceFolder)
             {
@@ -91,7 +91,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
 
             if (Resources.Count == 0)
             {
-                _loadDiagnostics.Add("Please provide valid language JSON files.");
+                _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Get("Toolkit.Lang.Diagnostics.JsonResourcesRequired"));
             }
         }
     }
@@ -170,12 +170,12 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
                 return true;
             }
 
-            _loadDiagnostics.Add($"Invalid language JSON metadata skipped: {filePath}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonMetadataSkipped", filePath));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add($"Invalid language JSON file skipped: {filePath}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonFileSkipped", filePath));
             return false;
         }
     }
@@ -196,12 +196,12 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
                 return true;
             }
 
-            _loadDiagnostics.Add($"Invalid embedded language JSON metadata skipped: {assembly.GetName().Name}/{resourceName}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonEmbeddedMetadataSkipped", assembly.GetName().Name, resourceName));
             return false;
         }
         catch
         {
-            _loadDiagnostics.Add($"Invalid embedded language JSON resource skipped: {assembly.GetName().Name}/{resourceName}");
+            _loadDiagnostics.Add(global::CodeWF.Toolkit.Lang.LibraryText.Format("Toolkit.Lang.Diagnostics.JsonEmbeddedSkipped", assembly.GetName().Name, resourceName));
             return false;
         }
     }

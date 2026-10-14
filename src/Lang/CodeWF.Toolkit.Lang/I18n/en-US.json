@@ -1,0 +1,16 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit.Lang",
+  "cultureName": "en-US",
+  "Toolkit.Lang.Diagnostics.FolderMissing": "Language resource folder not found: {0}",
+  "Toolkit.Lang.Diagnostics.JsonResourcesRequired": "Please provide valid language JSON files.",
+  "Toolkit.Lang.Diagnostics.JsonMetadataSkipped": "Invalid language JSON metadata skipped: {0}",
+  "Toolkit.Lang.Diagnostics.JsonFileSkipped": "Invalid language JSON file skipped: {0}",
+  "Toolkit.Lang.Diagnostics.JsonEmbeddedMetadataSkipped": "Invalid embedded language JSON metadata skipped: {0}/{1}",
+  "Toolkit.Lang.Diagnostics.JsonEmbeddedSkipped": "Invalid embedded language JSON resource skipped: {0}/{1}",
+  "Toolkit.Lang.Diagnostics.XmlResourcesRequired": "Please provide valid language XML files.",
+  "Toolkit.Lang.Diagnostics.XmlMetadataSkipped": "Invalid language XML metadata skipped: {0}",
+  "Toolkit.Lang.Diagnostics.XmlFileSkipped": "Invalid language XML file skipped: {0}",
+  "Toolkit.Lang.Diagnostics.XmlEmbeddedMetadataSkipped": "Invalid embedded language XML metadata skipped: {0}/{1}",
+  "Toolkit.Lang.Diagnostics.XmlEmbeddedSkipped": "Invalid embedded language XML resource skipped: {0}/{1}"
+}

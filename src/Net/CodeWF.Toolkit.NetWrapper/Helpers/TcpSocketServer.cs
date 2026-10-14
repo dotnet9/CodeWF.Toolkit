@@ -94,7 +94,7 @@ public partial class TcpSocketServer
             Server.Bind(ipEndPoint);
             Server.Listen(10);
             IsRunning = true;
-            Logger.Info($"{ServerMark} 启动成功，服务地址是：{ServerIP}:{ServerPort}");
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.Started", ServerMark, ServerIP, ServerPort));
 
             _listenTokenSource = new CancellationTokenSource();
             var requestChannels = ResetRequestChannels();
@@ -110,9 +110,9 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error($"{ServerMark} 启动失败，服务地址是：{ServerIP}:{ServerPort}", ex,
-                $"{ServerMark} 启动失败，服务地址是：{ServerIP}:{ServerPort}，详细日志查看日志文件");
-            return (IsSuccess: false, ErrorMessage: $"{ServerMark} 启动失败，异常信息：{ex.Message}");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.StartFailed", ServerMark, ServerIP, ServerPort), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.StartFailedHint", ServerMark, ServerIP, ServerPort));
+            return (IsSuccess: false, ErrorMessage: global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.StartFailedReason", ServerMark, ex.Message));
         }
     }
 
@@ -166,7 +166,7 @@ public partial class TcpSocketServer
     {
         if (Clients.IsEmpty)
         {
-            Logger.Debug($"{ServerMark} 没有客户端上线，无发送目的地址，无法发送命令");
+            Logger.Debug(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.NoClients", ServerMark));
             return;
         }
 
@@ -187,8 +187,8 @@ public partial class TcpSocketServer
             }
             catch (SocketException ex)
             {
-                Logger.Error($"{ServerMark} 发送命令到客户端({clientKey})异常，将移除该客户端", ex,
-                    $"{ServerMark} 发送命令到客户端({clientKey})异常，将移除该客户端，详细信息请查看日志文件");
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.SendFailed", ServerMark, clientKey), ex,
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.SendFailedHint", ServerMark, clientKey));
                 await RemoveClientAsync(clientKey);
             }
         }
@@ -258,7 +258,7 @@ public partial class TcpSocketServer
         Clients.TryRemove(key, out _);
 
         await EventBus.EventBus.Default.PublishAsync(new SocketClientChangedCommand(this)).ConfigureAwait(false);
-        Logger.Warn($"{ServerMark} 已清除客户端信息{key}");
+        Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientRemoved", ServerMark, key));
     }
 
     /// <summary>
@@ -279,7 +279,7 @@ public partial class TcpSocketServer
 
                 var socketClientKey = $"{socketClient.RemoteEndPoint}";
 
-                Logger.Info($"{ServerMark} 客户端({socketClientKey})连接上线");
+                Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientConnected", ServerMark, socketClientKey));
 
                 var clientTask = HandleClientAsync(session, listenTokenSource, requestChannels);
                 _clientTasks[socketClientKey] = clientTask;
@@ -289,7 +289,7 @@ public partial class TcpSocketServer
             {
                 if (IsRunning && ReferenceEquals(_listenTokenSource, listenTokenSource))
                 {
-                    Logger.Error($"{ServerMark} 处理客户端连接上线异常", ex, $"{ServerMark} 处理客户端连接上线异常，详细信息请查看日志文件");
+                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.AcceptFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.AcceptFailedHint", ServerMark));
                 }
             }
         }
@@ -317,7 +317,7 @@ public partial class TcpSocketServer
                 var (success, buffer, headInfo) = await client.TcpSocket!.ReadPacketAsync(receiveTokenSource.Token);
                 if (!success || buffer == null || headInfo == null)
                 {
-                    Logger.Warn($"{ServerMark} 客户端({tcpClientKey})连接已断开，将移除该客户端");
+                    Logger.Warn(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientDisconnected", ServerMark, tcpClientKey));
                     await RemoveClientAsync(tcpClientKey);
                     break;
                 }
@@ -336,19 +336,19 @@ public partial class TcpSocketServer
             catch (SocketException ex) when (IsClientReceiveStopped(client, listenTokenSource) ||
                                              IsSocketOperationAborted(ex))
             {
-                Logger.Debug($"{ServerMark} 客户端({tcpClientKey})接收已取消，结束接收循环");
+                Logger.Debug(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ReceiveCanceled", ServerMark, tcpClientKey));
                 break;
             }
             catch (SocketException ex)
             {
-                Logger.Error($"{ServerMark} 远程主机({tcpClientKey})异常，将移除该客户端", ex,
-                    $"{ServerMark} 远程主机({tcpClientKey})异常，将移除该客户端，详细信息请查看日志文件");
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RemoteFailed", ServerMark, tcpClientKey), ex,
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RemoteFailedHint", ServerMark, tcpClientKey));
                 await RemoveClientAsync(tcpClientKey);
                 break;
             }
             catch (Exception ex)
             {
-                Logger.Error($"{ServerMark} 接收数据异常", ex, $"{ServerMark} 接收数据异常，详细信息请查看日志文件");
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.ReceiveFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Server.ReceiveFailedHint", ServerMark));
                 await Task.Delay(TimeSpan.FromMilliseconds(100));
             }
         }
@@ -396,8 +396,8 @@ public partial class TcpSocketServer
             }
             catch (Exception ex)
             {
-                Logger.Error($"{ServerMark} 处理客户端请求异常", ex,
-                    $"{ServerMark} 处理客户端请求异常，详细信息请查看日志文件");
+                Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RequestFailed", ServerMark), ex,
+                    global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.RequestFailedHint", ServerMark));
             }
         }
     }
@@ -440,8 +440,8 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error($"{ServerMark} 客户端({clientKey})后台接收任务异常", ex,
-                $"{ServerMark} 客户端({clientKey})后台接收任务异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientBackgroundFailed", ServerMark, clientKey), ex,
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.ClientBackgroundFailedHint", ServerMark, clientKey));
         }
         finally
         {
@@ -460,7 +460,7 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error("TCP 服务端后台任务异常", ex, "TCP 服务端后台任务异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.TcpServer.BackgroundFailed"), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.TcpServer.BackgroundFailedHint"));
         }
     }
 
@@ -550,7 +550,7 @@ public partial class TcpSocketServer
         }
         catch (Exception ex)
         {
-            Logger.Error($"{ServerMark} 心跳检测异常", ex, $"{ServerMark} 客户端心跳检测异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.HeartbeatFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.TcpServer.HeartbeatFailedHint", ServerMark));
         }
     }
 

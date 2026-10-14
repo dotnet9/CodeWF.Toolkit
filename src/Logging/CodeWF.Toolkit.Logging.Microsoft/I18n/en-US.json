@@ -1,0 +1,19 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit.Logging.Microsoft",
+  "cultureName": "en-US",
+  "Toolkit.Logging.Microsoft.Diagnostics.ScopeCaptureFailed": "Could not capture the log scope.",
+  "Toolkit.Logging.Microsoft.Diagnostics.StateCaptureFailed": "Could not capture Microsoft.Extensions.Logging state.",
+  "Toolkit.Logging.Microsoft.Diagnostics.MessageFormatFailed": "Could not format the Microsoft.Extensions.Logging message.",
+  "Toolkit.Logging.Microsoft.Validation.DirectoryRequired": "The log directory is required.",
+  "Toolkit.Logging.Microsoft.Validation.EventCapacity": "The event cache capacity must be positive.",
+  "Toolkit.Logging.Microsoft.Validation.QueueCapacity": "The log queue capacity must be positive.",
+  "Toolkit.Logging.Microsoft.Validation.QueuePolicy": "The log queue overflow policy is invalid.",
+  "Toolkit.Logging.Microsoft.Validation.EnqueueTimeout": "The enqueue timeout cannot be negative.",
+  "Toolkit.Logging.Microsoft.Configuration.Boolean": "true or false",
+  "Toolkit.Logging.Microsoft.Configuration.Integer": "an integer",
+  "Toolkit.Logging.Microsoft.Configuration.NullableInteger": "an integer or null",
+  "Toolkit.Logging.Microsoft.Configuration.TimeSpan": "a TimeSpan (for example 00:00:00.100)",
+  "Toolkit.Logging.Microsoft.Configuration.EnumValue": "a {0} enum value",
+  "Toolkit.Logging.Microsoft.Configuration.InvalidValue": "Configuration '{0}' has invalid value '{1}'; expected {2}."
+}

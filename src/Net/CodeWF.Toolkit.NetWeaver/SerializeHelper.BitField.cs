@@ -166,12 +166,12 @@ public partial class SerializeHelper
     {
         if (offset < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(offset), "Bit offset cannot be negative.");
+            throw new ArgumentOutOfRangeException(nameof(offset), global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.BitField.NegativeOffset"));
         }
 
         if (size <= 0 || size > sizeof(int) * 8)
         {
-            throw new ArgumentOutOfRangeException(nameof(size), "Bit field size must be between 1 and 32.");
+            throw new ArgumentOutOfRangeException(nameof(size), global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.BitField.InvalidSize"));
         }
     }
 

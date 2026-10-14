@@ -1,0 +1,7 @@
+{
+  "language": "English",
+  "description": "CodeWF.Toolkit.EventBus.Prism",
+  "cultureName": "en-US",
+  "Toolkit.EventBus.Prism.Registration.NullAssembly": "The assemblies collection cannot contain null entries.",
+  "Toolkit.EventBus.Prism.Registration.AddBeforeUse": "Please call AddEventBus before calling UseEventBus"
+}

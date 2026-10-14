@@ -61,7 +61,7 @@ public partial class SerializeHelper
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), value,
-                    "Collection item count cannot be negative.");
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.NegativeCollectionCount"));
             }
 
             Volatile.Write(ref _maxCollectionItemCount, value);
@@ -76,7 +76,7 @@ public partial class SerializeHelper
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), value,
-                    "String byte length cannot be negative.");
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.NegativeStringLength"));
             }
 
             Volatile.Write(ref _maxStringByteLength, value);
@@ -145,7 +145,7 @@ public partial class SerializeHelper
         }
         else
         {
-            throw new InvalidOperationException($"Unsupported enum underlying type: {underlyingType.FullName}.");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedEnum", underlyingType.FullName));
         }
     }
 
@@ -169,7 +169,7 @@ public partial class SerializeHelper
                                     : underlyingType == typeof(ulong)
                                         ? reader.ReadUInt64()
                                         : throw new InvalidOperationException(
-                                            $"Unsupported enum underlying type: {underlyingType.FullName}.");
+                                            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Serialize.UnsupportedEnum", underlyingType.FullName));
 
         return Enum.ToObject(enumType, value);
     }
@@ -284,8 +284,8 @@ public partial class SerializeHelper
         if (!RuntimeFeature.IsDynamicCodeSupported)
         {
             throw new NotSupportedException(
-                $"Creating a fallback collection for {type.FullName} requires runtime generic construction. " +
-                "Use a concrete List<T> or Dictionary<TKey,TValue> property type in Native AOT scenarios.");
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.RuntimeCollectionConstruction", type.FullName) +
+                global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.AotCollectionInstructions"));
         }
 
         var fallbackType = isDictionary
@@ -293,7 +293,7 @@ public partial class SerializeHelper
             : typeof(List<>).MakeGenericType(genericArguments[0]);
 
         return Activator.CreateInstance(fallbackType)
-               ?? throw new InvalidOperationException($"Cannot create collection instance for {type.FullName}.");
+               ?? throw new InvalidOperationException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Deserialize.CollectionConstructionFailed", type.FullName));
     }
 
     /// <summary>
@@ -307,7 +307,7 @@ public partial class SerializeHelper
             var read = reader.Read(buffer[totalRead..]);
             if (read == 0)
             {
-                throw new EndOfStreamException("Unexpected end of stream while reading fixed-size value.");
+                throw new EndOfStreamException(global::CodeWF.Toolkit.NetWeaver.LibraryText.Get("Toolkit.NetWeaver.Deserialize.FixedValueTruncated"));
             }
 
             totalRead += read;
@@ -324,7 +324,7 @@ public partial class SerializeHelper
     {
         var attribute = netObjectType.GetCustomAttribute<NetHeadAttribute>();
         return attribute ?? throw new Exception(
-            $"{netObjectType.Name} has not been marked with the attribute {nameof(NetHeadAttribute)}");
+            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.HeadAttributeMissing", netObjectType.Name, nameof(NetHeadAttribute)));
     }
 
     /// <summary>
@@ -337,7 +337,7 @@ public partial class SerializeHelper
         var netObjectType = typeof(T);
         var attribute = netObjectType.GetCustomAttribute<NetHeadAttribute>();
         return attribute ?? throw new Exception(
-            $"{netObjectType.Name} has not been marked with the attribute {nameof(NetHeadAttribute)}");
+            global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Metadata.HeadAttributeMissing", netObjectType.Name, nameof(NetHeadAttribute)));
     }
 
     /// <summary>

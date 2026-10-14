@@ -86,7 +86,7 @@ public class UdpSocketClient
             var receivedBuffers = ResetReceivedBuffers();
             if (!IPAddress.TryParse(ServerIP, out var multicastAddress))
             {
-                throw new InvalidOperationException($"无效的 UDP 组播地址：{ServerIP}");
+                throw new InvalidOperationException(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.InvalidMulticastAddress", ServerIP));
             }
 
             var localAddress = ResolveLocalAddress(endpoint);
@@ -121,9 +121,9 @@ public class UdpSocketClient
             CompleteReceivedBuffers();
             IsRunning = false;
             Logger.Error(
-                $"{ServerMark} 连接异常",
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ConnectFailed", ServerMark),
                 ex,
-                $"{ServerMark} 连接异常：{ex.Message}，详细信息请查看日志文件");
+                global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ConnectFailedHint", ServerMark, ex.Message));
         }
     }
 
@@ -151,12 +151,12 @@ public class UdpSocketClient
                 WaitForBackgroundTask(consumerTask);
             }
 
-            Logger.Info($"{ServerMark} 停止");
+            Logger.Info(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.Stopped", ServerMark));
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Error($"{ServerMark} 停止异常", ex, $"{ServerMark} 停止异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.StopFailed", ServerMark), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.StopFailedHint", ServerMark));
             IsRunning = false;
             return false;
         }
@@ -199,15 +199,15 @@ public class UdpSocketClient
                 if (IsRunning && ReferenceEquals(_client, client))
                 {
                     Logger.Error(ex.SocketErrorCode == SocketError.Interrupted
-                        ? $"{ServerMark} Udp 中断，停止接收数据。"
-                        : $"{ServerMark} 接收 Udp 数据异常：{ex.Message}");
+                        ? global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ReceiveInterrupted", ServerMark)
+                        : global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ReceiveFailed", ServerMark, ex.Message));
                 }
             }
             catch (Exception ex)
             {
                 if (IsRunning && ReferenceEquals(_client, client))
                 {
-                    Logger.Error($"接收 Udp 数据异常：{ex.Message}");
+                    Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.ReceiveError", ex.Message));
                 }
             }
         }
@@ -253,8 +253,8 @@ public class UdpSocketClient
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error($"{ServerMark} 处理 UDP 消息异常", ex,
-                            $"{ServerMark} 处理 UDP 消息异常，详细信息请查看日志文件");
+                        Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.DispatchFailed", ServerMark), ex,
+                            global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Udp.DispatchFailedHint", ServerMark));
                     }
                 }
             }
@@ -297,7 +297,7 @@ public class UdpSocketClient
         }
         catch (Exception ex)
         {
-            Logger.Error("UDP 客户端后台任务异常", ex, "UDP 客户端后台任务异常，详细信息请查看日志文件");
+            Logger.Error(global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Udp.BackgroundFailed"), ex, global::CodeWF.Toolkit.NetWrapper.LibraryText.Get("Toolkit.NetWrapper.Udp.BackgroundFailedHint"));
         }
     }
 

@@ -32,5 +32,5 @@ public class FileTransferReject : INetObject
     public string FileName { get; set; } = string.Empty;
 
     public override string ToString() =>
-        $"文件传输拒绝(TaskId={TaskId},错误码={ErrorCode},路径={RemoteFilePath},消息={Message})";
+        global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.TransferRejected", TaskId, ErrorCode, RemoteFilePath, Message);
 }

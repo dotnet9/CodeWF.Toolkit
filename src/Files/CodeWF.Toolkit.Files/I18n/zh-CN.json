@@ -1,0 +1,15 @@
+{
+  "language": "简体中文",
+  "description": "CodeWF.Toolkit.Files",
+  "cultureName": "zh-CN",
+  "Toolkit.Files.CsvExcel.UnsupportedExport": "只支持导出 .csv 和 .xlsx 文件。",
+  "Toolkit.Files.CsvExcel.UnsupportedImport": "只支持导入 .csv 和 .xlsx 文件。",
+  "Toolkit.Files.CsvExcel.HeadersUnreadable": "无法读取表头。",
+  "Toolkit.Files.CsvExcel.ColumnsUnreadable": "无法读取表格列。",
+  "Toolkit.Files.Archive.SymbolicLinkUnsupported": "不支持符号链接条目：{0}",
+  "Toolkit.Files.Archive.EntryPathRequired": "压缩条目路径不能为空。",
+  "Toolkit.Files.Archive.EntryNullCharacter": "压缩条目路径不能包含空字符。",
+  "Toolkit.Files.Archive.AbsoluteEntry": "压缩条目路径不能为绝对路径：{0}",
+  "Toolkit.Files.Archive.EntryOutsideDestination": "压缩条目路径超出目标目录：{0}",
+  "Toolkit.Files.Archive.MixedVolumes": "不同卷根目录的文件不能添加到同一个压缩包。"
+}

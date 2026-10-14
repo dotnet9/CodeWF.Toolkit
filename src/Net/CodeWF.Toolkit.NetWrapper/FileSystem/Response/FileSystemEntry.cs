@@ -8,32 +8,32 @@ public enum FileType
     /// <summary>
     ///     未知类型。
     /// </summary>
-    [Description("未知")] Unknown = 0,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.Unknown")] Unknown = 0,
 
     /// <summary>
     ///     普通文件。
     /// </summary>
-    [Description("文件")] File = 1,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.File")] File = 1,
 
     /// <summary>
     ///     目录。
     /// </summary>
-    [Description("目录")] Directory = 2,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.Directory")] Directory = 2,
 
     /// <summary>
     ///     快捷方式。
     /// </summary>
-    [Description("快捷方式")] Shortcut = 3,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.Shortcut")] Shortcut = 3,
 
     /// <summary>
     ///     符号链接。
     /// </summary>
-    [Description("符号链接")] SymbolicLink = 4,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.SymbolicLink")] SymbolicLink = 4,
 
     /// <summary>
     ///     重解析点。
     /// </summary>
-    [Description("重解析点")] ReparsePoint = 5
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(FileType), "Toolkit.NetWrapper.Entry.ReparsePoint")] ReparsePoint = 5
 }
 
 /// <summary>

@@ -26,5 +26,5 @@ public class CreateDirectoryResponse : INetObject
     /// </summary>
     public string Message { get; set; } = string.Empty;
 
-    public override string ToString() => $"返回创建目录结果(TaskId={TaskId},成功={Success},路径={DirectoryPath},消息={Message})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.CreateResponse", TaskId, Success, DirectoryPath, Message);
 }

@@ -11,5 +11,5 @@ public class Heartbeat : INetObject
     /// </summary>
     public int TaskId { get; set; }
 
-    public override string ToString() => $"心跳包(TaskId={TaskId})";
+    public override string ToString() => global::CodeWF.Toolkit.NetWrapper.LibraryText.Format("Toolkit.NetWrapper.Packet.Heartbeat", TaskId);
 }

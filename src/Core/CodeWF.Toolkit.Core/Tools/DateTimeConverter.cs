@@ -61,7 +61,7 @@ public class DateTimeConverter
     {
         if (!double.TryParse(excelFormat, NumberStyles.Float, CultureInfo.InvariantCulture, out var days))
         {
-            throw new ArgumentException("Invalid Excel format.", nameof(excelFormat));
+            throw new ArgumentException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.InvalidExcelFormat"), nameof(excelFormat));
         }
 
         return new DateTime(1899, 12, 30, 0, 0, 0, DateTimeKind.Utc).AddDays(days);

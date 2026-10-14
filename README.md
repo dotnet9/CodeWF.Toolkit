@@ -7,7 +7,7 @@
 
 一组无 UI 依赖的 .NET 基础设施库合集：工具扩展、文件与图片处理、日志、事件总线与网络通信，均以 `CodeWF.Toolkit.*` 前缀发布。
 
-A collection of UI-independent .NET infrastructure libraries: tool extensions, file/image processing, logging, event bus and network communication, published with the `CodeWF.Toolkit.*` prefix.
+A collection of UI-independent .NET infrastructure libraries: tool extensions, file/image processing, logging, event bus and network communication, published with the `CodeWF.Toolkit.*` prefix. Runtime messages use embedded English and Simplified Chinese JSON resources from CodeWF.Toolkit.Lang.
 
 ## 适用场景 / Typical scenarios
 
@@ -28,17 +28,17 @@ A collection of UI-independent .NET infrastructure libraries: tool extensions, f
 | 包 | 说明 | 依赖 |
 |---|---|---|
 | [CodeWF.Toolkit.Lang](https://www.nuget.org/packages/CodeWF.Toolkit.Lang) | JSON/XML/RESX 国际化、运行时切换、父文化回退与库级嵌入资源 | 仅 .NET BCL，无 UI 或第三方运行时依赖 |
-| [CodeWF.Toolkit.Core](https://www.nuget.org/packages/CodeWF.Toolkit.Core) | .NET 原生功能扩展：字符串/日期/枚举/正则等 + 应用数据目录 + GitHub Release 更新检查 | 零第三方依赖 |
+| [CodeWF.Toolkit.Core](https://www.nuget.org/packages/CodeWF.Toolkit.Core) | .NET 原生功能扩展：字符串/日期/枚举/正则等 + 应用数据目录 + GitHub Release 更新检查 | 本仓 Lang；零第三方运行时依赖 |
 | [CodeWF.Toolkit.Files](https://www.nuget.org/packages/CodeWF.Toolkit.Files) | 文件操作集合：Json/Yaml/Csv/Excel 读写、7z 压缩、App.config | SharpCompress、YamlDotNet、CsvHelper、MiniExcel、System.Configuration.ConfigurationManager |
 | [CodeWF.Toolkit.Image](https://www.nuget.org/packages/CodeWF.Toolkit.Image) | 图片处理集合：Magick.NET 缩放/水印/格式转换 + ZXing 条码二维码 | Magick.NET-Q16-AnyCPU、ZXing.Net.Bindings.Magick |
-| [CodeWF.Toolkit.Logging](https://www.nuget.org/packages/CodeWF.Toolkit.Logging) | 轻量日志核心：控制台输出、文件轮转、UI 日志事件 | Microsoft.Extensions.Logging.Abstractions（**唯一依赖**，无其它第三方库） |
-| [CodeWF.Toolkit.Logging.Microsoft](https://www.nuget.org/packages/CodeWF.Toolkit.Logging.Microsoft) | Microsoft.Extensions.Logging 提供程序，把 MEL 日志接入轻量核心 | Microsoft.Extensions.{DependencyInjection.Abstractions, Hosting.Abstractions, Logging, Logging.Configuration, Options} + 本仓 Logging |
+| [CodeWF.Toolkit.Logging](https://www.nuget.org/packages/CodeWF.Toolkit.Logging) | 轻量日志核心：控制台输出、文件轮转、UI 日志事件 | Microsoft.Extensions.Logging.Abstractions + 本仓 Lang |
+| [CodeWF.Toolkit.Logging.Microsoft](https://www.nuget.org/packages/CodeWF.Toolkit.Logging.Microsoft) | Microsoft.Extensions.Logging 提供程序，把 MEL 日志接入轻量核心 | Microsoft.Extensions.{DependencyInjection.Abstractions, Hosting.Abstractions, Logging, Logging.Configuration, Options} + 本仓 Logging、Lang |
 | [CodeWF.Toolkit.EventBus](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus) | 轻量进程内事件总线：Command/Query、`[EventHandler]` 特性、IOC 扫描注册 | 零第三方依赖 |
-| [CodeWF.Toolkit.EventBus.Prism](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Prism) | Prism 容器集成 | Prism.Core、DryIoc.dll + 本仓 EventBus |
-| [CodeWF.Toolkit.EventBus.AspNetCore](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.AspNetCore) | ASP.NET Core 集成 | FrameworkReference `Microsoft.AspNetCore.App` + 本仓 EventBus |
-| [CodeWF.Toolkit.EventBus.Socket](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Socket) | 基于 TCP 的分布式事件总线：Pub/Sub、Query/Response、心跳重连、离线补发，不依赖第三方 MQ | 本仓 EventBus、NetWrapper |
+| [CodeWF.Toolkit.EventBus.Prism](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Prism) | Prism 容器集成 | Prism.Core、DryIoc.dll + 本仓 EventBus、Lang |
+| [CodeWF.Toolkit.EventBus.AspNetCore](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.AspNetCore) | ASP.NET Core 集成 | FrameworkReference `Microsoft.AspNetCore.App` + 本仓 EventBus、Lang |
+| [CodeWF.Toolkit.EventBus.Socket](https://www.nuget.org/packages/CodeWF.Toolkit.EventBus.Socket) | 基于 TCP 的分布式事件总线：Pub/Sub、Query/Response、心跳重连、离线补发，不依赖第三方 MQ | 本仓 EventBus、NetWrapper、Lang |
 | [CodeWF.Toolkit.NetWeaver](https://www.nuget.org/packages/CodeWF.Toolkit.NetWeaver) | AOT 友好的 TCP/UDP 数据包二进制序列化核心 | 零第三方依赖 |
-| [CodeWF.Toolkit.NetWrapper](https://www.nuget.org/packages/CodeWF.Toolkit.NetWrapper) | TCP/UDP 通信封装与命令分发，含远程文件系统与断点续传 | 本仓 NetWeaver、EventBus、Logging |
+| [CodeWF.Toolkit.NetWrapper](https://www.nuget.org/packages/CodeWF.Toolkit.NetWrapper) | TCP/UDP 通信封装与命令分发，含远程文件系统与断点续传 | 本仓 NetWeaver、EventBus、Logging、Lang |
 
 ## 快速开始 / Quick start
 
@@ -82,6 +82,8 @@ if (result is { Succeeded: true, Update: { AssetUrl: not null, ChecksumUrl: not 
 ```
 
 无匹配资产或校验文件时，界面提供 `UpdateInfo.PageUrl` 作为发布页入口。检查失败通过 `UpdateCheckResult` 返回；下载失败和取消通过异常通知调用方，需由界面状态机处理。安装分发为 Windows EXE、Linux DEB、macOS DMG/PKG；便携 ZIP 只打开目录，启动失败返回手动处理。错误和日志从库的嵌入 JSON 读取，无需应用复制资源。
+
+各库的运行时错误、日志、枚举描述使用 `Toolkit.<库名>.<语义>` 键。中英文资源随各自 NuGet 包嵌入，中文数字转换所需字符表作为固定算法数据读取，不随界面语言改变。编译期 AOT/裁剪诊断保留英文常量，以符合 .NET 特性参数约束。
 
 ```bash
 dotnet add package CodeWF.Toolkit.Core

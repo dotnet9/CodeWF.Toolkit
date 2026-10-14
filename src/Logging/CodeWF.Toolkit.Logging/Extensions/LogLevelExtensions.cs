@@ -8,13 +8,13 @@ public static class LogLevelExtensions
     {
         return level switch
         {
-            LogLevel.Trace => "跟踪",
-            LogLevel.Debug => "调试",
-            LogLevel.Information => "消息",
-            LogLevel.Warning => "警告",
-            LogLevel.Error => "错误",
-            LogLevel.Critical => "严重错误",
-            LogLevel.None => "不记录",
+            LogLevel.Trace => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.Trace"),
+            LogLevel.Debug => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.Debug"),
+            LogLevel.Information => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.Information"),
+            LogLevel.Warning => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.Warning"),
+            LogLevel.Error => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.Error"),
+            LogLevel.Critical => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.Critical"),
+            LogLevel.None => global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Level.None"),
             _ => level.ToString()
         };
     }

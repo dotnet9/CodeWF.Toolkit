@@ -98,8 +98,8 @@ namespace CodeWF.Toolkit.EventBus
             if (_serviceHandlerAction == null)
             {
                 throw new InvalidOperationException(
-                    "Instance event handlers discovered from assemblies require a service resolver. " +
-                    "Call RegisterServiceHandlerAction or use one of the IOC integration packages before publishing.");
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.ResolverRequired") +
+                    global::CodeWF.Toolkit.EventBus.LibraryText.Get("Toolkit.EventBus.Registration.ResolverInstructions"));
             }
         }
 

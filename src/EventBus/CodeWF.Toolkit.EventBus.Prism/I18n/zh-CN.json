@@ -1,0 +1,7 @@
+{
+  "language": "简体中文",
+  "description": "CodeWF.Toolkit.EventBus.Prism",
+  "cultureName": "zh-CN",
+  "Toolkit.EventBus.Prism.Registration.NullAssembly": "程序集集合不能包含空项。",
+  "Toolkit.EventBus.Prism.Registration.AddBeforeUse": "调用 UseEventBus 前请先调用 AddEventBus。"
+}

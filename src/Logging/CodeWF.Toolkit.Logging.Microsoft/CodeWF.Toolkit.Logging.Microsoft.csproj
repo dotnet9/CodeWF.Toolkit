@@ -19,4 +19,10 @@
     <ProjectReference Include="..\CodeWF.Toolkit.Logging\CodeWF.Toolkit.Logging.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="I18n/*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lang\CodeWF.Toolkit.Lang\CodeWF.Toolkit.Lang.csproj" />
+  </ItemGroup>
 </Project>

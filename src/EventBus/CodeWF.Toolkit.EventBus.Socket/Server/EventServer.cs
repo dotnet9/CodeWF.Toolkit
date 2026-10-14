@@ -110,7 +110,7 @@ public class EventServer : IEventServer, IDisposable
                 cancellationToken.ThrowIfCancellationRequested();
                 if (!isSuccess)
                 {
-                    throw new InvalidOperationException(errorMessage ?? "事件服务启动失败。");
+                    throw new InvalidOperationException(errorMessage ?? global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.StartFailed"));
                 }
 
                 session.CommandRegistration = server.RegisterCommandHandler(
@@ -126,7 +126,7 @@ public class EventServer : IEventServer, IDisposable
             }
             catch (Exception ex)
             {
-                _options.Report("启动事件服务失败", ex);
+                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.StartError"), ex);
                 await StopSessionAsync(session).ConfigureAwait(false);
                 ClearState();
                 ConnectStatus = ConnectStatus.Disconnected;
@@ -197,7 +197,7 @@ public class EventServer : IEventServer, IDisposable
         var accepted = session.Inbound.Writer.TryWrite(command);
         if (!accepted)
         {
-            _options.Report($"服务端入站队列已满，客户端 {clientKey} 的命令被拒绝");
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format("Toolkit.EventBus.Socket.Server.InboundQueueFull", clientKey));
         }
 
         return Task.FromResult(accepted);
@@ -226,7 +226,7 @@ public class EventServer : IEventServer, IDisposable
                     }
                     else if (!IsAuthorized(socketClient))
                     {
-                        _options.Report("拒绝未完成握手的客户端命令");
+                        _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.HandshakeRequired"));
                     }
                     else if (command.IsCommand<RequestSubscribe>())
                     {
@@ -251,7 +251,7 @@ public class EventServer : IEventServer, IDisposable
                 }
                 catch (Exception ex)
                 {
-                    _options.Report("处理客户端命令失败", ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.CommandFailed"), ex);
                 }
             }
         }
@@ -279,13 +279,13 @@ public class EventServer : IEventServer, IDisposable
                 }
                 catch (SocketException ex)
                 {
-                    _options.Report("发送服务端命令失败，客户端将被移除", ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.SendFailedRemoveClient"), ex);
                     RemoveClient(session, client);
                     break;
                 }
                 catch (Exception ex)
                 {
-                    _options.Report("发送服务端命令失败", ex);
+                    _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.SendFailed"), ex);
                     RemoveClient(session, client);
                     break;
                 }
@@ -332,7 +332,7 @@ public class EventServer : IEventServer, IDisposable
             {
                 TaskId = command.TaskId,
                 Status = (byte)ResponseCommonStatus.Fail,
-                Message = "客户端认证失败。"
+                Message = global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.AuthenticationFailed")
             });
             return;
         }
@@ -348,7 +348,7 @@ public class EventServer : IEventServer, IDisposable
                     continue;
                 }
 
-                _options.Report($"客户端 {clientId} 重连，移除旧连接。");
+                _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format("Toolkit.EventBus.Socket.Server.ClientReconnected", clientId));
                 RemoveClient(session, pair.Key);
             }
         }
@@ -432,7 +432,7 @@ public class EventServer : IEventServer, IDisposable
             DateTimeOffset.UtcNow.Add(_options.PendingQueryTimeout));
         if (!_pendingQueries.TryAdd(query.TaskId, pendingQuery))
         {
-            throw new InvalidOperationException("查询 TaskId 已存在。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.DuplicateQuery"));
         }
 
         if (!PublishQueryToSubscribers(session, query))
@@ -561,7 +561,7 @@ public class EventServer : IEventServer, IDisposable
             !IsSubscribed(response.Subject, responder) ||
             !_pendingQueries.TryRemove(response.QueryTaskId, out pendingQuery))
         {
-            _options.Report($"忽略无效或重复的查询响应：{response.QueryTaskId}");
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Format("Toolkit.EventBus.Socket.Server.InvalidQueryResponse", response.QueryTaskId));
             return;
         }
 
@@ -662,7 +662,7 @@ public class EventServer : IEventServer, IDisposable
         if (!queue.Commands.Writer.TryWrite(command))
         {
             RemoveClient(session, client);
-            throw new InvalidOperationException("服务端发送队列已关闭或已满。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.SendQueueClosed"));
         }
     }
 
@@ -710,7 +710,7 @@ public class EventServer : IEventServer, IDisposable
         }
         catch (Exception ex)
         {
-            _options.Report("关闭事件服务失败", ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.CloseFailed"), ex);
         }
 
         session.Inbound.Writer.TryComplete();
@@ -735,7 +735,7 @@ public class EventServer : IEventServer, IDisposable
         }
         catch (Exception ex) when (ex is OperationCanceledException or TimeoutException)
         {
-            _options.Report("等待服务端后台任务退出超时", ex);
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.ShutdownTimeout"), ex);
         }
         finally
         {
@@ -757,7 +757,7 @@ public class EventServer : IEventServer, IDisposable
                 continue;
             }
 
-            _options.Report("客户端空闲超时，服务端主动下线。");
+            _options.Report(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Server.ClientIdleTimeout"));
             RemoveClient(session, pair.Key);
         }
     }
@@ -827,12 +827,12 @@ public class EventServer : IEventServer, IDisposable
     {
         if (string.IsNullOrWhiteSpace(subject) || subject.Length > _options.MaxSubjectLength)
         {
-            throw new InvalidOperationException("主题不能为空且长度不能超过配置上限。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.InvalidSubject"));
         }
 
         if (buffer is not null && buffer.Length > _options.MaxMessageSizeBytes)
         {
-            throw new InvalidOperationException("消息体超过配置大小限制。");
+            throw new InvalidOperationException(global::CodeWF.Toolkit.EventBus.Socket.LibraryText.Get("Toolkit.EventBus.Socket.Validation.MessageTooLarge"));
         }
     }
 

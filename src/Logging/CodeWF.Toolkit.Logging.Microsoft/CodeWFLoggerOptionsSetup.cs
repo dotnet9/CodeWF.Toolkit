@@ -68,19 +68,19 @@ internal sealed class CodeWFLoggerOptionsSetup(IEnumerable<IConfiguration> confi
         key,
         bool.TryParse,
         assign,
-        "true 或 false");
+        global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Configuration.Boolean"));
 
     private void SetInt(string key, Action<int> assign) => SetParsed(
         key,
         (string value, out int result) => int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result),
         assign,
-        "整数");
+        global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Configuration.Integer"));
 
     private void SetLong(string key, Action<long> assign) => SetParsed(
         key,
         (string value, out long result) => long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result),
         assign,
-        "整数");
+        global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Configuration.Integer"));
 
     private void SetNullableInt(string key, Action<int?> assign)
     {
@@ -88,7 +88,7 @@ internal sealed class CodeWFLoggerOptionsSetup(IEnumerable<IConfiguration> confi
         if (value is null) return;
         if (string.IsNullOrWhiteSpace(value)) { assign(null); return; }
         if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed)) { assign(parsed); return; }
-        throw InvalidValue(key, value, "整数或空值");
+        throw InvalidValue(key, value, global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Configuration.NullableInteger"));
     }
 
     private void SetNullableLong(string key, Action<long?> assign)
@@ -97,14 +97,14 @@ internal sealed class CodeWFLoggerOptionsSetup(IEnumerable<IConfiguration> confi
         if (value is null) return;
         if (string.IsNullOrWhiteSpace(value)) { assign(null); return; }
         if (long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed)) { assign(parsed); return; }
-        throw InvalidValue(key, value, "整数或空值");
+        throw InvalidValue(key, value, global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Configuration.NullableInteger"));
     }
 
     private void SetTimeSpan(string key, Action<TimeSpan> assign) => SetParsed(
         key,
         (string value, out TimeSpan result) => TimeSpan.TryParse(value, CultureInfo.InvariantCulture, out result),
         assign,
-        "TimeSpan（例如 00:00:00.100）");
+        global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Get("Toolkit.Logging.Microsoft.Configuration.TimeSpan"));
 
     private void SetEnum<TEnum>(string key, Action<TEnum> assign) where TEnum : struct, Enum
     {
@@ -115,7 +115,7 @@ internal sealed class CodeWFLoggerOptionsSetup(IEnumerable<IConfiguration> confi
             assign(parsed);
             return;
         }
-        throw InvalidValue(key, value, $"{typeof(TEnum).Name} 枚举值");
+        throw InvalidValue(key, value, global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Format("Toolkit.Logging.Microsoft.Configuration.EnumValue", typeof(TEnum).Name));
     }
 
     private void SetParsed<T>(string key, TryParse<T> tryParse, Action<T> assign, string expected)
@@ -127,7 +127,7 @@ internal sealed class CodeWFLoggerOptionsSetup(IEnumerable<IConfiguration> confi
     }
 
     private static FormatException InvalidValue(string key, string value, string expected) =>
-        new($"配置项 '{key}' 的值 '{value}' 无效，应为{expected}。");
+        new(global::CodeWF.Toolkit.Logging.Microsoft.LibraryText.Format("Toolkit.Logging.Microsoft.Configuration.InvalidValue", key, value, expected));
 
     private delegate bool TryParse<T>(string value, out T result);
 }

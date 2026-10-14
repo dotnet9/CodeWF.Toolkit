@@ -19,7 +19,7 @@ internal static class LoggerSelfDiagnostics
 
         try
         {
-            Console.Error.WriteLine($"日志组件发生故障：{message} 请检查日志目录权限和磁盘空间。");
+            Console.Error.WriteLine(global::CodeWF.Toolkit.Logging.LibraryText.Format("Toolkit.Logging.Diagnostics.Failure", message));
         }
         catch
         {

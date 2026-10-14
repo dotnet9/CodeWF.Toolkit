@@ -25,7 +25,7 @@ public static partial class SerializeHelper
             if (value < PacketHeadLen)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), value,
-                    $"TCP packet size must be at least {PacketHeadLen} bytes.");
+                    global::CodeWF.Toolkit.NetWeaver.LibraryText.Format("Toolkit.NetWeaver.Socket.PacketTooSmall", PacketHeadLen));
             }
 
             Volatile.Write(ref _maxTcpPacketSize, value);

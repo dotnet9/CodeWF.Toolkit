@@ -152,7 +152,7 @@ public static class FileHelper
         // 校验文件是否存在
         if (!File.Exists(fileFullName))
         {
-            throw new FileNotFoundException("The specified file does not exist", fileFullName);
+            throw new FileNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.SpecifiedFileMissing"), fileFullName);
         }
 
         string normalizedPath = NormalizePathSeparators(fileFullName);
@@ -198,7 +198,7 @@ public static class FileHelper
         // 校验文件夹是否存在
         if (!Directory.Exists(folderFullName))
         {
-            throw new DirectoryNotFoundException("The specified folder does not exist：" + folderFullName);
+            throw new DirectoryNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.SpecifiedDirectoryMissing") + folderFullName);
         }
 
         string normalizedPath = NormalizePathSeparators(folderFullName);
@@ -234,7 +234,7 @@ public static class FileHelper
         }
         else
         {
-            throw new PlatformNotSupportedException("The current operating system does not support this operation");
+            throw new PlatformNotSupportedException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.UnsupportedOperatingSystem"));
         }
     }
 

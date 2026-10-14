@@ -144,7 +144,7 @@ internal sealed class FileLogSink : ILogSink
             }
             catch (Exception ex)
             {
-                LoggerSelfDiagnostics.Report("定时刷新日志文件失败。", ex);
+                LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.TimerFlushFailed"), ex);
             }
         }
     }
@@ -203,7 +203,7 @@ internal sealed class FileLogSink : ILogSink
 
         if (!string.IsNullOrWhiteSpace(logEvent.UserMessage) &&
             !string.Equals(logEvent.UserMessage, logEvent.Message, StringComparison.Ordinal))
-            builder.Append("用户提示: ").AppendLine(logEvent.UserMessage);
+            builder.Append(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.UserMessagePrefix")).AppendLine(logEvent.UserMessage);
 
         AppendProperties(builder, "Properties", logEvent.Properties);
         AppendScopes(builder, logEvent.Scopes);
@@ -298,7 +298,7 @@ internal sealed class FileLogSink : ILogSink
         }
         catch (Exception ex)
         {
-            LoggerSelfDiagnostics.Report("清理历史日志文件失败。", ex);
+            LoggerSelfDiagnostics.Report(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Sink.RetentionFailed"), ex);
         }
     }
 }

@@ -48,23 +48,23 @@ public sealed record FileLogOptions
     internal void Validate()
     {
         if (string.IsNullOrWhiteSpace(DirectoryPath))
-            throw new ArgumentException("日志目录不能为空。", nameof(DirectoryPath));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.DirectoryRequired"), nameof(DirectoryPath));
         if (MaxFileSizeBytes <= 0)
-            throw new ArgumentOutOfRangeException(nameof(MaxFileSizeBytes), "单个日志文件大小必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(MaxFileSizeBytes), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FileSizePositive"));
         if (RetentionDays <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RetentionDays), "日志保留天数必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(RetentionDays), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.RetentionDaysPositive"));
         if (RetainedFileCountLimit <= 0)
-            throw new ArgumentOutOfRangeException(nameof(RetainedFileCountLimit), "保留文件数量必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(RetainedFileCountLimit), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FileCountPositive"));
         if (MaxDirectorySizeBytes <= 0)
-            throw new ArgumentOutOfRangeException(nameof(MaxDirectorySizeBytes), "日志目录容量必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(MaxDirectorySizeBytes), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.DirectorySizePositive"));
         if (!Enum.IsDefined(MinimumLevel))
-            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), "文件最低日志级别无效。");
+            throw new ArgumentOutOfRangeException(nameof(MinimumLevel), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FileLevel"));
         if (BatchSize <= 0)
-            throw new ArgumentOutOfRangeException(nameof(BatchSize), "文件日志批量大小必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(BatchSize), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.BatchSizePositive"));
         if (FlushInterval <= TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(FlushInterval), "文件日志刷新间隔必须大于 0。");
+            throw new ArgumentOutOfRangeException(nameof(FlushInterval), global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.FlushIntervalPositive"));
         if (string.IsNullOrWhiteSpace(TimestampFormat))
-            throw new ArgumentException("日志时间格式不能为空。", nameof(TimestampFormat));
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.TimestampRequired"), nameof(TimestampFormat));
         if (OutputTemplate is not null && !LogTemplateFormatter.TryValidate(OutputTemplate, out var templateError))
             throw new ArgumentException(templateError, nameof(OutputTemplate));
 
@@ -74,7 +74,7 @@ public sealed record FileLogOptions
         }
         catch (FormatException ex)
         {
-            throw new ArgumentException("日志时间格式不正确。", nameof(TimestampFormat), ex);
+            throw new ArgumentException(global::CodeWF.Toolkit.Logging.LibraryText.Get("Toolkit.Logging.Validation.TimestampInvalid"), nameof(TimestampFormat), ex);
         }
     }
 }

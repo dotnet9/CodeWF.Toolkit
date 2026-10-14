@@ -8,10 +8,10 @@ public enum TcpResponseStatus
     /// <summary>
     ///     成功。
     /// </summary>
-    [Description("成功")] Success,
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(TcpResponseStatus), "Toolkit.NetWrapper.Status.Success")] Success,
 
     /// <summary>
     ///     失败。
     /// </summary>
-    [Description("失败")] Fail
+    [global::CodeWF.Toolkit.Lang.LocalizedDescription(typeof(TcpResponseStatus), "Toolkit.NetWrapper.Status.Fail")] Fail
 }
