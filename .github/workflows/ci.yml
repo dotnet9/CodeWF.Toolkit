@@ -43,6 +43,12 @@ jobs:
       - name: 运行冒烟演示
         run: artifacts\aot-smoke\CodeWF.Toolkit.Demo.exe --smoke
 
+      - name: AOT 发布国际化与更新流程验证
+        run: dotnet publish tests/CodeWF.Toolkit.AotSmoke/CodeWF.Toolkit.AotSmoke.csproj -c Release -r win-x64 -o artifacts/aot-library-smoke
+
+      - name: 验证嵌入资源、更新缓存与校验下载
+        run: artifacts\aot-library-smoke\CodeWF.Toolkit.AotSmoke.exe
+
   aot-smoke-avalonia:
     name: AOT 冒烟（Avalonia 演示台发布与运行）
     runs-on: windows-latest
