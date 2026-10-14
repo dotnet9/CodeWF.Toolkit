@@ -27,6 +27,7 @@ A collection of UI-independent .NET infrastructure libraries: tool extensions, f
 
 | 包 | 说明 | 依赖 |
 |---|---|---|
+| [CodeWF.Toolkit.Lang](https://www.nuget.org/packages/CodeWF.Toolkit.Lang) | JSON/XML/RESX 国际化、运行时切换、父文化回退与库级嵌入资源 | 仅 .NET BCL，无 UI 或第三方运行时依赖 |
 | [CodeWF.Toolkit.Core](https://www.nuget.org/packages/CodeWF.Toolkit.Core) | .NET 原生功能扩展：字符串/日期/枚举/正则等 + 应用数据目录 + GitHub Release 更新检查 | 零第三方依赖 |
 | [CodeWF.Toolkit.Files](https://www.nuget.org/packages/CodeWF.Toolkit.Files) | 文件操作集合：Json/Yaml/Csv/Excel 读写、7z 压缩、App.config | SharpCompress、YamlDotNet、CsvHelper、MiniExcel、System.Configuration.ConfigurationManager |
 | [CodeWF.Toolkit.Image](https://www.nuget.org/packages/CodeWF.Toolkit.Image) | 图片处理集合：Magick.NET 缩放/水印/格式转换 + ZXing 条码二维码 | Magick.NET-Q16-AnyCPU、ZXing.Net.Bindings.Magick |
@@ -40,6 +41,23 @@ A collection of UI-independent .NET infrastructure libraries: tool extensions, f
 | [CodeWF.Toolkit.NetWrapper](https://www.nuget.org/packages/CodeWF.Toolkit.NetWrapper) | TCP/UDP 通信封装与命令分发，含远程文件系统与断点续传 | 本仓 NetWeaver、EventBus、Logging |
 
 ## 快速开始 / Quick start
+
+### 国际化（CodeWF.Toolkit.Lang）
+
+控制台、服务和基础库可直接使用 `CodeWF.Toolkit.Lang`，无需引入 Avalonia。JSON 保持现有格式：`language`、`description`、`cultureName` 为元数据，其余对象路径组成稳定资源键。嵌入资源需在项目中设置 `EmbeddedResource`。
+
+```csharp
+using CodeWF.Toolkit.Lang;
+using CodeWF.Toolkit.Lang.Json;
+
+var plugin = new JsonLangPlugin { ScanResourceFolder = false };
+plugin.AddResource(typeof(Program).Assembly);
+I18nManager.Instance.Register(plugin, new System.Globalization.CultureInfo("en-US"));
+I18nManager.Instance.Culture = new System.Globalization.CultureInfo("zh-CN");
+var text = I18nManager.Instance.GetResource("App.Title");
+```
+
+库自身使用 `new JsonLocalizer(typeof(MyLibrary).Assembly)` 读取嵌入 JSON，无需调用方先注册。它跟随全局语言或当前 UI 文化，按请求文化、父文化、默认 `en-US` 回退；应用可用同名键覆盖库文案。空翻译保留，缺失键返回键本身。`JsonLangPlugin<TLanguage>`、`XmlLangPlugin<TLanguage>`、`ResxLangPlugin<TLanguage>` 支持已有语言元数据子类，解析逻辑只维护一份。裁剪或 NativeAOT 应用使用显式程序集或 `ResourceManager` 注册，避免 RESX 约定扫描。
 
 ```bash
 dotnet add package CodeWF.Toolkit.Core

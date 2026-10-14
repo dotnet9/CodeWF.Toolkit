@@ -1,0 +1,6 @@
+{
+  "language": "简体中文",
+  "description": "测试资源",
+  "cultureName": "zh-CN",
+  "Library": { "Greeting": "你好 {0}" }
+}

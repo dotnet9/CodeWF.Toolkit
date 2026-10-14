@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Lang/CodeWF.Toolkit.Lang/CodeWF.Toolkit.Lang.csproj" />
     <Project Path="src/Core/CodeWF.Toolkit.Core/CodeWF.Toolkit.Core.csproj" />
     <Project Path="src/Files/CodeWF.Toolkit.Files/CodeWF.Toolkit.Files.csproj" />
     <Project Path="src/Image/CodeWF.Toolkit.Image/CodeWF.Toolkit.Image.csproj" />

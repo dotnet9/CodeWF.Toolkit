@@ -1,0 +1,6 @@
+{
+  "language": "Traditional Chinese",
+  "description": "Parent culture test resources",
+  "cultureName": "zh-Hant",
+  "Library": { "Greeting": "Traditional {0}" }
+}

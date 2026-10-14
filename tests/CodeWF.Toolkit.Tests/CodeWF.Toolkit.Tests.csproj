@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Lang\CodeWF.Toolkit.Lang\CodeWF.Toolkit.Lang.csproj" />
     <ProjectReference Include="..\..\src\Core\CodeWF.Toolkit.Core\CodeWF.Toolkit.Core.csproj" />
     <ProjectReference Include="..\..\src\Files\CodeWF.Toolkit.Files\CodeWF.Toolkit.Files.csproj" />
     <ProjectReference Include="..\..\src\Image\CodeWF.Toolkit.Image\CodeWF.Toolkit.Image.csproj" />
@@ -32,6 +33,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <EmbeddedResource Include="Lang/Resources/*.json" />
   </ItemGroup>
 
   <ItemGroup>
