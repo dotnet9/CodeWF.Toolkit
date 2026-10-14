@@ -44,7 +44,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "StringExtensions",
         "description": "StringExtensions",
         "input": "one,,two,three",
-        "code": "input.Split(',').Join(\" / \", removeEmptyEntry: true);"
+        "code": "input.Split(',').Join(\" / \", removeEmptyEntry: true);",
+        "sectionKey": "Demo.Catalog.SectionText"
       },
       {
         "titleKey": "Demo.Item.RegexExtensions",
@@ -56,7 +57,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "RegexExtensions",
         "description": "RegexExtensions",
         "input": "item42\nitem##",
-        "code": "text.IsMatch(pattern);\npattern.ConvertPattern();"
+        "code": "text.IsMatch(pattern);\npattern.ConvertPattern();",
+        "sectionKey": "Demo.Catalog.SectionText"
       },
       {
         "titleKey": "Demo.Item.DoubleExtensions",
@@ -68,7 +70,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "DoubleExtensions",
         "description": "DoubleExtensions",
         "input": "1048576",
-        "code": "double.Parse(input).FormatBytes();"
+        "code": "double.Parse(input).FormatBytes();",
+        "sectionKey": "Demo.Catalog.SectionNumbers"
       },
       {
         "titleKey": "Demo.Item.NumberExtension",
@@ -80,31 +83,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "NumberExtension",
         "description": "NumberExtension",
         "input": "123.45",
-        "code": "number.ToChineseNumber();\nNumberExtension.ToChineseMoney(number);"
-      },
-      {
-        "titleKey": "Demo.Item.DateTimeExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"DateTimeExtension\"))",
-        "api": "DateTimeExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "datetimeextension",
-        "titleZh": "DateTimeExtension",
-        "titleEn": "DateTimeExtension",
-        "description": "DateTimeExtension",
-        "input": "2026-10-13T12:00:00Z",
-        "code": "date.GetUnixTimeSeconds();\ndate.GetUnixTimeMilliseconds();"
-      },
-      {
-        "titleKey": "Demo.Item.TimeSpanExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TimeSpanExtensions\"))",
-        "api": "TimeSpanExtensions",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "timespanextensions",
-        "titleZh": "TimeSpanExtensions",
-        "titleEn": "TimeSpanExtensions",
-        "description": "TimeSpanExtensions",
-        "input": "3661234",
-        "code": "milliseconds.FormatMilliseconds();"
+        "code": "number.ToChineseNumber();\nNumberExtension.ToChineseMoney(number);",
+        "sectionKey": "Demo.Catalog.SectionNumbers"
       },
       {
         "titleKey": "Demo.Item.RandomExtension",
@@ -116,79 +96,34 @@ window.CodeWFDemoCatalog = [
         "titleEn": "RandomExtension",
         "description": "RandomExtension",
         "input": "1,100",
-        "code": "RandomExtension.GetInt(min, max);"
+        "code": "RandomExtension.GetInt(min, max);",
+        "sectionKey": "Demo.Catalog.SectionNumbers"
       },
       {
-        "titleKey": "Demo.Item.IConvertibleExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IConvertibleExtensions\"))",
-        "api": "IConvertibleExtensions",
+        "titleKey": "Demo.Item.DateTimeExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"DateTimeExtension\"))",
+        "api": "DateTimeExtension",
         "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "iconvertibleextensions",
-        "titleZh": "IConvertibleExtensions",
-        "titleEn": "IConvertibleExtensions",
-        "description": "IConvertibleExtensions",
-        "input": "42",
-        "code": "input.ConvertTo<int>();\ntype.IsNumeric();"
+        "prototypeId": "datetimeextension",
+        "titleZh": "DateTimeExtension",
+        "titleEn": "DateTimeExtension",
+        "description": "DateTimeExtension",
+        "input": "2026-10-13T12:00:00Z",
+        "code": "date.GetUnixTimeSeconds();\ndate.GetUnixTimeMilliseconds();",
+        "sectionKey": "Demo.Catalog.SectionDates"
       },
       {
-        "titleKey": "Demo.Item.ObjectExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ObjectExtension\"))",
-        "api": "ObjectExtension",
+        "titleKey": "Demo.Item.TimeSpanExtensions",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TimeSpanExtensions\"))",
+        "api": "TimeSpanExtensions",
         "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "objectextension",
-        "titleZh": "ObjectExtension",
-        "titleEn": "ObjectExtension",
-        "description": "ObjectExtension",
-        "input": "",
-        "code": "input.IsNullOrEmpty();\ntype.IsPrimitive();"
-      },
-      {
-        "titleKey": "Demo.Item.LinqExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"LinqExtension\"))",
-        "api": "LinqExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "linqextension",
-        "titleZh": "LinqExtension",
-        "titleEn": "LinqExtension",
-        "description": "LinqExtension",
-        "input": "3",
-        "code": "positive.And(value => value < limit).Compile(preferInterpretation: true);"
-      },
-      {
-        "titleKey": "Demo.Item.EnumExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EnumExtension\"))",
-        "api": "EnumExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "enumextension",
-        "titleZh": "EnumExtension",
-        "titleEn": "EnumExtension",
-        "description": "EnumExtension",
-        "input": "",
-        "code": "typeof(DayOfWeek).GetDictionary();"
-      },
-      {
-        "titleKey": "Demo.Item.AssemblyExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AssemblyExtensions\"))",
-        "api": "AssemblyExtensions",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "assemblyextensions",
-        "titleZh": "AssemblyExtensions",
-        "titleEn": "AssemblyExtensions",
-        "description": "AssemblyExtensions",
-        "input": "",
-        "code": "assembly.Title();\nassembly.Version();\nassembly.Company();"
-      },
-      {
-        "titleKey": "Demo.Item.ValidationExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ValidationExtension\"))",
-        "api": "ValidationExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "validationextension",
-        "titleZh": "ValidationExtension",
-        "titleEn": "ValidationExtension",
-        "description": "ValidationExtension",
-        "input": "",
-        "code": "new ValidationSample { Name = input }.TryValidateObject(out var errors);"
+        "prototypeId": "timespanextensions",
+        "titleZh": "TimeSpanExtensions",
+        "titleEn": "TimeSpanExtensions",
+        "description": "TimeSpanExtensions",
+        "input": "3661234",
+        "code": "milliseconds.FormatMilliseconds();",
+        "sectionKey": "Demo.Catalog.SectionDates"
       },
       {
         "titleKey": "Demo.Item.DateTimeConverter",
@@ -200,7 +135,86 @@ window.CodeWFDemoCatalog = [
         "titleEn": "DateTimeConverter",
         "description": "DateTimeConverter",
         "input": "2026-10-13T12:00:00Z",
-        "code": "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);"
+        "code": "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);",
+        "sectionKey": "Demo.Catalog.SectionDates"
+      },
+      {
+        "titleKey": "Demo.Item.IConvertibleExtensions",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IConvertibleExtensions\"))",
+        "api": "IConvertibleExtensions",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "iconvertibleextensions",
+        "titleZh": "IConvertibleExtensions",
+        "titleEn": "IConvertibleExtensions",
+        "description": "IConvertibleExtensions",
+        "input": "42",
+        "code": "input.ConvertTo<int>();\ntype.IsNumeric();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.ObjectExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ObjectExtension\"))",
+        "api": "ObjectExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "objectextension",
+        "titleZh": "ObjectExtension",
+        "titleEn": "ObjectExtension",
+        "description": "ObjectExtension",
+        "input": "",
+        "code": "input.IsNullOrEmpty();\ntype.IsPrimitive();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.LinqExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"LinqExtension\"))",
+        "api": "LinqExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "linqextension",
+        "titleZh": "LinqExtension",
+        "titleEn": "LinqExtension",
+        "description": "LinqExtension",
+        "input": "3",
+        "code": "positive.And(value => value < limit).Compile(preferInterpretation: true);",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.EnumExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EnumExtension\"))",
+        "api": "EnumExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "enumextension",
+        "titleZh": "EnumExtension",
+        "titleEn": "EnumExtension",
+        "description": "EnumExtension",
+        "input": "",
+        "code": "typeof(DayOfWeek).GetDictionary();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.AssemblyExtensions",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AssemblyExtensions\"))",
+        "api": "AssemblyExtensions",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "assemblyextensions",
+        "titleZh": "AssemblyExtensions",
+        "titleEn": "AssemblyExtensions",
+        "description": "AssemblyExtensions",
+        "input": "",
+        "code": "assembly.Title();\nassembly.Version();\nassembly.Company();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.ValidationExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ValidationExtension\"))",
+        "api": "ValidationExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "validationextension",
+        "titleZh": "ValidationExtension",
+        "titleEn": "ValidationExtension",
+        "description": "ValidationExtension",
+        "input": "",
+        "code": "new ValidationSample { Name = input }.TryValidateObject(out var errors);",
+        "sectionKey": "Demo.Catalog.SectionTypes"
       }
     ]
   },
@@ -220,19 +234,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "ActionHelper",
         "description": "ActionHelper",
         "input": "20,100",
-        "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out."
-      },
-      {
-        "titleKey": "Demo.Item.IpHelper",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IpHelper\"))",
-        "api": "IpHelper",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "iphelper",
-        "titleZh": "IpHelper",
-        "titleEn": "IpHelper",
-        "description": "IpHelper",
-        "input": "127.0.0.1:39561",
-        "code": "IpHelper.TrySplitIpPort(input, out var ip, out var port);"
+        "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out.",
+        "sectionKey": "Demo.Catalog.SectionExecution"
       },
       {
         "titleKey": "Demo.Item.NativeLibraryHelper",
@@ -244,7 +247,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "NativeLibraryHelper",
         "description": "NativeLibraryHelper",
         "input": "GetTickCount64",
-        "code": "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);"
+        "code": "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);",
+        "sectionKey": "Demo.Catalog.SectionExecution"
       },
       {
         "titleKey": "Demo.Item.FileHelper",
@@ -256,31 +260,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "FileHelper",
         "description": "FileHelper",
         "input": "Hello, CodeWF!",
-        "code": "await FileHelper.SafeWriteAllTextAsync(path, input);\nawait FileHelper.SafeReadAllTextAsync(path);"
-      },
-      {
-        "titleKey": "Demo.Item.AppDataMigrator",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AppDataMigrator\"))",
-        "api": "AppDataMigrator",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "appdatamigrator",
-        "titleZh": "AppDataMigrator",
-        "titleEn": "AppDataMigrator",
-        "description": "AppDataMigrator",
-        "input": "demo.json",
-        "code": "AppDataMigrator.ResolveAndMigrate(appName, fileName, baseDirectory, portableMarkerFileName);"
-      },
-      {
-        "titleKey": "Demo.Item.UpdateChecker",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UpdateChecker\"))",
-        "api": "UpdateChecker",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "updatechecker",
-        "titleZh": "UpdateChecker",
-        "titleEn": "UpdateChecker",
-        "description": "UpdateChecker",
-        "input": "dotnet9/CodeWF.Toolkit",
-        "code": "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);"
+        "code": "await FileHelper.SafeWriteAllTextAsync(path, input);\nawait FileHelper.SafeReadAllTextAsync(path);",
+        "sectionKey": "Demo.Catalog.SectionFiles"
       },
       {
         "titleKey": "Demo.Item.FileExtension",
@@ -292,7 +273,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "FileExtension",
         "description": "FileExtension",
         "input": "..",
-        "code": "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);"
+        "code": "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);",
+        "sectionKey": "Demo.Catalog.SectionFiles"
       },
       {
         "titleKey": "Demo.Item.SevenZipCompressor",
@@ -304,7 +286,34 @@ window.CodeWFDemoCatalog = [
         "titleEn": "SevenZipCompressor",
         "description": "SevenZipCompressor",
         "input": "Hello archive",
-        "code": "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);"
+        "code": "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);",
+        "sectionKey": "Demo.Catalog.SectionFiles"
+      },
+      {
+        "titleKey": "Demo.Item.AppDataMigrator",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AppDataMigrator\"))",
+        "api": "AppDataMigrator",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "appdatamigrator",
+        "titleZh": "AppDataMigrator",
+        "titleEn": "AppDataMigrator",
+        "description": "AppDataMigrator",
+        "input": "demo.json",
+        "code": "AppDataMigrator.ResolveAndMigrate(appName, fileName, baseDirectory, portableMarkerFileName);",
+        "sectionKey": "Demo.Catalog.SectionApplication"
+      },
+      {
+        "titleKey": "Demo.Item.UpdateChecker",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UpdateChecker\"))",
+        "api": "UpdateChecker",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "updatechecker",
+        "titleZh": "UpdateChecker",
+        "titleEn": "UpdateChecker",
+        "description": "UpdateChecker",
+        "input": "dotnet9/CodeWF.Toolkit",
+        "code": "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);",
+        "sectionKey": "Demo.Catalog.SectionApplication"
       },
       {
         "titleKey": "Demo.Item.AppConfigHelper",
@@ -316,7 +325,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "AppConfigHelper",
         "description": "AppConfigHelper",
         "input": "42",
-        "code": "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);"
+        "code": "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);",
+        "sectionKey": "Demo.Catalog.SectionApplication"
       }
     ]
   },
@@ -336,7 +346,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "JsonExtensions",
         "description": "JsonExtensions",
         "input": "Ada",
-        "code": "model.ToJson(jsonTypeInfo, out var json, out var error);\njson.FromJson(jsonTypeInfo, out var model, out var error);"
+        "code": "model.ToJson(jsonTypeInfo, out var json, out var error);\njson.FromJson(jsonTypeInfo, out var model, out var error);",
+        "sectionKey": "Demo.Catalog.SectionSerialization"
       },
       {
         "titleKey": "Demo.Item.YamlExtensions",
@@ -348,7 +359,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "YamlExtensions",
         "description": "YamlExtensions",
         "input": "Ada",
-        "code": "model.ToYaml(jsonTypeInfo, out var yaml, out var error);\nyaml.FromYaml(jsonTypeInfo, out var model, out var error);"
+        "code": "model.ToYaml(jsonTypeInfo, out var yaml, out var error);\nyaml.FromYaml(jsonTypeInfo, out var model, out var error);",
+        "sectionKey": "Demo.Catalog.SectionSerialization"
       },
       {
         "titleKey": "Demo.Item.DataTableExtensions",
@@ -360,7 +372,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "DataTableExtensions",
         "description": "DataTableExtensions",
         "input": "Ada,42\nLin,24",
-        "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);"
+        "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);",
+        "sectionKey": "Demo.Catalog.SectionTables"
       },
       {
         "titleKey": "Demo.Item.ImageIcon",
@@ -370,7 +383,8 @@ window.CodeWFDemoCatalog = [
         "prototypeId": "image-icon",
         "titleZh": "ImageHelper",
         "titleEn": "ImageHelper",
-        "description": "ImageHelper"
+        "description": "ImageHelper",
+        "sectionKey": "Demo.Catalog.SectionImages"
       },
       {
         "titleKey": "Demo.Item.ImageQr",
@@ -380,7 +394,8 @@ window.CodeWFDemoCatalog = [
         "prototypeId": "image-qr",
         "titleZh": "QrCodeGenerator",
         "titleEn": "QrCodeGenerator",
-        "description": "QrCodeGenerator"
+        "description": "QrCodeGenerator",
+        "sectionKey": "Demo.Catalog.SectionImages"
       }
     ]
   },
@@ -398,7 +413,8 @@ window.CodeWFDemoCatalog = [
         "prototypeId": "bus",
         "titleZh": "EventBus",
         "titleEn": "EventBus",
-        "description": "EventBus"
+        "description": "EventBus",
+        "sectionKey": "Demo.Catalog.SectionEventBus"
       },
       {
         "titleKey": "Demo.Item.PrismExtensions",
@@ -410,7 +426,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "Prism.EventBusExtensions",
         "description": "PrismExtensions",
         "input": "",
-        "code": "registry.AddEventBus(assembly);\ncontainer.UseEventBus(assembly);\ncontainer.Resolve<IEventBus>().Query(query);"
+        "code": "registry.AddEventBus(assembly);\ncontainer.UseEventBus(assembly);\ncontainer.Resolve<IEventBus>().Query(query);",
+        "sectionKey": "Demo.Catalog.SectionEventBus"
       },
       {
         "titleKey": "Demo.Item.AspNetCoreExtensions",
@@ -422,7 +439,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "AspNetCore.EventBusExtensions",
         "description": "AspNetCoreExtensions",
         "input": "",
-        "code": "services.AddEventBus(assembly);\napplicationBuilder.UseEventBus(assembly);\nprovider.GetRequiredService<IEventBus>().Query(query);"
+        "code": "services.AddEventBus(assembly);\napplicationBuilder.UseEventBus(assembly);\nprovider.GetRequiredService<IEventBus>().Query(query);",
+        "sectionKey": "Demo.Catalog.SectionEventBus"
       },
       {
         "titleKey": "Demo.Item.EventServer",
@@ -434,7 +452,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "EventServer",
         "description": "EventServer",
         "input": "Hello broker",
-        "code": "await broker.StartAsync(\"127.0.0.1\", port);\n// Local clients validate broker routing.\nbroker.Stop();"
+        "code": "await broker.StartAsync(\"127.0.0.1\", port);\n// Local clients validate broker routing.\nbroker.Stop();",
+        "sectionKey": "Demo.Catalog.SectionBroker"
       },
       {
         "titleKey": "Demo.Item.EventClient",
@@ -446,7 +465,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "EventClient",
         "description": "EventClient",
         "input": "Hello subscriber",
-        "code": "await client.ConnectAsync(\"127.0.0.1\", port);\nclient.Subscribe<string>(subject, receive);\nawait publisher.PublishAsync(subject, input);"
+        "code": "await client.ConnectAsync(\"127.0.0.1\", port);\nclient.Subscribe<string>(subject, receive);\nawait publisher.PublishAsync(subject, input);",
+        "sectionKey": "Demo.Catalog.SectionBroker"
       }
     ]
   },
@@ -464,55 +484,8 @@ window.CodeWFDemoCatalog = [
         "prototypeId": "net-packet",
         "titleZh": "SerializeHelper",
         "titleEn": "SerializeHelper",
-        "description": "SerializeHelper"
-      },
-      {
-        "titleKey": "Demo.Item.TcpSocketServer",
-        "page": "TransportDemoPage(\"TcpSocketServer\")",
-        "api": "TcpSocketServer",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "tcpsocketserver",
-        "titleZh": "TcpSocketServer",
-        "titleEn": "TcpSocketServer",
-        "description": "TcpSocketServer",
-        "input": "Hello TCP",
-        "code": "await server.StartAsync(mark, \"127.0.0.1\", port);\nserver.RegisterCommandHandler(receive);\nawait server.StopAsync();"
-      },
-      {
-        "titleKey": "Demo.Item.TcpSocketClient",
-        "page": "TransportDemoPage(\"TcpSocketClient\")",
-        "api": "TcpSocketClient",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "tcpsocketclient",
-        "titleZh": "TcpSocketClient",
-        "titleEn": "TcpSocketClient",
-        "description": "TcpSocketClient",
-        "input": "Hello TCP",
-        "code": "await client.ConnectAsync(mark, \"127.0.0.1\", port);\nawait client.SendCommandAsync(packet);\nawait client.StopAsync();"
-      },
-      {
-        "titleKey": "Demo.Item.UdpSocketServer",
-        "page": "TransportDemoPage(\"UdpSocketServer\")",
-        "api": "UdpSocketServer",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "udpsocketserver",
-        "titleZh": "UdpSocketServer",
-        "titleEn": "UdpSocketServer",
-        "description": "UdpSocketServer",
-        "input": "239.1.1.1",
-        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);"
-      },
-      {
-        "titleKey": "Demo.Item.UdpSocketClient",
-        "page": "TransportDemoPage(\"UdpSocketClient\")",
-        "api": "UdpSocketClient",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "udpsocketclient",
-        "titleZh": "UdpSocketClient",
-        "titleEn": "UdpSocketClient",
-        "description": "UdpSocketClient",
-        "input": "239.1.1.1",
-        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);"
+        "description": "SerializeHelper",
+        "sectionKey": "Demo.Catalog.SectionProtocol"
       },
       {
         "titleKey": "Demo.Item.NetHelper",
@@ -524,7 +497,73 @@ window.CodeWFDemoCatalog = [
         "titleEn": "NetHelper",
         "description": "NetHelper",
         "input": "",
-        "code": "NetHelper.GetTaskId();\nNetHelper.GetIgnoreTask();"
+        "code": "NetHelper.GetTaskId();\nNetHelper.GetIgnoreTask();",
+        "sectionKey": "Demo.Catalog.SectionProtocol"
+      },
+      {
+        "titleKey": "Demo.Item.IpHelper",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IpHelper\"))",
+        "api": "IpHelper",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "iphelper",
+        "titleZh": "IpHelper",
+        "titleEn": "IpHelper",
+        "description": "IpHelper",
+        "input": "127.0.0.1:39561",
+        "code": "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
+        "sectionKey": "Demo.Catalog.SectionProtocol"
+      },
+      {
+        "titleKey": "Demo.Item.TcpSocketServer",
+        "page": "TransportDemoPage(\"TcpSocketServer\")",
+        "api": "TcpSocketServer",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "tcpsocketserver",
+        "titleZh": "TcpSocketServer",
+        "titleEn": "TcpSocketServer",
+        "description": "TcpSocketServer",
+        "input": "Hello TCP",
+        "code": "await server.StartAsync(mark, \"127.0.0.1\", port);\nserver.RegisterCommandHandler(receive);\nawait server.StopAsync();",
+        "sectionKey": "Demo.Catalog.SectionSockets"
+      },
+      {
+        "titleKey": "Demo.Item.TcpSocketClient",
+        "page": "TransportDemoPage(\"TcpSocketClient\")",
+        "api": "TcpSocketClient",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "tcpsocketclient",
+        "titleZh": "TcpSocketClient",
+        "titleEn": "TcpSocketClient",
+        "description": "TcpSocketClient",
+        "input": "Hello TCP",
+        "code": "await client.ConnectAsync(mark, \"127.0.0.1\", port);\nawait client.SendCommandAsync(packet);\nawait client.StopAsync();",
+        "sectionKey": "Demo.Catalog.SectionSockets"
+      },
+      {
+        "titleKey": "Demo.Item.UdpSocketServer",
+        "page": "TransportDemoPage(\"UdpSocketServer\")",
+        "api": "UdpSocketServer",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "udpsocketserver",
+        "titleZh": "UdpSocketServer",
+        "titleEn": "UdpSocketServer",
+        "description": "UdpSocketServer",
+        "input": "239.1.1.1",
+        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
+        "sectionKey": "Demo.Catalog.SectionSockets"
+      },
+      {
+        "titleKey": "Demo.Item.UdpSocketClient",
+        "page": "TransportDemoPage(\"UdpSocketClient\")",
+        "api": "UdpSocketClient",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "udpsocketclient",
+        "titleZh": "UdpSocketClient",
+        "titleEn": "UdpSocketClient",
+        "description": "UdpSocketClient",
+        "input": "239.1.1.1",
+        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
+        "sectionKey": "Demo.Catalog.SectionSockets"
       },
       {
         "titleKey": "Demo.Item.TcpSocketClientFileSystemFeature",
@@ -536,7 +575,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "TcpSocketClientFileSystemFeature",
         "description": "TcpSocketClientFileSystemFeature",
         "input": "",
-        "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);"
+        "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);",
+        "sectionKey": "Demo.Catalog.SectionRemoteFiles"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServerFileSystemFeature",
@@ -548,7 +588,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "TcpSocketServerFileSystemFeature",
         "description": "TcpSocketServerFileSystemFeature",
         "input": "",
-        "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();"
+        "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();",
+        "sectionKey": "Demo.Catalog.SectionRemoteFiles"
       }
     ]
   },
@@ -681,7 +722,22 @@ window.CodeWFCatalogText = {
     "TransportSubscribe": "订阅 demo.message",
     "TransportNoSubscription": "已发布；当前没有订阅，未等待接收。",
     "RuntimeTourHint": "依次学习总线、注册、发布订阅、查询集成与日志。各步骤是独立示例，拥有各自的状态和会话。",
-    "RuntimeTourSteps": "总线基础|依赖注入|发布与订阅|查询与集成|观测日志"
+    "RuntimeTourSteps": "总线基础|依赖注入|发布与订阅|查询与集成|观测日志",
+    "SectionText": "文本",
+    "SectionNumbers": "数值",
+    "SectionDates": "日期与时间",
+    "SectionTypes": "类型与查询",
+    "SectionExecution": "执行与原生互操作",
+    "SectionFiles": "文件与压缩",
+    "SectionApplication": "应用与配置",
+    "SectionSerialization": "序列化",
+    "SectionTables": "表格",
+    "SectionImages": "图像",
+    "SectionEventBus": "事件与依赖注入",
+    "SectionBroker": "事件代理",
+    "SectionProtocol": "协议与地址",
+    "SectionSockets": "Socket 会话",
+    "SectionRemoteFiles": "远程文件"
   },
   "en-US": {
     "Title": "Helper catalog",
@@ -730,7 +786,22 @@ window.CodeWFCatalogText = {
     "TransportSubscribe": "Subscribe demo.message",
     "TransportNoSubscription": "Published without an active subscription; no delivery was awaited.",
     "RuntimeTourHint": "Explore bus basics, registration, pub/sub, integration and logging. Each step is an independent example with its own state and session.",
-    "RuntimeTourSteps": "Bus basics|Dependency injection|Publish and subscribe|Queries and integration|Observe logs"
+    "RuntimeTourSteps": "Bus basics|Dependency injection|Publish and subscribe|Queries and integration|Observe logs",
+    "SectionText": "Text",
+    "SectionNumbers": "Numbers",
+    "SectionDates": "Date & Time",
+    "SectionTypes": "Types & Queries",
+    "SectionExecution": "Execution & Interop",
+    "SectionFiles": "Files & Archives",
+    "SectionApplication": "App & Config",
+    "SectionSerialization": "Serialization",
+    "SectionTables": "Tables",
+    "SectionImages": "Images",
+    "SectionEventBus": "Events & DI",
+    "SectionBroker": "Event Broker",
+    "SectionProtocol": "Protocol & Address",
+    "SectionSockets": "Socket Sessions",
+    "SectionRemoteFiles": "Remote Files"
   }
 };
 window.CodeWFCatalogDescriptions = {
@@ -1007,5 +1078,97 @@ window.CodeWFCatalogDescriptions = {
     "CodeWFLogHealth": {
       "Desc": "Read a logging health snapshot with queue and diagnostic status."
     }
+  }
+};
+window.CodeWFPrototypeSettings = {
+  "zh-CN": {
+    "shell": {
+      "Palette": "色板",
+      "Dark": "深色",
+      "DemoShell": "演示台",
+      "Ready": "就绪",
+      "Reset": "重置工作区",
+      "WriteLogs": "写入三类日志",
+      "QuickSave": "保存工作区布局",
+      "QuickSettings": "设置",
+      "QuickGuide": "打开引导（应用级）",
+      "StatusReady": "就绪",
+      "Group": "外壳",
+      "Command": "命令面板",
+      "CommandPlaceholder": "搜索页面或命令（↑↓ 选择，Enter 执行，Esc 关闭）",
+      "CommandHint": "Ctrl+K 开关命令面板 · Ctrl+D 深浅 · Ctrl+L 语言",
+      "Density": "密度",
+      "DensityCompact": "紧凑",
+      "DensityComfort": "舒适",
+      "LayoutSaved": "布局已保存",
+      "LayoutSaveFailed": "保存布局失败",
+      "LayoutLoaded": "已恢复上次布局",
+      "ResetRenames": "恢复原名",
+      "ResetRenamesHint": "清除全部就地重命名",
+      "RenameHint": "双击或点铅笔就地重命名，回车提交 / Esc 取消",
+      "NotificationDismiss": "关闭该通知",
+      "NotifyDemo": "发送示例通知",
+      "NotifyDemoHint": "演示通知中心：卡片 6 秒后自动消失，最多保留 4 条。",
+      "NavFilter": "过滤页面…",
+      "NavEmpty": "没有匹配的页面"
+    },
+    "palettes": {
+      "Default": "默认",
+      "Aquatic": "水生",
+      "Desert": "沙漠",
+      "Dusk": "黄昏",
+      "NightSky": "夜空",
+      "HighContrast": "高对比",
+      "DotNet": ".NET 紫",
+      "Aurora": "AI 极光",
+      "Ember": "AI 暖陶"
+    },
+    "language": "语言",
+    "group": "外观"
+  },
+  "en-US": {
+    "shell": {
+      "Palette": "Palette",
+      "Dark": "Dark mode",
+      "DemoShell": "Demo Shell",
+      "Ready": "Ready",
+      "Reset": "Reset layout",
+      "WriteLogs": "Write sample logs",
+      "QuickSave": "Save layout",
+      "QuickSettings": "Settings",
+      "QuickGuide": "Open guidance (app-wide)",
+      "StatusReady": "Ready",
+      "Group": "Shell",
+      "Command": "Command palette",
+      "CommandPlaceholder": "Search pages or commands (↑↓ select, Enter run, Esc close)",
+      "CommandHint": "Ctrl+K palette · Ctrl+D theme · Ctrl+L language",
+      "Density": "Density",
+      "DensityCompact": "Compact",
+      "DensityComfort": "Cozy",
+      "LayoutSaved": "Layout saved",
+      "LayoutSaveFailed": "Saving layout failed",
+      "LayoutLoaded": "Restored the previous layout",
+      "ResetRenames": "Restore names",
+      "ResetRenamesHint": "Clear every in-place rename",
+      "RenameHint": "Double-click or press the pencil to rename in place; Enter commits, Esc cancels",
+      "NotificationDismiss": "Dismiss this notification",
+      "NotifyDemo": "Send a sample notification",
+      "NotifyDemoHint": "Notification centre demo: cards auto-dismiss after 6 seconds, at most 4 kept.",
+      "NavFilter": "Filter pages…",
+      "NavEmpty": "No matching page"
+    },
+    "palettes": {
+      "Default": "Default",
+      "Aquatic": "Aquatic",
+      "Desert": "Desert",
+      "Dusk": "Dusk",
+      "NightSky": "Night Sky",
+      "HighContrast": "High Contrast",
+      "DotNet": ".NET Purple",
+      "Aurora": "AI Aurora",
+      "Ember": "AI Ember"
+    },
+    "language": "Language",
+    "group": "Appearance"
   }
 };

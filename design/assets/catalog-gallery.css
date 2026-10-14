@@ -20,3 +20,16 @@
 .catalog-status[data-level="Debug"]{--status-color:#54a9ff}.catalog-status[data-level="Info"]{--status-color:var(--ok)}.catalog-status[data-level="Warn"]{--status-color:var(--warn)}.catalog-status[data-level="Error"],.catalog-status[data-level="Fatal"]{--status-color:var(--err)}.catalog-status{border-color:var(--status-color);background:color-mix(in srgb,var(--status-color) 12%,var(--bg2))}.catalog-status strong{background:var(--status-color)}.catalog-status.card strong{background:transparent;color:var(--status-color)}
 
 .catalog-grid{width:100%;border-collapse:collapse;table-layout:fixed}.catalog-grid th,.catalog-grid td{padding:9px;text-align:left;border-bottom:1px solid var(--line);overflow:hidden;text-overflow:ellipsis}.demo progress{width:100%;height:6px;margin:14px 0;accent-color:var(--pri)}.catalog-connected{color:var(--pri);font:12px Consolas,monospace}
+
+/* Desktop metrics shared with the native shell; commands keep complete API names. */
+body{font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}
+.rbn{height:86px;padding:4px 12px 2px;display:flex;gap:12px;align-items:flex-start}
+.grp{flex:none;padding-right:12px;margin-right:0}.grp .cmds{display:grid;grid-auto-flow:column;grid-template-rows:62px;gap:0 4px}
+.cbtn{min-width:95px;max-width:none;padding:3px 8px;height:62px}.cbtn .lb{max-width:none;white-space:nowrap;overflow-wrap:normal}
+.ribbon-small .cmds{grid-template-rows:repeat(2,31px)}.ribbon-small .cbtn{height:31px;flex-direction:row;justify-content:flex-start}.ribbon-small .cbtn .ic svg{width:14px;height:14px}
+.grp .gname{height:18px;padding-top:2px;font-size:10px;letter-spacing:0}
+.p-nav{width:16%;min-width:164px}.p-props{width:17%;min-width:220px}.p-log{height:14%;min-height:60px}
+.tree .lf{font-size:11.5px;height:30px}.tree .nd .hd{height:31px;font-size:11px}
+.dbody:not([data-page="welcome"]){padding:0}.catalog-header{padding:10px 16px;gap:12px}.catalog-header h1{line-height:1.35}.catalog-header .catalog-description{margin-top:3px;line-height:1.5}
+.dbody:not([data-page="welcome"])>[id^="seg-"]{padding:14px 16px}.demo{border-radius:10px}
+[data-density="compact"] .cbtn{min-width:80px;padding:3px 4px}

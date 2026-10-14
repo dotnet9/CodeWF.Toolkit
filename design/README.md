@@ -9,11 +9,11 @@
 | Ribbon 分类 | 菜单对应 API |
 |---|---|
 | 首页 / Home | `介绍`、`关于` |
-| 核心扩展 / Core Extensions | `StringExtensions`、`RegexExtensions`、`DoubleExtensions`、`NumberExtension`、`DateTimeExtension`、`TimeSpanExtensions`、`RandomExtension`、`IConvertibleExtensions`、`ObjectExtension`、`LinqExtension`、`EnumExtension`、`AssemblyExtensions`、`ValidationExtension`、`DateTimeConverter` |
-| 系统与文件 / System & Files | `ActionHelper`、`IpHelper`、`NativeLibraryHelper`、`FileHelper`、`AppDataMigrator`、`UpdateChecker`、`FileExtension`、`SevenZipCompressor`、`AppConfigHelper` |
+| 核心扩展 / Core Extensions | `StringExtensions`、`RegexExtensions`、`DoubleExtensions`、`NumberExtension`、`RandomExtension`、`DateTimeExtension`、`TimeSpanExtensions`、`DateTimeConverter`、`IConvertibleExtensions`、`ObjectExtension`、`LinqExtension`、`EnumExtension`、`AssemblyExtensions`、`ValidationExtension` |
+| 系统与文件 / System & Files | `ActionHelper`、`NativeLibraryHelper`、`FileHelper`、`FileExtension`、`SevenZipCompressor`、`AppDataMigrator`、`UpdateChecker`、`AppConfigHelper` |
 | 数据与图像 / Data & Images | `JsonExtensions`、`YamlExtensions`、`DataTableExtensions`、`ImageHelper`、`QrCodeGenerator` |
 | 事件与集成 / Events & Integration | `EventBus`、`Prism.EventBusExtensions`、`AspNetCore.EventBusExtensions`、`EventServer`、`EventClient` |
-| 协议与网络 / Protocol & Network | `SerializeHelper`、`TcpSocketServer`、`TcpSocketClient`、`UdpSocketServer`、`UdpSocketClient`、`NetHelper`、`TcpSocketClientFileSystemFeature`、`TcpSocketServerFileSystemFeature` |
+| 协议与网络 / Protocol & Network | `SerializeHelper`、`NetHelper`、`IpHelper`、`TcpSocketServer`、`TcpSocketClient`、`UdpSocketServer`、`UdpSocketClient`、`TcpSocketClientFileSystemFeature`、`TcpSocketServerFileSystemFeature` |
 | 日志与观测 / Logging & Diagnostics | `Logger`、`CodeWFLoggingBuilderExtensions`、`LogEventFeed`、`CodeWFLogHealth` |
 | 综合示例 / Examples | `事件与日志导览`、`文件处理工作流` |
 
@@ -65,3 +65,14 @@
 每页先说明输入，再提供真实调用及可核对的结果。同一个帮助类的 CSV / Excel、发送 / 接收、订阅 / 退订等用例放在页内。需要连接或传输的 API 提供显式会话与停止操作，避免把一次性文本输出当成完整功能演示。
 
 还原检查包括首屏可见、表格列头与数据行、选中状态、深浅主题、中英文、紧凑窗口，以及调用结果。原型中的浏览器预览不等于 API 已执行；原生 Demo 的回读、接收和哈希检查作为对应功能的运行证据。界面依赖从公开 NuGet 安装，单独拉取 Toolkit 即可构建。
+
+
+## 排版与 Ribbon 校准
+
+保留 8 个一级分类，在命令区显示明确的功能子组；每个菜单仍对应单个 API。超过 7 项的分类使用双行命令，保留完整 API 名，窗口较窄时横向滚动。分类标题 12px、命令 11px、子组标题 10px；标题栏 52px、分类行 42px、命令区约 86px。页头标题 19px、说明 12px，导航叶子 11.5px。
+
+原型对照时裁掉 HTML 的装饰性桌面背景，使用 1440×860 和 1120×640 两种窗口尺寸、中英文 64 个 Ribbon 状态。原生继续使用 Semi / Dock 模板；窗口按钮、PropertyGrid 编辑器和平台字体的几何不做 HTML 仿制。不能把路由检查或截图数量当作全状态逐像素相同的证明。
+
+IpHelper 归到协议与网络。核心扩展按文本、数值、日期时间、类型与查询分组，系统与文件按执行、文件、应用配置分组；每个帮助类在页内展示参数、实际调用和结果，网络页提供持续会话。
+
+属性栏有页面参数时只显示该页参数，否则回退全局外观与语言设置；不额外堆放空参数和状态统计。全局标签、密度选项和配色名称也从原生语言资源生成。

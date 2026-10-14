@@ -1124,7 +1124,22 @@
       "TransportSubscribe": "Subscribe demo.message",
       "TransportNoSubscription": "Published without an active subscription; no delivery was awaited.",
       "RuntimeTourHint": "Explore bus basics, registration, pub/sub, integration and logging. Each step is an independent example with its own state and session.",
-      "RuntimeTourSteps": "Bus basics|Dependency injection|Publish and subscribe|Queries and integration|Observe logs"
+      "RuntimeTourSteps": "Bus basics|Dependency injection|Publish and subscribe|Queries and integration|Observe logs",
+      "SectionText": "Text",
+      "SectionNumbers": "Numbers",
+      "SectionDates": "Date & Time",
+      "SectionTypes": "Types & Queries",
+      "SectionExecution": "Execution & Interop",
+      "SectionFiles": "Files & Archives",
+      "SectionApplication": "App & Config",
+      "SectionSerialization": "Serialization",
+      "SectionTables": "Tables",
+      "SectionImages": "Images",
+      "SectionEventBus": "Events & DI",
+      "SectionBroker": "Event Broker",
+      "SectionProtocol": "Protocol & Address",
+      "SectionSockets": "Socket Sessions",
+      "SectionRemoteFiles": "Remote Files"
     }
   }
 }

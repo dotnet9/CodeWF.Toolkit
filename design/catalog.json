@@ -43,7 +43,8 @@
         "titleEn": "StringExtensions",
         "description": "StringExtensions",
         "input": "one,,two,three",
-        "code": "input.Split(',').Join(\" / \", removeEmptyEntry: true);"
+        "code": "input.Split(',').Join(\" / \", removeEmptyEntry: true);",
+        "sectionKey": "Demo.Catalog.SectionText"
       },
       {
         "titleKey": "Demo.Item.RegexExtensions",
@@ -55,7 +56,8 @@
         "titleEn": "RegexExtensions",
         "description": "RegexExtensions",
         "input": "item42\nitem##",
-        "code": "text.IsMatch(pattern);\npattern.ConvertPattern();"
+        "code": "text.IsMatch(pattern);\npattern.ConvertPattern();",
+        "sectionKey": "Demo.Catalog.SectionText"
       },
       {
         "titleKey": "Demo.Item.DoubleExtensions",
@@ -67,7 +69,8 @@
         "titleEn": "DoubleExtensions",
         "description": "DoubleExtensions",
         "input": "1048576",
-        "code": "double.Parse(input).FormatBytes();"
+        "code": "double.Parse(input).FormatBytes();",
+        "sectionKey": "Demo.Catalog.SectionNumbers"
       },
       {
         "titleKey": "Demo.Item.NumberExtension",
@@ -79,31 +82,8 @@
         "titleEn": "NumberExtension",
         "description": "NumberExtension",
         "input": "123.45",
-        "code": "number.ToChineseNumber();\nNumberExtension.ToChineseMoney(number);"
-      },
-      {
-        "titleKey": "Demo.Item.DateTimeExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"DateTimeExtension\"))",
-        "api": "DateTimeExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "datetimeextension",
-        "titleZh": "DateTimeExtension",
-        "titleEn": "DateTimeExtension",
-        "description": "DateTimeExtension",
-        "input": "2026-10-13T12:00:00Z",
-        "code": "date.GetUnixTimeSeconds();\ndate.GetUnixTimeMilliseconds();"
-      },
-      {
-        "titleKey": "Demo.Item.TimeSpanExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TimeSpanExtensions\"))",
-        "api": "TimeSpanExtensions",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "timespanextensions",
-        "titleZh": "TimeSpanExtensions",
-        "titleEn": "TimeSpanExtensions",
-        "description": "TimeSpanExtensions",
-        "input": "3661234",
-        "code": "milliseconds.FormatMilliseconds();"
+        "code": "number.ToChineseNumber();\nNumberExtension.ToChineseMoney(number);",
+        "sectionKey": "Demo.Catalog.SectionNumbers"
       },
       {
         "titleKey": "Demo.Item.RandomExtension",
@@ -115,79 +95,34 @@
         "titleEn": "RandomExtension",
         "description": "RandomExtension",
         "input": "1,100",
-        "code": "RandomExtension.GetInt(min, max);"
+        "code": "RandomExtension.GetInt(min, max);",
+        "sectionKey": "Demo.Catalog.SectionNumbers"
       },
       {
-        "titleKey": "Demo.Item.IConvertibleExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IConvertibleExtensions\"))",
-        "api": "IConvertibleExtensions",
+        "titleKey": "Demo.Item.DateTimeExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"DateTimeExtension\"))",
+        "api": "DateTimeExtension",
         "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "iconvertibleextensions",
-        "titleZh": "IConvertibleExtensions",
-        "titleEn": "IConvertibleExtensions",
-        "description": "IConvertibleExtensions",
-        "input": "42",
-        "code": "input.ConvertTo<int>();\ntype.IsNumeric();"
+        "prototypeId": "datetimeextension",
+        "titleZh": "DateTimeExtension",
+        "titleEn": "DateTimeExtension",
+        "description": "DateTimeExtension",
+        "input": "2026-10-13T12:00:00Z",
+        "code": "date.GetUnixTimeSeconds();\ndate.GetUnixTimeMilliseconds();",
+        "sectionKey": "Demo.Catalog.SectionDates"
       },
       {
-        "titleKey": "Demo.Item.ObjectExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ObjectExtension\"))",
-        "api": "ObjectExtension",
+        "titleKey": "Demo.Item.TimeSpanExtensions",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TimeSpanExtensions\"))",
+        "api": "TimeSpanExtensions",
         "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "objectextension",
-        "titleZh": "ObjectExtension",
-        "titleEn": "ObjectExtension",
-        "description": "ObjectExtension",
-        "input": "",
-        "code": "input.IsNullOrEmpty();\ntype.IsPrimitive();"
-      },
-      {
-        "titleKey": "Demo.Item.LinqExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"LinqExtension\"))",
-        "api": "LinqExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "linqextension",
-        "titleZh": "LinqExtension",
-        "titleEn": "LinqExtension",
-        "description": "LinqExtension",
-        "input": "3",
-        "code": "positive.And(value => value < limit).Compile(preferInterpretation: true);"
-      },
-      {
-        "titleKey": "Demo.Item.EnumExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EnumExtension\"))",
-        "api": "EnumExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "enumextension",
-        "titleZh": "EnumExtension",
-        "titleEn": "EnumExtension",
-        "description": "EnumExtension",
-        "input": "",
-        "code": "typeof(DayOfWeek).GetDictionary();"
-      },
-      {
-        "titleKey": "Demo.Item.AssemblyExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AssemblyExtensions\"))",
-        "api": "AssemblyExtensions",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "assemblyextensions",
-        "titleZh": "AssemblyExtensions",
-        "titleEn": "AssemblyExtensions",
-        "description": "AssemblyExtensions",
-        "input": "",
-        "code": "assembly.Title();\nassembly.Version();\nassembly.Company();"
-      },
-      {
-        "titleKey": "Demo.Item.ValidationExtension",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ValidationExtension\"))",
-        "api": "ValidationExtension",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "validationextension",
-        "titleZh": "ValidationExtension",
-        "titleEn": "ValidationExtension",
-        "description": "ValidationExtension",
-        "input": "",
-        "code": "new ValidationSample { Name = input }.TryValidateObject(out var errors);"
+        "prototypeId": "timespanextensions",
+        "titleZh": "TimeSpanExtensions",
+        "titleEn": "TimeSpanExtensions",
+        "description": "TimeSpanExtensions",
+        "input": "3661234",
+        "code": "milliseconds.FormatMilliseconds();",
+        "sectionKey": "Demo.Catalog.SectionDates"
       },
       {
         "titleKey": "Demo.Item.DateTimeConverter",
@@ -199,7 +134,86 @@
         "titleEn": "DateTimeConverter",
         "description": "DateTimeConverter",
         "input": "2026-10-13T12:00:00Z",
-        "code": "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);"
+        "code": "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);",
+        "sectionKey": "Demo.Catalog.SectionDates"
+      },
+      {
+        "titleKey": "Demo.Item.IConvertibleExtensions",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IConvertibleExtensions\"))",
+        "api": "IConvertibleExtensions",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "iconvertibleextensions",
+        "titleZh": "IConvertibleExtensions",
+        "titleEn": "IConvertibleExtensions",
+        "description": "IConvertibleExtensions",
+        "input": "42",
+        "code": "input.ConvertTo<int>();\ntype.IsNumeric();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.ObjectExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ObjectExtension\"))",
+        "api": "ObjectExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "objectextension",
+        "titleZh": "ObjectExtension",
+        "titleEn": "ObjectExtension",
+        "description": "ObjectExtension",
+        "input": "",
+        "code": "input.IsNullOrEmpty();\ntype.IsPrimitive();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.LinqExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"LinqExtension\"))",
+        "api": "LinqExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "linqextension",
+        "titleZh": "LinqExtension",
+        "titleEn": "LinqExtension",
+        "description": "LinqExtension",
+        "input": "3",
+        "code": "positive.And(value => value < limit).Compile(preferInterpretation: true);",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.EnumExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EnumExtension\"))",
+        "api": "EnumExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "enumextension",
+        "titleZh": "EnumExtension",
+        "titleEn": "EnumExtension",
+        "description": "EnumExtension",
+        "input": "",
+        "code": "typeof(DayOfWeek).GetDictionary();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.AssemblyExtensions",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AssemblyExtensions\"))",
+        "api": "AssemblyExtensions",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "assemblyextensions",
+        "titleZh": "AssemblyExtensions",
+        "titleEn": "AssemblyExtensions",
+        "description": "AssemblyExtensions",
+        "input": "",
+        "code": "assembly.Title();\nassembly.Version();\nassembly.Company();",
+        "sectionKey": "Demo.Catalog.SectionTypes"
+      },
+      {
+        "titleKey": "Demo.Item.ValidationExtension",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"ValidationExtension\"))",
+        "api": "ValidationExtension",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "validationextension",
+        "titleZh": "ValidationExtension",
+        "titleEn": "ValidationExtension",
+        "description": "ValidationExtension",
+        "input": "",
+        "code": "new ValidationSample { Name = input }.TryValidateObject(out var errors);",
+        "sectionKey": "Demo.Catalog.SectionTypes"
       }
     ]
   },
@@ -219,19 +233,8 @@
         "titleEn": "ActionHelper",
         "description": "ActionHelper",
         "input": "20,100",
-        "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out."
-      },
-      {
-        "titleKey": "Demo.Item.IpHelper",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IpHelper\"))",
-        "api": "IpHelper",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "iphelper",
-        "titleZh": "IpHelper",
-        "titleEn": "IpHelper",
-        "description": "IpHelper",
-        "input": "127.0.0.1:39561",
-        "code": "IpHelper.TrySplitIpPort(input, out var ip, out var port);"
+        "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out.",
+        "sectionKey": "Demo.Catalog.SectionExecution"
       },
       {
         "titleKey": "Demo.Item.NativeLibraryHelper",
@@ -243,7 +246,8 @@
         "titleEn": "NativeLibraryHelper",
         "description": "NativeLibraryHelper",
         "input": "GetTickCount64",
-        "code": "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);"
+        "code": "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);",
+        "sectionKey": "Demo.Catalog.SectionExecution"
       },
       {
         "titleKey": "Demo.Item.FileHelper",
@@ -255,31 +259,8 @@
         "titleEn": "FileHelper",
         "description": "FileHelper",
         "input": "Hello, CodeWF!",
-        "code": "await FileHelper.SafeWriteAllTextAsync(path, input);\nawait FileHelper.SafeReadAllTextAsync(path);"
-      },
-      {
-        "titleKey": "Demo.Item.AppDataMigrator",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AppDataMigrator\"))",
-        "api": "AppDataMigrator",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "appdatamigrator",
-        "titleZh": "AppDataMigrator",
-        "titleEn": "AppDataMigrator",
-        "description": "AppDataMigrator",
-        "input": "demo.json",
-        "code": "AppDataMigrator.ResolveAndMigrate(appName, fileName, baseDirectory, portableMarkerFileName);"
-      },
-      {
-        "titleKey": "Demo.Item.UpdateChecker",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UpdateChecker\"))",
-        "api": "UpdateChecker",
-        "package": "CodeWF.Toolkit.Core",
-        "prototypeId": "updatechecker",
-        "titleZh": "UpdateChecker",
-        "titleEn": "UpdateChecker",
-        "description": "UpdateChecker",
-        "input": "dotnet9/CodeWF.Toolkit",
-        "code": "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);"
+        "code": "await FileHelper.SafeWriteAllTextAsync(path, input);\nawait FileHelper.SafeReadAllTextAsync(path);",
+        "sectionKey": "Demo.Catalog.SectionFiles"
       },
       {
         "titleKey": "Demo.Item.FileExtension",
@@ -291,7 +272,8 @@
         "titleEn": "FileExtension",
         "description": "FileExtension",
         "input": "..",
-        "code": "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);"
+        "code": "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);",
+        "sectionKey": "Demo.Catalog.SectionFiles"
       },
       {
         "titleKey": "Demo.Item.SevenZipCompressor",
@@ -303,7 +285,34 @@
         "titleEn": "SevenZipCompressor",
         "description": "SevenZipCompressor",
         "input": "Hello archive",
-        "code": "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);"
+        "code": "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);",
+        "sectionKey": "Demo.Catalog.SectionFiles"
+      },
+      {
+        "titleKey": "Demo.Item.AppDataMigrator",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"AppDataMigrator\"))",
+        "api": "AppDataMigrator",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "appdatamigrator",
+        "titleZh": "AppDataMigrator",
+        "titleEn": "AppDataMigrator",
+        "description": "AppDataMigrator",
+        "input": "demo.json",
+        "code": "AppDataMigrator.ResolveAndMigrate(appName, fileName, baseDirectory, portableMarkerFileName);",
+        "sectionKey": "Demo.Catalog.SectionApplication"
+      },
+      {
+        "titleKey": "Demo.Item.UpdateChecker",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UpdateChecker\"))",
+        "api": "UpdateChecker",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "updatechecker",
+        "titleZh": "UpdateChecker",
+        "titleEn": "UpdateChecker",
+        "description": "UpdateChecker",
+        "input": "dotnet9/CodeWF.Toolkit",
+        "code": "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);",
+        "sectionKey": "Demo.Catalog.SectionApplication"
       },
       {
         "titleKey": "Demo.Item.AppConfigHelper",
@@ -315,7 +324,8 @@
         "titleEn": "AppConfigHelper",
         "description": "AppConfigHelper",
         "input": "42",
-        "code": "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);"
+        "code": "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);",
+        "sectionKey": "Demo.Catalog.SectionApplication"
       }
     ]
   },
@@ -335,7 +345,8 @@
         "titleEn": "JsonExtensions",
         "description": "JsonExtensions",
         "input": "Ada",
-        "code": "model.ToJson(jsonTypeInfo, out var json, out var error);\njson.FromJson(jsonTypeInfo, out var model, out var error);"
+        "code": "model.ToJson(jsonTypeInfo, out var json, out var error);\njson.FromJson(jsonTypeInfo, out var model, out var error);",
+        "sectionKey": "Demo.Catalog.SectionSerialization"
       },
       {
         "titleKey": "Demo.Item.YamlExtensions",
@@ -347,7 +358,8 @@
         "titleEn": "YamlExtensions",
         "description": "YamlExtensions",
         "input": "Ada",
-        "code": "model.ToYaml(jsonTypeInfo, out var yaml, out var error);\nyaml.FromYaml(jsonTypeInfo, out var model, out var error);"
+        "code": "model.ToYaml(jsonTypeInfo, out var yaml, out var error);\nyaml.FromYaml(jsonTypeInfo, out var model, out var error);",
+        "sectionKey": "Demo.Catalog.SectionSerialization"
       },
       {
         "titleKey": "Demo.Item.DataTableExtensions",
@@ -359,7 +371,8 @@
         "titleEn": "DataTableExtensions",
         "description": "DataTableExtensions",
         "input": "Ada,42\nLin,24",
-        "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);"
+        "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);",
+        "sectionKey": "Demo.Catalog.SectionTables"
       },
       {
         "titleKey": "Demo.Item.ImageIcon",
@@ -369,7 +382,8 @@
         "prototypeId": "image-icon",
         "titleZh": "ImageHelper",
         "titleEn": "ImageHelper",
-        "description": "ImageHelper"
+        "description": "ImageHelper",
+        "sectionKey": "Demo.Catalog.SectionImages"
       },
       {
         "titleKey": "Demo.Item.ImageQr",
@@ -379,7 +393,8 @@
         "prototypeId": "image-qr",
         "titleZh": "QrCodeGenerator",
         "titleEn": "QrCodeGenerator",
-        "description": "QrCodeGenerator"
+        "description": "QrCodeGenerator",
+        "sectionKey": "Demo.Catalog.SectionImages"
       }
     ]
   },
@@ -397,7 +412,8 @@
         "prototypeId": "bus",
         "titleZh": "EventBus",
         "titleEn": "EventBus",
-        "description": "EventBus"
+        "description": "EventBus",
+        "sectionKey": "Demo.Catalog.SectionEventBus"
       },
       {
         "titleKey": "Demo.Item.PrismExtensions",
@@ -409,7 +425,8 @@
         "titleEn": "Prism.EventBusExtensions",
         "description": "PrismExtensions",
         "input": "",
-        "code": "registry.AddEventBus(assembly);\ncontainer.UseEventBus(assembly);\ncontainer.Resolve<IEventBus>().Query(query);"
+        "code": "registry.AddEventBus(assembly);\ncontainer.UseEventBus(assembly);\ncontainer.Resolve<IEventBus>().Query(query);",
+        "sectionKey": "Demo.Catalog.SectionEventBus"
       },
       {
         "titleKey": "Demo.Item.AspNetCoreExtensions",
@@ -421,7 +438,8 @@
         "titleEn": "AspNetCore.EventBusExtensions",
         "description": "AspNetCoreExtensions",
         "input": "",
-        "code": "services.AddEventBus(assembly);\napplicationBuilder.UseEventBus(assembly);\nprovider.GetRequiredService<IEventBus>().Query(query);"
+        "code": "services.AddEventBus(assembly);\napplicationBuilder.UseEventBus(assembly);\nprovider.GetRequiredService<IEventBus>().Query(query);",
+        "sectionKey": "Demo.Catalog.SectionEventBus"
       },
       {
         "titleKey": "Demo.Item.EventServer",
@@ -433,7 +451,8 @@
         "titleEn": "EventServer",
         "description": "EventServer",
         "input": "Hello broker",
-        "code": "await broker.StartAsync(\"127.0.0.1\", port);\n// Local clients validate broker routing.\nbroker.Stop();"
+        "code": "await broker.StartAsync(\"127.0.0.1\", port);\n// Local clients validate broker routing.\nbroker.Stop();",
+        "sectionKey": "Demo.Catalog.SectionBroker"
       },
       {
         "titleKey": "Demo.Item.EventClient",
@@ -445,7 +464,8 @@
         "titleEn": "EventClient",
         "description": "EventClient",
         "input": "Hello subscriber",
-        "code": "await client.ConnectAsync(\"127.0.0.1\", port);\nclient.Subscribe<string>(subject, receive);\nawait publisher.PublishAsync(subject, input);"
+        "code": "await client.ConnectAsync(\"127.0.0.1\", port);\nclient.Subscribe<string>(subject, receive);\nawait publisher.PublishAsync(subject, input);",
+        "sectionKey": "Demo.Catalog.SectionBroker"
       }
     ]
   },
@@ -463,55 +483,8 @@
         "prototypeId": "net-packet",
         "titleZh": "SerializeHelper",
         "titleEn": "SerializeHelper",
-        "description": "SerializeHelper"
-      },
-      {
-        "titleKey": "Demo.Item.TcpSocketServer",
-        "page": "TransportDemoPage(\"TcpSocketServer\")",
-        "api": "TcpSocketServer",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "tcpsocketserver",
-        "titleZh": "TcpSocketServer",
-        "titleEn": "TcpSocketServer",
-        "description": "TcpSocketServer",
-        "input": "Hello TCP",
-        "code": "await server.StartAsync(mark, \"127.0.0.1\", port);\nserver.RegisterCommandHandler(receive);\nawait server.StopAsync();"
-      },
-      {
-        "titleKey": "Demo.Item.TcpSocketClient",
-        "page": "TransportDemoPage(\"TcpSocketClient\")",
-        "api": "TcpSocketClient",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "tcpsocketclient",
-        "titleZh": "TcpSocketClient",
-        "titleEn": "TcpSocketClient",
-        "description": "TcpSocketClient",
-        "input": "Hello TCP",
-        "code": "await client.ConnectAsync(mark, \"127.0.0.1\", port);\nawait client.SendCommandAsync(packet);\nawait client.StopAsync();"
-      },
-      {
-        "titleKey": "Demo.Item.UdpSocketServer",
-        "page": "TransportDemoPage(\"UdpSocketServer\")",
-        "api": "UdpSocketServer",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "udpsocketserver",
-        "titleZh": "UdpSocketServer",
-        "titleEn": "UdpSocketServer",
-        "description": "UdpSocketServer",
-        "input": "239.1.1.1",
-        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);"
-      },
-      {
-        "titleKey": "Demo.Item.UdpSocketClient",
-        "page": "TransportDemoPage(\"UdpSocketClient\")",
-        "api": "UdpSocketClient",
-        "package": "CodeWF.Toolkit.NetWrapper",
-        "prototypeId": "udpsocketclient",
-        "titleZh": "UdpSocketClient",
-        "titleEn": "UdpSocketClient",
-        "description": "UdpSocketClient",
-        "input": "239.1.1.1",
-        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);"
+        "description": "SerializeHelper",
+        "sectionKey": "Demo.Catalog.SectionProtocol"
       },
       {
         "titleKey": "Demo.Item.NetHelper",
@@ -523,7 +496,73 @@
         "titleEn": "NetHelper",
         "description": "NetHelper",
         "input": "",
-        "code": "NetHelper.GetTaskId();\nNetHelper.GetIgnoreTask();"
+        "code": "NetHelper.GetTaskId();\nNetHelper.GetIgnoreTask();",
+        "sectionKey": "Demo.Catalog.SectionProtocol"
+      },
+      {
+        "titleKey": "Demo.Item.IpHelper",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"IpHelper\"))",
+        "api": "IpHelper",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "iphelper",
+        "titleZh": "IpHelper",
+        "titleEn": "IpHelper",
+        "description": "IpHelper",
+        "input": "127.0.0.1:39561",
+        "code": "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
+        "sectionKey": "Demo.Catalog.SectionProtocol"
+      },
+      {
+        "titleKey": "Demo.Item.TcpSocketServer",
+        "page": "TransportDemoPage(\"TcpSocketServer\")",
+        "api": "TcpSocketServer",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "tcpsocketserver",
+        "titleZh": "TcpSocketServer",
+        "titleEn": "TcpSocketServer",
+        "description": "TcpSocketServer",
+        "input": "Hello TCP",
+        "code": "await server.StartAsync(mark, \"127.0.0.1\", port);\nserver.RegisterCommandHandler(receive);\nawait server.StopAsync();",
+        "sectionKey": "Demo.Catalog.SectionSockets"
+      },
+      {
+        "titleKey": "Demo.Item.TcpSocketClient",
+        "page": "TransportDemoPage(\"TcpSocketClient\")",
+        "api": "TcpSocketClient",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "tcpsocketclient",
+        "titleZh": "TcpSocketClient",
+        "titleEn": "TcpSocketClient",
+        "description": "TcpSocketClient",
+        "input": "Hello TCP",
+        "code": "await client.ConnectAsync(mark, \"127.0.0.1\", port);\nawait client.SendCommandAsync(packet);\nawait client.StopAsync();",
+        "sectionKey": "Demo.Catalog.SectionSockets"
+      },
+      {
+        "titleKey": "Demo.Item.UdpSocketServer",
+        "page": "TransportDemoPage(\"UdpSocketServer\")",
+        "api": "UdpSocketServer",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "udpsocketserver",
+        "titleZh": "UdpSocketServer",
+        "titleEn": "UdpSocketServer",
+        "description": "UdpSocketServer",
+        "input": "239.1.1.1",
+        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
+        "sectionKey": "Demo.Catalog.SectionSockets"
+      },
+      {
+        "titleKey": "Demo.Item.UdpSocketClient",
+        "page": "TransportDemoPage(\"UdpSocketClient\")",
+        "api": "UdpSocketClient",
+        "package": "CodeWF.Toolkit.NetWrapper",
+        "prototypeId": "udpsocketclient",
+        "titleZh": "UdpSocketClient",
+        "titleEn": "UdpSocketClient",
+        "description": "UdpSocketClient",
+        "input": "239.1.1.1",
+        "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
+        "sectionKey": "Demo.Catalog.SectionSockets"
       },
       {
         "titleKey": "Demo.Item.TcpSocketClientFileSystemFeature",
@@ -535,7 +574,8 @@
         "titleEn": "TcpSocketClientFileSystemFeature",
         "description": "TcpSocketClientFileSystemFeature",
         "input": "",
-        "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);"
+        "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);",
+        "sectionKey": "Demo.Catalog.SectionRemoteFiles"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServerFileSystemFeature",
@@ -547,7 +587,8 @@
         "titleEn": "TcpSocketServerFileSystemFeature",
         "description": "TcpSocketServerFileSystemFeature",
         "input": "",
-        "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();"
+        "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();",
+        "sectionKey": "Demo.Catalog.SectionRemoteFiles"
       }
     ]
   },

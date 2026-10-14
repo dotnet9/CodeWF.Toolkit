@@ -20,7 +20,7 @@ public static class DemoCatalog
         return new(groups.Select(group =>
         {
             var items = group.Items.Select(entry => new DemoItemViewModel(entry.TitleKey,
-                () => CreatePage(entry.TitleKey), entry.Api, entry.Package, entry.PrototypeId));
+                () => CreatePage(entry.TitleKey), entry.Api, entry.Package, entry.PrototypeId, entry.SectionKey));
             return new DemoGroupViewModel(group.TitleKey, group.TitleKey switch { "Demo.Group.Home" => "⌂", "Demo.Group.Extensions" => "⟨⟩", "Demo.Group.System" => "▣", "Demo.Group.Data" => "▦", "Demo.Group.Events" => "◉", "Demo.Group.Network" => "⇄", "Demo.Group.Logging" => "☰", _ => "▶" }, items);
         }));
     }
@@ -81,7 +81,7 @@ public static class DemoCatalog
 }
 
 internal sealed record CatalogGroup(string TitleKey, CatalogItem[] Items);
-internal sealed record CatalogItem(string TitleKey, string Api, string Package, string PrototypeId);
+internal sealed record CatalogItem(string TitleKey, string Api, string Package, string PrototypeId, string SectionKey = "");
 
 [JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)]
 [JsonSerializable(typeof(CatalogGroup[]))]

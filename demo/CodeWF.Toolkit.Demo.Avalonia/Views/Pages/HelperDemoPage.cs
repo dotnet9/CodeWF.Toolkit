@@ -15,7 +15,7 @@ public sealed class HelperDemoPage : DemoPageBase
     {
         ViewModel = new(example);
         DataContext = ViewModel;
-        var input = new TextBox { AcceptsReturn = true, MinHeight = 72, MaxHeight = 150 };
+        var input = new TextBox { AcceptsReturn = true, FontSize = 13, FontFamily = new global::Avalonia.Media.FontFamily("Consolas, Microsoft YaHei UI"), MinHeight = 72, MaxHeight = 150 };
         input.Bind(TextBox.TextProperty, new Binding(nameof(ViewModel.Input)) { Mode = BindingMode.TwoWay });
         var button = new Button { Classes = { "demo-action" }, Command = ViewModel.RunCommand, HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Left };
         button.Bind(Button.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy)) { Converter = BoolConverters.Not });

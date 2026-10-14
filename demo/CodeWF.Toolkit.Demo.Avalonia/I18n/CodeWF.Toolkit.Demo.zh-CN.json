@@ -1124,7 +1124,22 @@
       "TransportSubscribe": "订阅 demo.message",
       "TransportNoSubscription": "已发布；当前没有订阅，未等待接收。",
       "RuntimeTourHint": "依次学习总线、注册、发布订阅、查询集成与日志。各步骤是独立示例，拥有各自的状态和会话。",
-      "RuntimeTourSteps": "总线基础|依赖注入|发布与订阅|查询与集成|观测日志"
+      "RuntimeTourSteps": "总线基础|依赖注入|发布与订阅|查询与集成|观测日志",
+      "SectionText": "文本",
+      "SectionNumbers": "数值",
+      "SectionDates": "日期与时间",
+      "SectionTypes": "类型与查询",
+      "SectionExecution": "执行与原生互操作",
+      "SectionFiles": "文件与压缩",
+      "SectionApplication": "应用与配置",
+      "SectionSerialization": "序列化",
+      "SectionTables": "表格",
+      "SectionImages": "图像",
+      "SectionEventBus": "事件与依赖注入",
+      "SectionBroker": "事件代理",
+      "SectionProtocol": "协议与地址",
+      "SectionSockets": "Socket 会话",
+      "SectionRemoteFiles": "远程文件"
     }
   }
 }

@@ -16,13 +16,14 @@ public class DemoItemViewModel : ReactiveObject
     private bool _isSelected;
     private bool _isFilteredOut;
 
-    public DemoItemViewModel(string titleKey, Func<DemoPageBase> pageFactory, string api = "", string package = "", string prototypeId = "")
+    public DemoItemViewModel(string titleKey, Func<DemoPageBase> pageFactory, string api = "", string package = "", string prototypeId = "", string sectionKey = "")
     {
         TitleKey = titleKey;
         PageFactory = pageFactory;
         Api = api;
         Package = package;
         PrototypeId = prototypeId;
+        SectionKey = sectionKey;
         I18nManager.Instance.CultureChanged += (_, _) =>
         {
             this.RaisePropertyChanged(nameof(Title));
@@ -41,6 +42,7 @@ public class DemoItemViewModel : ReactiveObject
     public string Api { get; }
     public string Package { get; }
     public string PrototypeId { get; }
+    public string SectionKey { get; }
 
     public Func<DemoPageBase> PageFactory { get; }
 
@@ -98,6 +100,8 @@ public class DemoGroupViewModel : ReactiveObject
         TitleKey = titleKey;
         Icon = icon;
         Items = new ObservableCollection<DemoItemViewModel>(items);
+        RibbonSections = Items.GroupBy(item => string.IsNullOrEmpty(item.SectionKey) ? TitleKey : item.SectionKey)
+            .Select(section => new DemoRibbonSection(section.Key, section.ToArray(), Items.Count > 7 || section.Count() > 3)).ToArray();
         ToggleExpandCommand = ReactiveCommand.Create(() => { IsExpanded = !IsExpanded; });
         I18nManager.Instance.CultureChanged += (_, _) => this.RaisePropertyChanged(nameof(Title));
     }
@@ -109,6 +113,8 @@ public class DemoGroupViewModel : ReactiveObject
     public string Title => I18nManager.Instance.GetResource(TitleKey);
 
     public ObservableCollection<DemoItemViewModel> Items { get; }
+
+    public IReadOnlyList<DemoRibbonSection> RibbonSections { get; }
 
     public bool IsExpanded
     {
@@ -174,4 +180,22 @@ public static class DemoIcons
         "Demo.Group.Examples" => "▶",
         _ => "•",
     };
+}
+
+/// <summary>A presentation group inside a Ribbon tab; commands still map one-to-one to APIs.</summary>
+public sealed class DemoRibbonSection : ReactiveObject
+{
+    public DemoRibbonSection(string titleKey, IReadOnlyList<DemoItemViewModel> items, bool useSmallCommands)
+    {
+        TitleKey = titleKey;
+        Items = items;
+        UseSmallCommands = useSmallCommands;
+        I18nManager.Instance.CultureChanged += (_, _) => this.RaisePropertyChanged(nameof(Title));
+    }
+
+    public string TitleKey { get; }
+    public IReadOnlyList<DemoItemViewModel> Items { get; }
+    public bool UseSmallCommands { get; }
+    public string Title => I18nManager.Instance.GetResource(TitleKey);
+    public double CommandHeight => UseSmallCommands ? 31 : 62;
 }
