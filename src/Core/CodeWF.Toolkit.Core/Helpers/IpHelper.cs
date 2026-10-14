@@ -197,19 +197,19 @@ public static class IpHelper
 
         if (!IPAddress.TryParse(ip, out var ipAddress))
         {
-            errorMsg = $"IP地址 '{ip}' 格式无效";
+            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidIp", ip);
             return false;
         }
 
         if (ipAddress.AddressFamily != AddressFamily.InterNetwork)
         {
-            errorMsg = $"IP地址 '{ip}' 必须是 IPv4 地址";
+            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.Ipv4Required", ip);
             return false;
         }
 
         if (port is < MinPort or > MaxPort)
         {
-            errorMsg = $"端口 '{port}' 超出有效范围 {MinPort}-{MaxPort}";
+            errorMsg = global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidPort", port, MinPort, MaxPort);
             return false;
         }
 
@@ -246,17 +246,17 @@ public static class IpHelper
     {
         if (!IPAddress.TryParse(ip, out var ipAddress))
         {
-            return (false, $"IP地址 '{ip}' 格式无效");
+            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidIp", ip));
         }
 
         if (ipAddress.AddressFamily != AddressFamily.InterNetwork)
         {
-            return (false, $"IP地址 '{ip}' 必须是 IPv4 地址");
+            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.Ipv4Required", ip));
         }
 
         if (port is < MinPort or > MaxPort)
         {
-            return (false, $"端口 '{port}' 超出有效范围 {MinPort}-{MaxPort}");
+            return (false, global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.Network.InvalidPort", port, MinPort, MaxPort));
         }
 
         UdpClient? udpClient = null;

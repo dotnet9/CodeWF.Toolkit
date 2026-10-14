@@ -6,7 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="CodeWF.Toolkit.Tests" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="I18n/*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lang\CodeWF.Toolkit.Lang\CodeWF.Toolkit.Lang.csproj" />
+  </ItemGroup>
 </Project>

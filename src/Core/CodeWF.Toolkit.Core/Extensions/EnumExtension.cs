@@ -26,7 +26,7 @@ public static class EnumExtension
     {
         if (!enumType.IsEnum)
         {
-            throw new Exception("给定的类型不是枚举类型");
+            throw new Exception(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.Enum.TypeRequired"));
         }
 
         return EnumNameValueDict.GetOrAdd(enumType, _ => GetDictionaryItems(enumType));
@@ -49,7 +49,7 @@ public static class EnumExtension
     /// 根据枚举成员获取Display的属性Name
     /// </summary>
     /// <returns></returns>
-    [RequiresUnreferencedCode("该方法通过反射读取 DisplayAttribute，Native AOT/裁剪发布请优先使用源生成或静态映射。")]
+    [RequiresUnreferencedCode("Reads DisplayAttribute through reflection. Use generated or static mappings for trimming and NativeAOT.")]
     public static string GetDisplay(this Enum en)
     {
         var type = en.GetType(); //获取类型
@@ -72,8 +72,8 @@ public static class EnumExtension
     /// <param name ="value">枚举值</param>
     /// <param name ="args">要格式化的对象</param>
     /// <returns>如果未找到DescriptionAttribute则返回null或返回类型描述</returns>
-    [RequiresUnreferencedCode("该方法通过反射读取 DescriptionAttribute，Native AOT/裁剪发布请优先使用源生成或静态映射。")]
-    [RequiresDynamicCode("该方法需要按运行时枚举类型枚举成员，Native AOT 发布请优先使用泛型或静态映射。")]
+    [RequiresUnreferencedCode("Reads DescriptionAttribute through reflection. Use generated or static mappings for trimming and NativeAOT.")]
+    [RequiresDynamicCode("Enumerates members of runtime enum types. Use generics or static mappings for NativeAOT.")]
     public static string GetDescription(this Enum value, params object[] args)
     {
         var enumType = value.GetType();
@@ -103,8 +103,8 @@ public static class EnumExtension
     /// <param name ="value">枚举值</param>
     /// <param name ="args">要格式化的对象</param>
     /// <returns>如果未找到DescriptionAttribute则返回null或返回类型描述</returns>
-    [RequiresUnreferencedCode("该方法通过反射读取枚举自定义特性，Native AOT/裁剪发布请优先使用源生成或静态映射。")]
-    [RequiresDynamicCode("该方法需要按运行时枚举类型枚举成员，Native AOT 发布请优先使用泛型或静态映射。")]
+    [RequiresUnreferencedCode("Reads enum attributes through reflection. Use generated or static mappings for trimming and NativeAOT.")]
+    [RequiresDynamicCode("Enumerates members of runtime enum types. Use generics or static mappings for NativeAOT.")]
     public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this Enum value) where TAttribute : Attribute
     {
         var type = value.GetType();
@@ -139,8 +139,8 @@ public static class EnumExtension
     /// </summary>
     /// <param name ="value">枚举值</param>
     /// <returns>如果未找到DescriptionAttribute则返回null或返回类型描述</returns>
-    [RequiresUnreferencedCode("该方法通过反射读取 EnumDescriptionAttribute，Native AOT/裁剪发布请优先使用源生成或静态映射。")]
-    [RequiresDynamicCode("该方法需要按运行时枚举类型枚举成员，Native AOT 发布请优先使用泛型或静态映射。")]
+    [RequiresUnreferencedCode("Reads EnumDescriptionAttribute through reflection. Use generated or static mappings for trimming and NativeAOT.")]
+    [RequiresDynamicCode("Enumerates members of runtime enum types. Use generics or static mappings for NativeAOT.")]
     public static EnumDescriptionAttribute? GetEnumDescription(this Enum value)
     {
         return GetEnumDescriptions(value).FirstOrDefault();
@@ -151,8 +151,8 @@ public static class EnumExtension
     /// </summary>
     /// <param name ="value">枚举值</param>
     /// <returns>如果未找到DescriptionAttribute则返回null或返回类型描述</returns>
-    [RequiresUnreferencedCode("该方法通过反射读取 EnumDescriptionAttribute，Native AOT/裁剪发布请优先使用源生成或静态映射。")]
-    [RequiresDynamicCode("该方法需要按运行时枚举类型枚举成员，Native AOT 发布请优先使用泛型或静态映射。")]
+    [RequiresUnreferencedCode("Reads EnumDescriptionAttribute through reflection. Use generated or static mappings for trimming and NativeAOT.")]
+    [RequiresDynamicCode("Enumerates members of runtime enum types. Use generics or static mappings for NativeAOT.")]
     public static IEnumerable<EnumDescriptionAttribute> GetEnumDescriptions(this Enum value)
     {
         if (value == null)
@@ -210,8 +210,8 @@ public static class EnumExtension
     /// <summary>
     /// 根据枚举成员获取自定义属性EnumDisplayNameAttribute的属性DisplayName
     /// </summary>
-    [RequiresUnreferencedCode("该方法通过反射读取枚举描述，Native AOT/裁剪发布请优先使用源生成或静态映射。")]
-    [RequiresDynamicCode("该方法需要按运行时枚举类型枚举成员，Native AOT 发布请优先使用泛型或静态映射。")]
+    [RequiresUnreferencedCode("Reads enum descriptions through reflection. Use generated or static mappings for trimming and NativeAOT.")]
+    [RequiresDynamicCode("Enumerates members of runtime enum types. Use generics or static mappings for NativeAOT.")]
     public static Dictionary<string, int> GetDescriptionAndValue(this Type enumType) => Enum.GetValues(enumType)
         .Cast<object>().ToDictionary(e => ((Enum)e).GetDescription(), e => Convert.ToInt32(e, CultureInfo.InvariantCulture));
 

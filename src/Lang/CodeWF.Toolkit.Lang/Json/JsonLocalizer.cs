@@ -10,11 +10,13 @@ namespace CodeWF.Toolkit.Lang.Json;
 public sealed class JsonLocalizer
 {
     private readonly JsonLangPlugin _resources;
+    private readonly bool _allowApplicationOverrides;
 
     /// <summary>Creates a localizer for JSON resources embedded in an assembly.</summary>
-    public JsonLocalizer(Assembly resourceAssembly, string fallbackCulture = "en-US")
+    public JsonLocalizer(Assembly resourceAssembly, string fallbackCulture = "en-US", bool allowApplicationOverrides = true)
     {
         ArgumentNullException.ThrowIfNull(resourceAssembly);
+        _allowApplicationOverrides = allowApplicationOverrides;
         _resources = new JsonLangPlugin { ScanResourceFolder = false };
         _resources.AddResource(resourceAssembly);
         _resources.Load(CultureInfo.GetCultureInfo(fallbackCulture));
@@ -25,7 +27,7 @@ public sealed class JsonLocalizer
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
         var culture = cultureName ?? I18nManager.Instance.Culture?.Name ?? CultureInfo.CurrentUICulture.Name;
-        var applicationText = I18nManager.Instance.GetResource(key, culture);
+        var applicationText = _allowApplicationOverrides ? I18nManager.Instance.GetResource(key, culture) : key;
         return applicationText != key ? applicationText : _resources.GetResource(key, culture);
     }
 

@@ -54,13 +54,13 @@ public static class FileHelper
             {
                 attempt++;
                 if (attempt >= retryCount)
-                    throw new IOException($"文件 {filePath} 被其他进程占用，重试 {retryCount} 次后仍无法读取", ex);
+                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.ReadRetryFailed", filePath, retryCount), ex);
 
                 await Task.Delay(retryDelayMs); // 等待后重试
             }
         }
 
-        throw new FileNotFoundException($"文件 {filePath} 不存在或无法访问", filePath);
+        throw new FileNotFoundException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.Unavailable", filePath), filePath);
     }
 
     /// <summary>
@@ -104,13 +104,13 @@ public static class FileHelper
             {
                 attempt++;
                 if (attempt >= retryCount)
-                    throw new IOException($"文件 {filePath} 被其他进程占用，重试 {retryCount} 次后仍无法写入", ex);
+                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.WriteRetryFailed", filePath, retryCount), ex);
 
                 await Task.Delay(retryDelayMs);
             }
         }
 
-        throw new IOException($"无法写入文件 {filePath}，重试 {retryCount} 次后失败");
+        throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.WriteFailed", filePath, retryCount));
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ public static class FileHelper
             {
                 attempt++;
                 if (attempt >= retryCount)
-                    throw new IOException($"文件 {filePath} 被其他进程占用，重试 {retryCount} 次后仍无法删除", ex);
+                    throw new IOException(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.File.DeleteRetryFailed", filePath, retryCount), ex);
 
                 await Task.Delay(retryDelayMs);
             }
@@ -338,7 +338,7 @@ public static class FileHelper
         // 基础校验：仅判空，不做其他校验
         if (string.IsNullOrWhiteSpace(inputPath))
         {
-            throw new ArgumentNullException(nameof(inputPath), "输入路径不能为空或仅包含空白字符");
+            throw new ArgumentNullException(nameof(inputPath), global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.File.InputPathRequired"));
         }
 
         // 1. 获取当前系统的标准分隔符

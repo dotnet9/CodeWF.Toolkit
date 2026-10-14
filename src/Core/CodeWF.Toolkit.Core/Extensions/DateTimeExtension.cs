@@ -179,12 +179,12 @@ namespace CodeWF.Toolkit.Core.Extensions
         {
             if (interval < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(interval), "结束时间不能早于开始时间");
+                throw new ArgumentOutOfRangeException(nameof(interval), global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.EndBeforeStart"));
             }
 
             if (interval.TotalMilliseconds > uint.MaxValue)
             {
-                throw new OverflowException("时间间隔过大，转换为uint类型时会丢失精度");
+                throw new OverflowException(global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.IntervalOverflow"));
             }
         }
 
@@ -429,13 +429,13 @@ namespace CodeWF.Toolkit.Core.Extensions
         {
             return now.DayOfWeek switch
             {
-                DayOfWeek.Monday => "星期一",
-                DayOfWeek.Tuesday => "星期二",
-                DayOfWeek.Wednesday => "星期三",
-                DayOfWeek.Thursday => "星期四",
-                DayOfWeek.Friday => "星期五",
-                DayOfWeek.Saturday => "星期六",
-                DayOfWeek.Sunday => "星期日",
+                DayOfWeek.Monday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Monday"),
+                DayOfWeek.Tuesday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Tuesday"),
+                DayOfWeek.Wednesday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Wednesday"),
+                DayOfWeek.Thursday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Thursday"),
+                DayOfWeek.Friday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Friday"),
+                DayOfWeek.Saturday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Saturday"),
+                DayOfWeek.Sunday => global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.Sunday"),
                 _ => ""
             };
         }
@@ -464,11 +464,11 @@ namespace CodeWF.Toolkit.Core.Extensions
             var ts = dateTime2 - dateTime1;
             if (ts.TotalDays >= 1)
             {
-                dateDiff = ts.TotalDays >= 30 ? (ts.TotalDays / 30) + "个月前" : ts.TotalDays + "天前";
+                dateDiff = ts.TotalDays >= 30 ? (ts.TotalDays / 30) + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.MonthsAgoSuffix") : ts.TotalDays + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.DaysAgoSuffix");
             }
             else
             {
-                dateDiff = ts.Hours > 1 ? ts.Hours + "小时前" : ts.Minutes + "分钟前";
+                dateDiff = ts.Hours > 1 ? ts.Hours + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.HoursAgoSuffix") : ts.Minutes + global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.MinutesAgoSuffix");
             }
 
             return dateDiff;
@@ -492,7 +492,7 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             // 如果时间差为0
             if (beginTime == endTime)
-                return "0秒";
+                return global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.ZeroSeconds");
 
             var result = new List<string>();
             var current = beginTime;
@@ -506,7 +506,7 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             if (years > 0)
             {
-                result.Add($"{years}年");
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Years", years));
                 current = current.AddYears(years);
             }
 
@@ -523,7 +523,7 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             if (months > 0)
             {
-                result.Add($"{months}个月");
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Months", months));
                 current = current.AddMonths(months);
             }
 
@@ -532,19 +532,19 @@ namespace CodeWF.Toolkit.Core.Extensions
 
             if (remaining.Days > 0)
             {
-                result.Add($"{remaining.Days}天");
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Days", remaining.Days));
             }
             if (remaining.Hours > 0)
             {
-                result.Add($"{remaining.Hours}小时");
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Hours", remaining.Hours));
             }
             if (remaining.Minutes > 0)
             {
-                result.Add($"{remaining.Minutes}分钟");
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Minutes", remaining.Minutes));
             }
             if (remaining.Seconds > 0 || result.Count == 0)
             {
-                result.Add($"{remaining.Seconds}秒");
+                result.Add(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.Seconds", remaining.Seconds));
             }
 
             return string.Join("", result);
@@ -694,17 +694,17 @@ namespace CodeWF.Toolkit.Core.Extensions
         {
             var timeSpan = current - compareTime;
             if (timeSpan.TotalDays > 365)
-                return $"{(int)(timeSpan.TotalDays / 365)}年前";
+                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.YearsAgo", (int)(timeSpan.TotalDays / 365));
             if (timeSpan.TotalDays > 30)
-                return $"{(int)(timeSpan.TotalDays / 30)}个月前";
+                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.MonthsAgo", (int)(timeSpan.TotalDays / 30));
             if (timeSpan.TotalDays >= 1)
-                return $"{(int)timeSpan.TotalDays}天前";
+                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.DaysAgo", (int)timeSpan.TotalDays);
             if (timeSpan.TotalHours >= 1)
-                return $"{(int)timeSpan.TotalHours}小时前";
+                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.HoursAgo", (int)timeSpan.TotalHours);
             if (timeSpan.TotalMinutes >= 1)
-                return $"{(int)timeSpan.TotalMinutes}分钟前";
+                return global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.DateTime.MinutesAgo", (int)timeSpan.TotalMinutes);
             
-            return "刚刚";
+            return global::CodeWF.Toolkit.Core.LibraryText.Get("Toolkit.Core.DateTime.JustNow");
         }
 
         #endregion

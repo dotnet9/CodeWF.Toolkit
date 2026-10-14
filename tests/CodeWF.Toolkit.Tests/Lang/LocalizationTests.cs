@@ -3,6 +3,8 @@ using CodeWF.Toolkit.Lang;
 using CodeWF.Toolkit.Lang.Json;
 using CodeWF.Toolkit.Lang.Resx;
 using CodeWF.Toolkit.Lang.Xml;
+using CodeWF.Toolkit.Core.Extensions;
+using CodeWF.Toolkit.Core.UpdateChecking;
 
 namespace CodeWF.Toolkit.Tests.Lang;
 
@@ -105,6 +107,21 @@ public sealed class LocalizationTests : IDisposable
         plugin.Resources["en-US"] = new CustomLanguage { CultureName = "en-US" };
         plugin.Resources["en-US"].Languages["Empty"] = string.Empty;
         Assert.Equal(string.Empty, plugin.GetResource("Empty", "en-US"));
+    }
+
+    [Fact]
+    public void ToolkitErrorsFollowLanguageWhileChineseNumeralAlgorithmsRemainInvariant()
+    {
+        var english = Assert.Throws<InvalidOperationException>(() => new UpdateServiceOptions().Validate()).Message;
+        Assert.Equal("Specify a GitHub repository (UpdateServiceOptions.Repository).", english);
+        var numeral = 123.45m.ToChineseNumber();
+        var money = NumberExtension.ToChineseMoney(123.45m);
+        I18nManager.Instance.Culture = CultureInfo.GetCultureInfo("zh-CN");
+        var chinese = Assert.Throws<InvalidOperationException>(() => new UpdateServiceOptions().Validate()).Message;
+        Assert.NotEqual(english, chinese);
+        Assert.DoesNotContain("Toolkit.", chinese);
+        Assert.Equal(numeral, 123.45m.ToChineseNumber());
+        Assert.Equal(money, NumberExtension.ToChineseMoney(123.45m));
     }
 
     private static JsonLangPlugin EmptyPlugin() => new() { ScanResourceFolder = false };

@@ -23,7 +23,7 @@ public static class NumberExtension
         var result = "";
         if (x[0] == '-')
         {
-            result = "负";
+            result = global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Negative");
             x = x.Remove(0, 1);
         }
 
@@ -39,7 +39,7 @@ public static class NumberExtension
 
         if (x.IndexOf(".") > -1)
         {
-            result += ToInt(x.Substring(0, x.IndexOf("."))) + "点" +
+            result += ToInt(x.Substring(0, x.IndexOf("."))) + global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.DecimalPoint") +
                       x.Substring(x.IndexOf(".") + 1).Aggregate("", (current, t) => current + ToNum(t));
         }
         else
@@ -59,7 +59,7 @@ public static class NumberExtension
         var m = Convert.ToDecimal(number, CultureInfo.InvariantCulture);
         if (m == 0)
         {
-            return "零元整";
+            return global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.ZeroMoney");
         }
 
         /*
@@ -92,8 +92,8 @@ public static class NumberExtension
         /*
          * 将其转换为对应的中文大写字符，例如将'1'转换为'壹'，将'2'转换为'贰'，以此类推。Lambda表达式中使用了一个映射表，通过字符的ASCII码值来查找对应的中文字符。
          */
-        return Regex.Replace(d, ".", t => "负元空零壹贰叁肆伍陆柒捌玖空空空空空空空分角拾佰仟萬億兆京垓秭穰"[t.Value[0] - '-'].ToString())
-            .Next(x => m < 0 ? "负" + x : x);
+        return Regex.Replace(d, ".", t => global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.MoneyAlphabet")[t.Value[0] - '-'].ToString())
+            .Next(x => m < 0 ? global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Negative") + x : x);
     }
 
     // 转换整数
@@ -108,11 +108,11 @@ public static class NumberExtension
         }
         else if (len <= 8)
         {
-            result = ChangeInt(x.Substring(0, len - 4)) + "万";
+            result = ChangeInt(x.Substring(0, len - 4)) + global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.TenThousand");
             temp = ChangeInt(x.Substring(len - 4, 4));
-            if (temp.IndexOf("千", StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
+            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand"), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
             {
-                result += "零" + temp;
+                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Zero") + temp;
             }
             else
             {
@@ -121,22 +121,22 @@ public static class NumberExtension
         }
         else
         {
-            result = ChangeInt(x.Substring(0, len - 8)) + "亿";
+            result = ChangeInt(x.Substring(0, len - 8)) + global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.HundredMillion");
             temp = ChangeInt(x.Substring(len - 8, 4));
-            if (temp.IndexOf("千", StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
+            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand"), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
             {
-                result += "零" + temp;
+                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Zero") + temp;
             }
             else
             {
                 result += temp;
             }
 
-            result += "万";
+            result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.TenThousand");
             temp = ChangeInt(x.Substring(len - 4, 4));
-            if (temp.IndexOf("千", StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
+            if (temp.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand"), StringComparison.Ordinal) == -1 && !string.IsNullOrEmpty(temp))
             {
-                result += "零" + temp;
+                result += global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Zero") + temp;
             }
             else
             {
@@ -145,12 +145,12 @@ public static class NumberExtension
         }
 
         int i;
-        if ((i = result.IndexOf("零万", StringComparison.Ordinal)) != -1)
+        if ((i = result.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.ZeroTenThousand"), StringComparison.Ordinal)) != -1)
         {
             result = result.Remove(i + 1, 1);
         }
 
-        while ((i = result.IndexOf("零零", StringComparison.Ordinal)) != -1)
+        while ((i = result.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.DoubleZero"), StringComparison.Ordinal)) != -1)
         {
             result = result.Remove(i, 1);
         }
@@ -169,9 +169,9 @@ public static class NumberExtension
         string[] strArrayLevelNames =
         {
             "",
-            "十",
-            "百",
-            "千"
+            global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Ten"),
+            global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Hundred"),
+            global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Thousand")
         };
         string ret = "";
         int i;
@@ -187,7 +187,7 @@ public static class NumberExtension
             }
         }
 
-        while ((i = ret.IndexOf("零零", StringComparison.Ordinal)) != -1)
+        while ((i = ret.IndexOf(global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.DoubleZero"), StringComparison.Ordinal)) != -1)
         {
             ret = ret.Remove(i, 1);
         }
@@ -197,7 +197,7 @@ public static class NumberExtension
             ret = ret.Remove(ret.Length - 1, 1);
         }
 
-        if (ret.Length >= 2 && ret.Substring(0, 2) == "一十")
+        if (ret.Length >= 2 && ret.Substring(0, 2) == global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.OneTen"))
         {
             ret = ret.Remove(0, 1);
         }
@@ -208,7 +208,7 @@ public static class NumberExtension
     // 转换数字
     private static char ToNum(char x)
     {
-        const string strChnNames = "零一二三四五六七八九";
+        var strChnNames = global::CodeWF.Toolkit.Core.LibraryText.Invariant("Toolkit.Core.ChineseNumber.Digits");
         const string strNumNames = "0123456789";
         return strChnNames[strNumNames.IndexOf(x)];
     }

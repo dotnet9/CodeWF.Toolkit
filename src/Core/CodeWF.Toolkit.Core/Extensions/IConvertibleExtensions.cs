@@ -37,7 +37,7 @@ public static class IConvertibleExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    [RequiresUnreferencedCode("TypeDescriptor 转换器依赖反射和运行时类型描述，Native AOT/裁剪发布请优先使用显式类型转换。")]
+    [RequiresUnreferencedCode("TypeDescriptor uses reflection and runtime metadata. Use explicit conversions for trimming and NativeAOT.")]
     public static T ConvertTo<T>(this IConvertible? value) where T : IConvertible
     {
         if (value != null)

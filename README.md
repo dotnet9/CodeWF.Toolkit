@@ -59,6 +59,30 @@ var text = I18nManager.Instance.GetResource("App.Title");
 
 库自身使用 `new JsonLocalizer(typeof(MyLibrary).Assembly)` 读取嵌入 JSON，无需调用方先注册。它跟随全局语言或当前 UI 文化，按请求文化、父文化、默认 `en-US` 回退；应用可用同名键覆盖库文案。空翻译保留，缺失键返回键本身。`JsonLangPlugin<TLanguage>`、`XmlLangPlugin<TLanguage>`、`ResxLangPlugin<TLanguage>` 支持已有语言元数据子类，解析逻辑只维护一份。裁剪或 NativeAOT 应用使用显式程序集或 `ResourceManager` 注册，避免 RESX 约定扫描。
 
+### 应用更新（CodeWF.Toolkit.Core）
+
+`IUpdateService` 统一检查 GitHub Release、匹配当前 RID、下载、SHA-256 校验与系统安装分发。应用只维护界面状态，程序集 `AssemblyInformationalVersion` 同时用于显示和版本比较。
+
+```csharp
+using CodeWF.Toolkit.Core.UpdateChecking;
+
+using var updates = new UpdateService(new UpdateServiceOptions
+{
+    Owner = "dotnet9",
+    Repository = "MyApp",
+    ProductName = "MyApp"
+});
+var result = await updates.CheckAsync(cancellationToken: cancellationToken);
+if (result is { Succeeded: true, Update: { AssetUrl: not null, ChecksumUrl: not null } update })
+{
+    var download = await updates.DownloadAsync(update, progress, cancellationToken);
+    // 用户点击安装后调用；Windows 成功启动安装器后按 ShouldExitApplication 退出。
+    var install = await updates.InstallAsync(download, cancellationToken);
+}
+```
+
+无匹配资产或校验文件时，界面提供 `UpdateInfo.PageUrl` 作为发布页入口。检查失败通过 `UpdateCheckResult` 返回；下载失败和取消通过异常通知调用方，需由界面状态机处理。安装分发为 Windows EXE、Linux DEB、macOS DMG/PKG；便携 ZIP 只打开目录，启动失败返回手动处理。错误和日志从库的嵌入 JSON 读取，无需应用复制资源。
+
 ```bash
 dotnet add package CodeWF.Toolkit.Core
 dotnet add package CodeWF.Toolkit.EventBus

@@ -18,4 +18,16 @@ public sealed record UpdateInfo(
     string PageUrl,
     string? AssetUrl,
     string? AssetName,
-    string? ChecksumUrl = null);
+    string? ChecksumUrl = null,
+    long? AssetSize = null);
+
+/// <summary>下载进度：总长度未知时 <see cref="TotalBytes"/> 为 null，界面只显示已下载量。</summary>
+public sealed record UpdateDownloadProgress(long BytesReceived, long? TotalBytes)
+{
+    public double? Percentage => TotalBytes is > 0
+        ? BytesReceived * 100d / TotalBytes.Value
+        : null;
+}
+
+/// <summary>下载完成的安装包：<see cref="FilePath"/> 可直接交给系统安装程序。</summary>
+public sealed record UpdateDownloadResult(string FilePath, string FileName, long BytesReceived);

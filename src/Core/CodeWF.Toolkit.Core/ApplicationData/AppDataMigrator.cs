@@ -54,7 +54,7 @@ public static class AppDataMigrator
             {
                 CopyDirectory(legacyDirectory, dataDirectory, overwrite: true);
                 CleanupLocalRootStrays(configFileName);
-                log?.Invoke($"检测到旧版本错误迁移，已用 {legacyDirectory} 修复 {dataDirectory}");
+                log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.AppData.LegacyRepair", legacyDirectory, dataDirectory));
                 return dataDirectory;
             }
 
@@ -62,12 +62,12 @@ public static class AppDataMigrator
             if (hasLegacy && !hasNew)
             {
                 CopyDirectory(legacyDirectory, dataDirectory, overwrite: false);
-                log?.Invoke($"已把配置从 {legacyDirectory} 迁移到 {dataDirectory}");
+                log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.AppData.Migrated", legacyDirectory, dataDirectory));
             }
         }
         catch (Exception ex)
         {
-            log?.Invoke($"数据迁移失败（将使用新位置继续，可手动从旧位置找回）：{ex.Message}");
+            log?.Invoke(global::CodeWF.Toolkit.Core.LibraryText.Format("Toolkit.Core.AppData.MigrationFailed", ex.Message));
         }
 
         return dataDirectory;
