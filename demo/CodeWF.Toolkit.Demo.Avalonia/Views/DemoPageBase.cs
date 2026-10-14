@@ -9,6 +9,8 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views;
 /// </summary>
 public abstract class DemoPageBase : UserControl
 {
+    protected DemoPageBase() => Classes.Add("demo-page");
+
     private IReadOnlyList<PropertyItem>? _properties;
 
     /// <summary>标题的 Lang 键。</summary>
@@ -37,6 +39,8 @@ public abstract class DemoPageBase : UserControl
     }
 
     /// <summary>文档首次打开时回调。</summary>
+    public virtual Task OnDocumentClosedAsync() => Task.CompletedTask;
+
     public virtual void OnDocumentOpened()
     {
     }

@@ -52,8 +52,15 @@ public static partial class HelperDemoCatalog
             text => { var valid = new ValidationSample { Name = text }.TryValidateObject(out var errors); if (valid != !string.IsNullOrWhiteSpace(text)) throw new InvalidOperationException("Required validation metadata was not applied."); return $"Valid = {valid}\n" + string.Join('\n', errors?.Select(error => error.ErrorMessage) ?? []); }),
         "DateTimeConverter" => Sync(key, "2026-10-13T12:00:00Z", "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);",
             text => $"ISO8601 = {DateTimeConverter.IsISO8601DateTimeString(text)}\nExcel = {DateTimeConverter.DateToExcelFormat(DateTime.Parse(text, CultureInfo.InvariantCulture))}"),
-        "ActionHelper" => Sync(key, "1000", "ActionHelper.CheckOvertime(action, timeoutMilliseconds);",
-            text => $"CheckOvertime = {ActionHelper.CheckOvertime(() => { }, int.Parse(text, CultureInfo.InvariantCulture))}"),
+        "ActionHelper" => Async(key, "20,100", "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed in time; false = wait timed out. The action continues running.",
+            async text =>
+            {
+                var values = text.Split(',').Select(value => int.Parse(value, CultureInfo.InvariantCulture)).ToArray();
+                if (values.Length != 2 || values.Any(value => value < 0 || value > 5000))
+                    throw new FormatException(global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource("Demo.Catalog.ActionFormat"));
+                var result = await Task.Run(() => ActionHelper.CheckOvertime(() => Thread.Sleep(values[0]), values[1]));
+                return $"CheckOvertime = {result}\n" + global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(result ? "Demo.Catalog.ActionCompleted" : "Demo.Catalog.ActionTimedOut");
+            }),
         "IpHelper" => Sync(key, "127.0.0.1:39561", "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
             text => { var success = IpHelper.TrySplitIpPort(text, out var ip, out var port); return $"Valid = {success}\nIP = {ip}\nPort = {port}\nLocal IPv4 = {string.Join(", ", IpHelper.GetAllIpV4(true))}"; }),
         "NativeLibraryHelper" => Sync(key, "GetTickCount64", "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);",
@@ -92,7 +99,7 @@ public static partial class HelperDemoCatalog
     };
 
     private static HelperExample Sync(string key, string input, string code, Func<string, string> execute, bool smoke = true)
-        => new(key, input, code, text => Task.FromResult(execute(text)), smoke);
+        => new(key, input, code, text => Task.Run(() => execute(text)), smoke);
     private static HelperExample Async(string key, string input, string code, Func<string, Task<string>> execute, bool smoke = true)
         => new(key, input, code, execute, smoke);
     private static double ParseNumber(string input) => double.Parse(input, CultureInfo.InvariantCulture);

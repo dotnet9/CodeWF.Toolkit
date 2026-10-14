@@ -71,7 +71,7 @@
     },
     "Item": {
       "Welcome": "Introduction",
-      "RuntimeFlow": "Runtime workflow",
+      "RuntimeFlow": "Events and logging tour",
       "LabFlow": "File workflow",
       "Core": "Core Kit",
       "Bus": "EventBus",
@@ -128,16 +128,16 @@
       "CodeWFLogHealth": "CodeWFLogHealth"
     },
     "Scene": {
-      "Step.Server": "Start server",
-      "Step.Connect": "Connect",
-      "Step.Publish": "Publish",
-      "Step.Query": "Query",
+      "Step.Server": "Bus basics",
+      "Step.Connect": "Dependency injection",
+      "Step.Publish": "Publish and subscribe",
+      "Step.Query": "Queries and integration",
       "Step.Observe": "Observe logs",
       "Step.Format": "Convert",
       "Step.Archive": "Archive",
       "Step.Image": "Icon / QR",
       "Step.Export": "Export",
-      "Summary.Runtime": "5-step runtime flow · every step reuses the capability pages below",
+      "Summary.Runtime": "Independent examples · each step owns its session and state",
       "Summary.Lab": "4-step capability pipeline · every step reuses the capability pages below"
     },
     "Page": {
@@ -145,7 +145,7 @@
         "Desc": "Browse APIs by function, with one primary menu entry per helper class. Composite examples are in the final group; source is optional, with property and log feedback."
       },
       "RuntimeFlow": {
-        "Desc": "Start server → connect → publish → query → observe logs: the event bus and logging chained into one continuous workflow, each step reusing the same capability pages."
+        "Desc": "Learn bus basics, dependency injection, pub/sub, queries and logging through independent examples."
       },
       "LabFlow": {
         "Desc": "Convert → archive → icons/QR → export: the Files / Image capabilities arranged as one pipeline, each step reusing the same capability pages."
@@ -984,7 +984,7 @@
         "Desc": "Recognize ISO 8601 dates and convert Excel date values."
       },
       "ActionHelper": {
-        "Desc": "Run an action with timeout checking."
+        "Desc": "Adjust action duration and timeout to observe completion or timeout; timing out does not cancel the action."
       },
       "IpHelper": {
         "Desc": "Parse IP addresses and ports and list local IPv4 addresses."
@@ -1017,7 +1017,7 @@
         "Desc": "Serialize YAML with generated metadata and restore the object."
       },
       "DataTableExtensions": {
-        "Desc": "Export a DataTable to CSV, then import it and inspect the row count."
+        "Desc": "Export and import CSV and Excel, with a real table preview and cell validation."
       },
       "ImageIcon": {
         "Desc": "Generate multi-size ICO icons from an image."
@@ -1094,7 +1094,37 @@
       "Notification": "A log notification presented by LogNotifications.",
       "Notifications": "Send log notification",
       "Preview": "Browser interaction preview; the .NET demo runs the complete API call.",
-      "WindowsOnly": "This helper currently supports Windows only."
+      "WindowsOnly": "This helper currently supports Windows only.",
+      "TableCsv": "Export / import CSV",
+      "TableExcel": "Export / import Excel",
+      "TableHint": "Enter Name,Value per line. Export and import CSV or Excel, preview the imported rows and verify every cell. Result files remain in the displayed temporary directory.",
+      "TableFormat": "Enter at least one row with two comma-separated values.",
+      "ActionFormat": "Enter action duration,timeout in milliseconds, both between 0 and 5000.",
+      "ActionCompleted": "true: the action completed within the timeout.",
+      "ActionTimedOut": "false: the wait timed out. The action continues in the background; this method does not cancel it.",
+      "FileSession": "Local file-system session",
+      "FileOperations": "Remote directory and transfers",
+      "FileStart": "Start and connect",
+      "FileStop": "Disconnect and stop",
+      "FileBrowse": "Browse",
+      "FileCreate": "Create demo-folder",
+      "FileDelete": "Delete demo-folder",
+      "FileUpload": "Upload 4 MB sample",
+      "FileDownload": "Download and verify",
+      "FileCancel": "Cancel transfer",
+      "FileCancelled": "Transfer cancelled. Upload or download again to observe resumption.",
+      "FileStopped": "Connection and server stopped.",
+      "FileStartFirst": "Start the local session first.",
+      "FileServerHint": "The server binds a random loopback port with RootDirectory restricted to a fresh temporary directory. Use the local client below to observe real browse, create, delete and transfer responses. Closing the document stops the session.",
+      "FileClientHint": "Start the local peer server, then send real requests. Upload before downloading; completed files are checked with SHA256. Transfers can be cancelled. All operations stay inside this session’s temporary directory.",
+      "TransportHint": "Start local peer endpoints and keep the session open to send repeatedly and inspect connection and delivery. Toggle subscriptions for the event bus. Closing the document stops the session.",
+      "TransportStarted": "Endpoints started and connected.",
+      "TransportSend": "Send and verify delivery",
+      "TransportConnected": "Connected",
+      "TransportSubscribe": "Subscribe demo.message",
+      "TransportNoSubscription": "Published without an active subscription; no delivery was awaited.",
+      "RuntimeTourHint": "Explore bus basics, registration, pub/sub, integration and logging. Each step is an independent example with its own state and session.",
+      "RuntimeTourSteps": "Bus basics|Dependency injection|Publish and subscribe|Queries and integration|Observe logs"
     }
   }
 }

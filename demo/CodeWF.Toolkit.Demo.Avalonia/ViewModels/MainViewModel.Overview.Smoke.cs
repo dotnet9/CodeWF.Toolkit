@@ -74,15 +74,44 @@ public partial class MainViewModel
             await Task.Delay(500);
             window.UpdateLayout();
             Save(key.Split('.').Last());
+            if (ActiveDocument?.Page is Views.Pages.TransportDemoPage transportPage) await transportPage.ViewModel.StopAsync();
+            if (ActiveDocument?.Page is Views.Pages.FileSystemDemoPage filePage) await filePage.ViewModel.StopAsync();
         }
 
-        foreach (var key in new[] { "Demo.Item.JsonExtensions", "Demo.Item.YamlExtensions", "Demo.Item.PrismExtensions", "Demo.Item.FileHelper", "Demo.Item.EventClient" })
+        foreach (var key in new[] { "Demo.Item.JsonExtensions", "Demo.Item.YamlExtensions", "Demo.Item.PrismExtensions", "Demo.Item.FileHelper", "Demo.Item.EventClient", "Demo.Item.DataTableExtensions", "Demo.Item.TcpSocketClientFileSystemFeature" })
         {
             overview.Overview.NavigateCommand.Execute(key);
+            await WaitForDocumentAsync();
             if (ActiveDocument?.Page is Views.Pages.HelperDemoPage helper) await helper.ViewModel.RunAsync();
+            if (ActiveDocument?.Page is Views.Pages.DataTableDemoPage table) await table.ViewModel.RunAsync(true);
+            if (ActiveDocument?.Page is Views.Pages.TransportDemoPage transport) { await transport.ViewModel.StartAsync(); await transport.ViewModel.SendAsync(); }
+            if (ActiveDocument?.Page is Views.Pages.FileSystemDemoPage files) { await files.ViewModel.StartAsync(); await files.ViewModel.CreateAsync(); }
+
             await Task.Delay(250);
             window.UpdateLayout();
+            await Task.Delay(250);
+            window.UpdateLayout();
+            if (ActiveDocument?.Page is Views.Pages.DataTableDemoPage or Views.Pages.FileSystemDemoPage)
+            {
+                var grid = ActiveDocument.Page.FindControl<TreeDataGrid>("PreviewGrid")!;
+                var rows = grid.GetVisualDescendants().OfType<global::Avalonia.Controls.Primitives.TreeDataGridRow>().Count(row => row.Bounds.Height > 0);
+                Logger.Info($"Capture grid: {key}, loaded={grid.IsLoaded}, bounds={grid.Bounds}, rows={rows}, source={grid.Source?.Rows.Count}");
+                if (rows == 0) throw new InvalidOperationException("Dock document grid did not render rows: " + key);
+            }
             Save(key.Split('.').Last());
+            if (ActiveDocument?.Page is Views.Pages.TransportDemoPage transportPage) await transportPage.ViewModel.StopAsync();
+            if (ActiveDocument?.Page is Views.Pages.FileSystemDemoPage filePage) await filePage.ViewModel.StopAsync();
+        }
+
+        async Task WaitForDocumentAsync()
+        {
+            var readyBy = DateTime.UtcNow.AddSeconds(10);
+            while (ActiveDocument?.Page is not { IsLoaded: true } page || page.Bounds.Width <= 0 || page.Bounds.Height <= 0)
+            {
+                if (DateTime.UtcNow >= readyBy) throw new TimeoutException("Dock document did not load.");
+                window.UpdateLayout();
+                await Task.Delay(50);
+            }
         }
 
         void Save(string name)

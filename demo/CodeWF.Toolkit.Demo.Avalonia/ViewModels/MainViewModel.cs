@@ -159,20 +159,33 @@ public partial class MainViewModel : ReactiveObject
             }
 
             this.RaiseAndSetIfChanged(ref _activeDocument, value);
+            foreach (var group in Groups)
+            {
+                foreach (var item in group.Items)
+                    item.IsSelected = item.TitleKey == value?.TitleKey;
+            }
+            var selected = Groups.SelectMany(group => group.Items).FirstOrDefault(item => item.IsSelected);
+            _selectedNavItem = selected;
+            this.RaisePropertyChanged(nameof(SelectedNavItem));
+            if (selected is not null)
+                SelectedGroup = Groups.First(group => group.Items.Contains(selected));
             this.RaisePropertyChanged(nameof(ActivePropertyItems));
             this.RaisePropertyChanged(nameof(ActiveValueCommittedCommand));
             this.RaisePropertyChanged(nameof(ActiveBrowseRequestedCommand));
         }
     }
 
+    private bool UsesGlobalProperties => ActiveDocument?.Page is Views.Pages.WelcomePage
+        || ActiveDocument?.Page.Properties.Count is not > 0;
+
     public IReadOnlyList<PropertyItem> ActivePropertyItems =>
-        ActiveDocument?.Page is Views.Pages.WelcomePage ? GlobalProperties : ActiveDocument?.Page.Properties ?? GlobalProperties;
+        UsesGlobalProperties ? GlobalProperties : ActiveDocument?.Page.Properties ?? GlobalProperties;
 
     public ICommand ActiveValueCommittedCommand =>
-        ActiveDocument?.Page is Views.Pages.WelcomePage ? GlobalValueCommittedCommand : ActiveDocument?.ValueCommittedCommand ?? GlobalValueCommittedCommand;
+        UsesGlobalProperties ? GlobalValueCommittedCommand : ActiveDocument?.ValueCommittedCommand ?? GlobalValueCommittedCommand;
 
     public ICommand ActiveBrowseRequestedCommand =>
-        ActiveDocument?.Page is Views.Pages.WelcomePage ? GlobalBrowseRequestedCommand : ActiveDocument?.BrowseRequestedCommand ?? GlobalBrowseRequestedCommand;
+        UsesGlobalProperties ? GlobalBrowseRequestedCommand : ActiveDocument?.BrowseRequestedCommand ?? GlobalBrowseRequestedCommand;
 
     /// <summary>无文档打开时的全局设置属性（外观 / 语言），由 PropertyGrid 直接驱动 Shell。</summary>
     public IReadOnlyList<PropertyItem> GlobalProperties { get; private set; }
@@ -359,9 +372,12 @@ public partial class MainViewModel : ReactiveObject
     }
 
     /// <summary>Dock 侧关闭（页签 ✕）后的状态同步入口，仅由 <see cref="DemoDockFactory"/> 回调。</summary>
+    public Task ShutdownAsync() => Task.WhenAll(Documents.Select(document => document.Page.OnDocumentClosedAsync()));
+
     private void SyncDocumentClosed(DemoDocumentViewModel document)
     {
         Documents.Remove(document);
+        _ = document.Page.OnDocumentClosedAsync();
         if (ActiveDocument == document)
         {
             ActiveDocument = Documents.LastOrDefault();
@@ -416,6 +432,7 @@ public partial class MainViewModel : ReactiveObject
     /// <summary>重置工作区：整体重建 Dock 布局并回到欢迎文档。</summary>
     public void ResetLayout()
     {
+        _ = ShutdownAsync();
         Documents.Clear();
         ActiveDocument = null;
         _selectedNavItem = null;
@@ -455,7 +472,7 @@ public partial class MainViewModel : ReactiveObject
             ActiveDockable = _navTool,
             VisibleDockables = _dockFactory.CreateList<IDockable>(_navTool),
             Dock = DockMode.Left,
-            Proportion = 0.145,
+            Proportion = 0.16,
         };
         var propDock = new ToolDock
         {
@@ -463,8 +480,8 @@ public partial class MainViewModel : ReactiveObject
             ActiveDockable = _propTool,
             VisibleDockables = _dockFactory.CreateList<IDockable>(_propTool),
             Dock = DockMode.Right,
-            Proportion = 0.20,
-            MinWidth = 260,
+            Proportion = 0.17,
+            MinWidth = 220,
         };
         var logDock = new ToolDock
         {
@@ -472,7 +489,7 @@ public partial class MainViewModel : ReactiveObject
             ActiveDockable = _logTool,
             VisibleDockables = _dockFactory.CreateList<IDockable>(_logTool),
             Dock = DockMode.Bottom,
-            Proportion = 0.18,
+            Proportion = 0.14,
         };
 
         _docDock = new DocumentDock
@@ -480,7 +497,7 @@ public partial class MainViewModel : ReactiveObject
             Id = "Dock.Docs",
             VisibleDockables = _dockFactory.CreateList<IDockable>(),
             CanCreateDocument = false,
-            Proportion = 0.655,
+            Proportion = 0.67,
             IsCollapsable = false,
         };
         _docDock.PropertyChanged += OnDocDockPropertyChanged;
@@ -489,7 +506,7 @@ public partial class MainViewModel : ReactiveObject
         {
             Id = "Dock.Main",
             Orientation = global::Dock.Model.Core.Orientation.Horizontal,
-            Proportion = 0.82,
+            Proportion = 0.86,
             VisibleDockables = _dockFactory.CreateList<IDockable>(
                 navDock,
                 new ProportionalDockSplitter(),

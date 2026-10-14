@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:codewf="https://codewf.com"
+             xmlns:vm="using:CodeWF.Toolkit.Demo.Avalonia.ViewModels.Pages"
+             x:Class="CodeWF.Toolkit.Demo.Avalonia.Views.Pages.TransportDemoPage"
+             x:DataType="vm:TransportDemoViewModel" x:CompileBindings="True">
+  <ScrollViewer>
+    <StackPanel Margin="16,14" Spacing="12">
+      <Border Classes="studio-card">
+        <StackPanel Spacing="10">
+          <TextBlock Text="{codewf:I18n Demo.Catalog.FileSession}" FontWeight="SemiBold" />
+          <TextBlock Classes="studio-hint" Text="{codewf:I18n Demo.Catalog.TransportHint}" />
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Classes="demo-action" Content="{codewf:I18n Demo.Catalog.FileStart}" Command="{Binding StartCommand}" IsEnabled="{Binding CanStart}" />
+            <Button Classes="demo-action" Content="{codewf:I18n Demo.Catalog.FileStop}" Command="{Binding StopCommand}" IsEnabled="{Binding IsRunning}" />
+            <codewf:StatusBadge LeftText="{codewf:I18n Demo.Catalog.TransportConnected}" RightText="{Binding IsRunning}" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+      <Border Classes="studio-card">
+        <StackPanel Spacing="10">
+          <TextBlock Text="{codewf:I18n Demo.Catalog.Input}" FontWeight="SemiBold" />
+          <TextBox Text="{Binding Input}" />
+          <StackPanel Orientation="Horizontal" Spacing="8" IsEnabled="{Binding CanOperate}">
+            <Button Classes="demo-action" Content="{codewf:I18n Demo.Catalog.TransportSend}" Command="{Binding SendCommand}" />
+            <CheckBox Content="{codewf:I18n Demo.Catalog.TransportSubscribe}" IsVisible="{Binding IsEvent}" IsChecked="{Binding IsSubscribed, Mode=OneWay}" Command="{Binding SubscriptionCommand}" />
+          </StackPanel>
+          <ProgressBar IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}" />
+        </StackPanel>
+      </Border>
+      <Border Classes="studio-card"><SelectableTextBlock Classes="studio-output" Text="{Binding Output}" /></Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

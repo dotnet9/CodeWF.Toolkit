@@ -218,8 +218,8 @@
         "titleZh": "ActionHelper",
         "titleEn": "ActionHelper",
         "description": "ActionHelper",
-        "input": "1000",
-        "code": "ActionHelper.CheckOvertime(action, timeoutMilliseconds);"
+        "input": "20,100",
+        "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out."
       },
       {
         "titleKey": "Demo.Item.IpHelper",
@@ -351,7 +351,7 @@
       },
       {
         "titleKey": "Demo.Item.DataTableExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"DataTableExtensions\"))",
+        "page": "DataTableDemoPage()",
         "api": "DataTableExtensions",
         "package": "CodeWF.Toolkit.Files",
         "prototypeId": "datatable",
@@ -359,7 +359,7 @@
         "titleEn": "DataTableExtensions",
         "description": "DataTableExtensions",
         "input": "Ada,42\nLin,24",
-        "code": "table.ExportToCsv(path, Encoding.UTF8, out var error);\npath.ImportFromCsv(out var error, out var restored);"
+        "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);"
       },
       {
         "titleKey": "Demo.Item.ImageIcon",
@@ -425,7 +425,7 @@
       },
       {
         "titleKey": "Demo.Item.EventServer",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EventServer\"))",
+        "page": "TransportDemoPage(\"EventServer\")",
         "api": "EventServer",
         "package": "CodeWF.Toolkit.EventBus.Socket",
         "prototypeId": "event-server",
@@ -437,7 +437,7 @@
       },
       {
         "titleKey": "Demo.Item.EventClient",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EventClient\"))",
+        "page": "TransportDemoPage(\"EventClient\")",
         "api": "EventClient",
         "package": "CodeWF.Toolkit.EventBus.Socket",
         "prototypeId": "event-client",
@@ -467,7 +467,7 @@
       },
       {
         "titleKey": "Demo.Item.TcpSocketServer",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketServer\"))",
+        "page": "TransportDemoPage(\"TcpSocketServer\")",
         "api": "TcpSocketServer",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketserver",
@@ -479,7 +479,7 @@
       },
       {
         "titleKey": "Demo.Item.TcpSocketClient",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketClient\"))",
+        "page": "TransportDemoPage(\"TcpSocketClient\")",
         "api": "TcpSocketClient",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketclient",
@@ -491,7 +491,7 @@
       },
       {
         "titleKey": "Demo.Item.UdpSocketServer",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UdpSocketServer\"))",
+        "page": "TransportDemoPage(\"UdpSocketServer\")",
         "api": "UdpSocketServer",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "udpsocketserver",
@@ -503,7 +503,7 @@
       },
       {
         "titleKey": "Demo.Item.UdpSocketClient",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UdpSocketClient\"))",
+        "page": "TransportDemoPage(\"UdpSocketClient\")",
         "api": "UdpSocketClient",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "udpsocketclient",
@@ -527,7 +527,7 @@
       },
       {
         "titleKey": "Demo.Item.TcpSocketClientFileSystemFeature",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketClientFileSystemFeature\"))",
+        "page": "FileSystemDemoPage(false)",
         "api": "TcpSocketClientFileSystemFeature",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketclientfilesystemfeature",
@@ -535,11 +535,11 @@
         "titleEn": "TcpSocketClientFileSystemFeature",
         "description": "TcpSocketClientFileSystemFeature",
         "input": "",
-        "code": "using var feature = new TcpSocketClientFileSystemFeature(client);\nawait feature.BrowseFileSystemAsync(remotePath);"
+        "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServerFileSystemFeature",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketServerFileSystemFeature\"))",
+        "page": "FileSystemDemoPage(true)",
         "api": "TcpSocketServerFileSystemFeature",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketserverfilesystemfeature",
@@ -547,7 +547,7 @@
         "titleEn": "TcpSocketServerFileSystemFeature",
         "description": "TcpSocketServerFileSystemFeature",
         "input": "",
-        "code": "using var feature = new TcpSocketServerFileSystemFeature(server);\nfeature.RootDirectory = isolatedDirectory;"
+        "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();"
       }
     ]
   },
@@ -615,8 +615,8 @@
         "api": "",
         "package": "",
         "prototypeId": "flow-runtime",
-        "titleZh": "运行态工作流",
-        "titleEn": "Runtime workflow",
+        "titleZh": "事件与日志导览",
+        "titleEn": "Events and logging tour",
         "description": ""
       },
       {

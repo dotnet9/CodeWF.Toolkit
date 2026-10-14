@@ -181,6 +181,8 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         }
     }
 
+    public override Task OnDocumentClosedAsync() => StopAsync();
+
     private async Task StopAsync()
     {
         if (_client is not null)

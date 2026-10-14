@@ -17,7 +17,7 @@ public sealed class HelperDemoPage : DemoPageBase
         DataContext = ViewModel;
         var input = new TextBox { AcceptsReturn = true, MinHeight = 72, MaxHeight = 150 };
         input.Bind(TextBox.TextProperty, new Binding(nameof(ViewModel.Input)) { Mode = BindingMode.TwoWay });
-        var button = new Button { Command = ViewModel.RunCommand };
+        var button = new Button { Classes = { "demo-action" }, Command = ViewModel.RunCommand, HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Left };
         button.Bind(Button.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy)) { Converter = BoolConverters.Not });
         button.Bind(ContentControl.ContentProperty, new CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension("Demo.Catalog.Run").CreateBinding());
         var output = Ui.Code("", output: true);

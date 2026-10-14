@@ -18,3 +18,5 @@
 .cmds{flex-wrap:nowrap}.cbtn{flex:0 0 auto;width:auto;height:62px}.rbn{overflow-x:auto;overflow-y:hidden}.catalog-header .catalog-description{color:var(--tx2);font-size:12px;margin-top:6px;line-height:1.7}
 
 .catalog-status[data-level="Debug"]{--status-color:#54a9ff}.catalog-status[data-level="Info"]{--status-color:var(--ok)}.catalog-status[data-level="Warn"]{--status-color:var(--warn)}.catalog-status[data-level="Error"],.catalog-status[data-level="Fatal"]{--status-color:var(--err)}.catalog-status{border-color:var(--status-color);background:color-mix(in srgb,var(--status-color) 12%,var(--bg2))}.catalog-status strong{background:var(--status-color)}.catalog-status.card strong{background:transparent;color:var(--status-color)}
+
+.catalog-grid{width:100%;border-collapse:collapse;table-layout:fixed}.catalog-grid th,.catalog-grid td{padding:9px;text-align:left;border-bottom:1px solid var(--line);overflow:hidden;text-overflow:ellipsis}.demo progress{width:100%;height:6px;margin:14px 0;accent-color:var(--pri)}.catalog-connected{color:var(--pri);font:12px Consolas,monospace}

@@ -20,6 +20,20 @@ public partial class MainWindow : CodeWFWindow
         }
 
         Loaded += OnLoaded;
+        Closing += OnClosing;
+    }
+
+    private bool _shutdownComplete;
+    private bool _shutdownStarted;
+    private async void OnClosing(object? sender, WindowClosingEventArgs e)
+    {
+        if (_shutdownComplete) return;
+        e.Cancel = true;
+        if (_shutdownStarted) return;
+        _shutdownStarted = true;
+        await _viewModel.ShutdownAsync();
+        _shutdownComplete = true;
+        Close();
     }
 
     private async void OnLoaded(object? sender, RoutedEventArgs e)

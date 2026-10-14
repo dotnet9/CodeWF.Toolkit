@@ -41,7 +41,7 @@
           <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
            <DataTemplate x:DataType="vm:DemoItemViewModel">
-            <Button Content="{Binding Title}" Command="{Binding $parent[UserControl].((vm:WelcomeViewModel)DataContext).NavigateCommand}" CommandParameter="{Binding TitleKey}" Margin="0,0,6,6" Padding="10,5" />
+            <Button Classes="demo-action" Content="{Binding Title}" Command="{Binding $parent[UserControl].((vm:WelcomeViewModel)DataContext).NavigateCommand}" CommandParameter="{Binding TitleKey}" Margin="0,0,6,6" Padding="10,5" />
            </DataTemplate>
           </ItemsControl.ItemTemplate>
          </ItemsControl>
@@ -59,19 +59,19 @@
      <TabControl Classes="studio-lab" SelectedIndex="{Binding LabIndex}">
 <TabItem Header="{codewf:I18n Demo.Studio.Bus}">
        <StackPanel Spacing="12">
-        <Grid ColumnDefinitions="*,Auto,Auto"><TextBox Text="{Binding Message}" PlaceholderText="{codewf:I18n Demo.Studio.Message}" /><Button Grid.Column="1" Margin="8,0" Classes="Primary" Content="{codewf:I18n Demo.Studio.Publish}" Command="{Binding PublishCommand}" /><Button Grid.Column="2" Content="{codewf:I18n Demo.Studio.ToggleSubscription}" Command="{Binding ToggleSubscriptionCommand}" /></Grid>
+        <Grid ColumnDefinitions="*,Auto,Auto"><TextBox Text="{Binding Message}" PlaceholderText="{codewf:I18n Demo.Studio.Message}" /><Button Grid.Column="1" Margin="8,0" Classes="Primary" Content="{codewf:I18n Demo.Studio.Publish}" Command="{Binding PublishCommand}" /><Button Classes="demo-action" Grid.Column="2" Content="{codewf:I18n Demo.Studio.ToggleSubscription}" Command="{Binding ToggleSubscriptionCommand}" /></Grid>
         <Grid ColumnDefinitions="*,24,*,24,*,24,*"><Border Grid.Column="0" Classes="studio-flow-node" Classes.active="{Binding IsPublishing}"><TextBlock Text="{codewf:I18n Demo.Studio.Publisher}" HorizontalAlignment="Center" /></Border><TextBlock Grid.Column="1" Text="→" HorizontalAlignment="Center" VerticalAlignment="Center" /><Border Grid.Column="2" Classes="studio-flow-node" Classes.active="{Binding IsRouting}"><TextBlock Text="{codewf:I18n Demo.Studio.EventBus}" HorizontalAlignment="Center" /></Border><TextBlock Grid.Column="3" Text="→" HorizontalAlignment="Center" VerticalAlignment="Center" /><Border Grid.Column="4" Classes="studio-flow-node" Classes.active="{Binding IsReceiving}"><TextBlock Text="{codewf:I18n Demo.Studio.Subscriber}" HorizontalAlignment="Center" /></Border><TextBlock Grid.Column="5" Text="→" HorizontalAlignment="Center" VerticalAlignment="Center" /><Border Grid.Column="6" Classes="studio-flow-node" Classes.active="{Binding IsLogging}"><TextBlock Text="{codewf:I18n Demo.Studio.LogSink}" HorizontalAlignment="Center" /></Border></Grid>
         <TextBlock Text="{Binding SubscriptionStatus}" Classes="studio-muted" />
         <SelectableTextBlock Text="{Binding BusOutput}" FontFamily="Consolas" FontSize="12" TextWrapping="Wrap" MinHeight="42" />
-        <Button Content="{codewf:I18n Demo.Studio.Open}" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.Bus" HorizontalAlignment="Left" />
+        <Button Classes="demo-action" Content="{codewf:I18n Demo.Studio.Open}" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.Bus" HorizontalAlignment="Left" />
        </StackPanel>
       </TabItem>
       <TabItem Header="{codewf:I18n Demo.Studio.Bytes}">
        <StackPanel Spacing="12">
         <TextBlock Text="{codewf:I18n Demo.Studio.Integer}" Classes="studio-muted" />
-        <Grid ColumnDefinitions="*,Auto"><TextBox Text="{Binding IntegerText}" /><Button Grid.Column="1" Margin="8,0,0,0" Content="{codewf:I18n Demo.Studio.Encode}" Command="{Binding EncodeCommand}" /></Grid>
+        <Grid ColumnDefinitions="*,Auto"><TextBox Text="{Binding IntegerText}" /><Button Classes="demo-action" Grid.Column="1" Margin="8,0,0,0" Content="{codewf:I18n Demo.Studio.Encode}" Command="{Binding EncodeCommand}" /></Grid>
         <SelectableTextBlock Text="{Binding ByteOutput}" FontFamily="Consolas" FontSize="18" TextWrapping="Wrap" MinHeight="72" />
-        <Button Content="{codewf:I18n Demo.Studio.Open}" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.NetPacket" HorizontalAlignment="Left" />
+        <Button Classes="demo-action" Content="{codewf:I18n Demo.Studio.Open}" Command="{Binding NavigateCommand}" CommandParameter="Demo.Item.NetPacket" HorizontalAlignment="Left" />
        </StackPanel>
       </TabItem>
       <TabItem Header="{codewf:I18n Demo.Studio.Pipeline}">
@@ -80,7 +80,7 @@
         <TextBlock Text="JSON  →  YAML  →  ZIP  →  QR" FontSize="20" Foreground="{DynamicResource StudioAccent}" />
         <ProgressBar Minimum="0" Maximum="4" Value="{Binding PipelineStep}" Height="4" />
         <SelectableTextBlock Text="{Binding PipelineOutput}" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" MinHeight="40" />
-        <StackPanel Orientation="Horizontal" Spacing="8"><Button Content="{codewf:I18n Demo.Studio.RunPipeline}" Command="{Binding PipelineCommand}" /><Button Content="{codewf:I18n Demo.Studio.Output}" Command="{Binding OpenOutputCommand}" IsEnabled="{Binding HasOutput}" /></StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="8"><Button Classes="demo-action" Content="{codewf:I18n Demo.Studio.RunPipeline}" Command="{Binding PipelineCommand}" /><Button Classes="demo-action" Content="{codewf:I18n Demo.Studio.Output}" Command="{Binding OpenOutputCommand}" IsEnabled="{Binding HasOutput}" /></StackPanel>
        </StackPanel>
       </TabItem>
      </TabControl>
@@ -140,7 +140,7 @@
    <Border Classes="studio-card">
     <Grid ColumnDefinitions="*,Auto">
      <StackPanel Spacing="8"><TextBlock Text="{codewf:I18n Demo.Studio.QuickStart}" FontWeight="SemiBold" /><SelectableTextBlock Text="{Binding InstallCommand}" FontFamily="Consolas" FontSize="12" TextWrapping="Wrap" /><TextBlock Text="{Binding CopyStatus}" Classes="studio-muted" /></StackPanel>
-     <Button Grid.Column="1" Content="{codewf:I18n Demo.Studio.Copy}" Command="{Binding CopyInstallCommand}" Margin="12,0,0,0" VerticalAlignment="Center" />
+     <Button Classes="demo-action" Grid.Column="1" Content="{codewf:I18n Demo.Studio.Copy}" Command="{Binding CopyInstallCommand}" Margin="12,0,0,0" VerticalAlignment="Center" />
     </Grid>
    </Border>
     </StackPanel>

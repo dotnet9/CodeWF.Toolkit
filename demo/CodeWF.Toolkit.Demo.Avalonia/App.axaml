@@ -9,6 +9,7 @@
     <semi:SemiTheme Locale="zh-CN" />
     <codewf:ACSemiTheme />
     <codewf:DockSemiTheme />
+    <codewf:TreeDataGridSemiTheme />
     <codewf:CodeWFLogTheme />
     <codewf:StudioTheme />
     <StyleInclude Source="avares://CodeWF.Toolkit.Demo.Avalonia/Views/DemoStyles.axaml" />

@@ -44,6 +44,8 @@ public abstract class ScenePageBase : DemoPageBase
     /// <summary>步骤数量。</summary>
     public int StepCount => _pages.Count;
 
+    public override Task OnDocumentClosedAsync() => Task.WhenAll(_pages.Select(page => page.OnDocumentClosedAsync()));
+
     /// <summary>当前步骤索引。</summary>
     public int StepIndex => _stepIndex;
 

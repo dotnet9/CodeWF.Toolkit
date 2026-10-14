@@ -219,8 +219,8 @@ window.CodeWFDemoCatalog = [
         "titleZh": "ActionHelper",
         "titleEn": "ActionHelper",
         "description": "ActionHelper",
-        "input": "1000",
-        "code": "ActionHelper.CheckOvertime(action, timeoutMilliseconds);"
+        "input": "20,100",
+        "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out."
       },
       {
         "titleKey": "Demo.Item.IpHelper",
@@ -352,7 +352,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.DataTableExtensions",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"DataTableExtensions\"))",
+        "page": "DataTableDemoPage()",
         "api": "DataTableExtensions",
         "package": "CodeWF.Toolkit.Files",
         "prototypeId": "datatable",
@@ -360,7 +360,7 @@ window.CodeWFDemoCatalog = [
         "titleEn": "DataTableExtensions",
         "description": "DataTableExtensions",
         "input": "Ada,42\nLin,24",
-        "code": "table.ExportToCsv(path, Encoding.UTF8, out var error);\npath.ImportFromCsv(out var error, out var restored);"
+        "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);"
       },
       {
         "titleKey": "Demo.Item.ImageIcon",
@@ -426,7 +426,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.EventServer",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EventServer\"))",
+        "page": "TransportDemoPage(\"EventServer\")",
         "api": "EventServer",
         "package": "CodeWF.Toolkit.EventBus.Socket",
         "prototypeId": "event-server",
@@ -438,7 +438,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.EventClient",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"EventClient\"))",
+        "page": "TransportDemoPage(\"EventClient\")",
         "api": "EventClient",
         "package": "CodeWF.Toolkit.EventBus.Socket",
         "prototypeId": "event-client",
@@ -468,7 +468,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.TcpSocketServer",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketServer\"))",
+        "page": "TransportDemoPage(\"TcpSocketServer\")",
         "api": "TcpSocketServer",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketserver",
@@ -480,7 +480,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.TcpSocketClient",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketClient\"))",
+        "page": "TransportDemoPage(\"TcpSocketClient\")",
         "api": "TcpSocketClient",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketclient",
@@ -492,7 +492,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.UdpSocketServer",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UdpSocketServer\"))",
+        "page": "TransportDemoPage(\"UdpSocketServer\")",
         "api": "UdpSocketServer",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "udpsocketserver",
@@ -504,7 +504,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.UdpSocketClient",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UdpSocketClient\"))",
+        "page": "TransportDemoPage(\"UdpSocketClient\")",
         "api": "UdpSocketClient",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "udpsocketclient",
@@ -528,7 +528,7 @@ window.CodeWFDemoCatalog = [
       },
       {
         "titleKey": "Demo.Item.TcpSocketClientFileSystemFeature",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketClientFileSystemFeature\"))",
+        "page": "FileSystemDemoPage(false)",
         "api": "TcpSocketClientFileSystemFeature",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketclientfilesystemfeature",
@@ -536,11 +536,11 @@ window.CodeWFDemoCatalog = [
         "titleEn": "TcpSocketClientFileSystemFeature",
         "description": "TcpSocketClientFileSystemFeature",
         "input": "",
-        "code": "using var feature = new TcpSocketClientFileSystemFeature(client);\nawait feature.BrowseFileSystemAsync(remotePath);"
+        "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServerFileSystemFeature",
-        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"TcpSocketServerFileSystemFeature\"))",
+        "page": "FileSystemDemoPage(true)",
         "api": "TcpSocketServerFileSystemFeature",
         "package": "CodeWF.Toolkit.NetWrapper",
         "prototypeId": "tcpsocketserverfilesystemfeature",
@@ -548,7 +548,7 @@ window.CodeWFDemoCatalog = [
         "titleEn": "TcpSocketServerFileSystemFeature",
         "description": "TcpSocketServerFileSystemFeature",
         "input": "",
-        "code": "using var feature = new TcpSocketServerFileSystemFeature(server);\nfeature.RootDirectory = isolatedDirectory;"
+        "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();"
       }
     ]
   },
@@ -616,8 +616,8 @@ window.CodeWFDemoCatalog = [
         "api": "",
         "package": "",
         "prototypeId": "flow-runtime",
-        "titleZh": "运行态工作流",
-        "titleEn": "Runtime workflow",
+        "titleZh": "事件与日志导览",
+        "titleEn": "Events and logging tour",
         "description": ""
       },
       {
@@ -651,7 +651,37 @@ window.CodeWFCatalogText = {
     "Notification": "由 LogNotifications 发出的日志通知。",
     "Notifications": "发送日志通知",
     "Preview": "浏览器交互示意；完整调用结果由 .NET Demo 产生。",
-    "WindowsOnly": "此帮助类目前仅支持 Windows。"
+    "WindowsOnly": "此帮助类目前仅支持 Windows。",
+    "TableCsv": "CSV 导出并回读",
+    "TableExcel": "Excel 导出并回读",
+    "TableHint": "每行输入 Name,Value。分别调用 CSV / Excel 导出与导入 API，预览回读数据并校验单元格一致；结果文件保存在显示的临时目录。",
+    "TableFormat": "每行须包含两个以逗号分隔的值，且至少有一行数据。",
+    "ActionFormat": "输入 操作耗时,等待上限（毫秒），两项均为 0–5000。",
+    "ActionCompleted": "true：操作在等待上限内完成。",
+    "ActionTimedOut": "false：等待超时，后台操作仍会继续；该方法不会取消操作。",
+    "FileSession": "本机文件系统会话",
+    "FileOperations": "远程目录与传输",
+    "FileStart": "启动并连接",
+    "FileStop": "断开并停止",
+    "FileBrowse": "浏览目录",
+    "FileCreate": "创建 demo-folder",
+    "FileDelete": "删除 demo-folder",
+    "FileUpload": "上传 4 MB 样例",
+    "FileDownload": "下载并校验",
+    "FileCancel": "取消传输",
+    "FileCancelled": "传输已取消。可再次上传或下载以观察续传。",
+    "FileStopped": "连接与服务已停止。",
+    "FileStartFirst": "请先启动本机会话。",
+    "FileServerHint": "服务端绑定本机随机端口，RootDirectory 限定独立临时目录。下方客户端请求可观察浏览、创建、删除与文件传输响应。关闭文档会停止服务。",
+    "FileClientHint": "启动本机配套服务后执行真实请求。先上传再下载，传输完成后比较 SHA256；可取消传输。只操作本次会话的临时目录。",
+    "TransportHint": "启动本机配套端点，保持会话以重复发送、观察连接与接收结果；事件总线可切换订阅。关闭文档会停止会话。",
+    "TransportStarted": "端点已启动并连接。",
+    "TransportSend": "发送并验证接收",
+    "TransportConnected": "连接",
+    "TransportSubscribe": "订阅 demo.message",
+    "TransportNoSubscription": "已发布；当前没有订阅，未等待接收。",
+    "RuntimeTourHint": "依次学习总线、注册、发布订阅、查询集成与日志。各步骤是独立示例，拥有各自的状态和会话。",
+    "RuntimeTourSteps": "总线基础|依赖注入|发布与订阅|查询与集成|观测日志"
   },
   "en-US": {
     "Title": "Helper catalog",
@@ -670,7 +700,37 @@ window.CodeWFCatalogText = {
     "Notification": "A log notification presented by LogNotifications.",
     "Notifications": "Send log notification",
     "Preview": "Browser interaction preview; the .NET demo runs the complete API call.",
-    "WindowsOnly": "This helper currently supports Windows only."
+    "WindowsOnly": "This helper currently supports Windows only.",
+    "TableCsv": "Export / import CSV",
+    "TableExcel": "Export / import Excel",
+    "TableHint": "Enter Name,Value per line. Export and import CSV or Excel, preview the imported rows and verify every cell. Result files remain in the displayed temporary directory.",
+    "TableFormat": "Enter at least one row with two comma-separated values.",
+    "ActionFormat": "Enter action duration,timeout in milliseconds, both between 0 and 5000.",
+    "ActionCompleted": "true: the action completed within the timeout.",
+    "ActionTimedOut": "false: the wait timed out. The action continues in the background; this method does not cancel it.",
+    "FileSession": "Local file-system session",
+    "FileOperations": "Remote directory and transfers",
+    "FileStart": "Start and connect",
+    "FileStop": "Disconnect and stop",
+    "FileBrowse": "Browse",
+    "FileCreate": "Create demo-folder",
+    "FileDelete": "Delete demo-folder",
+    "FileUpload": "Upload 4 MB sample",
+    "FileDownload": "Download and verify",
+    "FileCancel": "Cancel transfer",
+    "FileCancelled": "Transfer cancelled. Upload or download again to observe resumption.",
+    "FileStopped": "Connection and server stopped.",
+    "FileStartFirst": "Start the local session first.",
+    "FileServerHint": "The server binds a random loopback port with RootDirectory restricted to a fresh temporary directory. Use the local client below to observe real browse, create, delete and transfer responses. Closing the document stops the session.",
+    "FileClientHint": "Start the local peer server, then send real requests. Upload before downloading; completed files are checked with SHA256. Transfers can be cancelled. All operations stay inside this session’s temporary directory.",
+    "TransportHint": "Start local peer endpoints and keep the session open to send repeatedly and inspect connection and delivery. Toggle subscriptions for the event bus. Closing the document stops the session.",
+    "TransportStarted": "Endpoints started and connected.",
+    "TransportSend": "Send and verify delivery",
+    "TransportConnected": "Connected",
+    "TransportSubscribe": "Subscribe demo.message",
+    "TransportNoSubscription": "Published without an active subscription; no delivery was awaited.",
+    "RuntimeTourHint": "Explore bus basics, registration, pub/sub, integration and logging. Each step is an independent example with its own state and session.",
+    "RuntimeTourSteps": "Bus basics|Dependency injection|Publish and subscribe|Queries and integration|Observe logs"
   }
 };
 window.CodeWFCatalogDescriptions = {
@@ -718,7 +778,7 @@ window.CodeWFCatalogDescriptions = {
       "Desc": "识别 ISO 8601 日期，转换 Excel 日期数值。"
     },
     "ActionHelper": {
-      "Desc": "执行带超时检查的操作。"
+      "Desc": "调整操作耗时与等待上限，观察限时完成和等待超时；超时不取消后台操作。"
     },
     "IpHelper": {
       "Desc": "解析 IP 与端口，列举本机 IPv4 地址。"
@@ -751,7 +811,7 @@ window.CodeWFCatalogDescriptions = {
       "Desc": "通过源生成元数据序列化 YAML，并还原对象。"
     },
     "DataTableExtensions": {
-      "Desc": "导出 DataTable 为 CSV，再导入并检查行数。"
+      "Desc": "同页演示 CSV 与 Excel 导出、导入及真实表格回读校验。"
     },
     "ImageIcon": {
       "Desc": "从图片生成多尺寸 ICO 图标。"
@@ -855,7 +915,7 @@ window.CodeWFCatalogDescriptions = {
       "Desc": "Recognize ISO 8601 dates and convert Excel date values."
     },
     "ActionHelper": {
-      "Desc": "Run an action with timeout checking."
+      "Desc": "Adjust action duration and timeout to observe completion or timeout; timing out does not cancel the action."
     },
     "IpHelper": {
       "Desc": "Parse IP addresses and ports and list local IPv4 addresses."
@@ -888,7 +948,7 @@ window.CodeWFCatalogDescriptions = {
       "Desc": "Serialize YAML with generated metadata and restore the object."
     },
     "DataTableExtensions": {
-      "Desc": "Export a DataTable to CSV, then import it and inspect the row count."
+      "Desc": "Export and import CSV and Excel, with a real table preview and cell validation."
     },
     "ImageIcon": {
       "Desc": "Generate multi-size ICO icons from an image."

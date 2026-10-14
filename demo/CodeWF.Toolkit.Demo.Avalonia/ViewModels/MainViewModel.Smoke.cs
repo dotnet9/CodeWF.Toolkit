@@ -44,6 +44,61 @@ public partial class MainViewModel
                         if (!helper.ViewModel.Succeeded) throw new InvalidOperationException(helper.ViewModel.Output);
                         Logger.Info($"API catalog smoke: {item.Api} passed");
                     }
+                    if (page is Views.Pages.DataTableDemoPage table)
+                    {
+                        foreach (var excel in new[] { false, true })
+                        {
+                            await table.ViewModel.RunAsync(excel).WaitAsync(TimeSpan.FromSeconds(15), cancellation);
+                            if (!table.ViewModel.Succeeded || table.ViewModel.Rows.Count != 2)
+                                throw new InvalidOperationException(table.ViewModel.Output);
+                        }
+                        Logger.Info("DataTable smoke: CSV and Excel exports/imports preserved all cells");
+                    }
+                    if (page is Views.Pages.TransportDemoPage transport)
+                    {
+                        var session = transport.ViewModel;
+                        try
+                        {
+                            await session.StartAsync();
+                            if (!session.IsRunning) throw new InvalidOperationException(session.Output);
+                            await session.SendAsync();
+                            if (!session.Succeeded || session.ReceivedCount != 1) throw new InvalidOperationException(session.Output);
+                            if (session.IsEvent)
+                            {
+                                session.ToggleSubscription();
+                                await session.SendAsync();
+                                if (session.IsSubscribed || session.ReceivedCount != 1) throw new InvalidOperationException(session.Output);
+                                session.ToggleSubscription();
+                                await session.SendAsync();
+                                if (!session.Succeeded || session.ReceivedCount != 2) throw new InvalidOperationException(session.Output);
+                            }
+                        }
+                        finally { await session.StopAsync(); }
+                        if (session.IsRunning) throw new InvalidOperationException("Transport session did not stop.");
+                        Logger.Info($"Transport session smoke: {item.Api} start, send, receive and stop passed");
+                    }
+                    if (page is Views.Pages.FileSystemDemoPage fileSystem)
+                    {
+                        var session = fileSystem.ViewModel;
+                        try
+                        {
+                            await session.StartAsync();
+                            if (!session.IsRunning || session.Rows.Count != 1) throw new InvalidOperationException(session.Output);
+                            await session.CreateAsync();
+                            if (!session.Succeeded || session.Rows.Count != 2) throw new InvalidOperationException(session.Output);
+                            await session.TransferAsync(true, 256 * 1024, cancelAfterFirstBlock: true);
+                            if (!session.LastTransferWasCancelled) throw new InvalidOperationException("Transfer cancellation was not observed.");
+                            await session.TransferAsync(true, 256 * 1024);
+                            if (!session.Succeeded) throw new InvalidOperationException(session.Output);
+                            await session.TransferAsync(false);
+                            if (!session.Succeeded) throw new InvalidOperationException(session.Output);
+                            await session.DeleteAsync();
+                            if (!session.Succeeded || Directory.Exists(Path.Combine(session.RootDirectory, "demo-folder"))) throw new InvalidOperationException(session.Output);
+                        }
+                        finally { await session.StopAsync(); }
+                        if (session.IsRunning) throw new InvalidOperationException("File session did not stop.");
+                        Logger.Info("File-system smoke: local session, browse/create/delete, cancellation/resume, upload/download and SHA256 validation passed");
+                    }
 
                     built++;
 
@@ -63,6 +118,7 @@ public partial class MainViewModel
 
                     if (host is not null)
                     {
+                        Logger.Info("Smoke: rendering " + item.TitleKey);
                         host.Content = page;
                         foreach (var variant in variants)
                         {
@@ -74,6 +130,17 @@ public partial class MainViewModel
                             try
                             {
                                 LayoutOnce(host);
+                                if (page is Views.Pages.DataTableDemoPage or Views.Pages.FileSystemDemoPage)
+                                {
+                                    await Task.Delay(30, cancellation);
+                                    LayoutOnce(host);
+                                    var grid = page.FindControl<TreeDataGrid>("PreviewGrid")
+                                        ?? throw new InvalidOperationException("Missing preview grid.");
+                                    var visuals = global::Avalonia.VisualTree.VisualExtensions.GetVisualDescendants(grid).ToArray();
+                                    if (!visuals.OfType<global::Avalonia.Controls.Primitives.TreeDataGridColumnHeader>().Any(header => header.Bounds.Width > 0)
+                                        || !visuals.OfType<global::Avalonia.Controls.Primitives.TreeDataGridRow>().Any(row => row.Bounds.Width > 0 && row.Bounds.Height > 0))
+                                        throw new InvalidOperationException("Preview grid did not render column headers and data rows.");
+                                }
                                 rendered++;
                             }
                             catch (Exception ex)
