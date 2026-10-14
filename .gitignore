@@ -434,3 +434,6 @@ FodyWeavers.xsd
 
 # Pinned external source checkout used by the native Demo build
 .sources/
+
+# Browser prototype audit output
+design/tests/artifacts/

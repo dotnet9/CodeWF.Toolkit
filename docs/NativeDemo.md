@@ -86,3 +86,13 @@ Start-Process $demo -ArgumentList '--capture ./artifacts/studio-qa' -Wait -PassT
 `IpHelper` 属于协议与网络。属性栏有页面参数时显示参数，否则回退全局设置，原型不再额外堆放空参数和状态统计。原型的全局设置标签和配色名称从原生双语资源生成。
 
 README 图片及 GIF 已替换成本轮原生 EXE 的截图；其中 GIF 是主题与实验截图巡览。字体度量、Dock 页签、PropertyGrid 编辑器和原生窗口行为仍取决于 Semi / Dock 与平台，不承诺与 HTML 逐像素一致。第三方 Prism 默认对话框及旧运行时 XAML 加载器存在兼容性分析警告，本轮验收覆盖 Demo 实际调用路径。
+
+## 目录和本地化维护门禁（2026-10-14 补充）
+
+页面工厂、导航常量和原生/浏览器图标统一由 `design/catalog.json` 管理；`scripts/sync_design_catalog.ps1 -Check` 会拒绝过期的 C# 与 JavaScript 生成物。该 JSON 是 Demo 构建输入，生成文件随源码提交。
+
+全部历史编号资源键改为固定语义键，保留原有翻译内容；切换语言重建属性行时保留提交与浏览命令实例，运行冒烟覆盖这条路径。UTF-8 检查接受有或无 BOM，不把 BOM 视为防止错误转码的保证。
+
+本次单元测试 236 项通过；可复跑的 Chromium 审计执行 196 次路由/语言/窗口宽度检查，覆盖实际 Ribbon 和导航点击、内容非空、源码面板及被原型 guard 捕获的脚本异常。审计命令和维护步骤见 [设计目录](../design/README.md)。
+
+补充验证使用各仓库的 Windows x64 AOT 发布脚本，原生 `--smoke` 均退出 0，覆盖语言切换时的命令身份回归。Toolkit 使用隔离的已提交库代码验证本次 Demo 补丁，后续更新服务的未提交改动将在独立阶段测试。现有第三方 AOT / 裁剪警告仍保留；本机没有执行 Linux 或 macOS UI。
