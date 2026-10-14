@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <AssemblyMetadata Include="CodeWF.BuildTimestamp" Value="2026-01-02T03:04:05.0000000Z" />
     <EmbeddedResource Include="Lang/Resources/*.json" />
   </ItemGroup>
 

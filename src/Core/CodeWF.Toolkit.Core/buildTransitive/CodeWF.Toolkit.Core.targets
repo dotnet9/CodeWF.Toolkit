@@ -1,0 +1,13 @@
+<Project>
+  <!-- 可显式设置 CodeWFBuildTimestamp 以实现可复现构建，或用 CodeWFGenerateBuildTimestamp=false 关闭生成。 -->
+  <Target Name="CodeWFGenerateBuildTimestamp" BeforeTargets="GetAssemblyAttributes"
+          Condition="'$(GenerateAssemblyInfo)' != 'false' and '$(CodeWFGenerateBuildTimestamp)' != 'false'">
+    <PropertyGroup>
+      <CodeWFBuildTimestamp Condition="'$(CodeWFBuildTimestamp)' == ''">$([System.DateTime]::UtcNow.ToString('O'))</CodeWFBuildTimestamp>
+    </PropertyGroup>
+    <ItemGroup>
+      <AssemblyMetadata Remove="CodeWF.BuildTimestamp" />
+      <AssemblyMetadata Include="CodeWF.BuildTimestamp" Value="$(CodeWFBuildTimestamp)" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Lang\CodeWF.Toolkit.Lang\CodeWF.Toolkit.Lang.csproj" />
+    <None Update="buildTransitive/CodeWF.Toolkit.Core.targets" Pack="true" PackagePath="buildTransitive/CodeWF.Toolkit.Core.targets" />
   </ItemGroup>
 </Project>

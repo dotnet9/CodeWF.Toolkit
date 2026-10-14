@@ -1,8 +1,10 @@
-﻿using System;
-using System.Buffers.Binary;
+using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
+using System.Linq;
 
 namespace CodeWF.Toolkit.Core.Extensions;
 
@@ -99,6 +101,14 @@ public static class AssemblyExtensions
             return default;
         }
 
+        var timestamp = assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
+            .FirstOrDefault(attribute => attribute.Key == "CodeWF.BuildTimestamp")?.Value;
+        if (DateTimeOffset.TryParse(timestamp, CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var buildTime))
+        {
+            return buildTime.LocalDateTime;
+        }
+
         var assemblyPath = GetAssemblyPath(assembly);
         if (assemblyPath is null)
         {
@@ -120,8 +130,10 @@ public static class AssemblyExtensions
         }
         catch
         {
-            // Some dynamic and single-file assemblies do not expose a location.
+            // 动态程序集及单文件发布可能没有程序集路径。
         }
+
+        if (assembly != Assembly.GetEntryAssembly()) return default;
 
         try
         {
@@ -140,38 +152,11 @@ public static class AssemblyExtensions
     {
         try
         {
-            const int DosHeaderSize = 64;
-            const int PeHeaderOffsetPosition = 0x3C;
-            const int PeHeaderPrefixSize = 12;
             using var stream = new FileStream(assemblyPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            if (stream.Length < DosHeaderSize)
-            {
-                return default;
-            }
-
-            Span<byte> dosHeader = stackalloc byte[DosHeaderSize];
-            if (stream.Read(dosHeader) != DosHeaderSize || dosHeader[0] != 'M' || dosHeader[1] != 'Z')
-            {
-                return default;
-            }
-
-            var peHeaderOffset = BinaryPrimitives.ReadInt32LittleEndian(
-                dosHeader[PeHeaderOffsetPosition..(PeHeaderOffsetPosition + sizeof(int))]);
-            if (peHeaderOffset < 0 || peHeaderOffset > stream.Length - PeHeaderPrefixSize)
-            {
-                return default;
-            }
-
-            stream.Position = peHeaderOffset;
-            Span<byte> peHeaderPrefix = stackalloc byte[PeHeaderPrefixSize];
-            if (stream.Read(peHeaderPrefix) != PeHeaderPrefixSize ||
-                peHeaderPrefix[0] != 'P' || peHeaderPrefix[1] != 'E' ||
-                peHeaderPrefix[2] != 0 || peHeaderPrefix[3] != 0)
-            {
-                return default;
-            }
-
-            var secondsSince1970 = BinaryPrimitives.ReadUInt32LittleEndian(peHeaderPrefix[8..]);
+            using var pe = new PEReader(stream);
+            // 确定性构建在该字段保存内容哈希，不能将其解释为真实编译时间。
+            if (pe.ReadDebugDirectory().Any(entry => entry.Type == DebugDirectoryEntryType.Reproducible)) return default;
+            var secondsSince1970 = unchecked((uint)pe.PEHeaders.CoffHeader.TimeDateStamp);
             return secondsSince1970 == 0
                 ? default
                 : DateTimeOffset.FromUnixTimeSeconds(secondsSince1970).LocalDateTime;
