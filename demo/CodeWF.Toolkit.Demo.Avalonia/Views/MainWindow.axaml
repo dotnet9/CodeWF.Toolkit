@@ -14,7 +14,7 @@
                      MinWidth="1120" MinHeight="640"
                      Background="{DynamicResource StudioBackground}"
                      Foreground="{DynamicResource StudioText}"
-                     TitleBarHeight="52" FontSize="13" FontFamily="Segoe UI, Microsoft YaHei UI">
+                     TitleBarHeight="52" FontSize="13" FontFamily="{DynamicResource DefaultFontFamily}">
 
 
 
@@ -60,13 +60,12 @@
                 ItemsSource="{Binding Cultures}" SelectedItem="{Binding SelectedCulture}" />
       <Button Classes="qk-btn" Command="{Binding ToggleDensityCommand}"
               ToolTip.Tip="{Binding DensityLabel}">
-        <PathIcon Width="13" Height="13" Data="M4,6 H16 M4,10 H16 M4,14 H16" />
+        <PathIcon Width="16" Height="16" Data="{DynamicResource SemiIconRowsStroked}" />
       </Button>
       <Button Classes="qk-btn" Command="{Binding NotifyDemoCommand}"
               ToolTip.Tip="{codewf:I18n Demo.Shell.NotifyDemo}">
         <Panel>
-          <PathIcon Width="14" Height="14"
-                    Data="M12,3 A5,5 0 0 0 7,8 V11.5 L5.5,14.5 H18.5 L17,11.5 V8 A5,5 0 0 0 12,3 Z M10,17 A2,2 0 0 0 14,17" />
+          <PathIcon Width="16" Height="16" Data="{DynamicResource SemiIconBellStroked}" />
           <Border Width="14" Height="14" CornerRadius="7" Margin="0,-14,-12,0"
                   HorizontalAlignment="Right" VerticalAlignment="Top"
                   Background="{DynamicResource SemiColorDanger}"
@@ -82,41 +81,42 @@
   <Grid RowDefinitions="Auto,Auto,*,Auto">
 
     <!--  Ribbon 页签行：快捷工具栏 + 分类页签（双击页签折叠/展开命令区）  -->
-    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Height="42">
-      <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,2,0">
-        <Button Classes="qk-btn ribbon-quick" Margin="0,0,2,0"
-                ToolTip.Tip="{codewf:I18n Demo.Shell.QuickSave}"
-                Command="{Binding QuickSaveCommand}" >
-          <PathIcon Width="24" Height="24" Data="{DynamicResource SemiIconSave}" />
-        </Button>
-        <Button Classes="qk-btn ribbon-quick" Margin="0,0,2,0"
-                ToolTip.Tip="{codewf:I18n Demo.Shell.Reset}"
-                Command="{Binding QuickResetCommand}" >
-          <PathIcon Width="24" Height="24" Data="{DynamicResource SemiIconRefresh}" />
-        </Button>
-        <Button Classes="qk-btn ribbon-quick" Margin="0,0,2,0"
-                ToolTip.Tip="{codewf:I18n Demo.Shell.QuickSettings}"
-                Command="{Binding QuickSettingsCommand}" >
-          <PathIcon Width="24" Height="24" Data="{DynamicResource SemiIconSetting}" />
-        </Button>
-        <Button Classes="qk-btn ribbon-quick"
-                ToolTip.Tip="{codewf:I18n Demo.Shell.Command}"
-                Command="{Binding ToggleCommandPaletteCommand}" >
-          <PathIcon Width="24" Height="24" Data="{DynamicResource SemiIconCommand}" />
-        </Button>
-      </StackPanel>
+    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Height="42" Background="{DynamicResource StudioSurface}">
+      <Border Grid.Column="0" x:Name="RibbonQuickAccess" VerticalAlignment="Center"
+              BorderBrush="{DynamicResource StudioBorder}" BorderThickness="0,0,1,0" Padding="0,0,10,0" Margin="10,0,10,0">
+        <StackPanel Orientation="Horizontal" Spacing="2">
+          <Button Classes="qk-btn ribbon-quick"
+                  ToolTip.Tip="{codewf:I18n Demo.Shell.QuickSave}"
+                  Command="{Binding QuickSaveCommand}" >
+            <PathIcon Classes="ribbon-quick-icon" Data="{DynamicResource SemiIconSaveStroked}" />
+          </Button>
+          <Button Classes="qk-btn ribbon-quick"
+                  ToolTip.Tip="{codewf:I18n Demo.Shell.Reset}"
+                  Command="{Binding QuickResetCommand}" >
+            <PathIcon Classes="ribbon-quick-icon" Data="{DynamicResource SemiIconRefresh}" />
+          </Button>
+          <Button Classes="qk-btn ribbon-quick"
+                  ToolTip.Tip="{codewf:I18n Demo.Shell.QuickSettings}"
+                  Command="{Binding QuickSettingsCommand}" >
+            <PathIcon Classes="ribbon-quick-icon" Data="{DynamicResource SemiIconSettingStroked}" />
+          </Button>
+          <Button Classes="qk-btn ribbon-quick"
+                  ToolTip.Tip="{codewf:I18n Demo.Shell.Command}"
+                  Command="{Binding ToggleCommandPaletteCommand}" >
+            <PathIcon Classes="ribbon-quick-icon" Data="{DynamicResource SemiIconCommand}" />
+          </Button>
+        </StackPanel>
+      </Border>
 
       <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
       <TabStrip x:Name="RibbonTabStrip"
-                Theme="{StaticResource TrapezoidShapedTabStrip}"
+                Theme="{DynamicResource LineTabStrip}"
                 ItemsSource="{Binding Groups}"
                 SelectedItem="{Binding SelectedGroup}"
                 DoubleTapped="OnRibbonTabStripDoubleTapped">
         <TabStrip.ItemTemplate>
           <DataTemplate x:DataType="vm:DemoGroupViewModel">
-            <StackPanel Orientation="Horizontal" Spacing="6" Margin="12,4">
-              <TextBlock Text="{Binding Title}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
-            </StackPanel>
+            <TextBlock Text="{Binding Title}" FontSize="12" VerticalAlignment="Center" />
           </DataTemplate>
         </TabStrip.ItemTemplate>
       </TabStrip>
@@ -203,27 +203,4 @@
     </Border>
   </Grid>
 
-  <Window.Styles>
-    <Style Selector="Button.qk-btn,ToggleButton.qk-btn">
-      <Setter Property="Width" Value="28" />
-      <Setter Property="Height" Value="26" />
-      <Setter Property="Padding" Value="0" />
-      <Setter Property="FontSize" Value="13" />
-      <Setter Property="CornerRadius" Value="4" />
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-    </Style>
-    <Style Selector="Button.ribbon-quick">
-      <Setter Property="Width" Value="34" />
-      <Setter Property="Height" Value="34" />
-      <Setter Property="FontSize" Value="24" />
-    </Style>
-    <Style Selector="Button.st-btn">
-      <Setter Property="Padding" Value="8,2" />
-      <Setter Property="FontSize" Value="11" />
-      <Setter Property="MinHeight" Value="22" />
-      <Setter Property="CornerRadius" Value="3" />
-      <Setter Property="Background" Value="Transparent" />
-    </Style>
-  </Window.Styles>
 </codewf:CodeWFWindow>
