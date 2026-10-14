@@ -10,11 +10,11 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>演示用数据模型（文件格式页的往返对象）。</summary>
 public sealed class Student
 {
-    public string Name { get; set; } = L.Instance.GetResource("Demo.Text.ToolkitModels.Name001");
+    public string Name { get; set; } = L.Instance.GetResource("Demo.Content.ToolkitModels.Name.Alice");
 
     public int Age { get; set; } = 20;
 
-    public string City { get; set; } = L.Instance.GetResource("Demo.Text.ToolkitModels.City002");
+    public string City { get; set; } = L.Instance.GetResource("Demo.Content.ToolkitModels.City.Chengdu");
 }
 
 /// <summary>[NetHead] / [NetFieldOrder] 特性驱动的二进制协议包。</summary>

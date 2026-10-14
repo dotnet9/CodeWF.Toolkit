@@ -23,7 +23,7 @@ public sealed class ImageQrPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.ImageQrPage.CSharpSnippet001");
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.ImageQr.Source.CSharp");
 
     private readonly TextBox _title;
     private readonly TextBox _content;
@@ -37,24 +37,24 @@ public sealed class ImageQrPage : DemoPageBase
         _outputDirectory = Path.Combine(Path.GetTempPath(), "CodeWFToolkitDemo", "image");
         _title = Ui.Input("CodeWF.Toolkit", 200);
         _content = Ui.Input("https://github.com/dotnet9/CodeWF.Toolkit");
-        _subTitle = Ui.Input(L.Instance.GetResource("Demo.Text.ImageQrPage.Content002"), 200);
+        _subTitle = Ui.Input(L.Instance.GetResource("Demo.Content.ImageQr.Content.ScanToVisitTheRepository"), 200);
         _preview = new AvaloniaImage
         {
             Width = 220,
             Stretch = Stretch.Uniform,
             HorizontalAlignment = HorizontalAlignment.Center,
         };
-        _output = Ui.Code("@Demo.Text.ImageQrPage.Content003", output: true);
+        _output = Ui.Code("@Demo.Content.ImageQr.Content.ReadyToGenerateOutputTEMPCodeWFToolkitDemoImage", output: true);
 
-        var generate = Ui.Card("@Demo.Text.ImageQrPage.generate004",
-            Ui.Field(L.Instance.GetResource("Demo.Text.ImageQrPage.generate005"), _title),
-            Ui.Field(L.Instance.GetResource("Demo.Text.ImageQrPage.generate006"), _content),
-            Ui.Field(L.Instance.GetResource("Demo.Text.ImageQrPage.generate007"), _subTitle),
-            Ui.Row(Ui.Button("@Demo.Text.ImageQrPage.generate008", Generate, primary: true)),
+        var generate = Ui.Card("@Demo.Content.ImageQr.generate.GenerateQRCodeQrCodeGenerator",
+            Ui.Field(L.Instance.GetResource("Demo.Content.ImageQr.generate.Title"), _title),
+            Ui.Field(L.Instance.GetResource("Demo.Content.ImageQr.generate.Content"), _content),
+            Ui.Field(L.Instance.GetResource("Demo.Content.ImageQr.generate.Subtitle"), _subTitle),
+            Ui.Row(Ui.Button("@Demo.Content.ImageQr.generate.GenerateQRCode", Generate, primary: true)),
             _output,
-            Ui.Hint("@Demo.Text.ImageQrPage.generate009"));
+            Ui.Hint("@Demo.Content.ImageQr.generate.ZXingCreatesTheQRBitmapMagickNETAdds"));
 
-        var preview = Ui.Card("@Demo.Text.ImageQrPage.preview010",
+        var preview = Ui.Card("@Demo.Content.ImageQr.preview.PreviewScaledGeneratedImage",
             _preview,
             Ui.Code("""
                 var qr = QrCodeGenerator.GenerateQrCode(title, content, imagePath, subTitle);
@@ -62,19 +62,19 @@ public sealed class ImageQrPage : DemoPageBase
                 image.Resize(300, 0);
                 """, output: true));
 
-        var pipeline = Ui.Card("@Demo.Text.ImageQrPage.pipeline011",
-            Ui.Code("@Demo.Text.ImageQrPage.pipeline012"));
+        var pipeline = Ui.Card("@Demo.Content.ImageQr.pipeline.ImagePipelineImageHelperMagickNET",
+            Ui.Code("@Demo.Content.ImageQr.pipeline.ConvertNewMagickImagePhotoJpgWritePhotoWebp"));
 
         Content = Ui.Page(
-            Ui.Heading("@Demo.Text.ImageQrPage.Content013"),
-            Ui.Sub("@Demo.Text.ImageQrPage.Content014"),
+            Ui.Heading("@Demo.Content.ImageQr.Content.QRCodesAndImageProcessing"),
+            Ui.Sub("@Demo.Content.ImageQr.Content.QrCodeGeneratorProducesImageFilesThatCanBeProcessed"),
             Ui.TwoColumns(generate, preview),
             pipeline);
 
         _content.Width = 260;
     }
 
-    public override string TitleKey => DemoKeys.ItemImageQr;
+    public override string TitleKey => DemoPages.ImageQr;
 
     public override string DescriptionKey => DemoKeys.DescImageQr;
 
@@ -83,13 +83,13 @@ public sealed class ImageQrPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("qr.opt", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties015"), L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties016"),
-            DemoProperty.ReadOnly("qr.size", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties017"), L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties018")),
-            DemoProperty.ReadOnly("qr.ecc", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties019"), "H（ErrorCorrectionLevel.H）"),
-            DemoProperty.ReadOnly("qr.charset", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties020"), "UTF-8（DisableECI = true）")),
-        DemoProperty.Category("img.opt", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties021"), L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties022"),
-            DemoProperty.Number("img.quality", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties023"), 92, 1, 100, 1, "%", "MagickImage.Quality。"),
-            DemoProperty.Bool("img.preview", L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties024"), true, L.Instance.GetResource("Demo.Text.ImageQrPage.BuildProperties025"))));
+        DemoProperty.Category("qr.opt", L.Instance.GetResource("Demo.Content.ImageQr.Properties.QRCodeOptions"), L.Instance.GetResource("Demo.Content.ImageQr.Properties.FixedQrCodeGeneratorParametersInTheCurrentImplementation"),
+            DemoProperty.ReadOnly("qr.size", L.Instance.GetResource("Demo.Content.ImageQr.Properties.QRCodeSize"), L.Instance.GetResource("Demo.Content.ImageQr.Properties.400400FinalCanvasWidth500")),
+            DemoProperty.ReadOnly("qr.ecc", L.Instance.GetResource("Demo.Content.ImageQr.Properties.ErrorCorrection"), "H（ErrorCorrectionLevel.H）"),
+            DemoProperty.ReadOnly("qr.charset", L.Instance.GetResource("Demo.Content.ImageQr.Properties.CharacterSet"), "UTF-8（DisableECI = true）")),
+        DemoProperty.Category("img.opt", L.Instance.GetResource("Demo.Content.ImageQr.Properties.ImageProcessing"), L.Instance.GetResource("Demo.Content.ImageQr.Properties.SampleProcessingOptions"),
+            DemoProperty.Number("img.quality", L.Instance.GetResource("Demo.Content.ImageQr.Properties.OutputQuality"), 92, 1, 100, 1, "%", "MagickImage.Quality。"),
+            DemoProperty.Bool("img.preview", L.Instance.GetResource("Demo.Content.ImageQr.Properties.GeneratePreview"), true, L.Instance.GetResource("Demo.Content.ImageQr.Properties.ScaleTheGeneratedImageForPreview"))));
 
     private void Generate()
     {
@@ -107,14 +107,14 @@ public sealed class ImageQrPage : DemoPageBase
 
             var size = new FileInfo(path).Length;
             _output.Text = $"GenerateQrCode(\"{title}\", \"{content}\", \"{fileName}\", \"{subTitle}\")\n"
-                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageQrPage.Generate026"), path, size);
+                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageQr.Generate.CompleteBytes100QualityFormat"), path, size);
             _preview.Source = new Bitmap(path);
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.ImageQrPage.Generate027"), fileName, size));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageQr.Generate.QRCodeGeneratedBytesFormat"), fileName, size));
         }
         catch (Exception ex)
         {
-            _output.Text = L.Instance.GetResource("Demo.Text.ImageQrPage.Generate028") + ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Text.ImageQrPage.Generate029"), ex);
+            _output.Text = L.Instance.GetResource("Demo.Content.ImageQr.Generate.GenerationFailed") + ex.Message;
+            Logger.Error(L.Instance.GetResource("Demo.Content.ImageQr.Generate.QRCodeGenerationFailed"), ex);
         }
     }
 }

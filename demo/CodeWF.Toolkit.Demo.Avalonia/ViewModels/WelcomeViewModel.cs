@@ -42,7 +42,7 @@ public sealed class WelcomeViewModel : ReactiveObject
             _received++;
             this.RaisePropertyChanged(nameof(ReceivedCount));
             BusOutput = string.Format(L.Instance.GetResource("Demo.Studio.Delivery"), command.Name, _received, DateTime.Now);
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Text.WelcomeViewModel.Content001"), command.Name));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Welcome.Content.OverviewSubscriberReceivedGreetCommandFormat"), command.Name));
         };
         _bus.Subscribe(_receive);
         PublishCommand = ReactiveCommand.CreateFromTask(PublishAsync);
@@ -132,7 +132,7 @@ public sealed class WelcomeViewModel : ReactiveObject
         catch (Exception ex)
         {
             BusOutput = ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Text.WelcomeViewModel.PublishAsync002") + ex.Message);
+            Logger.Error(L.Instance.GetResource("Demo.Content.Welcome.PublishAsync.OverviewEventFlowFailed") + ex.Message);
         }
         finally { SetStage(-1); }
     }
@@ -201,12 +201,12 @@ public sealed class WelcomeViewModel : ReactiveObject
             _outputDirectory = directory;
             this.RaisePropertyChanged(nameof(HasOutput));
             PipelineOutput += $"\n✓ QR · qr.png\n{directory}";
-            Logger.Info(L.Instance.GetResource("Demo.Text.WelcomeViewModel.RunPipelineAsync003") + directory);
+            Logger.Info(L.Instance.GetResource("Demo.Content.Welcome.RunPipelineAsync.OverviewFilePipelineComplete") + directory);
         }
         catch (Exception ex)
         {
             PipelineOutput += "\n✕ " + ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Text.WelcomeViewModel.RunPipelineAsync004") + ex.Message);
+            Logger.Error(L.Instance.GetResource("Demo.Content.Welcome.RunPipelineAsync.OverviewFilePipelineFailed") + ex.Message);
         }
     }
 

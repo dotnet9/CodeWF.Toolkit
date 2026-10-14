@@ -18,23 +18,23 @@ public sealed class FilesIndexPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Text.FilesIndexPage.CSharpSnippet001");
+    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.FilesIndex.Source.CSharp");
 
     public FilesIndexPage()
     {
         Content = Ui.Page(
-            Ui.Heading(I18n(DemoKeys.ItemFilesIndex)),
+            Ui.Heading(I18n(DemoKeys.FilesIndexExampleTitle)),
             Ui.Sub(I18n(DemoKeys.DescFilesIndex)),
-            Ui.Card("@Demo.Text.FilesIndexPage.Content002",
+            Ui.Card("@Demo.Content.FilesIndex.Content.CapabilityMatrix",
                 BuildMatrix()),
-            Ui.Card("@Demo.Text.FilesIndexPage.Content003",
-                Ui.Hint("@Demo.Text.FilesIndexPage.Content004"
-                        + L.Instance.GetResource("Demo.Text.FilesIndexPage.Content005"))),
-            Ui.Card("@Demo.Text.FilesIndexPage.Content006",
-                Ui.Hint("@Demo.Text.FilesIndexPage.Content007")));
+            Ui.Card("@Demo.Content.FilesIndex.Content.RelatedPages",
+                Ui.Hint("@Demo.Content.FilesIndex.Content.TryJSONYAMLCSVRoundTripsOnFile"
+                        + L.Instance.GetResource("Demo.Content.FilesIndex.Content.ThisPageIndexesTheAPIsUseTheLinked"))),
+            Ui.Card("@Demo.Content.FilesIndex.Content.RoundTripDemosSameAPIsAsFileFormats",
+                Ui.Hint("@Demo.Content.FilesIndex.Content.OpenFileFormatsOrArchiveConfigurationFromThe")));
     }
 
-    public override string TitleKey => DemoKeys.ItemFilesIndex;
+    public override string TitleKey => DemoKeys.FilesIndexExampleTitle;
 
     public override string DescriptionKey => DemoKeys.DescFilesIndex;
 
@@ -47,21 +47,21 @@ public sealed class FilesIndexPage : DemoPageBase
         new PropertyItem
         {
             Id = "files.format",
-            Name = L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildProperties008"),
+            Name = L.Instance.GetResource("Demo.Content.FilesIndex.Properties.DefaultFormat"),
             Kind = PropertyItemKind.Choice,
             Options = ["Json", "Yaml", "Csv", "Excel"],
             Value = "Yaml",
             DefaultValue = "Yaml",
-            Description = L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildProperties009"),
+            Description = L.Instance.GetResource("Demo.Content.FilesIndex.Properties.DefaultSerializationFormatInTheDemo"),
         },
         new PropertyItem
         {
             Id = "files.aot",
-            Name = L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildProperties010"),
+            Name = L.Instance.GetResource("Demo.Content.FilesIndex.Properties.AOTFriendlyMode"),
             Kind = PropertyItemKind.Boolean,
             Value = true,
             DefaultValue = true,
-            Description = L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildProperties011"),
+            Description = L.Instance.GetResource("Demo.Content.FilesIndex.Properties.RecommendJsonTypeInfoTAndStaticGeneratedSerializersWhen"),
         },
     ];
 
@@ -75,19 +75,19 @@ public sealed class FilesIndexPage : DemoPageBase
 
         var rows = new (string Capability, string Api, string Dependency, string Note)[]
         {
-            ("Json", "JsonExtensions.ToJson / FromJson", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix012"), L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix013")),
-            ("Yaml", "YamlExtensions.ToYaml / FromYaml", "YamlDotNet", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix014")),
-            ("Csv / Excel", "DataTableExtensions", "CsvHelper / MiniExcel", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix015")),
-            (L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix016"), "SevenZipCompressor.Zip / Decompress", "SharpCompress", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix017")),
-            ("App.config", "AppConfigHelper", "System.Configuration.ConfigurationManager", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix018")),
-            (L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix019"), "FileExtension", "—", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix020")),
+            ("Json", "JsonExtensions.ToJson / FromJson", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.BuiltInSystemTextJson"), L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.ReflectionOverloadsRequireUnreferencedCodeUseJsonTypeInfoT")),
+            ("Yaml", "YamlExtensions.ToYaml / FromYaml", "YamlDotNet", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.ReflectionBasedSerializerBuilderUseStaticSourceGenerationFor")),
+            ("Csv / Excel", "DataTableExtensions", "CsvHelper / MiniExcel", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.DataTableRoundTripsForBatchExports")),
+            (L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.ArchiveCompression"), "SevenZipCompressor.Zip / Decompress", "SharpCompress", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.CheckSharpCompressSupportBeforeUsingSplitArchivesOr")),
+            ("App.config", "AppConfigHelper", "System.Configuration.ConfigurationManager", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.NotTrimSafeUseFilePathOverloadsFor")),
+            (L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.SafeFileIO"), "FileExtension", "—", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.StringByteFileIOWithRetries")),
         };
 
         for (var column = 0; column < 4; column++)
         {
             var header = new TextBlock
             {
-                Text = new[] { L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix021"), "API", L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix022"), L.Instance.GetResource("Demo.Text.FilesIndexPage.BuildMatrix023") }[column],
+                Text = new[] { L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.Capability"), "API", L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.Dependencies"), L.Instance.GetResource("Demo.Content.FilesIndex.BuildMatrix.Notes") }[column],
                 FontWeight = global::Avalonia.Media.FontWeight.SemiBold,
                 FontSize = 11.5,
                 Margin = new global::Avalonia.Thickness(0, 0, 12, 6),

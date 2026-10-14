@@ -24,7 +24,8 @@ public sealed class DemoResourceTests
         var chinese = Read(Path.Combine(folder, "I18n", "CodeWF.Toolkit.Demo.zh-CN.json"));
         var english = Read(Path.Combine(folder, "I18n", "CodeWF.Toolkit.Demo.en-US.json"));
         Assert.Equal(chinese.Keys.Order().ToArray(), english.Keys.Order().ToArray());
-        foreach (var resource in english.Where(resource => resource.Key != "Demo.Text.MainViewModel.Content001"))
+        Assert.DoesNotContain(chinese.Keys, key => key.StartsWith("Demo.Text.", StringComparison.Ordinal));
+        foreach (var resource in english.Where(resource => resource.Key != "Demo.Shell.LanguageChinese"))
             Assert.False(Regex.IsMatch(resource.Value, "[\\u4e00-\\u9fff]"), "Untranslated English resource: " + resource.Key);
         foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories)
                      .Where(file => file.EndsWith(".cs") || file.EndsWith(".axaml")))
@@ -64,7 +65,7 @@ public sealed class DemoResourceTests
         var keys = new HashSet<string>();
         var routes = new HashSet<string>();
         var apis = new HashSet<string>();
-        var factory = File.ReadAllText(Path.Combine(DemoDirectory, "ViewModels", "DemoCatalog.cs"));
+        var factory = File.ReadAllText(Path.Combine(DemoDirectory, "ViewModels", "DemoCatalog.g.cs"));
         foreach (var group in groups)
         {
             var groupKey = group.GetProperty("titleKey").GetString()!;
@@ -86,6 +87,8 @@ public sealed class DemoResourceTests
                 Assert.Equal(item.GetProperty("titleZh").GetString(), chinese[key]);
                 Assert.Equal(item.GetProperty("titleEn").GetString(), english[key]);
                 Assert.Contains("\"" + key + "\"", factory);
+                Assert.False(string.IsNullOrWhiteSpace(item.GetProperty("icon").GetString()), key);
+                Assert.False(string.IsNullOrWhiteSpace(item.GetProperty("prototypeIcon").GetString()), key);
                 if (group.GetProperty("id").GetString() is "home" or "examples") continue;
                 var api = item.GetProperty("api").GetString()!;
                 Assert.False(string.IsNullOrWhiteSpace(api), key);
@@ -96,6 +99,18 @@ public sealed class DemoResourceTests
         }
     }
 
+
+    [Fact]
+    public void DemoTextFilesAreValidUtf8WithoutReplacementCharacters()
+    {
+        var utf8 = new System.Text.UTF8Encoding(false, true);
+        foreach (var file in Directory.EnumerateFiles(DemoDirectory, "*", SearchOption.AllDirectories)
+                     .Where(file => file.EndsWith(".cs") || file.EndsWith(".axaml") || file.EndsWith(".json")))
+        {
+            var content = utf8.GetString(File.ReadAllBytes(file));
+            Assert.DoesNotContain("\uFFFD", content);
+        }
+    }
 
     private static Dictionary<string, string> Read(string path)
     {

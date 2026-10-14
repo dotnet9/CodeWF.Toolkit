@@ -131,13 +131,13 @@ function closeDlg() { $("dlgm").classList.remove("on"); _dlgYes = null; }
 
 /* ═══ 目录：7 页签 / 16 页（2 个场景页 + 14 个能力字典页） ═══ */
 var CATALOG = window.CodeWFDemoCatalog.map(function (group) {
- return { id:group.id, icon:"◆", items:group.items.map(function (entry) { return {id:entry.prototypeId}; }) };
+ return { id:group.id, icon:group.icon, items:group.items.map(function (entry) { return {id:entry.prototypeId}; }) };
 });
 window.CodeWFDemoCatalog.forEach(function (group) {
  I18N["zh-CN"]["tabs."+group.id]=group.titleZh;
  I18N["en-US"]["tabs."+group.id]=group.titleEn;
 });
-/* 页面短名：中文 ≤ 4 字，保证 Ribbon 按钮与树条目都放得下 */
+/* Legacy labels used by nested example previews. Main navigation uses the catalog. */
 var PAGE_NAME = {
  "welcome": "欢迎总览", "flow-runtime": "运行工作台", "flow-lab": "能力实验室",
  "core": "核心工具", "bus": "进程总线", "bus-integrations": "总线集成",
@@ -159,35 +159,10 @@ var PAGE_ALIAS = {
 function svg(view, extra) {
  return '<svg class="svgic ' + (extra || "s20") + '" viewBox="0 0 24 24" aria-hidden="true">' + view + "</svg>";
 }
-var TAB_ICON = {
- "welcome": '<path d="M4.5 10.8L12 4l7.5 6.8"/><path d="M6.5 10v9.5h11V10"/><path d="M10.5 19.5v-4.8h3v4.8"/>',
- "flow-runtime": '<rect x="3" y="4.5" width="18" height="12.5" rx="1.7"/><path d="M8 21h8M12 17v4"/><path d="M7 9.5l2.5 2 3-3 4 4"/>',
- "flow-lab": '<path d="M10 3.5v6.2L5.6 17a2.4 2.4 0 0 0 2.1 3.5h8.6a2.4 2.4 0 0 0 2.1-3.5L14 9.7V3.5"/><path d="M8.5 3.5h7"/><path d="M7.6 14h8.8"/>',
- "core": '<path d="M12 3.5l7.5 4.2v8.6L12 20.5 4.5 16.3V7.7z"/><path d="M9.5 12l2 2 3.5-4"/>',
- "bus": '<circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6.5" r="2"/><circle cx="19" cy="6.5" r="2"/><circle cx="5" cy="17.5" r="2"/><circle cx="19" cy="17.5" r="2"/><path d="M6.6 7.8l3.6 2.9M17.4 7.8l-3.6 2.9M6.6 16.2l3.6-2.9M17.4 16.2l-3.6-2.9"/>',
- "bus-integrations": '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/><path d="M11 7.5h4a2 2 0 0 1 2 2v3.5"/><path d="M13 16.5H9a2 2 0 0 1-2-2V11"/>',
- "files-json": '<path d="M13.5 3.5H7a1.6 1.6 0 0 0-1.6 1.6v13.8A1.6 1.6 0 0 0 7 20.5h10a1.6 1.6 0 0 0 1.6-1.6V8.6z"/><path d="M13.5 3.5v5.1h5.1"/><path d="M9.5 13.5l-1.2 1.5 1.2 1.5M14.5 13.5l1.2 1.5-1.2 1.5"/>',
- "files-archive": '<path d="M4 7.5h16v11.5H4z"/><path d="M2.5 4.5h19v3h-19z"/><path d="M11 12h2v3h-2z"/>',
- "files-format": '<ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6"/><path d="M5 12v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-6"/>',
- "image-icon": '<rect x="3.5" y="4.5" width="17" height="15" rx="1.7"/><circle cx="9" cy="10" r="1.8"/><path d="M4.5 17l4.5-4.5 3.5 3.5 2.5-2.5 5 5"/>',
- "image-qr": '<rect x="4" y="4" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1"/><path d="M13.5 13.5h3v3h-3zM17.5 17.5h2.5v2.5h-2.5z"/>',
- "log-core": '<path d="M5.5 4.5h13v15h-13z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/>',
- "log-microsoft": '<path d="M12 3.5l8.5 4.5v8L12 20.5 3.5 16V8z"/><path d="M8.5 12h7M12 8.5v7"/>',
- "logging-options": '<circle cx="12" cy="12" r="3"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2.1 2.1M15.9 15.9L18 18M18 6l-2.1 2.1M8.1 15.9L6 18"/>',
- "net-packet": '<path d="M12 3.5l8 4.5v8l-8 4.5-8-4.5v-8z"/><path d="M4 8l8 4.5 8-4.5M12 12.5v8"/>',
- "net-socket": '<path d="M9.5 14.5l5-5"/><path d="M7.5 10.5l-2 2a3.5 3.5 0 0 0 5 5l2-2"/><path d="M16.5 13.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>'
-};
+var TAB_ICON = Object.fromEntries(window.CodeWFDemoCatalog.flatMap(function(g){return g.items;}).map(function(i){return [i.prototypeId,i.prototypeIcon];}));
 function iconSvg(id, extra) { return svg(TAB_ICON[id] || TAB_ICON["welcome"], extra || "s20"); }
 /* 页签图标（Ribbon 页签行的极简小图标） */
-var TAB_TAB_ICON = {
- home: '<path d="M4.5 10.8L12 4l7.5 6.8"/><path d="M6.5 10v9.5h11V10"/>',
- runtime: '<rect x="3" y="4.5" width="18" height="12.5" rx="1.7"/><path d="M8 21h8M12 17v4"/>',
- lab: '<path d="M10 3.5v6.2L5.6 17a2.4 2.4 0 0 0 2.1 3.5h8.6a2.4 2.4 0 0 0 2.1-3.5L14 9.7V3.5"/><path d="M8.5 3.5h7"/>',
- core: '<path d="M12 3.5l7.5 4.2v8.6L12 20.5 4.5 16.3V7.7z"/>',
- bus: '<circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6.5" r="2"/><circle cx="19" cy="17.5" r="2"/><path d="M6.6 7.8l3.6 2.9M17.4 16.2l-3.6-2.9"/>',
- files: '<path d="M13.5 3.5H7a1.6 1.6 0 0 0-1.6 1.6v13.8A1.6 1.6 0 0 0 7 20.5h10a1.6 1.6 0 0 0 1.6-1.6V8.6z"/><path d="M13.5 3.5v5.1h5.1"/>',
- logging: '<path d="M5.5 4.5h13v15h-13z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/>'
-};
+var TAB_TAB_ICON = Object.fromEntries(window.CodeWFDemoCatalog.map(function(g){return [g.id,g.prototypeIcon];}));
 function tabIconSvg(id) { return svg(TAB_TAB_ICON[id] || TAB_TAB_ICON["home"], "s14"); }
 function tabName(id) { return tt("tabs." + id); }
 function pt(id) { return PAGE_NAME[id] || id; }

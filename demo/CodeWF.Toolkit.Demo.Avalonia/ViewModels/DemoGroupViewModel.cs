@@ -16,7 +16,7 @@ public class DemoItemViewModel : ReactiveObject
     private bool _isSelected;
     private bool _isFilteredOut;
 
-    public DemoItemViewModel(string titleKey, Func<DemoPageBase> pageFactory, string api = "", string package = "", string prototypeId = "", string sectionKey = "")
+    public DemoItemViewModel(string titleKey, Func<DemoPageBase> pageFactory, string api = "", string package = "", string prototypeId = "", string sectionKey = "", string icon = "◆")
     {
         TitleKey = titleKey;
         PageFactory = pageFactory;
@@ -24,6 +24,7 @@ public class DemoItemViewModel : ReactiveObject
         Package = package;
         PrototypeId = prototypeId;
         SectionKey = sectionKey;
+        Icon = icon;
         I18nManager.Instance.CultureChanged += (_, _) =>
         {
             this.RaisePropertyChanged(nameof(Title));
@@ -84,7 +85,7 @@ public class DemoItemViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _isFilteredOut, value);
     }
 
-    public string Icon => DemoIcons.ResolveItem(TitleKey);
+    public string Icon { get; }
 
     public override string ToString() => DisplayTitle;
 }
@@ -135,51 +136,6 @@ public class DemoGroupViewModel : ReactiveObject
     public int RenamedCount => Items.Count(i => i.HasCustomTitle);
 
     public override string ToString() => Title;
-}
-
-/// <summary>
-/// 图标映射（与设计原型一致）。使用几何符号而非 Emoji：
-/// 字形在浅深 / 6 色板下颜色统一，且不会出现彩色 Emoji 与主题冲突。
-/// 实现期若要换成矢量图标，可整体替换为 Semi / Ursa / Iconica 的图标控件。
-/// </summary>
-public static class DemoIcons
-{
-    public static string ResolveItem(string titleKey) => titleKey switch
-    {
-        DemoKeys.ItemWelcome => "⌂",
-        "Demo.Item.About" => "ⓘ",
-        DemoKeys.ItemRuntimeFlow => "▶",
-        DemoKeys.ItemLabFlow => "⚗",
-        DemoKeys.ItemCore => "◈",
-        DemoKeys.ItemBus => "◉",
-        DemoKeys.ItemBusIntegrations => "⇄",
-        DemoKeys.ItemFilesFormat => "▤",
-        DemoKeys.ItemFilesArchive => "▣",
-        DemoKeys.ItemFilesIndex => "☰",
-        DemoKeys.ItemImageIcon => "▥",
-        DemoKeys.ItemImageQr => "▦",
-        DemoKeys.ItemLogCore => "☰",
-        DemoKeys.ItemLogMicrosoft => "⊕",
-        DemoKeys.ItemLoggingOptions => "⚙",
-        DemoKeys.ItemNetPacket => "▦",
-        DemoKeys.ItemNetSocket => "⇅",
-        _ => "•",
-    };
-
-    public static string ResolveGroup(string titleKey) => titleKey switch
-    {
-        DemoKeys.GroupHome => "⌂",
-        DemoKeys.GroupRuntime => "▶",
-        DemoKeys.GroupLab => "⚗",
-        DemoKeys.GroupCore => "◈",
-        DemoKeys.GroupBus => "◉",
-        DemoKeys.GroupFiles => "▤",
-        DemoKeys.GroupLogging => "☰",
-        "Demo.Group.System" => "⚙",
-        "Demo.Group.Net" => "⇅",
-        "Demo.Group.Examples" => "▶",
-        _ => "•",
-    };
 }
 
 /// <summary>A presentation group inside a Ribbon tab; commands still map one-to-one to APIs.</summary>

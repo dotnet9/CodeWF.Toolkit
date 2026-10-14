@@ -19,13 +19,13 @@ public sealed class RuntimeFlowPage : ScenePageBase
         AttachSceneShell();
     }
 
-    public override string TitleKey => DemoKeys.ItemRuntimeFlow;
+    public override string TitleKey => DemoPages.RuntimeFlow;
 
     public override string DescriptionKey => DemoKeys.DescRuntimeFlow;
 
     protected override string SummaryKey => DemoKeys.SummaryRuntime;
 
-    public override string XamlCode => L.Instance.GetResource("Demo.Text.RuntimeFlowPage.XamlCode001");
+    public override string XamlCode => L.Instance.GetResource("Demo.Content.RuntimeFlow.XamlCode.BuilderServicesAddEventBusAssembliesAppUseEventBusVarServer");
 
-    public override string CSharpCode => L.Instance.GetResource("Demo.Text.RuntimeFlowPage.CSharpCode002");
+    public override string CSharpCode => L.Instance.GetResource("Demo.Content.RuntimeFlow.CSharpCode.AddStepDemoKeysStepServerNewEventBusPageAddStepDemoKeysStepConnect");
 }

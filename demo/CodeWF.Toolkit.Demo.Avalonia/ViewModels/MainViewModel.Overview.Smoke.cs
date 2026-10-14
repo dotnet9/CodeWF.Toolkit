@@ -68,7 +68,7 @@ public partial class MainViewModel
         Save("compact-window");
         window.Width = 1440;
         window.Height = 860;
-        foreach (var key in new[] { "Demo.Item.EventClient", DemoKeys.ItemNetPacket, "Demo.Item.JsonExtensions", DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
+        foreach (var key in new[] { "Demo.Item.EventClient", DemoPages.NetPacket, "Demo.Item.JsonExtensions", DemoPages.ImageIcon, DemoPages.LogCore })
         {
             overview.Overview.NavigateCommand.Execute(key);
             await WaitForDocumentAsync();
@@ -219,17 +219,17 @@ public partial class MainViewModel
             if (new FileInfo(Path.Combine(output, "sample.ico")).Length <= 6) throw new InvalidOperationException("Empty ICO artifact");
             await SmokeLocalTransportsAsync(cancellation);
             Logger.Info("Artifact smoke: generated JSON/YAML metadata, quoted scalar types, ZIP, QR and ICO passed");
-            foreach (var key in new[] { DemoKeys.ItemBus, "Demo.Item.EventClient", DemoKeys.ItemNetPacket, "Demo.Item.JsonExtensions", DemoKeys.ItemImageIcon, DemoKeys.ItemLogCore })
+            foreach (var key in new[] { DemoPages.Bus, "Demo.Item.EventClient", DemoPages.NetPacket, "Demo.Item.JsonExtensions", DemoPages.ImageIcon, DemoPages.LogCore })
             {
                 overview.Overview.NavigateCommand.Execute(key);
                 if (ActiveDocument?.TitleKey != key) throw new InvalidOperationException("Overview navigation failed: " + key);
             }
-            overview.Overview.NavigateCommand.Execute(DemoKeys.ItemWelcome);
+            overview.Overview.NavigateCommand.Execute(DemoPages.Welcome);
             foreach (var culture in Cultures)
             {
                 SelectedCulture = culture;
                 await Task.Delay(30, cancellation);
-                if (ActiveDocument?.DockDocument?.Title != global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoKeys.ItemWelcome))
+                if (ActiveDocument?.DockDocument?.Title != global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoPages.Welcome))
                     throw new InvalidOperationException("Dock title was not localized: " + culture.Name);
             }
             SelectedCulture = Cultures[0];

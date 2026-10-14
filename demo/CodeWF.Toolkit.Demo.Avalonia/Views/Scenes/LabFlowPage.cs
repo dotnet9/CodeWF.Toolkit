@@ -20,13 +20,13 @@ public sealed class LabFlowPage : ScenePageBase
         AttachSceneShell();
     }
 
-    public override string TitleKey => DemoKeys.ItemLabFlow;
+    public override string TitleKey => DemoPages.LabFlow;
 
     public override string DescriptionKey => DemoKeys.DescLabFlow;
 
     protected override string SummaryKey => DemoKeys.SummaryLab;
 
-    public override string XamlCode => L.Instance.GetResource("Demo.Text.LabFlowPage.XamlCode001");
+    public override string XamlCode => L.Instance.GetResource("Demo.Content.LabFlow.XamlCode.PackageReferenceIncludeCodeWFToolkitFilesPackageReferenceIncludeCodeWF");
 
-    public override string CSharpCode => L.Instance.GetResource("Demo.Text.LabFlowPage.CSharpCode002");
+    public override string CSharpCode => L.Instance.GetResource("Demo.Content.LabFlow.CSharpCode.AddStepDemoKeysStepFormatNewFilesFormatPageAddStepDemoKeysStepArchive");
 }

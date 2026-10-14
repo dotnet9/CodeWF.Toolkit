@@ -36,7 +36,32 @@
       "NotifyDemo": "发送示例通知",
       "NotifyDemoHint": "演示通知中心：卡片 6 秒后自动消失，最多保留 4 条。",
       "NavFilter": "过滤页面…",
-      "NavEmpty": "没有匹配的页面"
+      "NavEmpty": "没有匹配的页面",
+      "GlobalSettings": {
+        "PaletteLabel": "色板",
+        "PaletteDescription": "应用配色：.NET 紫 / AI 极光 / AI 暖陶，以及六套 Semi 配色。",
+        "ModeLabel": "界面模式",
+        "LightMode": "浅色",
+        "DarkMode": "深色",
+        "ModeDescription": "浅 / 深模式；固定配色的色板不随该模式变化。",
+        "LanguageLabel": "语言",
+        "LanguageDescription": "界面语言，切换即时生效（I18nManager.Culture）。",
+        "AppearanceGroup": "外观",
+        "AppearanceDescription": "演示台外观设置（这里的修改即右侧 PropertyGrid 的自我演示）。",
+        "LanguageGroup": "语言",
+        "LanguageGroupDescription": "演示台语言设置。"
+      },
+      "LanguageChinese": "简体中文",
+      "DocumentOpened": "打开文档：",
+      "LayoutReset": "重置工作区布局",
+      "LanguageChanged": "界面语言切换为 ",
+      "DocumentClosed": "关闭文档：",
+      "PanelShown": "显示面板：",
+      "PanelHidden": "隐藏面板：",
+      "SampleInformationLog": "演示：一条信息日志",
+      "SampleWarningLog": "演示：一条警告日志",
+      "SampleErrorLog": "演示：一条错误日志",
+      "SampleException": "示例异常"
     },
     "Segment": {
       "Demo": "演示",
@@ -273,673 +298,6 @@
         "Packages": "Logging · Microsoft · Core"
       }
     },
-    "Text": {
-      "EventBusPage": {
-        "Publish027": "事件总线发布：GreetCommand(\"{0}\")",
-        "session008": "处理器抛异常不会被静默吞掉；异步发布走 PublishAsync，订阅方按注册顺序执行。",
-        "registration012": "注册方式",
-        "Append040": "会话已清空",
-        "BuildProperties019": "异步发布",
-        "Query030": "事件总线查询：TimeQuery",
-        "ClearFeed038": "会话已清空",
-        "session007": "清空",
-        "ToggleSecondSubscription036": "取消",
-        "ToggleSecondSubscription033": "恢复第二条订阅",
-        "ToggleSecondSubscription031": "取消第二条订阅",
-        "subscriptions011": "第二条 GreetCommand 订阅：",
-        "subscriptions010": "GreetCommand   lambda               已注册\nGreetCommand   [EventHandler]       已注册（Order 靠后）\nTimeQuery      [EventHandler]       已注册（查询回写）",
-        "BuildProperties021": "程序集扫描",
-        "session006": "会话（真实总线）",
-        "Content005": "已订阅",
-        "Content014": "进程内事件总线",
-        "Content003": "总线就绪：2 个 GreetCommand 订阅、1 个 TimeQuery 处理器已注册",
-        "CSharpSnippet002": "using CodeWF.Toolkit.EventBus;\n\nvar bus = new EventBus();\n\n// 1) lambda 订阅\nAction<GreetCommand> first = cmd => Console.WriteLine($\"[lambda] {cmd.Name}\");\nbus.Subscribe(first);\n\n// 2) 扫描式订阅：[EventHandler] 标记的私有方法，按 Order 顺序执行\nbus.Subscribe(new TimeQueryHandler());\nbus.Subscribe<GreetCommand>(cmd => Console.WriteLine($\"[lambda2] {cmd.Name}\"));\n\n// 发布（同步 / 异步）\nbus.Publish(new GreetCommand(\"CodeWF\"));\nawait bus.PublishAsync(new GreetCommand(\"Toolkit\"));\n\n// 查询：处理器把结果写回 Query.Result\nvar query = new TimeQuery();\nbus.Query(query);\nConsole.WriteLine($\"服务器时间：{query.Result:HH:mm:ss.fff}\");\n\n// 退订：句柄、类型、宿主对象三种粒度\nbus.Unsubscribe(first);\nbus.Unsubscribe<TimeQueryHandler>();\nbus.Unsubscribe(handler);\n\n// 程序集扫描：一次注册整程序集里的全部处理器\nbus.Subscribe([typeof(TimeQueryHandler).Assembly]);",
-        "subscriptions009": "订阅表",
-        "ToggleSecondSubscription037": "事件总线第二条订阅：{0}",
-        "ToggleSecondSubscription032": "已订阅",
-        "ClearFeed039": "事件总线会话已清空",
-        "XamlSnippet001": "<!-- Core 页与总线页均为代码构建；总线演示只需引用 EventBus 包 -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.EventBus\" Version=\"1.0.0.1\" />\n</ItemGroup>",
-        "BuildProperties023": "处理器顺序",
-        "registration013": "EventBus                      手动 Subscribe / Publish，零依赖\nEventBus.Prism                Prism 容器注册、扫描与启动\nEventBus.AspNetCore           DI 注册 + 请求管线启动，处理器自动发现\nEventBusRegistrationExtensions 通用 IOC：AddEventBus(...) + UseEventBus(resolve, assemblies)\nEventBus.Socket               EventServer / EventClient，跨进程跨机",
-        "BuildProperties024": "同命令多处理器时的执行顺序。",
-        "OnPropertyCommitted026": "事件总线：程序集扫描注册处理器",
-        "ToggleSecondSubscription034": "已取消",
-        "ToggleSecondSubscription035": "启用",
-        "BuildProperties020": "开启后 Publish 走 PublishAsync。",
-        "Content015": "发布订阅 + Command/Query。下面的总线是真实运行的：订阅、发布、查询、退订都在本地执行。",
-        "BuildProperties022": "按程序集注册 [EventHandler]。",
-        "BuildProperties016": "总线实例",
-        "BuildProperties018": "总线实例",
-        "PublishAsync028": "事件总线异步发布：GreetCommand(\"{0}\")",
-        "BuildProperties017": "演示页持有的真实 EventBus 实例。",
-        "Content004": "取消第二条订阅",
-        "Query029": "[查询] TimeQuery.Result = {0:HH:mm:ss.fff}",
-        "OnPropertyCommitted025": "程序集扫描：已注册 TimeQueryHandler"
-      },
-      "NetPacketPage": {
-        "Deserialize032": "Deserialize<SamplePacket>() ← {0} 字节",
-        "CSharpSnippet001": "using CodeWF.Toolkit.NetWeaver;\nusing CodeWF.Toolkit.NetWeaver.Base;\n\n[NetHead(0x01, 1)]\npublic sealed class SamplePacket : INetObject\n{\n    [NetFieldOrder(0)]\n    public int Id { get; set; }\n\n    [NetFieldOrder(1)]\n    public float Score { get; set; }\n\n    [NetFieldOrder(2)]\n    public string Title { get; set; } = string.Empty;\n}\n\nvar packet = new SamplePacket { Id = 42, Score = 1.0f, Title = \"hello\" };\n\nvar buffer = packet.Serialize(systemId: 1);     // 包头 [NetHead(0x01, 1)] + 字段\nvar restored = buffer.Deserialize<SamplePacket>();\n\nConsole.WriteLine($\"{buffer.Length} 字节 → Id={restored.Id}, Score={restored.Score}, Title={restored.Title}\");\n\n// [NetIgnoreMember] 跳过成员；位域场景用 NetFieldOffsetAttribute 精确布局\n// 裁剪 / AOT 下通过 DynamicDependency 保留反射成员",
-        "BuildProperties017": "包头",
-        "declaration013": "[NetIgnoreMember]           跳过该成员\nNetFieldOffsetAttribute     位域 / 精确偏移布局\nSerializeObject(obj, type)  非泛型重载（配合 DynamicDependency）\nPacketHeadLen               固定包头长度",
-        "Deserialize034": "往返校验：不一致！",
-        "AddField027": "已添加占位字段 {0}：协议字段由编译期特性声明，运行时不能真正改变包结构。",
-        "BuildProperties023": "位域布局",
-        "AddField028": "NetWeaver 演示：新增占位字段 {0}",
-        "head010": "{0} 字节",
-        "Deserialize035": "NetWeaver 反序列化：往返校验完成",
-        "Serialize029": "Serialize(systemId: {0}) → {1} 字节\n",
-        "Deserialize033": "往返校验：一致",
-        "fields003": "协议字段（真实序列化）",
-        "BuildProperties024": "使用 NetFieldOffsetAttribute 精确布局。",
-        "fields005": "清空字段",
-        "BuildProperties019": "写入包头的系统标识。",
-        "head007": "字节序",
-        "Content002": "等待序列化",
-        "Content016": "属性即协议：[NetHead(systemId, version)] 声明包头，[NetFieldOrder(n)] 声明字段顺序；下方按钮执行真实序列化与反序列化。",
-        "Serialize031": "NetWeaver 序列化：{0} 字节（systemId={1}）",
-        "BuildProperties021": "小端序（Int32）",
-        "BuildProperties020": "写入包头的协议版本。",
-        "head009": "固定头长",
-        "declaration014": "字段映射：int → 4 字节（小端）；float → 4 字节；string → 长度前缀 + UTF-8。",
-        "fields004": "添加字段",
-        "head011": "包头由 [NetHead(systemId, version)] 声明，序列化时按 INetObject 的类型元数据写入；反序列化按同一元数据校验版本。",
-        "AddField025": "字段名不能为空。",
-        "AddField026": "[演示] {0,-6} string = (仅 UI 演示，真实协议需改 C# 声明)",
-        "head008": "小端序（Int32）",
-        "BuildProperties022": "Int32 使用 BinaryWriter 的小端编码。",
-        "head006": "包头",
-        "Content015": "NetWeaver：特性驱动的二进制序列化",
-        "BuildProperties018": "与 [NetHead] 对应的声明值（演示用）。",
-        "Serialize030": "包头 [NetHead(0x01, {0})] · {1} 字节\n\n",
-        "declaration012": "协议声明"
-      },
-      "ImageQrPage": {
-        "BuildProperties022": "后续处理参数示例。",
-        "pipeline011": "图片处理管线（ImageHelper / Magick.NET）",
-        "Generate027": "二维码生成完成：{0}，{1} 字节",
-        "Content002": "扫码访问仓库",
-        "BuildProperties018": "400 × 400（最终画布 500 宽）",
-        "BuildProperties016": "QrCodeGenerator 的固定参数（当前实现内置）。",
-        "Generate028": "生成失败：",
-        "generate005": "标题",
-        "Content003": "等待生成（文件写入 %TEMP%\\CodeWFToolkitDemo\\image）",
-        "preview010": "预览（生成结果缩放显示）",
-        "Content014": "QrCodeGenerator 输出普通图片文件，可与 ImageHelper / Magick.NET 无缝衔接；下方生成的是真实二维码。",
-        "generate006": "内容",
-        "Generate029": "二维码生成失败",
-        "generate009": "ZXing.Net.Bindings.Magick 生成位图后用 Magick.NET 绘制标题与副标题：500×600（有副标题时 630），纠错级别 H、UTF-8。",
-        "Generate026": "完成：{0}\n{1} 字节 · 100% 质量",
-        "BuildProperties023": "输出质量",
-        "BuildProperties020": "字符集",
-        "BuildProperties025": "生成后缩放显示预览。",
-        "BuildProperties015": "二维码选项",
-        "BuildProperties017": "二维码尺寸",
-        "BuildProperties019": "纠错级别",
-        "BuildProperties021": "图片处理",
-        "BuildProperties024": "生成预览",
-        "generate004": "生成二维码（QrCodeGenerator）",
-        "pipeline012": "格式转换   new MagickImage(\"photo.jpg\").Write(\"photo.webp\");\n等比缩放   image.Resize(800, 0);\n指定宽高   image.Resize(800, 600);\n质量压制   image.Quality = 92;\n水印       文字 / 图片水印，九宫格定位与透明度\nico        多尺寸合成与拆分（见“图标生成”页）",
-        "generate007": "副标题",
-        "Content013": "二维码与图片处理",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Image;\nusing ImageMagick;\n\n// 生成二维码：标题 + 内容 + 副标题，白底蓝边 500×600/630\nQrCodeGenerator.GenerateQrCode(\n    title: \"CodeWF.Toolkit\",\n    content: \"https://github.com/dotnet9/CodeWF.Toolkit\",\n    imagePath: \"qrcode.png\",\n    subTitle: \"扫码访问仓库\");\n\n// 生成结果是普通图片文件，可继续交给 Magick.NET 处理\nusing var image = new MagickImage(\"qrcode.png\");\nimage.Resize(300, 0);\nimage.Write(\"qrcode-preview.png\");",
-        "generate008": "生成二维码"
-      },
-      "CorePage": {
-        "CheckUpdateAsync050": "更新检查开始：{0}/{1}（当前 {2}）",
-        "CheckUpdateAsync055": "→ 对比当前 {0}：发现新版本 {1}",
-        "update015": "仓库",
-        "XamlSnippet001": "<!-- Core 页本身是代码构建的演示页；这里演示的是演示台对 Toolkit 的引用方式 -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.Core\" Version=\"1.0.0.1\" />\n</ItemGroup>",
-        "BuildProperties024": "截断长度",
-        "RunMatch046": "Core 扩展演示：正则判断",
-        "tools010": "截断长度取右侧属性面板的“截断长度”；字节单位为 DoubleExtensions.FormatBytes。",
-        "BuildProperties026": "字符串截断演示使用的长度。",
-        "RunMatch044": "*扩展*",
-        "RunSlug041": "Core 扩展演示：转标识符",
-        "data020": "// %LOCALAPPDATA%\\CodeWF.Toolkit（Linux/macOS 取各自标准值）\nvar dataDir = AppDataMigrator.ResolveAndMigrate(\n    \"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);\n// 旧 %APPDATA% 目录存在、新位置没有数据时一次性搬运，旧目录保留作备份",
-        "Content013": "检查更新",
-        "CheckUpdateAsync056": "更新检查完成：发现新版本 {0}",
-        "Content012": "尚未检查",
-        "tools006": "截断 18",
-        "BuildProperties034": "ETag 增量检查",
-        "Content003": "CodeWF.Toolkit 是 .NET 扩展集合",
-        "CheckUpdateAsync052": "\n\nUpdateCheckResult.Succeeded = true\nUpdate = null → 已是最新版本 {0}",
-        "update016": "当前版本",
-        "BuildProperties032": "更新检查",
-        "update017": "启用 ETag 缓存",
-        "BuildProperties031": "IsMatch 的通配式正则转换。",
-        "RunMatch043": "*扩展*",
-        "RunSlug040": "正则替换非字母数字并转小写：\n{0}",
-        "BuildProperties030": "启用正则扩展",
-        "tools009": "正则判断",
-        "tools005": "字符串 / 数值扩展（真实调用）",
-        "data021": "FileHelper.GetFileEncodeType      编码探测（BOM / 无 BOM）\nFileHelper.SafeWriteAllTextAsync  带重试的安全读写\nFileHelper.OpenFolderAndSelectFile 打开目录并选中文件\nAppDataMigrator.ResolveAndMigrate 数据目录 + 一次性迁移\nIpHelper.GetAllIpV4               本机 IPv4 枚举",
-        "RunMatch045": "RegexExtensions.IsMatch（* → 通配，? → 单字符，# → 数字，@ → 字母）：\n",
-        "RunTruncate039": "Core 扩展演示：截断 {0} 字符",
-        "tools008": "字节单位",
-        "BuildProperties028": "Core 包的扩展演示参数。",
-        "Content022": "Core：扩展方法与基础设施",
-        "CheckUpdateAsync049": "检查中…",
-        "CheckUpdateAsync051": "更新检查失败：{0}",
-        "CSharpSnippet002": "using CodeWF.Toolkit.Core.Extensions;\nusing CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Core.UpdateChecking;\n\n// 字符串 / 数值 / 时间扩展\nvar text = \"CodeWF.Toolkit 是 .NET 扩展集合\";\nvar cut = text.Length > 18 ? text[..18] + \"…\" : text;      // 截断\nvar size = ((double)3_221_225_472).FormatBytes();           // 3.00 GB\nvar money = 1234.ToChineseNumber();                         // 一千二百三十四\n\n// 正则快捷判断（* → 通配，? → 单字符，# → 数字，@ → 字母）\nvar matched = \"CodeWF.Toolkit\".IsMatch(\"CodeWF*\");\n\n// 文件编码探测与安全读写（带重试）\nvar encoding = FileHelper.GetFileEncodeType(\"app.log\");\nawait FileHelper.SafeWriteAllTextAsync(\"app.log\", \"hello\", encoding);\n\n// 应用数据目录：%LOCALAPPDATA%\\CodeWF.Toolkit，旧位置自动一次性迁移\nvar dataDir = AppDataMigrator.ResolveAndMigrate(\"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);\n\n// GitHub Release 更新检查：网页端点优先（不占 API 配额），命中缓存 tag 时连资产请求都省掉\nvar checker = new UpdateChecker(\"dotnet9\", \"CodeWF.Toolkit\");\nvar result = await checker.CheckAsync(new Version(1, 0, 0, 0));\nif (!result.Succeeded) { /* result.Error */ }\nelse if (result.Update is null) { /* 已是最新 */ }\nelse { /* result.Update.Version / Tag / Notes / AssetUrl */ }",
-        "Content023": "零第三方依赖。左侧是可实时试用的扩展方法与更新检查，右侧属性面板可调截断长度与检查选项。",
-        "BuildProperties029": "命名空间",
-        "update018": "默认路径不碰 api.github.com 配额：先走 releases/latest 的 302 落点，tag 与缓存一致时直接用缓存做版本比较；网页端点不可用才退回 API（ETag 条件请求命中 304 时不计配额）。",
-        "tools007": "转标识符",
-        "BuildProperties037": "网页端点优先，失败退回 API",
-        "RunBytes042": "Core 扩展演示：字节单位格式化",
-        "BuildProperties036": "检查端点",
-        "tools011": "StringExtensions   正则快捷判断（IsMatch）、Join\nDoubleExtensions   字节 → 可读单位 FormatBytes\nNumberExtension    数字 → 中文数字 / 中文金额\nEnumExtension      EnumDescriptionAttribute 取描述",
-        "CheckUpdateAsync048": "（ETag 增量：命中缓存则不消耗 API 配额）\n",
-        "data019": "应用数据目录与编码探测",
-        "BuildProperties035": "命中 304 时不计入 API 配额。",
-        "BuildProperties027": "扩展方法",
-        "BuildProperties025": "字符",
-        "Content004": "点击上方按钮查看结果",
-        "update014": "更新检查 UpdateChecker",
-        "CheckUpdateAsync053": "更新检查完成：已是最新版本",
-        "BuildProperties033": "GitHub Release 更新检查选项。",
-        "CheckUpdateAsync054": "(无)",
-        "RunTruncate038": "原文：{0}\n截断 {1}：{2}",
-        "CheckUpdateAsync047": "仓库格式应为 owner/repo。"
-      },
-      "FilesArchivePage": {
-        "Content010": "SevenZipCompressor 基于 SharpCompress，AppConfigHelper 读写传统 appSettings，下方都是真实写盘操作。",
-        "Decompress038": "解压失败：",
-        "archive006": "实现基于 SharpCompress，LZMA 压缩、UTF-8 条目名；zip 内条目按公共根目录计算相对路径，跨盘符会直接拒绝。",
-        "PrepareSamples028": "<!-- design/CodeWF.Toolkit.Demo原型.html -->\n",
-        "WriteConfig044": "App.config 写入失败",
-        "archive004": "准备样本文件",
-        "PrepareSamples029": "已准备样本：{0}",
-        "Decompress036": "还原文件：\n  ",
-        "Decompress035": "请先执行 Compress。",
-        "Compress031": "完成：archive.7z（{0} 字节，{1} 个条目，LZMA / UTF-8）",
-        "BuildProperties018": "配置项",
-        "Content002": "等待操作（所有文件写入 %TEMP%\\CodeWFToolkitDemo\\archive）",
-        "Compress033": "压缩失败：",
-        "DescribeConfig045": "（尚未创建）{0}",
-        "archive003": "7z 压缩（SharpCompress）",
-        "Compress034": "7z 压缩失败",
-        "PrepareSamples025": "导出结果",
-        "BuildProperties019": "App.config 读写演示。",
-        "BuildProperties017": "准备样本文件时生成的数量。",
-        "config007": "写入",
-        "WriteConfig042": "App.config 写入：{0} = {1}",
-        "BuildProperties020": "文件位置",
-        "Content009": "7z 压缩与 App.config",
-        "BuildProperties016": "个",
-        "PrepareSamples023": "说明文档.md",
-        "PrepareSamples022": "导出结果",
-        "PrepareSamples027": "原型.html",
-        "Decompress039": "7z 解压失败",
-        "BuildProperties013": "压缩算法",
-        "PrepareSamples024": "# CodeWF.Toolkit 演示文档\n",
-        "BuildProperties014": "UTF-8 条目名",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Files.Helpers;\n\n// 7z：文件 / 文件夹 / 远程 URL（http 开头自动下载后打入）\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(\"docs/导出结果\", \"archive.7z\", rootdir: \"docs\");\ncompressor.Decompress(\"archive.7z\", \"out/restored\");\n\n// App.config：传统 appSettings 读写（也有 Configuration 对象的扩展方法重载）\nAppConfigHelper.Set(\"App.Language\", \"zh-CN\");\nvar ok = AppConfigHelper.TryGet<string>(\"App.Language\", out var lang);\nAppConfigHelper.SetOrAdd(\"Log.MinimumLevel\", \"Information\");\nvar level = AppConfigHelper.GetOrAdd(\"Log.MinimumLevel\", \"Information\");",
-        "PrepareSamples030": "7z 演示：样本文件已准备",
-        "WriteConfig041": "TryGet → {0}，读回 {1} = {2}",
-        "Decompress037": "7z 解压完成：还原 {0} 个文件",
-        "PrepareSamples026": "Name,Age,City\n张三,20,成都\n",
-        "BuildProperties012": "演示参数（写出文件名固定）。",
-        "WriteConfig043": "写入失败：",
-        "BuildProperties015": "样本文件数",
-        "config008": "Set / GetOrAdd 使用轻量 XML 写入（裁剪友好）；Configuration 对象上的重载标注了 RequiresUnreferencedCode。",
-        "BuildProperties011": "压缩选项",
-        "BuildProperties021": "写入 appSettings 时是否带 BOM。",
-        "Compress032": "7z 压缩完成：{0} 个条目，{1} 字节",
-        "DescribeConfig046": "(未设置)",
-        "WriteConfig040": "请填写 Key。",
-        "archive005": "清空输出",
-        "Append047": "等待操作"
-      },
-      "WelcomeViewModel": {
-        "RunPipelineAsync004": "首页文件流水线失败：",
-        "PublishAsync002": "首页事件流失败：",
-        "Content001": "首页订阅者收到 GreetCommand：{0}",
-        "RunPipelineAsync003": "首页文件流水线完成："
-      },
-      "NetSocketPage": {
-        "DownloadAsync065": "NetWrapper 演示下载失败",
-        "OnTransferOutcome077": "失败",
-        "CSharpSnippet001": "using CodeWF.Toolkit.NetWrapper.Helpers;\nusing CodeWF.Toolkit.NetWrapper.Models;\n\n// 服务端：开启远程文件系统（默认根目录 = 进程当前目录）\nvar server = new TcpSocketServer();\nvar (ok, error) = await server.StartAsync(\"文件服务\", \"127.0.0.1\", 39561);\nvar fileSystem = server.UseFileSystem();\nfileSystem.FileTransferProgress += (_, e) =>\n    Console.WriteLine($\"{e.FileName} {e.Progress:F1}% ({e.BytesPerSecond / 1024 / 1024:F1} MB/s)\");\n\n// 客户端：连接后下载（自动分块 64KB、校验、断点续传）\nvar client = new TcpSocketClient();\nawait client.ConnectAsync(\"文件服务\", \"127.0.0.1\", 39561);\n\nvar feature = client.UseFileSystem();\nfeature.FileTransferProgress += (_, e) => Console.WriteLine($\"下载 {e.FileName} {e.Progress:F1}%\");\nfeature.FileTransferOutcome += (_, e) => Console.WriteLine($\"完成：{e.LocalFilePath}\");\n\nawait client.DownloadFileAsync(\"demo-download.bin\", localSaveDirectory);\n\n// 命令下发：任意 INetObject 都会被序列化后发给对端\nawait client.SendCommandAsync(new Heartbeat { TaskId = 1001 });\n\nclient.Stop();\nawait server.StopAsync();",
-        "StartAsync052": "NetWrapper 演示启动失败",
-        "OnTransferProgress067": "进度 {0:F1}% · {1:N0} / {2:N0} 字节\n",
-        "BuildProperties040": "下载目录",
-        "messages021": "TcpSocketServer.StartAsync(serverMark, ip, port, timeout)\nTcpSocketClient.ConnectAsync(serverMark, ip, port)\nclient.SendCommandAsync(new Heartbeat { SystemId = ... })\nserver.SendCommandAsync(command)     // 广播给全部客户端\nUdpSocketClient.SendAsync(command, time)",
-        "StopAsync053": "● 未启动",
-        "Content005": "等待下载",
-        "StartAsync043": "服务端启动失败：",
-        "messages019": "清空会话",
-        "Content003": "● 未连接",
-        "OnTransferOutcome070": "失败",
-        "OnTransferOutcome078": "NetWrapper 演示下载结束：{0}，成功={1}",
-        "server017": "客户端上线 / 断开、错误通过 SocketClientChangedCommand / TcpClientErrorCommand 经 EventBus 广播。",
-        "OnTransferOutcome072": "上传",
-        "StartAsync050": "NetWrapper 演示：TCP 已互通 127.0.0.1:{0}",
-        "server009": "服务端 / 客户端",
-        "BuildProperties034": "服务端心跳检测超时。",
-        "Content008": "下载样本文件（分块 + 断点续传）",
-        "OnTransferOutcome075": "结果：{0}",
-        "Content004": "等待启动…",
-        "BuildProperties035": "分块大小(KB)",
-        "messages022": "服务端内置心跳检测：30 秒未活动的客户端由后台任务清理。",
-        "BuildProperties029": "演示用回环连接参数。",
-        "DownloadAsync061": "请先启动服务端与客户端。",
-        "OnPropertyCommitted041": "注意：超时时间需在启动前设置（TimeOut 属性只读）。",
-        "StartAsync051": "启动异常：",
-        "SendHeartbeatAsync058": "NetWrapper 演示：心跳已发送",
-        "StartAsync046": "演示文件服务",
-        "DownloadAsync064": "下载失败：",
-        "SendHeartbeatAsync057": "client.SendCommandAsync(new Heartbeat { ... }) → 已发送",
-        "server012": "端口",
-        "server013": "临时可用端口（IpHelper.GetAvailableTcpPort）",
-        "Content027": "TcpSocketServer / TcpSocketClient 封装、命令分发，内置远程文件系统与断点续传；下方在回环地址上真实互通。",
-        "StartAsync049": "client.ConnectAsync → 已连接（本地端点 {0}）",
-        "transfer024": "样本大小(MB)",
-        "OnTransferProgress066": "下载 {0}\n",
-        "StartAsync042": "演示文件服务",
-        "BuildProperties028": "连接参数",
-        "server011": "127.0.0.1（回环）",
-        "StartAsync047": "客户端连接失败：",
-        "OnTransferOutcome071": "下载{0}：{1}\n",
-        "SendHeartbeatAsync056": "请先启动服务端与客户端。",
-        "BuildProperties037": "远程文件系统演示参数。",
-        "OnTransferOutcome074": "方向 {0} · 任务号 {1} · 取消 {2}\n",
-        "StartAsync048": "● 已连接",
-        "BuildProperties032": "临时可用端口",
-        "messages020": "发送 Heartbeat",
-        "StopAsync055": "NetWrapper 演示已停止",
-        "server014": "服务端",
-        "BuildProperties036": "文件传输",
-        "transfer023": "远程文件系统（真实下载）",
-        "server016": "客户端数",
-        "Content006": "启动服务端 + 客户端",
-        "Content007": "停止",
-        "DownloadAsync062": "准备样本：{0}（{1:N0} 字节）\n",
-        "DownloadAsync063": "client.DownloadFileAsync(...) → 等待服务端分块…",
-        "SendHeartbeatAsync060": "NetWrapper 演示心跳发送失败",
-        "BuildProperties039": "已传输字节由 .part 临时文件推断并续传。",
-        "server010": "监听地址",
-        "Content026": "NetWrapper：TCP/UDP 通信与远程文件",
-        "OnTransferProgress068": "分块大小 {0} KB · 任务号 {1}",
-        "StartAsync045": "server.StartAsync(\"演示文件服务\", \"127.0.0.1\", {0}) → 成功",
-        "SendHeartbeatAsync059": "发送失败：",
-        "BuildProperties031": "端口",
-        "StartAsync044": "● 运行中（127.0.0.1:{0}）",
-        "StopAsync054": "● 未连接",
-        "Content002": "● 未启动",
-        "messages018": "消息与会话",
-        "OnTransferOutcome073": "下载",
-        "server015": "客户端",
-        "BuildProperties038": "断点续传",
-        "OnTransferOutcome069": "完成",
-        "Append079": "等待启动",
-        "BuildProperties033": "客户端超时(秒)",
-        "transfer025": "下载即生成一个 2MB 样本文件（默认），走 FileDownloadRequest → FileChunkData → FileChunkAck → FileTransferComplete，64KB 分块、哈希校验、断点续传。",
-        "OnTransferOutcome076": "成功",
-        "BuildProperties030": "主机"
-      },
-      "EventBusIntegrationsPage": {
-        "BuildProperties031": "EventServer 监听端口。",
-        "socket009": "Socket 分布式总线 EventServer / EventClient（真实互通）",
-        "Publish049": "client.Publish(\"{0}\", \"{1}\") → 已投递",
-        "BuildProperties028": "宿主形态",
-        "BuildProperties035": "客户端离线期间的消息在重连后补发。",
-        "socket019": "内容",
-        "socket010": "服务端 / 客户端",
-        "prism022": "适合 Prism.DryIoc.Avalonia 桌面应用：容器内注册处理器并随模块启动。",
-        "StopAsync046": "● 未连接",
-        "StartAsync036": "● 运行中（{0}:{1}）",
-        "StopAsync047": "Socket 总线已停止",
-        "Content005": "等待启动服务端…",
-        "aspnet023": "处理器自动发现，随请求管线启动。",
-        "StartAsync037": "● 已连接",
-        "Content024": "总线集成形态",
-        "Content008": "停止",
-        "socket015": "客户端",
-        "prism021": "using CodeWF.Toolkit.EventBus.Prism;\n\ncontainerRegistry.AddEventBus(assemblies);\ncontainer.UseEventBus(assemblies);",
-        "CSharpSnippet002": "using PrismBus = CodeWF.Toolkit.EventBus.Prism.EventBusExtensions;\nusing AspNetBus = CodeWF.Toolkit.EventBus.AspNetCore.EventBusExtensions;\n\nPrismBus.AddEventBus(containerRegistry, assemblies);\nPrismBus.UseEventBus(container, assemblies);\nAspNetBus.AddEventBus(builder.Services, assemblies);\nAspNetBus.UseEventBus(app, assemblies);\n\nusing var server = new EventServer();\nawait server.StartAsync(\"127.0.0.1\", 39561);\nusing var client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\nclient.Subscribe<string>(\"demo.greeting\", message => Console.WriteLine(message));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\nclient.Disconnect();\nserver.Stop();",
-        "StartAsync038": "● 连接失败",
-        "StartAsync039": "EventClient.ConnectAsync → 已连接 {0}:{1}",
-        "socket018": "主题",
-        "socket011": "监听地址",
-        "BuildProperties030": "端口",
-        "BuildProperties032": "心跳(秒)",
-        "Content004": "● 未连接",
-        "socket014": "服务端",
-        "StartAsync040": "EventClient.ConnectAsync → 失败",
-        "BuildProperties034": "离线补发",
-        "Content025": "同一套处理器模型，三种宿主形态；Socket 形态用于跨进程 / 跨机，下方可真实启动服务端与客户端互通。",
-        "Content003": "● 已停止",
-        "Publish051": "Socket 总线发布：{0} = {1}",
-        "Content007": "启动服务端 + 客户端",
-        "BuildProperties029": "进程内",
-        "StartAsync044": "Socket 总线启动失败",
-        "BuildProperties026": "宿主形态",
-        "socket017": "发布 / 订阅",
-        "Append052": "等待启动",
-        "socket020": "清空会话",
-        "BuildProperties033": "客户端心跳间隔。",
-        "socket012": "端口",
-        "Publish050": "client.Publish 失败：{0}",
-        "XamlSnippet001": "<!-- 分布式总线只需引用 Socket 包 -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.EventBus.Socket\" Version=\"1.0.0.1\" />\n</ItemGroup>",
-        "StartAsync043": "启动失败：{0}",
-        "BuildProperties027": "分布式总线的连接与保活参数。",
-        "Content006": "[客户端订阅] {0}",
-        "Publish048": "请先启动服务端与客户端。",
-        "StartAsync041": "client.Subscribe<string>(\"demo.greeting\", …) → 已订阅",
-        "socket013": "心跳(秒)",
-        "StopAsync045": "● 已停止",
-        "StartAsync042": "Socket 总线已启动：{0}:{1}",
-        "socket016": "心跳保活、断线重连、离线消息补发；底层传输由 NetWrapper 承担。"
-      },
-      "FilesIndexPage": {
-        "BuildMatrix019": "安全读写",
-        "BuildMatrix015": "面向 DataTable 往返，适合批处理导出",
-        "BuildMatrix013": "反射重载标记 RequiresUnreferencedCode，AOT 请用 JsonTypeInfo<T>",
-        "BuildProperties010": "AOT 友好模式",
-        "Content004": "「格式读写」页实测 Json / Yaml / Csv 往返；「压缩配置」页实测 7z 与 App.config。",
-        "BuildProperties008": "默认格式",
-        "Content005": "本页只做索引，避免同一批 API 在两处各写一遍。",
-        "BuildMatrix020": "带重试的字符串 / 字节读写",
-        "Content006": "往返演示（与「格式读写」页同一批 API）",
-        "Content003": "相关页面",
-        "BuildMatrix018": "非 trim-safe，AOT 请用文件路径重载",
-        "BuildMatrix012": "框架内置 System.Text.Json",
-        "BuildMatrix022": "依赖",
-        "Content002": "能力矩阵",
-        "BuildProperties009": "演示页默认使用的序列化格式。",
-        "BuildMatrix017": "分卷与加密需评估 SharpCompress 能力边界",
-        "BuildMatrix014": "基于反射的 SerializerBuilder，AOT 请改用静态源生成",
-        "BuildMatrix016": "7z 压缩",
-        "BuildProperties011": "开启后提示改用 JsonTypeInfo<T> / 静态源生成序列化。",
-        "BuildMatrix021": "能力",
-        "Content007": "点击左侧页签切到「格式读写」或「压缩配置」即可上手操作。",
-        "BuildMatrix023": "注意",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Files.Extensions;\n\n// Json：框架内置 System.Text.Json；AOT 请用 JsonTypeInfo<T> 重载\nvar json = student.ToJson(out var error);\n\n// Yaml：YamlDotNet；反射式 SerializerBuilder 非 AOT 安全\nvar yaml = student.ToYaml(out error);\n\n// Csv / Excel：DataTableExtensions（CsvHelper / MiniExcel）\ndataTable.ToExcel(\"students.xlsx\");\n\n// 安全读写：带重试的字符串 / 字节读写\nawait FileExtension.SafeWriteAllTextAsync(\"app.log\", \"hello\");"
-      },
-      "LoggingOptionsPage": {
-        "BuildOptionsTable020": "日志目录",
-        "Content009": "与 CodeWF.Avalonia 的对接",
-        "Content005": "Logger.Health 诊断",
-        "WriteSamples035": "示例异常",
-        "WriteSamples033": "演示：一条警告日志",
-        "BuildProperties012": "最低级别",
-        "ShowHealth028": "  （无丢弃）",
-        "BuildProperties014": "文件轮转",
-        "Content003": "参数全览",
-        "Content010": "CodeWF.Avalonia.Log 的 LogView 直接订阅这份 UI 事件流；",
-        "BuildProperties015": "按单文件上限轮转，并按保留天数清理。",
-        "BuildOptionsTable027": "说明",
-        "Content007": "写入三条示例日志",
-        "ShowFeed031": "UI 事件流快照：{0} 条",
-        "BuildOptionsTable021": "单文件上限，超限轮转",
-        "BuildOptionsTable023": "LineTemplateController 可自定义输出模板",
-        "Content006": "Logger.Events 快照",
-        "BuildOptionsTable022": "保留天数",
-        "WriteSamples034": "演示：一条错误日志",
-        "BuildOptionsTable018": "低于该级别的日志直接丢弃",
-        "Content004": "健康与事件流",
-        "BuildOptionsTable019": "控制台输出（桌面应用可关闭）",
-        "BuildOptionsTable025": "参数",
-        "BuildProperties013": "低于该级别的日志会被丢弃。",
-        "BuildProperties016": "UI 事件流",
-        "BuildProperties017": "开启 UI 事件流，供桌面端日志控件订阅。",
-        "Content011": "桌面演示台的底部日志面板就是它的一个实例。",
-        "Content002": "等待操作：点击上方按钮查看诊断 / 事件流快照",
-        "Content008": "UI 事件流的回调在后台线程触发，界面订阅方需自行调度到 UI 线程。",
-        "ShowHealth029": "日志健康检查：丢弃 {0} 条",
-        "ShowFeed030": "Logger.Events.GetRecentEvents() → {0} 条",
-        "BuildOptionsTable026": "默认",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Logging;\n\n// 全量选项：控制台 / 文件轮转 / 保留策略 / 行模板 / 本地化\nLogger.TryInitialize(new LoggerOptions\n{\n    MinimumLevel = LogLevel.Debug,\n    EnableConsole = false,\n    File = new FileLogOptions\n    {\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\n        MaxFileSizeBytes = 32 * 1024 * 1024,\n        RetentionDays = 30,\n    },\n});\n\n// 健康诊断：丢弃计数（按级别细分）\nvar snapshot = Logger.Health.GetSnapshot();\nvar dropped = snapshot.DroppedCount;\n\n// UI 事件流：CodeWF.Avalonia.Log 的 LogView 订阅的就是它\nvar recent = Logger.Events.GetRecentEvents();\n\n// 退出前刷盘，避免批量异步写入丢失\nawait Logger.ShutdownAsync();",
-        "WriteSamples032": "演示：一条信息日志",
-        "BuildOptionsTable024": "级别文案本地化"
-      },
-      "FilesFormatPage": {
-        "Content003": "选择一种格式输出",
-        "BuildProperties023": "写文件时是否输出 BOM。",
-        "FromJson032": "失败：",
-        "model009": "数据模型",
-        "ToJson025": "文件格式演示：ToJson",
-        "model010": "public sealed class Student\n{\n    public string Name { get; set; } = \"张三\";\n    public int Age { get; set; } = 20;\n    public string City { get; set; } = \"成都\";\n}",
-        "forward005": "对象 → 文本（真实调用）",
-        "FromYaml034": "失败：",
-        "Content004": "等待反向解析",
-        "table013": "DataTableExtensions.ExportToCsv  / ExportToXlsx\nDataTableExtensions.ImportFromCsv / ImportFromExcel / Import（按扩展名分派）",
-        "BuildProperties018": "文件读写演示的默认选项（与原型一致）。",
-        "BuildProperties017": "格式选项",
-        "table014": "写盘位置为临时目录 %TEMP%\\CodeWFToolkitDemo。",
-        "XamlSnippet001": "<!-- 文件包基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.Files\" Version=\"1.0.0.1\" />\n</ItemGroup>",
-        "FromJson033": "文件格式演示：FromJson",
-        "Content015": "文件读写：Json / Yaml / Csv / Excel",
-        "RunCsvRoundTrip038": "文件大小：{0} 字节 · UTF-8 BOM：{1}",
-        "BuildProperties019": "默认格式",
-        "backward007": "文本 → 对象",
-        "backward008": "全部扩展方法都带 out error 参数：解析失败返回 false 并给出错误文本，不抛异常。",
-        "JsonToYaml030": "失败：",
-        "Content016": "基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel，下面是真实往返转换。",
-        "BuildProperties020": "写入重试",
-        "JsonToYaml031": "文件格式演示：JsonToYaml",
-        "RunCsvRoundTrip040": "文件格式演示：DataTable Csv 往返",
-        "CSharpSnippet002": "using CodeWF.Toolkit.Files.Extensions;\nusing CodeWF.Toolkit.Files.Exports;\n\nvar student = new Student { Name = \"张三\", Age = 20, City = \"成都\" };\n\n// 对象 → 文本：扩展方法统一带 out error，失败不外抛\nstudent.ToJson(out var json, out var error1);\nstudent.ToYaml(out var yaml, out var error2);\n\n// 文本 → 对象\njson.FromJson<Student>(out var fromJson, out var error3);\nyaml.FromYaml<Student>(out var fromYaml, out var error4);\n\n// 格式化与互转\njson.JsonPrettify(2, sortKeys: true, out var pretty, out _);\njson.JsonToYaml(out var yaml2, out _);\n\n// DataTable ↔ Csv / Excel\ndataTable.ExportToCsv(\"students.csv\", Encoding.UTF8, out var error5);\n\"students.csv\".ImportFromCsv(out var error6, out var table);\ndataTable.ExportToXlsx(\"students.xlsx\", out var error7);",
-        "table012": "导出 Csv 再导入",
-        "FromYaml035": "文件格式演示：FromYaml",
-        "ToJson024": "失败：",
-        "Prettify028": "失败：",
-        "Prettify029": "文件格式演示：JsonPrettify（缩进 2、键排序）",
-        "ToYaml027": "文件格式演示：ToYaml",
-        "ToYaml026": "失败：",
-        "RunCsvRoundTrip036": "有",
-        "RunCsvRoundTrip037": "无",
-        "BuildProperties022": "FileHelper 安全读写的重试次数。",
-        "RunCsvRoundTrip039": "还原：{0} 行 {1} 列 → 首行 {2}",
-        "table011": "DataTable ↔ Csv / Excel（真实写盘往返）",
-        "forward006": "JsonPrettify + 排序",
-        "BuildProperties021": "次"
-      },
-      "LoggingMicrosoftPage": {
-        "pipeline011": "写带用户消息的日志",
-        "BuildProperties031": "提供程序",
-        "BuildProperties027": "LogUser* 系列扩展写入 CodeWFUserLogState。",
-        "RunParser044": "模板键：{0}\n解析结果：{1}",
-        "BuildProvider036": "  CodeWFLoggerRuntime / LogEventFeed / LineTemplateController / CodeWFLogHealth 已注册",
-        "BuildProperties024": "最低级别",
-        "BuildProvider034": "ServiceProvider 已构建（重复点击不重复注册）。",
-        "options019": "CodeWFLoggerOptions         统一选项，支持配置绑定与 ValidateOnStart\nCodeWFFileLoggerOptions     文件轮转（目录 / 单文件上限 / 保留天数 / 批量）\nCodeWFConsoleLoggerOptions  控制台输出（可选）\nCodeWFEventFeedOptions      UI 事件流（容量）\nCodeWFCaptureOptions        作用域 / Activity / Tags / Baggage 捕获\nCodeWFQueueOptions          队列容量与满策略（DropOldest / DropNewest / Block / ...）\nCodeWFUserLogState          按用户标记的日志状态（LogUser* 扩展）",
-        "BuildProperties033": "与静态 Logger 共用",
-        "BuildProperties029": "运行状态",
-        "WriteUserMessage041": "用户 {User} 在 {Time} 登录 {Ip}",
-        "pipeline009": "真实管道（本页用 ServiceCollection 搭建）",
-        "options018": "选项一览",
-        "register006": "注册",
-        "BuildProvider037": "MEL 提供程序已构建（演示）",
-        "RunParser045": "MessageTemplateParser：模板含 {0} 个占位符",
-        "Append046": "等待写入",
-        "BuildProperties032": "事件流",
-        "pipeline012": "bootstrap provider 与静态 Logger 共用事件流：这里写的日志同样出现在底部日志面板与日志文件里。",
-        "Content005": "构建 ServiceProvider（AddCodeWF）",
-        "BuildProperties025": "包含作用域",
-        "parser016": "解析",
-        "parser017": "MessageTemplateParser 是 MEL 包的内部解析器：GetPropertyNames 取占位符名，Format 按参数替换（支持 {Name,5} 对齐与 {Value:0.0} 格式）。",
-        "Content021": "把 MEL 生态日志统一接入核心 Logger：文件轮转 + UI 事件流 + 结构化模板 + 用户消息标记。",
-        "WriteUserMessage040": "登录成功",
-        "Content002": "等待写入 MEL 日志…",
-        "BuildProperties030": "本页容器与事件流状态。",
-        "WriteStructured038": "用户 {User} 在 {Time} 登录 {Ip}",
-        "BuildProvider035": "AddCodeWF → ServiceProvider 已构建，ILoggerFactory 就绪。",
-        "parser015": "参数",
-        "parser013": "结构化模板解析（MessageTemplateParser）",
-        "pipeline010": "写一条 MEL 日志",
-        "Content020": "Microsoft.Extensions.Logging 提供程序",
-        "register008": "AddCodeWF 会把 CodeWFLoggerRuntime、LogEventFeed、LineTemplateController、CodeWFLogHealth 一并注册到容器。",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Logging.Microsoft;\nusing Microsoft.Extensions.DependencyInjection;\nusing Microsoft.Extensions.Logging;\n\n// 宿主里注册（ASP.NET Core / 通用主机均是这一句）\nbuilder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Console.Enabled = true;\n    options.EventFeed.Enabled = true;\n    options.Capture.Scopes = true;\n    options.BridgeStaticLogger = true;     // 让静态 Logger 与 MEL 共用同一管道\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});\n\n// 或直接构造容器验证\nvar services = new ServiceCollection();\nservices.AddLogging(builder => builder.AddCodeWF(options => options.File.DirectoryPath = logDirectory));\nawait using var provider = services.BuildServiceProvider();\nvar factory = provider.GetRequiredService<ILoggerFactory>();\nvar logger = factory.CreateLogger(\"Demo\");\n\n// 普通结构化日志：[LoggerMessage] 风格模板 + 参数\nlogger.LogInformation(\"用户 {User} 在 {Time} 登录 {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");\n\n// 带用户消息的写入：UI 只展示 userMessage，文件里保留完整模板\nlogger.LogUserInformation(\"登录成功\", \"用户 {User} 在 {Time} 登录 {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");",
-        "BuildProperties023": "与 CodeWFLoggerOptions 对应。",
-        "register007": "builder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Capture.Scopes = true;       // 捕获作用域\n    options.Capture.Activity = true;     // 捕获 Activity（TraceId / SpanId）\n    options.BridgeStaticLogger = true;   // 与静态 Logger 共用管道、共用 LogEventFeed\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});",
-        "RunParser043": "用户 {User} 在 {Time} 登录 {Ip}",
-        "Content003": "用户 {User} 在 {Time} 登录 {Ip}",
-        "WriteStructured039": "[MEL/Information] 用户 admin 在 10:24 登录 192.168.1.8     (User=admin, Ip=192.168.1.8)",
-        "BuildProperties028": "队列满策略",
-        "parser014": "模板",
-        "Content004": "等待解析",
-        "BuildProperties022": "提供程序选项",
-        "WriteUserMessage042": "[MEL/Information] 登录成功     (UserMessage；完整模板在文件里)",
-        "BuildProperties026": "按用户标记"
-      },
-      "ImageIconPage": {
-        "Merge029": "完成：{0}\n{1} 字节 · {2} 个尺寸",
-        "BuildProperties026": "源图",
-        "Merge031": "合成失败：",
-        "merge008": "尺寸取自右侧属性面板的“包含尺寸”，默认 16,24,32,48,64,128,256。",
-        "merge004": "源图片",
-        "Merge030": "图标合成完成：{0} 个尺寸，{1} 字节",
-        "Content002": "等待操作（所有文件写入 %TEMP%\\CodeWFToolkitDemo\\image）",
-        "BuildProperties023": "写出图片质量。",
-        "Separate034": "完成，输出文件：\n  {0}",
-        "Separate035": "图标拆分完成：{0} 个文件",
-        "Merge028": "源图片不存在：{0}",
-        "BuildProperties018": "ico 合成参数。",
-        "merge005": "输出文件",
-        "Separate037": "图标拆分失败",
-        "BuildProperties017": "图标选项",
-        "others013": "其它图像能力（同一套 Magick.NET 基础）",
-        "BuildProperties027": "输出目录",
-        "BuildProperties022": "质量",
-        "separate012": "尺寸列表",
-        "separate010": "源图标",
-        "merge006": "用仓库 logo 重置",
-        "BuildProperties020": "PNG 压缩",
-        "BuildProperties024": "输入输出",
-        "Merge032": "图标合成失败",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Image;\r\n\r\n// 多尺寸合成：一张 PNG → 多帧 ico\r\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\r\n\r\n// 拆分：从源图分别按尺寸生成独立 ico 文件\r\nawait ImageHelper.SeparateGenerateIcon(\"logo.png\", \"out/icons\", [16, 32]);\r\n\r\n// 底层是 Magick.NET：也可以直接用它做转换 / 缩放 / 水印\r\nusing var image = new MagickImage(\"photo.jpg\");\r\nimage.Resize(800, 0);\r\nimage.Write(\"photo.webp\");",
-        "separate009": "拆分（SeparateGenerateIcon）",
-        "BuildProperties025": "演示目录与源图。",
-        "merge007": "尺寸预览（生成后填充）",
-        "Separate033": "源图片不存在：{0}",
-        "Content015": "图标生成：多尺寸 ico 合成与拆分",
-        "Content016": "ImageHelper.MergeGenerateIcon / SeparateGenerateIcon，底层 Magick.NET-Q16；点按钮即在临时目录真实生成。",
-        "BuildProperties019": "包含尺寸",
-        "Separate036": "拆分失败：",
-        "separate011": "输出目录",
-        "others014": "格式转换    png / jpg / webp / bmp 互转，可指定质量\r\n缩放        等比缩放、指定宽高\r\n水印        文字 / 图片水印，位置与透明度\r\nico         多尺寸合成、拆分（本页）\r\n二维码      QrCodeGenerator（见“二维码与处理”页）",
-        "BuildProperties021": "Magick.NET 写出时的压缩开关。",
-        "merge003": "合成（MergeGenerateIcon）"
-      },
-      "LoggingCorePage": {
-        "stream008": "日志流（真实 Logger）",
-        "options015": "当前日志目录",
-        "BuildProperties024": "超出单文件上限时按序号轮转。",
-        "ApplyTemplate038": "{Timestamp:HH:mm:ss.fff} {Level:zh} {Message} [类别 {Category}]{NewLine}",
-        "BuildProperties034": "{0} 条（RecentEventCapacity）",
-        "members016": "成员一览",
-        "SampleLogs003": "调试：加载配置完成",
-        "SampleLogs005": "内存水位偏高：82%",
-        "BuildProperties027": "单文件上限(MB)",
-        "BuildProperties021": "控制台与 UI 事件流的过滤参考级别。",
-        "SampleLogs006": "连接已超时（示例异常）",
-        "BuildProperties022": "控制台输出",
-        "BuildProperties023": "文件轮转",
-        "BuildProperties030": "运行状态",
-        "CSharpSnippet002": "using CodeWF.Toolkit.Logging;\r\n\r\nLogger.TryInitialize(new LoggerOptions\r\n{\r\n    MinimumLevel = LogLevel.Information,\r\n    EnableConsole = true,\r\n    File = new FileLogOptions\r\n    {\r\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\r\n        MaxFileSizeBytes = 32 * 1024 * 1024,   // 单文件上限，超出自动轮转\r\n        RetentionDays = 30,                    // 保留天数\r\n        BatchSize = 200,                       // 批量落盘条数\r\n        FlushInterval = TimeSpan.FromMilliseconds(500),\r\n        OutputTemplate = null,                 // 为空时用 LineTemplate\r\n    },\r\n    LineTemplate = \"{Timestamp:yyyy-MM-dd HH:mm:ss.fff} 【{Level:zh}】 {UserMessage}{NewLine}\",\r\n    QueueCapacity = 10_000,\r\n    QueueFullMode = LogQueueFullMode.DropTraceAndDebug,\r\n});\r\n\r\nLogger.Debug(\"调试：加载配置\");\r\nLogger.Info(\"服务已启动\");\r\nLogger.Warn(\"内存水位偏高\");\r\nLogger.Error(\"连接已超时\", new TimeoutException(\"connect timeout\"));\r\n\r\n// UI 事件流（LogView 的数据源）；回调在后台线程，订阅方自行调度到 UI 线程\r\nusing var subscription = Logger.Events.Subscribe(logEvent => Console.WriteLine(logEvent.Message));\r\n\r\n// 热更新输出模板（含校验失败原因）\r\nLogger.LineTemplate.TryUpdate(\"{Timestamp:HH:mm:ss.fff} {Level:zh} {Message}{NewLine}\", out var error);\r\n\r\nawait Logger.ShutdownAsync();   // 退出前刷盘",
-        "XamlSnippet001": "<!-- 演示台的日志面板就是本页的另一个实例：底部 Dock 工具面板绑同一个 LogEventFeed -->\r\n<codewf:LogView Source=\"{Binding LogSource}\" MaxDisplayCount=\"500\" />",
-        "SampleLogs007": "致命：磁盘写入不可恢复",
-        "stream011": "写入会同时进控制台、文件（批量异步 + 轮转）与 UI 事件流（本页列表与底部日志面板）。",
-        "Content018": "Logger 核心",
-        "SampleLogs004": "服务已启动，监听 127.0.0.1:39561",
-        "ApplyTemplate041": "模板校验失败：\n{0}\n\n{1}",
-        "BuildProperties029": "天",
-        "ClearStream037": "日志流已清空（仅清 UI 事件流，文件日志保留）",
-        "stream010": "清空",
-        "Content019": "静态 Logger：控制台 + 文件轮转 + UI 事件流。下方按钮写入真实的日志，事件流与底部日志面板同步刷新。",
-        "ApplyTemplate039": "LineTemplate 已更新：\n{0}",
-        "ApplyTemplate042": "输出模板校验失败：",
-        "ApplyTemplate040": "输出模板已更新",
-        "BuildProperties031": "当前演示台的日志运行状态。",
-        "BuildProperties028": "保留天数",
-        "BuildProperties026": "与 LoggerOptions 对应的选项。",
-        "OnPropertyCommitted035": "日志选项（演示）：{0} = {1}",
-        "stream009": "最低显示级别",
-        "BuildProperties025": "Logger 选项",
-        "OnDocumentOpened036": "打开演示页：Logger 核心",
-        "BuildProperties020": "最低级别",
-        "BuildProperties032": "日志目录",
-        "templateButton012": "应用自定义模板",
-        "members017": "Logger.TryInitialize / Initialize     初始化（重复调用返回 false / 抛异常）\r\nLogger.Trace / Debug / Info / Warn    静态写入，支持 userMessage 与 requestNotification\r\nLogger.Error / Fatal                  带异常的写入\r\nLogger.*ToFile                        仅落文件、不进 UI 事件流\r\nLogger.FlushAsync / ShutdownAsync     刷盘与关闭\r\nLogEventFeed.Subscribe / GetRecentEvents  UI 事件流订阅与最近事件快照\r\nLineTemplateController                运行期热更新输出模板（带校验）\r\nCodeWFLogHealth                       日志系统自身健康与自诊断",
-        "BuildProperties033": "事件流容量",
-        "options014": "文件写入是批量异步的：崩溃前请 ShutdownAsync / FlushAsync；UI 事件流回调在后台线程。",
-        "options013": "初始化与选项"
-      },
-      "RuntimeFlowPage": {
-        "XamlCode001": "<!-- 运行态工作台：同一套处理器模型，进程内 / 集成 / 分布式三种形态 -->\nbuilder.Services.AddEventBus(assemblies);\napp.UseEventBus();\n\nvar server = new EventServer();\nserver.Start(\"127.0.0.1\", 39561);\nawait client.ConnectAsync(\"127.0.0.1\", 39561);",
-        "CSharpCode002": "// 场景页把「启动 → 连接 → 发布 → 查询 → 观测」编成一条工作流，\n// 每一步复用能力字典里的同一个页面实例：\nAddStep(DemoKeys.StepServer, new EventBusPage());\nAddStep(DemoKeys.StepConnect, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepPublish, new EventBusPage());\nAddStep(DemoKeys.StepQuery, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepObserve, new LoggingCorePage());\nAttachSceneShell();\n\n// 运行态的日志与总线是同一个进程里的两侧：\nLogger.Info(\"EventServer 启动成功，服务地址是：127.0.0.1:39561\");\nclient.Publish(\"demo.greeting\", \"hello\", out _);"
-      },
-      "MainViewModel": {
-        "BuildGlobalProperties026": "深色",
-        "RunSmokeAsync015": "冒烟校验：总线={0}，查询={1:HH:mm:ss}，序列化={2}",
-        "RunSmokeAsync013": "CodeWF.Toolkit 演示台",
-        "BuildGlobalProperties032": "演示台外观设置（这里的修改即右侧 PropertyGrid 的自我演示）。",
-        "RunSmokeAsync012": "冒烟开始",
-        "RunSmokeAsync017": "冒烟结束",
-        "ApplyAppearance018": "深色",
-        "BuildGlobalProperties023": "界面模式",
-        "WriteSampleLogs008": "演示：一条信息日志",
-        "BuildGlobalProperties024": "浅色",
-        "OnGlobalPropertyCommitted035": "深色",
-        "ApplyAppearance020": "外观切换：{0} / {1}",
-        "WriteSampleLogs011": "示例异常",
-        "ToggleTool005": "显示面板：",
-        "BuildGlobalProperties027": "深色",
-        "SelectedCulture002": "界面语言切换为 ",
-        "Content001": "简体中文",
-        "BuildGlobalProperties034": "演示台语言设置。",
-        "BuildGlobalProperties030": "界面语言，切换即时生效（I18nManager.Culture）。",
-        "SyncGlobalItems037": "浅色",
-        "SyncGlobalItems036": "深色",
-        "WriteSampleLogs010": "演示：一条错误日志",
-        "RunSmokeAsync014": "序列化往返",
-        "BuildGlobalProperties031": "外观",
-        "WriteSampleLogs009": "演示：一条警告日志",
-        "SyncDocumentClosed004": "关闭文档：",
-        "BuildGlobalProperties028": "浅 / 深模式；固定配色的色板不随该模式变化。",
-        "ResetLayout007": "重置工作区布局",
-        "RunSmokeAsync016": "冒烟失败",
-        "BuildGlobalProperties025": "深色",
-        "BuildGlobalProperties029": "语言",
-        "BuildGlobalProperties022": "应用配色：.NET 紫 / AI 极光 / AI 暖陶，以及六套 Semi 配色。",
-        "BuildGlobalProperties033": "语言",
-        "ToggleTool006": "隐藏面板：",
-        "OpenItem003": "打开文档：",
-        "BuildGlobalProperties021": "色板",
-        "ApplyAppearance019": "浅色"
-      },
-      "WelcomePage": {
-        "View002": "发布订阅 · 查询 · 集成",
-        "View001": "扩展方法 · 应用基础设施",
-        "View005": "日志流 · 文件轮转",
-        "View006": "二进制协议 · TCP / UDP",
-        "View003": "格式转换 · 压缩 · 索引",
-        "View004": "转换 · 图标 · 二维码"
-      },
-      "ScenePageBase": {
-        "GoToStep001": "工作流步骤 {0}/{1}：{2}"
-      },
-      "MainViewModelShell": {
-        "CommitRename001": "恢复原名：{0}",
-        "LoadLayoutFrom004": "已恢复布局：",
-        "LoadLayoutFrom005": "恢复布局失败：",
-        "CommitRename002": "重命名：{0} → {1}",
-        "SaveLayoutTo003": "保存布局失败："
-      },
-      "LabFlowPage": {
-        "CSharpCode002": "// 场景页把「格式转换 → 归档 → 图标/二维码 → 导出」编成一条流水线\nAddStep(DemoKeys.StepFormat, new FilesFormatPage());\nAddStep(DemoKeys.StepArchive, new FilesArchivePage());\nAddStep(DemoKeys.StepImage, new ImageIconPage());\nAddStep(DemoKeys.StepExport, new ImageQrPage());\nAttachSceneShell();\n\n// 各步底层就是能力字典里那批 API：\nvar yaml = student.ToYaml(out var error);\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(sourceDirectory, \"archive.7z\");\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qrcode.png\");",
-        "XamlCode001": "<!-- 能力实验室：Files / Image 的入口 API 一览 -->\n<PackageReference Include=\"CodeWF.Toolkit.Files\" />\n<PackageReference Include=\"CodeWF.Toolkit.Image\" />\n\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [24, 32, 48]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qr.png\");"
-      },
-      "ToolkitModels": {
-        "Name001": "张三",
-        "City002": "成都"
-      },
-      "DemoBootstrapper": {
-        "Initialize001": "CodeWF.Toolkit 演示启动：日志目录 "
-      }
-    },
     "Api": {
       "StringExtensions": {
         "Desc": "分割并连接字符串，控制空项处理。"
@@ -1140,6 +498,940 @@
       "SectionProtocol": "协议与地址",
       "SectionSockets": "Socket 会话",
       "SectionRemoteFiles": "远程文件"
+    },
+    "Content": {
+      "Core": {
+        "Properties": {
+          "TruncationLength": "截断长度",
+          "Characters": "字符",
+          "LengthUsedByTheStringTruncationDemo": "字符串截断演示使用的长度。",
+          "ExtensionMethods": "扩展方法",
+          "ParametersForTheCoreExtensionDemos": "Core 包的扩展演示参数。",
+          "Namespace": "命名空间",
+          "EnableRegexExtensions": "启用正则扩展",
+          "WildcardExpressionUsedByIsMatch": "IsMatch 的通配式正则转换。",
+          "UpdateChecking": "更新检查",
+          "OptionsForGitHubReleaseUpdateChecking": "GitHub Release 更新检查选项。",
+          "ETagConditionalCheck": "ETag 增量检查",
+          "304ResponsesDoNotConsumeTheAPIQuota": "命中 304 时不计入 API 配额。",
+          "Endpoint": "检查端点",
+          "WebEndpointFirstAPIFallback": "网页端点优先，失败退回 API"
+        },
+        "CheckUpdateAsync": {
+          "RepositoryMustUseOwnerRepoFormat": "仓库格式应为 owner/repo。",
+          "ETagCacheHitsAvoidConsumingTheAPIQuota": "（ETag 增量：命中缓存则不消耗 API 配额）\n",
+          "Checking": "检查中…",
+          "CheckingUpdatesCurrentFormat": "更新检查开始：{0}/{1}（当前 {2}）",
+          "UpdateCheckFailedFormat": "更新检查失败：{0}",
+          "UpdateCheckResultSucceededTrueUpdateNullCurrentVersionIsFormat": "\n\nUpdateCheckResult.Succeeded = true\nUpdate = null → 已是最新版本 {0}",
+          "UpdateCheckAlreadyUpToDate": "更新检查完成：已是最新版本",
+          "None": "(无)",
+          "CurrentNewVersionFormat": "→ 对比当前 {0}：发现新版本 {1}",
+          "UpdateCheckNewVersionFormat": "更新检查完成：发现新版本 {0}"
+        },
+        "Content": {
+          "CodeWFToolkitIsACollectionOfNETExtensions": "CodeWF.Toolkit 是 .NET 扩展集合",
+          "ClickAButtonAboveToViewItsResult": "点击上方按钮查看结果",
+          "NotCheckedYet": "尚未检查",
+          "CheckUpdates": "检查更新",
+          "CoreExtensionsAndInfrastructure": "Core：扩展方法与基础设施",
+          "CoreHasNoThirdPartyDependenciesTryExtensions": "零第三方依赖。左侧是可实时试用的扩展方法与更新检查，右侧属性面板可调截断长度与检查选项。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Core.Extensions;\nusing CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Core.UpdateChecking;\n\n// 字符串 / 数值 / 时间扩展\nvar text = \"CodeWF.Toolkit 是 .NET 扩展集合\";\nvar cut = text.Length > 18 ? text[..18] + \"…\" : text;      // 截断\nvar size = ((double)3_221_225_472).FormatBytes();           // 3.00 GB\nvar money = 1234.ToChineseNumber();                         // 一千二百三十四\n\n// 正则快捷判断（* → 通配，? → 单字符，# → 数字，@ → 字母）\nvar matched = \"CodeWF.Toolkit\".IsMatch(\"CodeWF*\");\n\n// 文件编码探测与安全读写（带重试）\nvar encoding = FileHelper.GetFileEncodeType(\"app.log\");\nawait FileHelper.SafeWriteAllTextAsync(\"app.log\", \"hello\", encoding);\n\n// 应用数据目录：%LOCALAPPDATA%\\CodeWF.Toolkit，旧位置自动一次性迁移\nvar dataDir = AppDataMigrator.ResolveAndMigrate(\"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);\n\n// GitHub Release 更新检查：网页端点优先（不占 API 配额），命中缓存 tag 时连资产请求都省掉\nvar checker = new UpdateChecker(\"dotnet9\", \"CodeWF.Toolkit\");\nvar result = await checker.CheckAsync(new Version(1, 0, 0, 0));\nif (!result.Succeeded) { /* result.Error */ }\nelse if (result.Update is null) { /* 已是最新 */ }\nelse { /* result.Update.Version / Tag / Notes / AssetUrl */ }",
+          "Xaml": "<!-- Core 页本身是代码构建的演示页；这里演示的是演示台对 Toolkit 的引用方式 -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.Core\" Version=\"1.0.0.1\" />\n</ItemGroup>"
+        },
+        "data": {
+          "ApplicationDataDirectoriesAndEncodingDetection": "应用数据目录与编码探测",
+          "VarDataDirAppDataMigratorResolveAndMigrateCodeWFToolkitConfigJson": "// %LOCALAPPDATA%\\CodeWF.Toolkit（Linux/macOS 取各自标准值）\nvar dataDir = AppDataMigrator.ResolveAndMigrate(\n    \"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);\n// 旧 %APPDATA% 目录存在、新位置没有数据时一次性搬运，旧目录保留作备份",
+          "FileHelperGetFileEncodeTypeEncodingDetectionFileHelperSafeReadAllTextSafeText": "FileHelper.GetFileEncodeType      编码探测（BOM / 无 BOM）\nFileHelper.SafeWriteAllTextAsync  带重试的安全读写\nFileHelper.OpenFolderAndSelectFile 打开目录并选中文件\nAppDataMigrator.ResolveAndMigrate 数据目录 + 一次性迁移\nIpHelper.GetAllIpV4               本机 IPv4 枚举"
+        },
+        "RunBytes": {
+          "CoreExtensionDemoByteFormatting": "Core 扩展演示：字节单位格式化"
+        },
+        "RunMatch": {
+          "Extensions": "*扩展*",
+          "RegexExtensionsIsMatchWildcardCharacterDigitLetter": "RegexExtensions.IsMatch（* → 通配，? → 单字符，# → 数字，@ → 字母）：\n",
+          "CoreExtensionDemoPatternMatching": "Core 扩展演示：正则判断"
+        },
+        "RunSlug": {
+          "ReplaceNonAlphanumericCharactersAndLowercaseFormat": "正则替换非字母数字并转小写：\n{0}",
+          "CoreExtensionDemoIdentifierConversion": "Core 扩展演示：转标识符"
+        },
+        "RunTruncate": {
+          "OriginalTruncatedToFormat": "原文：{0}\n截断 {1}：{2}",
+          "CoreExtensionDemoTruncateToCharactersFormat": "Core 扩展演示：截断 {0} 字符"
+        },
+        "tools": {
+          "StringNumericExtensionsRealCalls": "字符串 / 数值扩展（真实调用）",
+          "TruncateTo18": "截断 18",
+          "ConvertToIdentifier": "转标识符",
+          "ByteUnits": "字节单位",
+          "MatchPattern": "正则判断",
+          "SetTruncationLengthInThePropertyPanelByte": "截断长度取右侧属性面板的“截断长度”；字节单位为 DoubleExtensions.FormatBytes。",
+          "StringExtensionsMatchingAndJoiningDoubleExtensionsReadableByteSizes": "StringExtensions   正则快捷判断（IsMatch）、Join\nDoubleExtensions   字节 → 可读单位 FormatBytes\nNumberExtension    数字 → 中文数字 / 中文金额\nEnumExtension      EnumDescriptionAttribute 取描述"
+        },
+        "update": {
+          "UpdateChecker": "更新检查 UpdateChecker",
+          "Repository": "仓库",
+          "CurrentVersion": "当前版本",
+          "EnableETagCache": "启用 ETag 缓存",
+          "ChecksTheReleasesLatestRedirectFirstReusesCached": "默认路径不碰 api.github.com 配额：先走 releases/latest 的 302 落点，tag 与缓存一致时直接用缓存做版本比较；网页端点不可用才退回 API（ETag 条件请求命中 304 时不计配额）。"
+        }
+      },
+      "DemoBootstrapper": {
+        "Initialize": {
+          "CodeWFToolkitStartedLogDirectory": "CodeWF.Toolkit 演示启动：日志目录 "
+        }
+      },
+      "EventBusIntegrations": {
+        "Append": {
+          "AwaitingStartup": "等待启动"
+        },
+        "aspnet": {
+          "AutomaticallyDiscoverHandlersAndInitializeThemWithThe": "处理器自动发现，随请求管线启动。"
+        },
+        "Properties": {
+          "HostIntegration": "宿主形态",
+          "ConnectionAndKeepAliveSettingsForTheDistributed": "分布式总线的连接与保活参数。",
+          "InProcess": "进程内",
+          "Port": "端口",
+          "EventServerListenPort": "EventServer 监听端口。",
+          "HeartbeatSeconds": "心跳(秒)",
+          "ClientHeartbeatInterval": "客户端心跳间隔。",
+          "ReplayOfflineMessages": "离线补发",
+          "OfflineClientMessagesAreReplayedAfterReconnection": "客户端离线期间的消息在重连后补发。"
+        },
+        "Content": {
+          "Stopped": "● 已停止",
+          "Disconnected": "● 未连接",
+          "AwaitingServerStartup": "等待启动服务端…",
+          "ClientSubscriptionFormat": "[客户端订阅] {0}",
+          "StartServerAndClient": "启动服务端 + 客户端",
+          "Stop": "停止",
+          "BusIntegrations": "总线集成形态",
+          "OneHandlerModelForThreeHostIntegrationsSocket": "同一套处理器模型，三种宿主形态；Socket 形态用于跨进程 / 跨机，下方可真实启动服务端与客户端互通。"
+        },
+        "Source": {
+          "CSharp": "using PrismBus = CodeWF.Toolkit.EventBus.Prism.EventBusExtensions;\nusing AspNetBus = CodeWF.Toolkit.EventBus.AspNetCore.EventBusExtensions;\n\nPrismBus.AddEventBus(containerRegistry, assemblies);\nPrismBus.UseEventBus(container, assemblies);\nAspNetBus.AddEventBus(builder.Services, assemblies);\nAspNetBus.UseEventBus(app, assemblies);\n\nusing var server = new EventServer();\nawait server.StartAsync(\"127.0.0.1\", 39561);\nusing var client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\nclient.Subscribe<string>(\"demo.greeting\", message => Console.WriteLine(message));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\nclient.Disconnect();\nserver.Stop();",
+          "Xaml": "<!-- 分布式总线只需引用 Socket 包 -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.EventBus.Socket\" Version=\"1.0.0.1\" />\n</ItemGroup>"
+        },
+        "prism": {
+          "UsingCodeWFToolkitEventBusPrismContainerRegistryAddEventBusAssemblies": "using CodeWF.Toolkit.EventBus.Prism;\n\ncontainerRegistry.AddEventBus(assemblies);\ncontainer.UseEventBus(assemblies);",
+          "ForPrismDryIocAvaloniaRegisterHandlersInThe": "适合 Prism.DryIoc.Avalonia 桌面应用：容器内注册处理器并随模块启动。"
+        },
+        "Publish": {
+          "StartTheServerAndClientFirst": "请先启动服务端与客户端。",
+          "ClientPublishDeliveredFormat": "client.Publish(\"{0}\", \"{1}\") → 已投递",
+          "ClientPublishFailedFormat": "client.Publish 失败：{0}",
+          "SocketBusPublishFormat": "Socket 总线发布：{0} = {1}"
+        },
+        "socket": {
+          "DistributedSocketBusEventServerEventClientRealConnection": "Socket 分布式总线 EventServer / EventClient（真实互通）",
+          "ServerClient": "服务端 / 客户端",
+          "ListenAddress": "监听地址",
+          "Port": "端口",
+          "HeartbeatSeconds": "心跳(秒)",
+          "Server": "服务端",
+          "Client": "客户端",
+          "HeartbeatReconnectionAndOfflineReplayNetWrapperProvidesThe": "心跳保活、断线重连、离线消息补发；底层传输由 NetWrapper 承担。",
+          "PublishSubscribe": "发布 / 订阅",
+          "Topic": "主题",
+          "Content": "内容",
+          "ClearSession": "清空会话"
+        },
+        "StartAsync": {
+          "RunningFormat": "● 运行中（{0}:{1}）",
+          "Connected": "● 已连接",
+          "ConnectionFailed": "● 连接失败",
+          "EventClientConnectAsyncConnectedToFormat": "EventClient.ConnectAsync → 已连接 {0}:{1}",
+          "EventClientConnectAsyncFailed": "EventClient.ConnectAsync → 失败",
+          "ClientSubscribeStringDemoGreetingSubscribed": "client.Subscribe<string>(\"demo.greeting\", …) → 已订阅",
+          "SocketBusStartedFormat": "Socket 总线已启动：{0}:{1}",
+          "StartupFailedFormat": "启动失败：{0}",
+          "SocketBusStartupFailed": "Socket 总线启动失败"
+        },
+        "StopAsync": {
+          "Stopped": "● 已停止",
+          "Disconnected": "● 未连接",
+          "SocketBusStopped": "Socket 总线已停止"
+        }
+      },
+      "EventBus": {
+        "Append": {
+          "SessionCleared": "会话已清空"
+        },
+        "Properties": {
+          "BusInstance": "总线实例",
+          "TheActualEventBusInstanceOwnedByThisDemo": "演示页持有的真实 EventBus 实例。",
+          "PublishAsynchronously": "异步发布",
+          "UsePublishAsyncWhenEnabled": "开启后 Publish 走 PublishAsync。",
+          "AssemblyScanning": "程序集扫描",
+          "RegisterEventHandlerMethodsFromAnAssembly": "按程序集注册 [EventHandler]。",
+          "HandlerOrder": "处理器顺序",
+          "ExecutionOrderWhenACommandHasMultipleHandlers": "同命令多处理器时的执行顺序。"
+        },
+        "ClearFeed": {
+          "SessionCleared": "会话已清空",
+          "EventBusSessionCleared": "事件总线会话已清空"
+        },
+        "Content": {
+          "BusReadyTwoGreetCommandSubscribersAndOneTimeQuery": "总线就绪：2 个 GreetCommand 订阅、1 个 TimeQuery 处理器已注册",
+          "RemoveSecondSubscription": "取消第二条订阅",
+          "Subscribed": "已订阅",
+          "InProcessEventBus": "进程内事件总线",
+          "PublishSubscribeCommandQueryAndUnsubscribeRunThrough": "发布订阅 + Command/Query。下面的总线是真实运行的：订阅、发布、查询、退订都在本地执行。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.EventBus;\n\nvar bus = new EventBus();\n\n// 1) lambda 订阅\nAction<GreetCommand> first = cmd => Console.WriteLine($\"[lambda] {cmd.Name}\");\nbus.Subscribe(first);\n\n// 2) 扫描式订阅：[EventHandler] 标记的私有方法，按 Order 顺序执行\nbus.Subscribe(new TimeQueryHandler());\nbus.Subscribe<GreetCommand>(cmd => Console.WriteLine($\"[lambda2] {cmd.Name}\"));\n\n// 发布（同步 / 异步）\nbus.Publish(new GreetCommand(\"CodeWF\"));\nawait bus.PublishAsync(new GreetCommand(\"Toolkit\"));\n\n// 查询：处理器把结果写回 Query.Result\nvar query = new TimeQuery();\nbus.Query(query);\nConsole.WriteLine($\"服务器时间：{query.Result:HH:mm:ss.fff}\");\n\n// 退订：句柄、类型、宿主对象三种粒度\nbus.Unsubscribe(first);\nbus.Unsubscribe<TimeQueryHandler>();\nbus.Unsubscribe(handler);\n\n// 程序集扫描：一次注册整程序集里的全部处理器\nbus.Subscribe([typeof(TimeQueryHandler).Assembly]);",
+          "Xaml": "<!-- Core 页与总线页均为代码构建；总线演示只需引用 EventBus 包 -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.EventBus\" Version=\"1.0.0.1\" />\n</ItemGroup>"
+        },
+        "OnPropertyCommitted": {
+          "AssemblyScanningTimeQueryHandlerRegistered": "程序集扫描：已注册 TimeQueryHandler",
+          "EventBusRegisteringHandlersFromTheAssembly": "事件总线：程序集扫描注册处理器"
+        },
+        "Publish": {
+          "EventBusPublishGreetCommandFormat": "事件总线发布：GreetCommand(\"{0}\")"
+        },
+        "PublishAsync": {
+          "EventBusAsyncPublishGreetCommandFormat": "事件总线异步发布：GreetCommand(\"{0}\")"
+        },
+        "Query": {
+          "QueryTimeQueryResultFormat": "[查询] TimeQuery.Result = {0:HH:mm:ss.fff}",
+          "EventBusQueryTimeQuery": "事件总线查询：TimeQuery"
+        },
+        "registration": {
+          "Registration": "注册方式",
+          "EventBusSubscribePublishNoDependenciesEventBusPrismDesktop": "EventBus                      手动 Subscribe / Publish，零依赖\nEventBus.Prism                Prism 容器注册、扫描与启动\nEventBus.AspNetCore           DI 注册 + 请求管线启动，处理器自动发现\nEventBusRegistrationExtensions 通用 IOC：AddEventBus(...) + UseEventBus(resolve, assemblies)\nEventBus.Socket               EventServer / EventClient，跨进程跨机"
+        },
+        "session": {
+          "SessionLiveBus": "会话（真实总线）",
+          "Clear": "清空",
+          "HandlerExceptionsPropagatePublishAsyncExecutesSubscribersInRegistration": "处理器抛异常不会被静默吞掉；异步发布走 PublishAsync，订阅方按注册顺序执行。"
+        },
+        "subscriptions": {
+          "Subscriptions": "订阅表",
+          "GreetCommandLambdaRegisteredGreetCommandEventHandlerRegisteredLaterOrder": "GreetCommand   lambda               已注册\nGreetCommand   [EventHandler]       已注册（Order 靠后）\nTimeQuery      [EventHandler]       已注册（查询回写）",
+          "SecondGreetCommandSubscription": "第二条 GreetCommand 订阅："
+        },
+        "ToggleSecondSubscription": {
+          "RemoveSecondSubscription": "取消第二条订阅",
+          "Subscribed": "已订阅",
+          "RestoreSecondSubscription": "恢复第二条订阅",
+          "Unsubscribed": "已取消",
+          "Enabled": "启用",
+          "Cancel": "取消",
+          "SecondEventBusSubscriptionFormat": "事件总线第二条订阅：{0}"
+        }
+      },
+      "FilesArchive": {
+        "Append": {
+          "Ready": "等待操作"
+        },
+        "archive": {
+          "ArchiveCompressionSharpCompress": "7z 压缩（SharpCompress）",
+          "PrepareSampleFiles": "准备样本文件",
+          "ClearOutput": "清空输出",
+          "SharpCompressZIPCompressionWithLZMAAndUTF8": "实现基于 SharpCompress，LZMA 压缩、UTF-8 条目名；zip 内条目按公共根目录计算相对路径，跨盘符会直接拒绝。"
+        },
+        "Properties": {
+          "CompressionOptions": "压缩选项",
+          "DemoParametersOutputFilenamesAreFixed": "演示参数（写出文件名固定）。",
+          "CompressionAlgorithm": "压缩算法",
+          "UTF8EntryNames": "UTF-8 条目名",
+          "SampleFileCount": "样本文件数",
+          "Items": "个",
+          "NumberOfSampleFilesToCreate": "准备样本文件时生成的数量。",
+          "ConfigurationEntry": "配置项",
+          "AppConfigReadWriteDemo": "App.config 读写演示。",
+          "FileLocation": "文件位置",
+          "IncludeABOMWhenWritingAppSettings": "写入 appSettings 时是否带 BOM。"
+        },
+        "Compress": {
+          "CompleteArchive7zBytesEntriesLZMAUTF8Format": "完成：archive.7z（{0} 字节，{1} 个条目，LZMA / UTF-8）",
+          "ArchiveCompleteEntriesBytesFormat": "7z 压缩完成：{0} 个条目，{1} 字节",
+          "CompressionFailed": "压缩失败：",
+          "ArchiveCompressionFailed": "7z 压缩失败"
+        },
+        "config": {
+          "Write": "写入",
+          "SetGetOrAddUseLightweightXMLWritesSuitableFor": "Set / GetOrAdd 使用轻量 XML 写入（裁剪友好）；Configuration 对象上的重载标注了 RequiresUnreferencedCode。"
+        },
+        "Content": {
+          "ReadyOutputTEMPCodeWFToolkitDemoArchive": "等待操作（所有文件写入 %TEMP%\\CodeWFToolkitDemo\\archive）",
+          "ArchivesAndAppConfig": "7z 压缩与 App.config",
+          "SevenZipCompressorUsesSharpCompressAndAppConfigHelperHandlesAppSettingsThe": "SevenZipCompressor 基于 SharpCompress，AppConfigHelper 读写传统 appSettings，下方都是真实写盘操作。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Files.Helpers;\n\n// 7z：文件 / 文件夹 / 远程 URL（http 开头自动下载后打入）\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(\"docs/导出结果\", \"archive.7z\", rootdir: \"docs\");\ncompressor.Decompress(\"archive.7z\", \"out/restored\");\n\n// App.config：传统 appSettings 读写（也有 Configuration 对象的扩展方法重载）\nAppConfigHelper.Set(\"App.Language\", \"zh-CN\");\nvar ok = AppConfigHelper.TryGet<string>(\"App.Language\", out var lang);\nAppConfigHelper.SetOrAdd(\"Log.MinimumLevel\", \"Information\");\nvar level = AppConfigHelper.GetOrAdd(\"Log.MinimumLevel\", \"Information\");"
+        },
+        "Decompress": {
+          "RunCompressFirst": "请先执行 Compress。",
+          "RestoredFiles": "还原文件：\n  ",
+          "ArchiveExtractedFilesRestoredFormat": "7z 解压完成：还原 {0} 个文件",
+          "ExtractionFailed": "解压失败：",
+          "ArchiveExtractionFailed": "7z 解压失败"
+        },
+        "DescribeConfig": {
+          "NotCreatedYetFormat": "（尚未创建）{0}",
+          "NotSet": "(未设置)"
+        },
+        "PrepareSamples": {
+          "ExportResults": "导出结果",
+          "ReadmeMd": "说明文档.md",
+          "CodeWFToolkitSampleDocument": "# CodeWF.Toolkit 演示文档\n",
+          "NameAgeCityAlice20Chengdu": "Name,Age,City\n张三,20,成都\n",
+          "PrototypeHtml": "原型.html",
+          "ToolkitDesignReference": "<!-- design/CodeWF.Toolkit.Demo原型.html -->\n",
+          "SampleFilesPreparedFormat": "已准备样本：{0}",
+          "ArchiveDemoSampleFilesPrepared": "7z 演示：样本文件已准备"
+        },
+        "WriteConfig": {
+          "EnterAKey": "请填写 Key。",
+          "TryGetReadFormat": "TryGet → {0}，读回 {1} = {2}",
+          "AppConfigWrittenFormat": "App.config 写入：{0} = {1}",
+          "WriteFailed": "写入失败：",
+          "AppConfigWriteFailed": "App.config 写入失败"
+        }
+      },
+      "FilesFormat": {
+        "backward": {
+          "TextObject": "文本 → 对象",
+          "ExtensionsUseOutErrorParsingReturnsFalseWith": "全部扩展方法都带 out error 参数：解析失败返回 false 并给出错误文本，不抛异常。"
+        },
+        "Properties": {
+          "FormatOptions": "格式选项",
+          "DefaultFileIOOptions": "文件读写演示的默认选项（与原型一致）。",
+          "DefaultFormat": "默认格式",
+          "WriteRetries": "写入重试",
+          "Retries": "次",
+          "NumberOfRetriesForSafeFileHelperIO": "FileHelper 安全读写的重试次数。",
+          "IncludeABOMWhenWritingFiles": "写文件时是否输出 BOM。"
+        },
+        "Content": {
+          "SelectAnOutputFormat": "选择一种格式输出",
+          "AwaitingParsing": "等待反向解析",
+          "FilesJSONYAMLCSVExcel": "文件读写：Json / Yaml / Csv / Excel",
+          "RealRoundTripConversionUsingSystemTextJson": "基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel，下面是真实往返转换。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Files.Extensions;\nusing CodeWF.Toolkit.Files.Exports;\n\nvar student = new Student { Name = \"张三\", Age = 20, City = \"成都\" };\n\n// 对象 → 文本：扩展方法统一带 out error，失败不外抛\nstudent.ToJson(out var json, out var error1);\nstudent.ToYaml(out var yaml, out var error2);\n\n// 文本 → 对象\njson.FromJson<Student>(out var fromJson, out var error3);\nyaml.FromYaml<Student>(out var fromYaml, out var error4);\n\n// 格式化与互转\njson.JsonPrettify(2, sortKeys: true, out var pretty, out _);\njson.JsonToYaml(out var yaml2, out _);\n\n// DataTable ↔ Csv / Excel\ndataTable.ExportToCsv(\"students.csv\", Encoding.UTF8, out var error5);\n\"students.csv\".ImportFromCsv(out var error6, out var table);\ndataTable.ExportToXlsx(\"students.xlsx\", out var error7);",
+          "Xaml": "<!-- 文件包基于框架内置 System.Text.Json 与 YamlDotNet / CsvHelper / MiniExcel -->\n<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.Files\" Version=\"1.0.0.1\" />\n</ItemGroup>"
+        },
+        "forward": {
+          "ObjectTextRealCall": "对象 → 文本（真实调用）",
+          "JsonPrettifyAndSort": "JsonPrettify + 排序"
+        },
+        "FromJson": {
+          "Failed": "失败：",
+          "FileFormatDemoFromJson": "文件格式演示：FromJson"
+        },
+        "FromYaml": {
+          "Failed": "失败：",
+          "FileFormatDemoFromYaml": "文件格式演示：FromYaml"
+        },
+        "JsonToYaml": {
+          "Failed": "失败：",
+          "FileFormatDemoJsonToYaml": "文件格式演示：JsonToYaml"
+        },
+        "model": {
+          "DataModel": "数据模型",
+          "PublicSealedClassStudentAlicePublicIntAge": "public sealed class Student\n{\n    public string Name { get; set; } = \"张三\";\n    public int Age { get; set; } = 20;\n    public string City { get; set; } = \"成都\";\n}"
+        },
+        "Prettify": {
+          "Failed": "失败：",
+          "FileFormatDemoJsonPrettifyIndent2SortedKeys": "文件格式演示：JsonPrettify（缩进 2、键排序）"
+        },
+        "RunCsvRoundTrip": {
+          "Yes": "有",
+          "No": "无",
+          "FileSizeBytesUTF8BOMFormat": "文件大小：{0} 字节 · UTF-8 BOM：{1}",
+          "RestoredRowsColumnsFirstRowFormat": "还原：{0} 行 {1} 列 → 首行 {2}",
+          "FileFormatDemoDataTableCSVRoundTrip": "文件格式演示：DataTable Csv 往返"
+        },
+        "table": {
+          "DataTableCSVExcelRealFileRoundTrip": "DataTable ↔ Csv / Excel（真实写盘往返）",
+          "ExportAndImportCSV": "导出 Csv 再导入",
+          "DataTableExtensionsExportToCsvExportToXlsxDataTableExtensionsImportFromCsvImportFromExcelImportBy": "DataTableExtensions.ExportToCsv  / ExportToXlsx\nDataTableExtensions.ImportFromCsv / ImportFromExcel / Import（按扩展名分派）",
+          "FilesAreWrittenUnderTEMPCodeWFToolkitDemo": "写盘位置为临时目录 %TEMP%\\CodeWFToolkitDemo。"
+        },
+        "ToJson": {
+          "Failed": "失败：",
+          "FileFormatDemoToJson": "文件格式演示：ToJson"
+        },
+        "ToYaml": {
+          "Failed": "失败：",
+          "FileFormatDemoToYaml": "文件格式演示：ToYaml"
+        }
+      },
+      "FilesIndex": {
+        "BuildMatrix": {
+          "BuiltInSystemTextJson": "框架内置 System.Text.Json",
+          "ReflectionOverloadsRequireUnreferencedCodeUseJsonTypeInfoT": "反射重载标记 RequiresUnreferencedCode，AOT 请用 JsonTypeInfo<T>",
+          "ReflectionBasedSerializerBuilderUseStaticSourceGenerationFor": "基于反射的 SerializerBuilder，AOT 请改用静态源生成",
+          "DataTableRoundTripsForBatchExports": "面向 DataTable 往返，适合批处理导出",
+          "ArchiveCompression": "7z 压缩",
+          "CheckSharpCompressSupportBeforeUsingSplitArchivesOr": "分卷与加密需评估 SharpCompress 能力边界",
+          "NotTrimSafeUseFilePathOverloadsFor": "非 trim-safe，AOT 请用文件路径重载",
+          "SafeFileIO": "安全读写",
+          "StringByteFileIOWithRetries": "带重试的字符串 / 字节读写",
+          "Capability": "能力",
+          "Dependencies": "依赖",
+          "Notes": "注意"
+        },
+        "Properties": {
+          "DefaultFormat": "默认格式",
+          "DefaultSerializationFormatInTheDemo": "演示页默认使用的序列化格式。",
+          "AOTFriendlyMode": "AOT 友好模式",
+          "RecommendJsonTypeInfoTAndStaticGeneratedSerializersWhen": "开启后提示改用 JsonTypeInfo<T> / 静态源生成序列化。"
+        },
+        "Content": {
+          "CapabilityMatrix": "能力矩阵",
+          "RelatedPages": "相关页面",
+          "TryJSONYAMLCSVRoundTripsOnFile": "「格式读写」页实测 Json / Yaml / Csv 往返；「压缩配置」页实测 7z 与 App.config。",
+          "ThisPageIndexesTheAPIsUseTheLinked": "本页只做索引，避免同一批 API 在两处各写一遍。",
+          "RoundTripDemosSameAPIsAsFileFormats": "往返演示（与「格式读写」页同一批 API）",
+          "OpenFileFormatsOrArchiveConfigurationFromThe": "点击左侧页签切到「格式读写」或「压缩配置」即可上手操作。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Files.Extensions;\n\n// Json：框架内置 System.Text.Json；AOT 请用 JsonTypeInfo<T> 重载\nvar json = student.ToJson(out var error);\n\n// Yaml：YamlDotNet；反射式 SerializerBuilder 非 AOT 安全\nvar yaml = student.ToYaml(out error);\n\n// Csv / Excel：DataTableExtensions（CsvHelper / MiniExcel）\ndataTable.ToExcel(\"students.xlsx\");\n\n// 安全读写：带重试的字符串 / 字节读写\nawait FileExtension.SafeWriteAllTextAsync(\"app.log\", \"hello\");"
+        }
+      },
+      "ImageIcon": {
+        "Properties": {
+          "IconOptions": "图标选项",
+          "ICOGenerationParameters": "ico 合成参数。",
+          "IncludedSizes": "包含尺寸",
+          "PNGCompression": "PNG 压缩",
+          "MagickNETOutputCompressionSwitch": "Magick.NET 写出时的压缩开关。",
+          "Quality": "质量",
+          "OutputImageQuality": "写出图片质量。",
+          "InputOutput": "输入输出",
+          "DemoDirectoryAndSourceImage": "演示目录与源图。",
+          "SourceImage": "源图",
+          "OutputDirectory": "输出目录"
+        },
+        "Content": {
+          "ReadyOutputTEMPCodeWFToolkitDemoImage": "等待操作（所有文件写入 %TEMP%\\CodeWFToolkitDemo\\image）",
+          "IconsMergeAndSeparateMultipleSizes": "图标生成：多尺寸 ico 合成与拆分",
+          "ImageHelperMergeGenerateIconSeparateGenerateIconUseMagickNETGenerateActual": "ImageHelper.MergeGenerateIcon / SeparateGenerateIcon，底层 Magick.NET-Q16；点按钮即在临时目录真实生成。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Image;\r\n\r\n// 多尺寸合成：一张 PNG → 多帧 ico\r\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\r\n\r\n// 拆分：从源图分别按尺寸生成独立 ico 文件\r\nawait ImageHelper.SeparateGenerateIcon(\"logo.png\", \"out/icons\", [16, 32]);\r\n\r\n// 底层是 Magick.NET：也可以直接用它做转换 / 缩放 / 水印\r\nusing var image = new MagickImage(\"photo.jpg\");\r\nimage.Resize(800, 0);\r\nimage.Write(\"photo.webp\");"
+        },
+        "merge": {
+          "MergeMergeGenerateIcon": "合成（MergeGenerateIcon）",
+          "SourceImage": "源图片",
+          "OutputFile": "输出文件",
+          "ResetToRepositoryLogo": "用仓库 logo 重置",
+          "SizePreviewsPopulatedAfterGeneration": "尺寸预览（生成后填充）",
+          "SizesAreSetByIncludedSizesInThe": "尺寸取自右侧属性面板的“包含尺寸”，默认 16,24,32,48,64,128,256。"
+        },
+        "Merge": {
+          "SourceImageNotFoundFormat": "源图片不存在：{0}",
+          "CompleteBytesSizesFormat": "完成：{0}\n{1} 字节 · {2} 个尺寸",
+          "IconGeneratedSizesBytesFormat": "图标合成完成：{0} 个尺寸，{1} 字节",
+          "MergeFailed": "合成失败：",
+          "IconGenerationFailed": "图标合成失败"
+        },
+        "others": {
+          "OtherImageCapabilitiesMagickNET": "其它图像能力（同一套 Magick.NET 基础）",
+          "FormatsPNGJPGWebPBMPWithQualityOptions": "格式转换    png / jpg / webp / bmp 互转，可指定质量\r\n缩放        等比缩放、指定宽高\r\n水印        文字 / 图片水印，位置与透明度\r\nico         多尺寸合成、拆分（本页）\r\n二维码      QrCodeGenerator（见“二维码与处理”页）"
+        },
+        "separate": {
+          "SeparateSeparateGenerateIcon": "拆分（SeparateGenerateIcon）",
+          "SourceIcon": "源图标",
+          "OutputDirectory": "输出目录",
+          "SizeList": "尺寸列表"
+        },
+        "Separate": {
+          "SourceImageNotFoundFormat": "源图片不存在：{0}",
+          "CompleteOutputFilesFormat": "完成，输出文件：\n  {0}",
+          "IconSeparatedFilesFormat": "图标拆分完成：{0} 个文件",
+          "SeparationFailed": "拆分失败：",
+          "IconSeparationFailed": "图标拆分失败"
+        }
+      },
+      "ImageQr": {
+        "Properties": {
+          "QRCodeOptions": "二维码选项",
+          "FixedQrCodeGeneratorParametersInTheCurrentImplementation": "QrCodeGenerator 的固定参数（当前实现内置）。",
+          "QRCodeSize": "二维码尺寸",
+          "400400FinalCanvasWidth500": "400 × 400（最终画布 500 宽）",
+          "ErrorCorrection": "纠错级别",
+          "CharacterSet": "字符集",
+          "ImageProcessing": "图片处理",
+          "SampleProcessingOptions": "后续处理参数示例。",
+          "OutputQuality": "输出质量",
+          "GeneratePreview": "生成预览",
+          "ScaleTheGeneratedImageForPreview": "生成后缩放显示预览。"
+        },
+        "Content": {
+          "ScanToVisitTheRepository": "扫码访问仓库",
+          "ReadyToGenerateOutputTEMPCodeWFToolkitDemoImage": "等待生成（文件写入 %TEMP%\\CodeWFToolkitDemo\\image）",
+          "QRCodesAndImageProcessing": "二维码与图片处理",
+          "QrCodeGeneratorProducesImageFilesThatCanBeProcessed": "QrCodeGenerator 输出普通图片文件，可与 ImageHelper / Magick.NET 无缝衔接；下方生成的是真实二维码。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Image;\nusing ImageMagick;\n\n// 生成二维码：标题 + 内容 + 副标题，白底蓝边 500×600/630\nQrCodeGenerator.GenerateQrCode(\n    title: \"CodeWF.Toolkit\",\n    content: \"https://github.com/dotnet9/CodeWF.Toolkit\",\n    imagePath: \"qrcode.png\",\n    subTitle: \"扫码访问仓库\");\n\n// 生成结果是普通图片文件，可继续交给 Magick.NET 处理\nusing var image = new MagickImage(\"qrcode.png\");\nimage.Resize(300, 0);\nimage.Write(\"qrcode-preview.png\");"
+        },
+        "generate": {
+          "GenerateQRCodeQrCodeGenerator": "生成二维码（QrCodeGenerator）",
+          "Title": "标题",
+          "Content": "内容",
+          "Subtitle": "副标题",
+          "GenerateQRCode": "生成二维码",
+          "ZXingCreatesTheQRBitmapMagickNETAdds": "ZXing.Net.Bindings.Magick 生成位图后用 Magick.NET 绘制标题与副标题：500×600（有副标题时 630），纠错级别 H、UTF-8。"
+        },
+        "Generate": {
+          "CompleteBytes100QualityFormat": "完成：{0}\n{1} 字节 · 100% 质量",
+          "QRCodeGeneratedBytesFormat": "二维码生成完成：{0}，{1} 字节",
+          "GenerationFailed": "生成失败：",
+          "QRCodeGenerationFailed": "二维码生成失败"
+        },
+        "pipeline": {
+          "ImagePipelineImageHelperMagickNET": "图片处理管线（ImageHelper / Magick.NET）",
+          "ConvertNewMagickImagePhotoJpgWritePhotoWebp": "格式转换   new MagickImage(\"photo.jpg\").Write(\"photo.webp\");\n等比缩放   image.Resize(800, 0);\n指定宽高   image.Resize(800, 600);\n质量压制   image.Quality = 92;\n水印       文字 / 图片水印，九宫格定位与透明度\nico        多尺寸合成与拆分（见“图标生成”页）"
+        },
+        "preview": {
+          "PreviewScaledGeneratedImage": "预览（生成结果缩放显示）"
+        }
+      },
+      "LabFlow": {
+        "CSharpCode": {
+          "AddStepDemoKeysStepFormatNewFilesFormatPageAddStepDemoKeysStepArchive": "// 场景页把「格式转换 → 归档 → 图标/二维码 → 导出」编成一条流水线\nAddStep(DemoKeys.StepFormat, new FilesFormatPage());\nAddStep(DemoKeys.StepArchive, new FilesArchivePage());\nAddStep(DemoKeys.StepImage, new ImageIconPage());\nAddStep(DemoKeys.StepExport, new ImageQrPage());\nAttachSceneShell();\n\n// 各步底层就是能力字典里那批 API：\nvar yaml = student.ToYaml(out var error);\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(sourceDirectory, \"archive.7z\");\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qrcode.png\");"
+        },
+        "XamlCode": {
+          "PackageReferenceIncludeCodeWFToolkitFilesPackageReferenceIncludeCodeWF": "<!-- 能力实验室：Files / Image 的入口 API 一览 -->\n<PackageReference Include=\"CodeWF.Toolkit.Files\" />\n<PackageReference Include=\"CodeWF.Toolkit.Image\" />\n\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [24, 32, 48]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qr.png\");"
+        }
+      },
+      "LoggingCore": {
+        "ApplyTemplate": {
+          "Category": "{Timestamp:HH:mm:ss.fff} {Level:zh} {Message} [类别 {Category}]{NewLine}",
+          "LineTemplateUpdatedFormat": "LineTemplate 已更新：\n{0}",
+          "OutputTemplateUpdated": "输出模板已更新",
+          "TemplateValidationFailedFormat": "模板校验失败：\n{0}\n\n{1}",
+          "OutputTemplateValidationFailed": "输出模板校验失败："
+        },
+        "Properties": {
+          "MinimumLevel": "最低级别",
+          "FilterLevelForConsoleAndUIEventOutput": "控制台与 UI 事件流的过滤参考级别。",
+          "ConsoleOutput": "控制台输出",
+          "FileRotation": "文件轮转",
+          "RotateBySequenceNumberAboveThePerFile": "超出单文件上限时按序号轮转。",
+          "LoggerOptions": "Logger 选项",
+          "MapsToLoggerOptions": "与 LoggerOptions 对应的选项。",
+          "PerFileLimitMB": "单文件上限(MB)",
+          "RetentionDays": "保留天数",
+          "Days": "天",
+          "RuntimeState": "运行状态",
+          "LoggingRuntimeState": "当前演示台的日志运行状态。",
+          "LogDirectory": "日志目录",
+          "EventCapacity": "事件流容量",
+          "EntriesRecentEventCapacityFormat": "{0} 条（RecentEventCapacity）"
+        },
+        "ClearStream": {
+          "UILogStreamClearedLogFilesRemainAvailable": "日志流已清空（仅清 UI 事件流，文件日志保留）"
+        },
+        "Content": {
+          "LoggerCore": "Logger 核心",
+          "StaticLoggerProvidesConsoleRotatingFilesAndUI": "静态 Logger：控制台 + 文件轮转 + UI 事件流。下方按钮写入真实的日志，事件流与底部日志面板同步刷新。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Logging;\r\n\r\nLogger.TryInitialize(new LoggerOptions\r\n{\r\n    MinimumLevel = LogLevel.Information,\r\n    EnableConsole = true,\r\n    File = new FileLogOptions\r\n    {\r\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\r\n        MaxFileSizeBytes = 32 * 1024 * 1024,   // 单文件上限，超出自动轮转\r\n        RetentionDays = 30,                    // 保留天数\r\n        BatchSize = 200,                       // 批量落盘条数\r\n        FlushInterval = TimeSpan.FromMilliseconds(500),\r\n        OutputTemplate = null,                 // 为空时用 LineTemplate\r\n    },\r\n    LineTemplate = \"{Timestamp:yyyy-MM-dd HH:mm:ss.fff} 【{Level:zh}】 {UserMessage}{NewLine}\",\r\n    QueueCapacity = 10_000,\r\n    QueueFullMode = LogQueueFullMode.DropTraceAndDebug,\r\n});\r\n\r\nLogger.Debug(\"调试：加载配置\");\r\nLogger.Info(\"服务已启动\");\r\nLogger.Warn(\"内存水位偏高\");\r\nLogger.Error(\"连接已超时\", new TimeoutException(\"connect timeout\"));\r\n\r\n// UI 事件流（LogView 的数据源）；回调在后台线程，订阅方自行调度到 UI 线程\r\nusing var subscription = Logger.Events.Subscribe(logEvent => Console.WriteLine(logEvent.Message));\r\n\r\n// 热更新输出模板（含校验失败原因）\r\nLogger.LineTemplate.TryUpdate(\"{Timestamp:HH:mm:ss.fff} {Level:zh} {Message}{NewLine}\", out var error);\r\n\r\nawait Logger.ShutdownAsync();   // 退出前刷盘",
+          "Xaml": "<!-- 演示台的日志面板就是本页的另一个实例：底部 Dock 工具面板绑同一个 LogEventFeed -->\r\n<codewf:LogView Source=\"{Binding LogSource}\" MaxDisplayCount=\"500\" />"
+        },
+        "members": {
+          "Members": "成员一览",
+          "LoggerTryInitializeInitializeInitializeTheRuntimeLoggerTrace": "Logger.TryInitialize / Initialize     初始化（重复调用返回 false / 抛异常）\r\nLogger.Trace / Debug / Info / Warn    静态写入，支持 userMessage 与 requestNotification\r\nLogger.Error / Fatal                  带异常的写入\r\nLogger.*ToFile                        仅落文件、不进 UI 事件流\r\nLogger.FlushAsync / ShutdownAsync     刷盘与关闭\r\nLogEventFeed.Subscribe / GetRecentEvents  UI 事件流订阅与最近事件快照\r\nLineTemplateController                运行期热更新输出模板（带校验）\r\nCodeWFLogHealth                       日志系统自身健康与自诊断"
+        },
+        "OnDocumentOpened": {
+          "OpenedDemoLoggerCore": "打开演示页：Logger 核心"
+        },
+        "OnPropertyCommitted": {
+          "LoggingOptionDemoFormat": "日志选项（演示）：{0} = {1}"
+        },
+        "options": {
+          "InitializationAndOptions": "初始化与选项",
+          "FileWritesAreAsynchronousFlushOrShutDown": "文件写入是批量异步的：崩溃前请 ShutdownAsync / FlushAsync；UI 事件流回调在后台线程。",
+          "CurrentLogDirectory": "当前日志目录"
+        },
+        "SampleLogs": {
+          "DebugConfigurationLoaded": "调试：加载配置完成",
+          "ServiceStartedListeningOn127001": "服务已启动，监听 127.0.0.1:39561",
+          "MemoryUtilization82": "内存水位偏高：82%",
+          "ConnectionTimedOutSampleException": "连接已超时（示例异常）",
+          "CriticalUnrecoverableDiskWriteFailure": "致命：磁盘写入不可恢复"
+        },
+        "stream": {
+          "LogStreamRealLogger": "日志流（真实 Logger）",
+          "MinimumDisplayLevel": "最低显示级别",
+          "Clear": "清空",
+          "LogsReachTheConsoleAsynchronousRotatingFilesAnd": "写入会同时进控制台、文件（批量异步 + 轮转）与 UI 事件流（本页列表与底部日志面板）。"
+        },
+        "templateButton": {
+          "ApplyCustomTemplate": "应用自定义模板"
+        }
+      },
+      "LoggingMicrosoft": {
+        "Append": {
+          "AwaitingLogWrite": "等待写入"
+        },
+        "Properties": {
+          "ProviderOptions": "提供程序选项",
+          "MapsToCodeWFLoggerOptions": "与 CodeWFLoggerOptions 对应。",
+          "MinimumLevel": "最低级别",
+          "IncludeScopes": "包含作用域",
+          "UserMessageMarker": "按用户标记",
+          "LogUserExtensionsWriteCodeWFUserLogState": "LogUser* 系列扩展写入 CodeWFUserLogState。",
+          "QueueOverflowPolicy": "队列满策略",
+          "RuntimeState": "运行状态",
+          "ContainerAndEventStreamState": "本页容器与事件流状态。",
+          "Provider": "提供程序",
+          "EventFlow": "事件流",
+          "SharedWithStaticLogger": "与静态 Logger 共用"
+        },
+        "BuildProvider": {
+          "ServiceProviderBuiltRepeatedClicksDoNotRegisterIt": "ServiceProvider 已构建（重复点击不重复注册）。",
+          "AddCodeWFServiceProviderBuiltILoggerFactoryReady": "AddCodeWF → ServiceProvider 已构建，ILoggerFactory 就绪。",
+          "CodeWFLoggerRuntimeLogEventFeedLineTemplateControllerCodeWFLogHealthRegistered": "  CodeWFLoggerRuntime / LogEventFeed / LineTemplateController / CodeWFLogHealth 已注册",
+          "MELProviderBuilt": "MEL 提供程序已构建（演示）"
+        },
+        "Content": {
+          "AwaitingMELLogs": "等待写入 MEL 日志…",
+          "UserLoggedInAtFrom": "用户 {User} 在 {Time} 登录 {Ip}",
+          "AwaitingParsing": "等待解析",
+          "BuildServiceProviderAddCodeWF": "构建 ServiceProvider（AddCodeWF）",
+          "MicrosoftExtensionsLoggingProvider": "Microsoft.Extensions.Logging 提供程序",
+          "ConnectMELLogsToTheCoreLoggerWith": "把 MEL 生态日志统一接入核心 Logger：文件轮转 + UI 事件流 + 结构化模板 + 用户消息标记。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Logging.Microsoft;\nusing Microsoft.Extensions.DependencyInjection;\nusing Microsoft.Extensions.Logging;\n\n// 宿主里注册（ASP.NET Core / 通用主机均是这一句）\nbuilder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Console.Enabled = true;\n    options.EventFeed.Enabled = true;\n    options.Capture.Scopes = true;\n    options.BridgeStaticLogger = true;     // 让静态 Logger 与 MEL 共用同一管道\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});\n\n// 或直接构造容器验证\nvar services = new ServiceCollection();\nservices.AddLogging(builder => builder.AddCodeWF(options => options.File.DirectoryPath = logDirectory));\nawait using var provider = services.BuildServiceProvider();\nvar factory = provider.GetRequiredService<ILoggerFactory>();\nvar logger = factory.CreateLogger(\"Demo\");\n\n// 普通结构化日志：[LoggerMessage] 风格模板 + 参数\nlogger.LogInformation(\"用户 {User} 在 {Time} 登录 {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");\n\n// 带用户消息的写入：UI 只展示 userMessage，文件里保留完整模板\nlogger.LogUserInformation(\"登录成功\", \"用户 {User} 在 {Time} 登录 {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");"
+        },
+        "options": {
+          "OptionsOverview": "选项一览",
+          "CodeWFLoggerOptionsConfigurationBindingAndValidationCodeWFFileLogOptionsFileRotation": "CodeWFLoggerOptions         统一选项，支持配置绑定与 ValidateOnStart\nCodeWFFileLoggerOptions     文件轮转（目录 / 单文件上限 / 保留天数 / 批量）\nCodeWFConsoleLoggerOptions  控制台输出（可选）\nCodeWFEventFeedOptions      UI 事件流（容量）\nCodeWFCaptureOptions        作用域 / Activity / Tags / Baggage 捕获\nCodeWFQueueOptions          队列容量与满策略（DropOldest / DropNewest / Block / ...）\nCodeWFUserLogState          按用户标记的日志状态（LogUser* 扩展）"
+        },
+        "parser": {
+          "StructuredTemplatesMessageTemplateParser": "结构化模板解析（MessageTemplateParser）",
+          "Template": "模板",
+          "Parameter": "参数",
+          "Parse": "解析",
+          "MessageTemplateParserExtractsPlaceholderNamesAndFormatsArgumentsIncluding": "MessageTemplateParser 是 MEL 包的内部解析器：GetPropertyNames 取占位符名，Format 按参数替换（支持 {Name,5} 对齐与 {Value:0.0} 格式）。"
+        },
+        "pipeline": {
+          "RealPipelineBuiltWithServiceCollection": "真实管道（本页用 ServiceCollection 搭建）",
+          "WriteAMELLog": "写一条 MEL 日志",
+          "WriteAUserMessageLog": "写带用户消息的日志",
+          "TheBootstrapProviderSharesTheEventStreamWith": "bootstrap provider 与静态 Logger 共用事件流：这里写的日志同样出现在底部日志面板与日志文件里。"
+        },
+        "register": {
+          "Registration": "注册",
+          "BuilderLoggingAddCodeWFOptions": "builder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Capture.Scopes = true;       // 捕获作用域\n    options.Capture.Activity = true;     // 捕获 Activity（TraceId / SpanId）\n    options.BridgeStaticLogger = true;   // 与静态 Logger 共用管道、共用 LogEventFeed\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});",
+          "AddCodeWFRegistersCodeWFLoggerRuntimeLogEventFeedLineTemplateControllerAndCodeWFLogHealth": "AddCodeWF 会把 CodeWFLoggerRuntime、LogEventFeed、LineTemplateController、CodeWFLogHealth 一并注册到容器。"
+        },
+        "RunParser": {
+          "UserLoggedInAtFrom": "用户 {User} 在 {Time} 登录 {Ip}",
+          "TemplateKeysParsedResultFormat": "模板键：{0}\n解析结果：{1}",
+          "MessageTemplateParserPlaceholdersFormat": "MessageTemplateParser：模板含 {0} 个占位符"
+        },
+        "WriteStructured": {
+          "UserLoggedInAtFrom": "用户 {User} 在 {Time} 登录 {Ip}",
+          "MELInformationUserAdminLoggedInAt10": "[MEL/Information] 用户 admin 在 10:24 登录 192.168.1.8     (User=admin, Ip=192.168.1.8)"
+        },
+        "WriteUserMessage": {
+          "LoginSucceeded": "登录成功",
+          "UserLoggedInAtFrom": "用户 {User} 在 {Time} 登录 {Ip}",
+          "MELInformationLoginSucceededUserMessageFullTemplateIn": "[MEL/Information] 登录成功     (UserMessage；完整模板在文件里)"
+        }
+      },
+      "LoggingOptions": {
+        "BuildOptionsTable": {
+          "DiscardLogsBelowThisLevel": "低于该级别的日志直接丢弃",
+          "ConsoleOutputOptionalForDesktopApplications": "控制台输出（桌面应用可关闭）",
+          "LogDirectory": "日志目录",
+          "PerFileSizeLimitBeforeRotation": "单文件上限，超限轮转",
+          "RetentionDays": "保留天数",
+          "CustomizeTheOutputTemplateWithLineTemplateController": "LineTemplateController 可自定义输出模板",
+          "LocalizedLevelNames": "级别文案本地化",
+          "Parameter": "参数",
+          "Default": "默认",
+          "Description": "说明"
+        },
+        "Properties": {
+          "MinimumLevel": "最低级别",
+          "DiscardLogsBelowThisLevel": "低于该级别的日志会被丢弃。",
+          "FileRotation": "文件轮转",
+          "RotateFilesAtTheSizeLimitAndRemove": "按单文件上限轮转，并按保留天数清理。",
+          "UIEventStream": "UI 事件流",
+          "EnableTheEventStreamForDesktopLogControls": "开启 UI 事件流，供桌面端日志控件订阅。"
+        },
+        "Content": {
+          "ReadyClickAButtonToViewDiagnosticsOr": "等待操作：点击上方按钮查看诊断 / 事件流快照",
+          "OptionsOverview": "参数全览",
+          "HealthAndEventStream": "健康与事件流",
+          "LoggerHealthDiagnostics": "Logger.Health 诊断",
+          "LoggerEventsSnapshot": "Logger.Events 快照",
+          "WriteThreeSampleLogs": "写入三条示例日志",
+          "EventCallbacksRunOnABackgroundThreadUI": "UI 事件流的回调在后台线程触发，界面订阅方需自行调度到 UI 线程。",
+          "IntegrationWithCodeWFAvalonia": "与 CodeWF.Avalonia 的对接",
+          "CodeWFAvaloniaLogLogViewSubscribesDirectlyToThis": "CodeWF.Avalonia.Log 的 LogView 直接订阅这份 UI 事件流；",
+          "TheWorkspaceLogPanelIsAnInstanceOf": "桌面演示台的底部日志面板就是它的一个实例。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Logging;\n\n// 全量选项：控制台 / 文件轮转 / 保留策略 / 行模板 / 本地化\nLogger.TryInitialize(new LoggerOptions\n{\n    MinimumLevel = LogLevel.Debug,\n    EnableConsole = false,\n    File = new FileLogOptions\n    {\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\n        MaxFileSizeBytes = 32 * 1024 * 1024,\n        RetentionDays = 30,\n    },\n});\n\n// 健康诊断：丢弃计数（按级别细分）\nvar snapshot = Logger.Health.GetSnapshot();\nvar dropped = snapshot.DroppedCount;\n\n// UI 事件流：CodeWF.Avalonia.Log 的 LogView 订阅的就是它\nvar recent = Logger.Events.GetRecentEvents();\n\n// 退出前刷盘，避免批量异步写入丢失\nawait Logger.ShutdownAsync();"
+        },
+        "ShowFeed": {
+          "LoggerEventsGetRecentEventsEntriesFormat": "Logger.Events.GetRecentEvents() → {0} 条",
+          "UIEventSnapshotEntriesFormat": "UI 事件流快照：{0} 条"
+        },
+        "ShowHealth": {
+          "NoneDropped": "  （无丢弃）",
+          "LogHealthEntriesDroppedFormat": "日志健康检查：丢弃 {0} 条"
+        },
+        "WriteSamples": {
+          "DemoInformationLog": "演示：一条信息日志",
+          "DemoWarningLog": "演示：一条警告日志",
+          "DemoErrorLog": "演示：一条错误日志",
+          "SampleException": "示例异常"
+        }
+      },
+      "Shell": {
+        "ApplyAppearance": {
+          "Dark": "深色",
+          "Light": "浅色",
+          "AppearanceFormat": "外观切换：{0} / {1}"
+        },
+        "OnGlobalPropertyCommitted": {
+          "Dark": "深色"
+        },
+        "RunSmokeAsync": {
+          "SmokeStarted": "冒烟开始",
+          "CodeWFToolkitDemo": "CodeWF.Toolkit 演示台",
+          "SerializationRoundTrip": "序列化往返",
+          "SmokeCheckBusQuerySerializationFormat": "冒烟校验：总线={0}，查询={1:HH:mm:ss}，序列化={2}",
+          "SmokeFailed": "冒烟失败",
+          "SmokeComplete": "冒烟结束"
+        },
+        "SyncGlobalItems": {
+          "Dark": "深色",
+          "Light": "浅色"
+        },
+        "CommitRename": {
+          "RestoredOriginalNameFormat": "恢复原名：{0}",
+          "RenamedFormat": "重命名：{0} → {1}"
+        },
+        "LoadLayoutFrom": {
+          "LayoutRestored": "已恢复布局：",
+          "FailedToRestoreLayout": "恢复布局失败："
+        },
+        "SaveLayoutTo": {
+          "FailedToSaveLayout": "保存布局失败："
+        }
+      },
+      "NetPacket": {
+        "AddField": {
+          "FieldNameCannotBeEmpty": "字段名不能为空。",
+          "DemoStringDisplayOnlyEditTheCDeclarationFormat": "[演示] {0,-6} string = (仅 UI 演示，真实协议需改 C# 声明)",
+          "AddedADisplayOnlyFieldWireFieldsAreFormat": "已添加占位字段 {0}：协议字段由编译期特性声明，运行时不能真正改变包结构。",
+          "NetWeaverDemoAddedDisplayOnlyFieldFormat": "NetWeaver 演示：新增占位字段 {0}"
+        },
+        "Properties": {
+          "PacketHeader": "包头",
+          "ValueDeclaredByNetHeadInTheSample": "与 [NetHead] 对应的声明值（演示用）。",
+          "SystemIdentifierWrittenIntoThePacketHeader": "写入包头的系统标识。",
+          "ProtocolVersionDeclaredInThePacketHeader": "写入包头的协议版本。",
+          "LittleEndianInt32": "小端序（Int32）",
+          "Int32UsesBinaryWriterLittleEndianEncoding": "Int32 使用 BinaryWriter 的小端编码。",
+          "BitFieldLayout": "位域布局",
+          "UseNetFieldOffsetAttributeForAnExplicitBitFieldLayout": "使用 NetFieldOffsetAttribute 精确布局。"
+        },
+        "Content": {
+          "AwaitingSerialization": "等待序列化",
+          "NetWeaverAttributeDrivenBinarySerialization": "NetWeaver：特性驱动的二进制序列化",
+          "NetHeadDeclaresThePacketHeaderAndNetFieldOrderDefines": "属性即协议：[NetHead(systemId, version)] 声明包头，[NetFieldOrder(n)] 声明字段顺序；下方按钮执行真实序列化与反序列化。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.NetWeaver;\nusing CodeWF.Toolkit.NetWeaver.Base;\n\n[NetHead(0x01, 1)]\npublic sealed class SamplePacket : INetObject\n{\n    [NetFieldOrder(0)]\n    public int Id { get; set; }\n\n    [NetFieldOrder(1)]\n    public float Score { get; set; }\n\n    [NetFieldOrder(2)]\n    public string Title { get; set; } = string.Empty;\n}\n\nvar packet = new SamplePacket { Id = 42, Score = 1.0f, Title = \"hello\" };\n\nvar buffer = packet.Serialize(systemId: 1);     // 包头 [NetHead(0x01, 1)] + 字段\nvar restored = buffer.Deserialize<SamplePacket>();\n\nConsole.WriteLine($\"{buffer.Length} 字节 → Id={restored.Id}, Score={restored.Score}, Title={restored.Title}\");\n\n// [NetIgnoreMember] 跳过成员；位域场景用 NetFieldOffsetAttribute 精确布局\n// 裁剪 / AOT 下通过 DynamicDependency 保留反射成员"
+        },
+        "declaration": {
+          "ProtocolDeclaration": "协议声明",
+          "NetIgnoreMemberSkipAMemberNetFieldOffsetAttributeExplicitBitField": "[NetIgnoreMember]           跳过该成员\nNetFieldOffsetAttribute     位域 / 精确偏移布局\nSerializeObject(obj, type)  非泛型重载（配合 DynamicDependency）\nPacketHeadLen               固定包头长度",
+          "FieldEncodingInt4LittleEndianBytesFloat": "字段映射：int → 4 字节（小端）；float → 4 字节；string → 长度前缀 + UTF-8。"
+        },
+        "Deserialize": {
+          "DeserializeSamplePacketBytesFormat": "Deserialize<SamplePacket>() ← {0} 字节",
+          "RoundTripMatch": "往返校验：一致",
+          "RoundTripMismatch": "往返校验：不一致！",
+          "NetWeaverDeserializationRoundTripComplete": "NetWeaver 反序列化：往返校验完成"
+        },
+        "fields": {
+          "WireFieldsRealSerialization": "协议字段（真实序列化）",
+          "AddField": "添加字段",
+          "ClearFields": "清空字段"
+        },
+        "head": {
+          "PacketHeader": "包头",
+          "ByteOrder": "字节序",
+          "LittleEndianInt32": "小端序（Int32）",
+          "FixedHeaderSize": "固定头长",
+          "BytesFormat": "{0} 字节",
+          "NetHeadDeclaresTheHeaderSerializationAndDeserializationUse": "包头由 [NetHead(systemId, version)] 声明，序列化时按 INetObject 的类型元数据写入；反序列化按同一元数据校验版本。"
+        },
+        "Serialize": {
+          "SerializeSystemIdBytesFormat": "Serialize(systemId: {0}) → {1} 字节\n",
+          "HeaderNetHead0x01BytesFormat": "包头 [NetHead(0x01, {0})] · {1} 字节\n\n",
+          "NetWeaverSerializationBytesSystemIdFormat": "NetWeaver 序列化：{0} 字节（systemId={1}）"
+        }
+      },
+      "NetSocket": {
+        "Append": {
+          "AwaitingStartup": "等待启动"
+        },
+        "Properties": {
+          "ConnectionOptions": "连接参数",
+          "LocalLoopbackConnectionOptions": "演示用回环连接参数。",
+          "Host": "主机",
+          "Port": "端口",
+          "AvailableTemporaryPort": "临时可用端口",
+          "ClientTimeoutSeconds": "客户端超时(秒)",
+          "ServerHeartbeatTimeout": "服务端心跳检测超时。",
+          "ChunkSizeKB": "分块大小(KB)",
+          "FileTransfer": "文件传输",
+          "OptionsForTheRemoteFileDemo": "远程文件系统演示参数。",
+          "ResumeTransfer": "断点续传",
+          "ResumeFromTheByteCountInTheTemporary": "已传输字节由 .part 临时文件推断并续传。",
+          "DownloadDirectory": "下载目录"
+        },
+        "Content": {
+          "NotStarted": "● 未启动",
+          "Disconnected": "● 未连接",
+          "AwaitingStartup": "等待启动…",
+          "AwaitingDownload": "等待下载",
+          "StartServerAndClient": "启动服务端 + 客户端",
+          "Stop": "停止",
+          "DownloadSampleChunksAndResume": "下载样本文件（分块 + 断点续传）",
+          "NetWrapperTCPUDPAndRemoteFiles": "NetWrapper：TCP/UDP 通信与远程文件",
+          "TcpSocketServerTcpSocketClientProvideCommandDispatchAndAResumable": "TcpSocketServer / TcpSocketClient 封装、命令分发，内置远程文件系统与断点续传；下方在回环地址上真实互通。"
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.NetWrapper.Helpers;\nusing CodeWF.Toolkit.NetWrapper.Models;\n\n// 服务端：开启远程文件系统（默认根目录 = 进程当前目录）\nvar server = new TcpSocketServer();\nvar (ok, error) = await server.StartAsync(\"文件服务\", \"127.0.0.1\", 39561);\nvar fileSystem = server.UseFileSystem();\nfileSystem.FileTransferProgress += (_, e) =>\n    Console.WriteLine($\"{e.FileName} {e.Progress:F1}% ({e.BytesPerSecond / 1024 / 1024:F1} MB/s)\");\n\n// 客户端：连接后下载（自动分块 64KB、校验、断点续传）\nvar client = new TcpSocketClient();\nawait client.ConnectAsync(\"文件服务\", \"127.0.0.1\", 39561);\n\nvar feature = client.UseFileSystem();\nfeature.FileTransferProgress += (_, e) => Console.WriteLine($\"下载 {e.FileName} {e.Progress:F1}%\");\nfeature.FileTransferOutcome += (_, e) => Console.WriteLine($\"完成：{e.LocalFilePath}\");\n\nawait client.DownloadFileAsync(\"demo-download.bin\", localSaveDirectory);\n\n// 命令下发：任意 INetObject 都会被序列化后发给对端\nawait client.SendCommandAsync(new Heartbeat { TaskId = 1001 });\n\nclient.Stop();\nawait server.StopAsync();"
+        },
+        "DownloadAsync": {
+          "StartTheServerAndClientFirst": "请先启动服务端与客户端。",
+          "SamplePreparedBytesFormat": "准备样本：{0}（{1:N0} 字节）\n",
+          "ClientDownloadFileAsyncAwaitingServerChunks": "client.DownloadFileAsync(...) → 等待服务端分块…",
+          "DownloadFailed": "下载失败：",
+          "NetWrapperDemoDownloadFailed": "NetWrapper 演示下载失败"
+        },
+        "messages": {
+          "MessagesAndSession": "消息与会话",
+          "ClearSession": "清空会话",
+          "SendHeartbeat": "发送 Heartbeat",
+          "TcpSocketServerStartAsyncServerMarkIpPortTimeoutTcpSocketClientConnectAsync": "TcpSocketServer.StartAsync(serverMark, ip, port, timeout)\nTcpSocketClient.ConnectAsync(serverMark, ip, port)\nclient.SendCommandAsync(new Heartbeat { SystemId = ... })\nserver.SendCommandAsync(command)     // 广播给全部客户端\nUdpSocketClient.SendAsync(command, time)",
+          "TheServerRemovesClientsWithNoActivityFor": "服务端内置心跳检测：30 秒未活动的客户端由后台任务清理。"
+        },
+        "OnPropertyCommitted": {
+          "SetTheTimeoutBeforeStartupTimeOutIsRead": "注意：超时时间需在启动前设置（TimeOut 属性只读）。"
+        },
+        "OnTransferOutcome": {
+          "Completed": "完成",
+          "Failed": "失败",
+          "DownloadFormat": "下载{0}：{1}\n",
+          "Upload": "上传",
+          "Download": "下载",
+          "DirectionTaskCancelledFormat": "方向 {0} · 任务号 {1} · 取消 {2}\n",
+          "ResultFormat": "结果：{0}",
+          "Success": "成功",
+          "NetWrapperDemoDownloadEndedSuccessFormat": "NetWrapper 演示下载结束：{0}，成功={1}"
+        },
+        "OnTransferProgress": {
+          "DownloadFormat": "下载 {0}\n",
+          "ProgressBytesFormat": "进度 {0:F1}% · {1:N0} / {2:N0} 字节\n",
+          "ChunkSizeKBTaskFormat": "分块大小 {0} KB · 任务号 {1}"
+        },
+        "SendHeartbeatAsync": {
+          "StartTheServerAndClientFirst": "请先启动服务端与客户端。",
+          "ClientSendCommandAsyncNewHeartbeatSent": "client.SendCommandAsync(new Heartbeat { ... }) → 已发送",
+          "NetWrapperDemoHeartbeatSent": "NetWrapper 演示：心跳已发送",
+          "SendFailed": "发送失败：",
+          "NetWrapperDemoHeartbeatFailed": "NetWrapper 演示心跳发送失败"
+        },
+        "server": {
+          "ServerClient": "服务端 / 客户端",
+          "ListenAddress": "监听地址",
+          "127001Loopback": "127.0.0.1（回环）",
+          "Port": "端口",
+          "AvailableTemporaryPortIpHelperGetAvailableTcpPort": "临时可用端口（IpHelper.GetAvailableTcpPort）",
+          "Server": "服务端",
+          "Client": "客户端",
+          "ClientCount": "客户端数",
+          "ClientConnectionsDisconnectionsAndErrorsAreBroadcastThrough": "客户端上线 / 断开、错误通过 SocketClientChangedCommand / TcpClientErrorCommand 经 EventBus 广播。"
+        },
+        "StartAsync": {
+          "DemoFileService": "演示文件服务",
+          "ServerStartupFailed": "服务端启动失败：",
+          "Running127001Format": "● 运行中（127.0.0.1:{0}）",
+          "ServerStartAsyncDemoFileService12700Format": "server.StartAsync(\"演示文件服务\", \"127.0.0.1\", {0}) → 成功",
+          "ClientConnectionFailed": "客户端连接失败：",
+          "Connected": "● 已连接",
+          "ClientConnectAsyncConnectedLocalEndpointFormat": "client.ConnectAsync → 已连接（本地端点 {0}）",
+          "NetWrapperDemoTCPConnectedAt12700Format": "NetWrapper 演示：TCP 已互通 127.0.0.1:{0}",
+          "StartupError": "启动异常：",
+          "NetWrapperDemoStartupFailed": "NetWrapper 演示启动失败"
+        },
+        "StopAsync": {
+          "NotStarted": "● 未启动",
+          "Disconnected": "● 未连接",
+          "NetWrapperDemoStopped": "NetWrapper 演示已停止"
+        },
+        "transfer": {
+          "RemoteFileSystemRealDownload": "远程文件系统（真实下载）",
+          "SampleSizeMB": "样本大小(MB)",
+          "DownloadsA2MBSampleByDefaultThroughChunk": "下载即生成一个 2MB 样本文件（默认），走 FileDownloadRequest → FileChunkData → FileChunkAck → FileTransferComplete，64KB 分块、哈希校验、断点续传。"
+        }
+      },
+      "RuntimeFlow": {
+        "CSharpCode": {
+          "AddStepDemoKeysStepServerNewEventBusPageAddStepDemoKeysStepConnect": "// 场景页把「启动 → 连接 → 发布 → 查询 → 观测」编成一条工作流，\n// 每一步复用能力字典里的同一个页面实例：\nAddStep(DemoKeys.StepServer, new EventBusPage());\nAddStep(DemoKeys.StepConnect, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepPublish, new EventBusPage());\nAddStep(DemoKeys.StepQuery, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepObserve, new LoggingCorePage());\nAttachSceneShell();\n\n// 运行态的日志与总线是同一个进程里的两侧：\nLogger.Info(\"EventServer 启动成功，服务地址是：127.0.0.1:39561\");\nclient.Publish(\"demo.greeting\", \"hello\", out _);"
+        },
+        "XamlCode": {
+          "BuilderServicesAddEventBusAssembliesAppUseEventBusVarServer": "<!-- 运行态工作台：同一套处理器模型，进程内 / 集成 / 分布式三种形态 -->\nbuilder.Services.AddEventBus(assemblies);\napp.UseEventBus();\n\nvar server = new EventServer();\nserver.Start(\"127.0.0.1\", 39561);\nawait client.ConnectAsync(\"127.0.0.1\", 39561);"
+        }
+      },
+      "ScenePageBase": {
+        "GoToStep": {
+          "WorkflowStepFormat": "工作流步骤 {0}/{1}：{2}"
+        }
+      },
+      "ToolkitModels": {
+        "City": {
+          "Chengdu": "成都"
+        },
+        "Name": {
+          "Alice": "张三"
+        }
+      },
+      "Welcome": {
+        "View": {
+          "CoreExtensionsAppInfrastructure": "扩展方法 · 应用基础设施",
+          "PubSubQueriesIntegrations": "发布订阅 · 查询 · 集成",
+          "FormatsArchivesIndexing": "格式转换 · 压缩 · 索引",
+          "ConversionsIconsQRCodes": "转换 · 图标 · 二维码",
+          "LogStreamsFileRotation": "日志流 · 文件轮转",
+          "BinaryProtocolsTCPUDP": "二进制协议 · TCP / UDP"
+        },
+        "Content": {
+          "OverviewSubscriberReceivedGreetCommandFormat": "首页订阅者收到 GreetCommand：{0}"
+        },
+        "PublishAsync": {
+          "OverviewEventFlowFailed": "首页事件流失败："
+        },
+        "RunPipelineAsync": {
+          "OverviewFilePipelineComplete": "首页文件流水线完成：",
+          "OverviewFilePipelineFailed": "首页文件流水线失败："
+        }
+      }
     }
   }
 }

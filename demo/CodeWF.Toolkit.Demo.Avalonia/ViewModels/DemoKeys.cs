@@ -1,39 +1,16 @@
 namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 
-/// <summary>
-/// 演示台的全部 Lang 键（与 design/CodeWF.Toolkit.Demo原型.html 的信息架构一致：
-/// 场景优先 —— 运行态工作台 / 能力实验室，其余按能力域进「能力字典」）。
-/// </summary>
+/// <summary>Shell and nested example language keys. Navigation IDs are generated as DemoPages.</summary>
 public static class DemoKeys
 {
-    // 分组（Ribbon 页签 / 导航树组节点）
-    public const string GroupHome = "Demo.Group.Home";
-    public const string GroupRuntime = "Demo.Group.Runtime";
-    public const string GroupLab = "Demo.Group.Lab";
-    public const string GroupCore = "Demo.Group.Core";
-    public const string GroupBus = "Demo.Group.Bus";
-    public const string GroupFiles = "Demo.Group.Files";
-    public const string GroupLogging = "Demo.Group.Logging";
-
-    // 场景页（工作流）
-    public const string ItemRuntimeFlow = "Demo.Item.RuntimeFlow";
-    public const string ItemLabFlow = "Demo.Item.LabFlow";
-
-    // 页面（标题）
-    public const string ItemWelcome = "Demo.Item.Welcome";
-    public const string ItemCore = "Demo.Item.Core";
-    public const string ItemBus = "Demo.Item.Bus";
-    public const string ItemBusIntegrations = "Demo.Item.BusIntegrations";
-    public const string ItemFilesFormat = "Demo.Item.FilesFormat";
-    public const string ItemFilesArchive = "Demo.Item.FilesArchive";
-    public const string ItemFilesIndex = "Demo.Item.FilesIndex";
-    public const string ItemImageIcon = "Demo.Item.ImageIcon";
-    public const string ItemImageQr = "Demo.Item.ImageQr";
-    public const string ItemLogCore = "Demo.Item.LogCore";
-    public const string ItemLogMicrosoft = "Demo.Item.LogMicrosoft";
-    public const string ItemLoggingOptions = "Demo.Item.LoggingOptions";
-    public const string ItemNetPacket = "Demo.Item.NetPacket";
-    public const string ItemNetSocket = "Demo.Item.NetSocket";
+    // Nested composite example titles (not navigation routes)
+    public const string CoreExampleTitle = "Demo.Item.Core";
+    public const string BusIntegrationsExampleTitle = "Demo.Item.BusIntegrations";
+    public const string FilesFormatExampleTitle = "Demo.Item.FilesFormat";
+    public const string FilesArchiveExampleTitle = "Demo.Item.FilesArchive";
+    public const string FilesIndexExampleTitle = "Demo.Item.FilesIndex";
+    public const string LoggingOptionsExampleTitle = "Demo.Item.LoggingOptions";
+    public const string NetSocketExampleTitle = "Demo.Item.NetSocket";
 
     // 页面（说明）
     public const string DescWelcome = "Demo.Page.Welcome.Desc";
@@ -72,20 +49,13 @@ public static class DemoKeys
     public const string ToolLog = "Demo.Tool.Log";
 
     // 外壳
-    public const string ShellPalette = "Demo.Shell.Palette";
     public const string ShellDark = "Demo.Shell.Dark";
-    public const string ShellDemoShell = "Demo.Shell.DemoShell";
     public const string ShellReady = "Demo.Shell.Ready";
     public const string ShellReset = "Demo.Shell.Reset";
-    public const string ShellWriteLogs = "Demo.Shell.WriteLogs";
     public const string ShellQuickSave = "Demo.Shell.QuickSave";
-    public const string ShellQuickSettings = "Demo.Shell.QuickSettings";
-    public const string ShellQuickGuide = "Demo.Shell.QuickGuide";
-    public const string ShellStatusReady = "Demo.Shell.StatusReady";
 
     // 外壳实体化件：通知中心 / 命令面板 / 密度 / 布局记忆 / 就地重命名
     public const string ShellGroup = "Demo.Shell.Group";
-    public const string ShellCommand = "Demo.Shell.Command";
     public const string ShellCommandPlaceholder = "Demo.Shell.CommandPlaceholder";
     public const string ShellCommandHint = "Demo.Shell.CommandHint";
     public const string ShellDensity = "Demo.Shell.Density";
@@ -103,16 +73,4 @@ public static class DemoKeys
     public const string ShellNavFilter = "Demo.Shell.NavFilter";
     public const string ShellNavEmpty = "Demo.Shell.NavEmpty";
 
-    // ShowMeCode 三段
-    public const string SegmentDemo = "Demo.Segment.Demo";
-    public const string SegmentXaml = "Demo.Segment.Xaml";
-    public const string SegmentCSharp = "Demo.Segment.CSharp";
-
-    // 色板
-    public const string PaletteDefault = "Demo.Palette.Default";
-    public const string PaletteAquatic = "Demo.Palette.Aquatic";
-    public const string PaletteDesert = "Demo.Palette.Desert";
-    public const string PaletteDusk = "Demo.Palette.Dusk";
-    public const string PaletteNightSky = "Demo.Palette.NightSky";
-    public const string PaletteHighContrast = "Demo.Palette.HighContrast";
 }

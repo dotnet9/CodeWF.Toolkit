@@ -36,7 +36,32 @@
       "NotifyDemo": "Send a sample notification",
       "NotifyDemoHint": "Notification centre demo: cards auto-dismiss after 6 seconds, at most 4 kept.",
       "NavFilter": "Filter pages…",
-      "NavEmpty": "No matching page"
+      "NavEmpty": "No matching page",
+      "GlobalSettings": {
+        "PaletteLabel": "Palette",
+        "PaletteDescription": "Palette: .NET Purple / AI Aurora / AI Ember, plus six Semi palettes.",
+        "ModeLabel": "Mode",
+        "LightMode": "Light",
+        "DarkMode": "Dark",
+        "ModeDescription": "Light / dark mode. Fixed Semi palettes keep their own brightness.",
+        "LanguageLabel": "Language",
+        "LanguageDescription": "Application language; changes take effect immediately (I18nManager.Culture).",
+        "AppearanceGroup": "Appearance",
+        "AppearanceDescription": "Workspace appearance settings, configured through PropertyGrid.",
+        "LanguageGroup": "Language",
+        "LanguageGroupDescription": "Workspace language settings."
+      },
+      "LanguageChinese": "简体中文",
+      "DocumentOpened": "Opened document: ",
+      "LayoutReset": "Reset workspace layout",
+      "LanguageChanged": "Language changed to ",
+      "DocumentClosed": "Closed document: ",
+      "PanelShown": "Showing panel: ",
+      "PanelHidden": "Hiding panel: ",
+      "SampleInformationLog": "Demo: information log",
+      "SampleWarningLog": "Demo: warning log",
+      "SampleErrorLog": "Demo: error log",
+      "SampleException": "Sample exception"
     },
     "Segment": {
       "Demo": "Demo",
@@ -273,673 +298,6 @@
         "Packages": "Logging · Microsoft · Core"
       }
     },
-    "Text": {
-      "EventBusPage": {
-        "Publish027": "EventBus publish: GreetCommand(\"{0}\")",
-        "session008": "Handler exceptions propagate; PublishAsync executes subscribers in registration order.",
-        "registration012": "Registration",
-        "Append040": "Session cleared",
-        "BuildProperties019": "Publish asynchronously",
-        "Query030": "EventBus query: TimeQuery",
-        "ClearFeed038": "Session cleared",
-        "session007": "Clear",
-        "ToggleSecondSubscription036": "Cancel",
-        "ToggleSecondSubscription033": "Restore second subscription",
-        "ToggleSecondSubscription031": "Remove second subscription",
-        "subscriptions011": "Second GreetCommand subscription: ",
-        "subscriptions010": "GreetCommand   lambda          registered\nGreetCommand   [EventHandler]  registered (later order)\nTimeQuery      [EventHandler]  registered (query result)",
-        "BuildProperties021": "Assembly scanning",
-        "session006": "Session (live bus)",
-        "Content005": "Subscribed",
-        "Content014": "In-process event bus",
-        "Content003": "Bus ready: two GreetCommand subscribers and one TimeQuery handler",
-        "CSharpSnippet002": "using CodeWF.Toolkit.EventBus;\n\nvar bus = new EventBus();\n\nAction<GreetCommand> first = cmd => Console.WriteLine($\"[lambda] {cmd.Name}\");\nbus.Subscribe(first);\n\nbus.Subscribe(new TimeQueryHandler());\nbus.Subscribe<GreetCommand>(cmd => Console.WriteLine($\"[lambda2] {cmd.Name}\"));\n\nbus.Publish(new GreetCommand(\"CodeWF\"));\nawait bus.PublishAsync(new GreetCommand(\"Toolkit\"));\n\nvar query = new TimeQuery();\nbus.Query(query);\nConsole.WriteLine($\"Example\");\n\nbus.Unsubscribe(first);\nbus.Unsubscribe<TimeQueryHandler>();\nbus.Unsubscribe(handler);\n\nbus.Subscribe([typeof(TimeQueryHandler).Assembly]);",
-        "subscriptions009": "Subscriptions",
-        "ToggleSecondSubscription037": "Second EventBus subscription: {0}",
-        "ToggleSecondSubscription032": "Subscribed",
-        "ClearFeed039": "EventBus session cleared",
-        "XamlSnippet001": "<PackageReference Include=\"CodeWF.Toolkit.EventBus\" />",
-        "BuildProperties023": "Handler order",
-        "registration013": "EventBus: Subscribe / Publish, no dependencies\nEventBus.Prism: desktop DI integration\nEventBus.AspNetCore: web application integration\nEventBus.Socket: distributed messages, heartbeat, reconnection, and offline replay",
-        "BuildProperties024": "Execution order when a command has multiple handlers.",
-        "OnPropertyCommitted026": "EventBus: registering handlers from the assembly",
-        "ToggleSecondSubscription034": "Unsubscribed",
-        "ToggleSecondSubscription035": "Enabled",
-        "BuildProperties020": "Use PublishAsync when enabled.",
-        "Content015": "Publish / subscribe, Command / Query, and unsubscribe run through the real local event bus.",
-        "BuildProperties022": "Register [EventHandler] methods from an assembly.",
-        "BuildProperties016": "Bus instance",
-        "BuildProperties018": "Bus instance",
-        "PublishAsync028": "EventBus async publish: GreetCommand(\"{0}\")",
-        "BuildProperties017": "The actual EventBus instance owned by this demo.",
-        "Content004": "Remove second subscription",
-        "Query029": "[Query] TimeQuery.Result = {0:HH:mm:ss.fff}",
-        "OnPropertyCommitted025": "Assembly scanning: TimeQueryHandler registered"
-      },
-      "NetPacketPage": {
-        "Deserialize032": "Deserialize<SamplePacket>() ← {0} bytes",
-        "CSharpSnippet001": "using CodeWF.Toolkit.NetWeaver;\nusing CodeWF.Toolkit.NetWeaver.Base;\n\n[NetHead(0x01, 1)]\npublic sealed class SamplePacket : INetObject\n{\n    [NetFieldOrder(0)]\n    public int Id { get; set; }\n\n    [NetFieldOrder(1)]\n    public float Score { get; set; }\n\n    [NetFieldOrder(2)]\n    public string Title { get; set; } = string.Empty;\n}\n\nvar packet = new SamplePacket { Id = 42, Score = 1.0f, Title = \"hello\" };\n\nvar buffer = packet.Serialize(systemId: 1);\nvar restored = buffer.Deserialize<SamplePacket>();\n\nConsole.WriteLine($\"Example\");",
-        "BuildProperties017": "Packet header",
-        "declaration013": "[NetIgnoreMember]: skip a member\nNetFieldOffsetAttribute: explicit bit-field offsets\n[NetFieldOrder]: wire field ordering",
-        "Deserialize034": "Round-trip: mismatch!",
-        "AddField027": "Added a display-only field {0}. Wire fields are declared by compile-time attributes and cannot change dynamically.",
-        "BuildProperties023": "Bit-field layout",
-        "AddField028": "NetWeaver demo: added display-only field {0}",
-        "head010": "{0} bytes",
-        "Deserialize035": "NetWeaver deserialization: round-trip complete",
-        "Serialize029": "Serialize(systemId: {0}) → {1} bytes\n",
-        "Deserialize033": "Round-trip: match",
-        "fields003": "Wire fields (real serialization)",
-        "BuildProperties024": "Use NetFieldOffsetAttribute for an explicit bit-field layout.",
-        "fields005": "Clear fields",
-        "BuildProperties019": "System identifier written into the packet header.",
-        "head007": "Byte order",
-        "Content002": "Awaiting serialization",
-        "Content016": "[NetHead] declares the packet header and [NetFieldOrder] defines field order. Buttons below perform real serialization and deserialization.",
-        "Serialize031": "NetWeaver serialization: {0} bytes (systemId={1})",
-        "BuildProperties021": "Little endian (Int32)",
-        "BuildProperties020": "Protocol version declared in the packet header.",
-        "head009": "Fixed header size",
-        "declaration014": "Field encoding: int → 4 little-endian bytes; float → 4 bytes; string → length prefix and UTF-8.",
-        "fields004": "Add field",
-        "head011": "[NetHead] declares the header. Serialization and deserialization use the same type metadata.",
-        "AddField025": "Field name cannot be empty.",
-        "AddField026": "[Demo] {0,-6} string = (display only; edit the C# declaration for real wire fields)",
-        "head008": "Little endian (Int32)",
-        "BuildProperties022": "Int32 uses BinaryWriter little-endian encoding.",
-        "head006": "Packet header",
-        "Content015": "NetWeaver: attribute-driven binary serialization",
-        "BuildProperties018": "Value declared by [NetHead] in the sample.",
-        "Serialize030": "Header [NetHead(0x01, {0})] · {1} bytes\n\n",
-        "declaration012": "Protocol declaration"
-      },
-      "ImageQrPage": {
-        "BuildProperties022": "Sample processing options.",
-        "pipeline011": "Image pipeline (ImageHelper / Magick.NET)",
-        "Generate027": "QR code generated: {0}, {1} bytes",
-        "Content002": "Scan to visit the repository",
-        "BuildProperties018": "400 × 400 (final canvas width: 500)",
-        "BuildProperties016": "Fixed QrCodeGenerator parameters in the current implementation.",
-        "Generate028": "Generation failed: ",
-        "generate005": "Title",
-        "Content003": "Ready to generate (output: %TEMP%\\CodeWFToolkitDemo\\image)",
-        "preview010": "Preview (scaled generated image)",
-        "Content014": "QrCodeGenerator produces image files that can be processed with ImageHelper / Magick.NET. Generate a real QR code below.",
-        "generate006": "Content",
-        "Generate029": "QR code generation failed",
-        "generate009": "ZXing creates the QR bitmap; Magick.NET adds the title and subtitle. Canvas: 500×600 (630 with subtitle), H correction, UTF-8.",
-        "Generate026": "Complete: {0}\n{1} bytes · 100% quality",
-        "BuildProperties023": "Output quality",
-        "BuildProperties020": "Character set",
-        "BuildProperties025": "Scale the generated image for preview.",
-        "BuildProperties015": "QR code options",
-        "BuildProperties017": "QR code size",
-        "BuildProperties019": "Error correction",
-        "BuildProperties021": "Image processing",
-        "BuildProperties024": "Generate preview",
-        "generate004": "Generate QR code (QrCodeGenerator)",
-        "pipeline012": "Convert: new MagickImage(\"photo.jpg\").Write(\"photo.webp\");\nResize: image.Resize(800, 0);\nWatermark: text or image composition\nIcons: ImageHelper.MergeGenerateIcon / SeparateGenerateIcon",
-        "generate007": "Subtitle",
-        "Content013": "QR codes and image processing",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Image;\nusing ImageMagick;\n\nQrCodeGenerator.GenerateQrCode(\n    title: \"CodeWF.Toolkit\",\n    content: \"https://github.com/dotnet9/CodeWF.Toolkit\",\n    imagePath: \"qrcode.png\",\n    subTitle: \"Scan to visit the repository\");\n\nusing var image = new MagickImage(\"qrcode.png\");\nimage.Resize(300, 0);\nimage.Write(\"qrcode-preview.png\");",
-        "generate008": "Generate QR code"
-      },
-      "CorePage": {
-        "CheckUpdateAsync050": "Checking updates: {0}/{1} (current {2})",
-        "CheckUpdateAsync055": "→ Current {0}: new version {1}",
-        "update015": "Repository",
-        "XamlSnippet001": "<PackageReference Include=\"CodeWF.Toolkit.Core\" />",
-        "BuildProperties024": "Truncation length",
-        "RunMatch046": "Core extension demo: pattern matching",
-        "tools010": "Set truncation length in the property panel; byte formatting uses DoubleExtensions.FormatBytes.",
-        "BuildProperties026": "Length used by the string truncation demo.",
-        "RunMatch044": "*extensions*",
-        "RunSlug041": "Core extension demo: identifier conversion",
-        "data020": "var dataDir = AppDataMigrator.ResolveAndMigrate(\n    \"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);",
-        "Content013": "Check updates",
-        "CheckUpdateAsync056": "Update check: new version {0}",
-        "Content012": "Not checked yet",
-        "tools006": "Truncate to 18",
-        "BuildProperties034": "ETag conditional check",
-        "Content003": "CodeWF.Toolkit is a collection of .NET extensions",
-        "CheckUpdateAsync052": "\n\nUpdateCheckResult.Succeeded = true\nUpdate = null → current version {0} is up to date",
-        "update016": "Current version",
-        "BuildProperties032": "Update checking",
-        "update017": "Enable ETag cache",
-        "BuildProperties031": "Wildcard expression used by IsMatch.",
-        "RunMatch043": "*extensions*",
-        "RunSlug040": "Replace non-alphanumeric characters and lowercase:\n{0}",
-        "BuildProperties030": "Enable regex extensions",
-        "tools009": "Match pattern",
-        "tools005": "String / numeric extensions (real calls)",
-        "data021": "FileHelper.GetFileEncodeType: encoding detection\nFileHelper.SafeReadAllText: safe text input\nFileHelper.SafeWriteAllText: safe text output\nAppDataMigrator: application data migration",
-        "RunMatch045": "RegexExtensions.IsMatch: * wildcard, ? character, # digit, @ letter:\n",
-        "RunTruncate039": "Core extension demo: truncate to {0} characters",
-        "tools008": "Byte units",
-        "BuildProperties028": "Parameters for the Core extension demos.",
-        "Content022": "Core: extensions and infrastructure",
-        "CheckUpdateAsync049": "Checking…",
-        "CheckUpdateAsync051": "Update check failed: {0}",
-        "CSharpSnippet002": "using CodeWF.Toolkit.Core.Extensions;\nusing CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Core.UpdateChecking;\n\nvar text = \"CodeWF.Toolkit is a collection of .NET extensions\";\nvar cut = text.Length > 18 ? text[..18] + \"…\" : text;\nvar size = ((double)3_221_225_472).FormatBytes();           // 3.00 GB\nvar money = 1234.ToChineseNumber();\n\nvar matched = \"CodeWF.Toolkit\".IsMatch(\"CodeWF*\");\n\nvar encoding = FileHelper.GetFileEncodeType(\"app.log\");\nawait FileHelper.SafeWriteAllTextAsync(\"app.log\", \"hello\", encoding);\n\nvar dataDir = AppDataMigrator.ResolveAndMigrate(\"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);\n\nvar checker = new UpdateChecker(\"dotnet9\", \"CodeWF.Toolkit\");\nvar result = await checker.CheckAsync(new Version(1, 0, 0, 0));\nif (!result.Succeeded) { /* result.Error */ }\nelse if (result.Update is null) { /* Up to date */ }\nelse { /* result.Update.Version / Tag / Notes / AssetUrl */ }",
-        "Content023": "Core has no third-party dependencies. Try extensions and update checking, and configure the options through the property panel.",
-        "BuildProperties029": "Namespace",
-        "update018": "Checks the releases/latest redirect first, reuses cached tags, and falls back to the API. ETag 304 responses avoid consuming the API quota.",
-        "tools007": "Convert to identifier",
-        "BuildProperties037": "Web endpoint first, API fallback",
-        "RunBytes042": "Core extension demo: byte formatting",
-        "BuildProperties036": "Endpoint",
-        "tools011": "StringExtensions: matching and joining\nDoubleExtensions: readable byte sizes\nDateTimeExtensions: date helpers\nEnumExtensions: enum descriptions",
-        "CheckUpdateAsync048": "(ETag cache hits avoid consuming the API quota)\n",
-        "data019": "Application data directories and encoding detection",
-        "BuildProperties035": "304 responses do not consume the API quota.",
-        "BuildProperties027": "Extension methods",
-        "BuildProperties025": "characters",
-        "Content004": "Click a button above to view its result",
-        "update014": "UpdateChecker",
-        "CheckUpdateAsync053": "Update check: already up to date",
-        "BuildProperties033": "Options for GitHub Release update checking.",
-        "CheckUpdateAsync054": "(none)",
-        "RunTruncate038": "Original: {0}\nTruncated to {1}: {2}",
-        "CheckUpdateAsync047": "Repository must use owner/repo format."
-      },
-      "FilesArchivePage": {
-        "Content010": "SevenZipCompressor uses SharpCompress and AppConfigHelper handles appSettings. The operations below write real files.",
-        "Decompress038": "Extraction failed: ",
-        "archive006": "SharpCompress ZIP compression with LZMA and UTF-8 names. Entries use a shared root; files on different drives are rejected.",
-        "PrepareSamples028": "<!-- Toolkit design reference -->\n",
-        "WriteConfig044": "App.config write failed",
-        "archive004": "Prepare sample files",
-        "PrepareSamples029": "Sample files prepared: {0}",
-        "Decompress036": "Restored files:\n  ",
-        "Decompress035": "Run Compress first.",
-        "Compress031": "Complete: archive.7z ({0} bytes, {1} entries, LZMA / UTF-8)",
-        "BuildProperties018": "Configuration entry",
-        "Content002": "Ready (output: %TEMP%\\CodeWFToolkitDemo\\archive)",
-        "Compress033": "Compression failed: ",
-        "DescribeConfig045": "(not created yet) {0}",
-        "archive003": "Archive compression (SharpCompress)",
-        "Compress034": "Archive compression failed",
-        "PrepareSamples025": "Export results",
-        "BuildProperties019": "App.config read / write demo.",
-        "BuildProperties017": "Number of sample files to create.",
-        "config007": "Write",
-        "WriteConfig042": "App.config written: {0} = {1}",
-        "BuildProperties020": "File location",
-        "Content009": "Archives and App.config",
-        "BuildProperties016": "items",
-        "PrepareSamples023": "Readme.md",
-        "PrepareSamples022": "Export results",
-        "PrepareSamples027": "Prototype.html",
-        "Decompress039": "Archive extraction failed",
-        "BuildProperties013": "Compression algorithm",
-        "PrepareSamples024": "# CodeWF.Toolkit sample document\n",
-        "BuildProperties014": "UTF-8 entry names",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Files.Helpers;\n\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(\"docs/Export results\", \"archive.7z\", rootdir: \"docs\");\ncompressor.Decompress(\"archive.7z\", \"out/restored\");\n\nAppConfigHelper.Set(\"App.Language\", \"en-US\");\nvar ok = AppConfigHelper.TryGet<string>(\"App.Language\", out var lang);\nAppConfigHelper.SetOrAdd(\"Log.MinimumLevel\", \"Information\");\nvar level = AppConfigHelper.GetOrAdd(\"Log.MinimumLevel\", \"Information\");",
-        "PrepareSamples030": "Archive demo: sample files prepared",
-        "WriteConfig041": "TryGet → {0}; read {1} = {2}",
-        "Decompress037": "Archive extracted: {0} files restored",
-        "PrepareSamples026": "Name,Age,City\nAlice,20,Chengdu\n",
-        "BuildProperties012": "Demo parameters; output filenames are fixed.",
-        "WriteConfig043": "Write failed: ",
-        "BuildProperties015": "Sample file count",
-        "config008": "Set / GetOrAdd use lightweight XML writes suitable for trimming. Configuration overloads require unreferenced code.",
-        "BuildProperties011": "Compression options",
-        "BuildProperties021": "Include a BOM when writing appSettings.",
-        "Compress032": "Archive complete: {0} entries, {1} bytes",
-        "DescribeConfig046": "(not set)",
-        "WriteConfig040": "Enter a Key.",
-        "archive005": "Clear output",
-        "Append047": "Ready"
-      },
-      "WelcomeViewModel": {
-        "RunPipelineAsync004": "Overview file pipeline failed: ",
-        "PublishAsync002": "Overview event flow failed: ",
-        "Content001": "Overview subscriber received GreetCommand: {0}",
-        "RunPipelineAsync003": "Overview file pipeline complete: "
-      },
-      "NetSocketPage": {
-        "DownloadAsync065": "NetWrapper demo download failed",
-        "OnTransferOutcome077": "Failed",
-        "CSharpSnippet001": "using CodeWF.Toolkit.NetWrapper.Helpers;\nusing CodeWF.Toolkit.NetWrapper.Models;\n\nvar server = new TcpSocketServer();\nvar (ok, error) = await server.StartAsync(\"Example\", \"127.0.0.1\", 39561);\nvar fileSystem = server.UseFileSystem();\nfileSystem.FileTransferProgress += (_, e) =>\n    Console.WriteLine($\"{e.FileName} {e.Progress:F1}% ({e.BytesPerSecond / 1024 / 1024:F1} MB/s)\");\n\nvar client = new TcpSocketClient();\nawait client.ConnectAsync(\"Example\", \"127.0.0.1\", 39561);\n\nvar feature = client.UseFileSystem();\nfeature.FileTransferProgress += (_, e) => Console.WriteLine($\"Download {e.FileName} {e.Progress:F1}%\");\nfeature.FileTransferOutcome += (_, e) => Console.WriteLine($\"Finish：{e.LocalFilePath}\");\n\nawait client.DownloadFileAsync(\"demo-download.bin\", localSaveDirectory);\n\nawait client.SendCommandAsync(new Heartbeat { TaskId = 1001 });\n\nclient.Stop();\nawait server.StopAsync();",
-        "StartAsync052": "NetWrapper demo startup failed",
-        "OnTransferProgress067": "Progress {0:F1}% · {1:N0} / {2:N0} bytes\n",
-        "BuildProperties040": "Download directory",
-        "messages021": "TcpSocketServer.StartAsync(serverMark, ip, port, timeout)\nTcpSocketClient.ConnectAsync(name, ip, port)\nSendCommandAsync: command dispatch\nDownloadFileAsync: chunked transfer with resume support",
-        "StopAsync053": "● Not started",
-        "Content005": "Awaiting download",
-        "StartAsync043": "Server startup failed: ",
-        "messages019": "Clear session",
-        "Content003": "● Disconnected",
-        "OnTransferOutcome070": "Failed",
-        "OnTransferOutcome078": "NetWrapper demo download ended: {0}, success={1}",
-        "server017": "Client connections, disconnections, and errors are broadcast through EventBus using SocketClientChangedCommand / TcpClientErrorCommand.",
-        "OnTransferOutcome072": "Upload",
-        "StartAsync050": "NetWrapper demo: TCP connected at 127.0.0.1:{0}",
-        "server009": "Server / client",
-        "BuildProperties034": "Server heartbeat timeout.",
-        "Content008": "Download sample (chunks and resume)",
-        "OnTransferOutcome075": "Result: {0}",
-        "Content004": "Awaiting startup…",
-        "BuildProperties035": "Chunk size (KB)",
-        "messages022": "The server removes clients with no activity for 30 seconds.",
-        "BuildProperties029": "Local loopback connection options.",
-        "DownloadAsync061": "Start the server and client first.",
-        "OnPropertyCommitted041": "Set the timeout before startup; TimeOut is read only.",
-        "StartAsync051": "Startup error: ",
-        "SendHeartbeatAsync058": "NetWrapper demo: heartbeat sent",
-        "StartAsync046": "Demo file service",
-        "DownloadAsync064": "Download failed: ",
-        "SendHeartbeatAsync057": "client.SendCommandAsync(new Heartbeat { ... }) → sent",
-        "server012": "Port",
-        "server013": "Available temporary port (IpHelper.GetAvailableTcpPort)",
-        "Content027": "TcpSocketServer / TcpSocketClient provide command dispatch and a resumable remote file system. Try a real local loopback connection below.",
-        "StartAsync049": "client.ConnectAsync → connected (local endpoint {0})",
-        "transfer024": "Sample size (MB)",
-        "OnTransferProgress066": "Download {0}\n",
-        "StartAsync042": "Demo file service",
-        "BuildProperties028": "Connection options",
-        "server011": "127.0.0.1 (loopback)",
-        "StartAsync047": "Client connection failed: ",
-        "OnTransferOutcome071": "Download {0}: {1}\n",
-        "SendHeartbeatAsync056": "Start the server and client first.",
-        "BuildProperties037": "Options for the remote file demo.",
-        "OnTransferOutcome074": "Direction {0} · task {1} · cancelled {2}\n",
-        "StartAsync048": "● Connected",
-        "BuildProperties032": "Available temporary port",
-        "messages020": "Send Heartbeat",
-        "StopAsync055": "NetWrapper demo stopped",
-        "server014": "Server",
-        "BuildProperties036": "File transfer",
-        "transfer023": "Remote file system (real download)",
-        "server016": "Client count",
-        "Content006": "Start server and client",
-        "Content007": "Stop",
-        "DownloadAsync062": "Sample prepared: {0} ({1:N0} bytes)\n",
-        "DownloadAsync063": "client.DownloadFileAsync(...) → awaiting server chunks…",
-        "SendHeartbeatAsync060": "NetWrapper demo heartbeat failed",
-        "BuildProperties039": "Resume from the byte count in the temporary .part file.",
-        "server010": "Listen address",
-        "Content026": "NetWrapper: TCP / UDP and remote files",
-        "OnTransferProgress068": "Chunk size {0} KB · task {1}",
-        "StartAsync045": "server.StartAsync(\"Demo file service\", \"127.0.0.1\", {0}) → started",
-        "SendHeartbeatAsync059": "Send failed: ",
-        "BuildProperties031": "Port",
-        "StartAsync044": "● Running (127.0.0.1:{0})",
-        "StopAsync054": "● Disconnected",
-        "Content002": "● Not started",
-        "messages018": "Messages and session",
-        "OnTransferOutcome073": "Download",
-        "server015": "Client",
-        "BuildProperties038": "Resume transfer",
-        "OnTransferOutcome069": "Completed",
-        "Append079": "Awaiting startup",
-        "BuildProperties033": "Client timeout (seconds)",
-        "transfer025": "Downloads a 2MB sample by default through chunk messages, acknowledgments, and completion, with hash validation and resume support.",
-        "OnTransferOutcome076": "Success",
-        "BuildProperties030": "Host"
-      },
-      "EventBusIntegrationsPage": {
-        "BuildProperties031": "EventServer listen port.",
-        "socket009": "Distributed Socket bus: EventServer / EventClient (real connection)",
-        "Publish049": "client.Publish(\"{0}\", \"{1}\") → delivered",
-        "BuildProperties028": "Host integration",
-        "BuildProperties035": "Offline client messages are replayed after reconnection.",
-        "socket019": "Content",
-        "socket010": "Server / client",
-        "prism022": "For Prism.DryIoc.Avalonia: register handlers in the container and initialize them with the module.",
-        "StopAsync046": "● Disconnected",
-        "StartAsync036": "● Running ({0}:{1})",
-        "StopAsync047": "Socket bus stopped",
-        "Content005": "Awaiting server startup…",
-        "aspnet023": "Automatically discover handlers and initialize them with the request pipeline.",
-        "StartAsync037": "● Connected",
-        "Content024": "Bus integrations",
-        "Content008": "Stop",
-        "socket015": "Client",
-        "prism021": "using CodeWF.Toolkit.EventBus.Prism;\n\ncontainerRegistry.AddEventBus(assemblies);\ncontainer.UseEventBus(assemblies);",
-        "CSharpSnippet002": "using PrismBus = CodeWF.Toolkit.EventBus.Prism.EventBusExtensions;\nusing AspNetBus = CodeWF.Toolkit.EventBus.AspNetCore.EventBusExtensions;\n\nPrismBus.AddEventBus(containerRegistry, assemblies);\nPrismBus.UseEventBus(container, assemblies);\nAspNetBus.AddEventBus(builder.Services, assemblies);\nAspNetBus.UseEventBus(app, assemblies);\n\nusing var server = new EventServer();\nawait server.StartAsync(\"127.0.0.1\", 39561);\nusing var client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\nclient.Subscribe<string>(\"demo.greeting\", message => Console.WriteLine(message));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\nclient.Disconnect();\nserver.Stop();",
-        "StartAsync038": "● Connection failed",
-        "StartAsync039": "EventClient.ConnectAsync → connected to {0}:{1}",
-        "socket018": "Topic",
-        "socket011": "Listen address",
-        "BuildProperties030": "Port",
-        "BuildProperties032": "Heartbeat (seconds)",
-        "Content004": "● Disconnected",
-        "socket014": "Server",
-        "StartAsync040": "EventClient.ConnectAsync → failed",
-        "BuildProperties034": "Replay offline messages",
-        "Content025": "One handler model for three host integrations. Socket supports cross-process and cross-machine communication; try a local connection below.",
-        "Content003": "● Stopped",
-        "Publish051": "Socket bus publish: {0} = {1}",
-        "Content007": "Start server and client",
-        "BuildProperties029": "In-process",
-        "StartAsync044": "Socket bus startup failed",
-        "BuildProperties026": "Host integration",
-        "socket017": "Publish / subscribe",
-        "Append052": "Awaiting startup",
-        "socket020": "Clear session",
-        "BuildProperties033": "Client heartbeat interval.",
-        "socket012": "Port",
-        "Publish050": "client.Publish failed: {0}",
-        "XamlSnippet001": "<PackageReference Include=\"CodeWF.Toolkit.EventBus.Socket\" />",
-        "StartAsync043": "Startup failed: {0}",
-        "BuildProperties027": "Connection and keep-alive settings for the distributed bus.",
-        "Content006": "[Client subscription] {0}",
-        "Publish048": "Start the server and client first.",
-        "StartAsync041": "client.Subscribe<string>(\"demo.greeting\", …) → subscribed",
-        "socket013": "Heartbeat (seconds)",
-        "StopAsync045": "● Stopped",
-        "StartAsync042": "Socket bus started: {0}:{1}",
-        "socket016": "Heartbeat, reconnection, and offline replay; NetWrapper provides the transport."
-      },
-      "FilesIndexPage": {
-        "BuildMatrix019": "Safe file I/O",
-        "BuildMatrix015": "DataTable round-trips for batch exports",
-        "BuildMatrix013": "Reflection overloads require unreferenced code; use JsonTypeInfo<T> for AOT.",
-        "BuildProperties010": "AOT-friendly mode",
-        "Content004": "Try JSON / YAML / CSV round-trips on File Formats, or archives and App.config on Archive Configuration.",
-        "BuildProperties008": "Default format",
-        "Content005": "This page indexes the APIs; use the linked demos to try them.",
-        "BuildMatrix020": "String / byte file I/O with retries",
-        "Content006": "Round-trip demos (same APIs as File Formats)",
-        "Content003": "Related pages",
-        "BuildMatrix018": "Not trim safe; use file path overloads for AOT.",
-        "BuildMatrix012": "Built-in System.Text.Json",
-        "BuildMatrix022": "Dependencies",
-        "Content002": "Capability matrix",
-        "BuildProperties009": "Default serialization format in the demo.",
-        "BuildMatrix017": "Check SharpCompress support before using split archives or encryption.",
-        "BuildMatrix014": "Reflection-based SerializerBuilder; use static source generation for AOT.",
-        "BuildMatrix016": "Archive compression",
-        "BuildProperties011": "Recommend JsonTypeInfo<T> and static generated serializers when enabled.",
-        "BuildMatrix021": "Capability",
-        "Content007": "Open File Formats or Archive Configuration from the navigation to try the APIs.",
-        "BuildMatrix023": "Notes",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Files.Extensions;\n\nvar json = student.ToJson(out var error);\n\nvar yaml = student.ToYaml(out error);\n\n// Csv / Excel：DataTableExtensions（CsvHelper / MiniExcel）\ndataTable.ToExcel(\"students.xlsx\");\n\nawait FileExtension.SafeWriteAllTextAsync(\"app.log\", \"hello\");"
-      },
-      "LoggingOptionsPage": {
-        "BuildOptionsTable020": "Log directory",
-        "Content009": "Integration with CodeWF.Avalonia",
-        "Content005": "Logger.Health diagnostics",
-        "WriteSamples035": "Sample exception",
-        "WriteSamples033": "Demo: warning log",
-        "BuildProperties012": "Minimum level",
-        "ShowHealth028": "  (none dropped)",
-        "BuildProperties014": "File rotation",
-        "Content003": "Options overview",
-        "Content010": "CodeWF.Avalonia.Log LogView subscribes directly to this UI event stream.",
-        "BuildProperties015": "Rotate files at the size limit and remove files past the retention period.",
-        "BuildOptionsTable027": "Description",
-        "Content007": "Write three sample logs",
-        "ShowFeed031": "UI event snapshot: {0} entries",
-        "BuildOptionsTable021": "Per-file size limit before rotation",
-        "BuildOptionsTable023": "Customize the output template with LineTemplateController",
-        "Content006": "Logger.Events snapshot",
-        "BuildOptionsTable022": "Retention days",
-        "WriteSamples034": "Demo: error log",
-        "BuildOptionsTable018": "Discard logs below this level",
-        "Content004": "Health and event stream",
-        "BuildOptionsTable019": "Console output (optional for desktop applications)",
-        "BuildOptionsTable025": "Parameter",
-        "BuildProperties013": "Discard logs below this level.",
-        "BuildProperties016": "UI event stream",
-        "BuildProperties017": "Enable the event stream for desktop log controls.",
-        "Content011": "The workspace log panel is an instance of that control.",
-        "Content002": "Ready: click a button to view diagnostics or recent events",
-        "Content008": "Event callbacks run on a background thread; UI subscribers must dispatch to the UI thread.",
-        "ShowHealth029": "Log health: {0} entries dropped",
-        "ShowFeed030": "Logger.Events.GetRecentEvents() → {0} entries",
-        "BuildOptionsTable026": "Default",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Logging;\n\nLogger.TryInitialize(new LoggerOptions\n{\n    MinimumLevel = LogLevel.Debug,\n    EnableConsole = false,\n    File = new FileLogOptions\n    {\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\n        MaxFileSizeBytes = 32 * 1024 * 1024,\n        RetentionDays = 30,\n    },\n});\n\nvar snapshot = Logger.Health.GetSnapshot();\nvar dropped = snapshot.DroppedCount;\n\nvar recent = Logger.Events.GetRecentEvents();\n\nawait Logger.ShutdownAsync();",
-        "WriteSamples032": "Demo: information log",
-        "BuildOptionsTable024": "Localized level names"
-      },
-      "FilesFormatPage": {
-        "Content003": "Select an output format",
-        "BuildProperties023": "Include a BOM when writing files.",
-        "FromJson032": "Failed: ",
-        "model009": "Data model",
-        "ToJson025": "File format demo: ToJson",
-        "model010": "public sealed class Student\n{\n    public string Name { get; set; } = \"Alice\";\n    public int Age { get; set; } = 20;\n    public string City { get; set; } = \"Chengdu\";\n}",
-        "forward005": "Object → text (real call)",
-        "FromYaml034": "Failed: ",
-        "Content004": "Awaiting parsing",
-        "table013": "DataTableExtensions.ExportToCsv / ExportToXlsx\nDataTableExtensions.ImportFromCsv / ImportFromExcel / Import (by extension)",
-        "BuildProperties018": "Default file I/O options.",
-        "BuildProperties017": "Format options",
-        "table014": "Files are written under %TEMP%\\CodeWFToolkitDemo.",
-        "XamlSnippet001": "<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.Files\" Version=\"1.0.0.1\" />\n</ItemGroup>",
-        "FromJson033": "File format demo: FromJson",
-        "Content015": "Files: JSON / YAML / CSV / Excel",
-        "RunCsvRoundTrip038": "File size: {0} bytes · UTF-8 BOM: {1}",
-        "BuildProperties019": "Default format",
-        "backward007": "Text → object",
-        "backward008": "Extensions use out error: parsing returns false with an error message instead of throwing.",
-        "JsonToYaml030": "Failed: ",
-        "Content016": "Real round-trip conversion using System.Text.Json, YamlDotNet, CsvHelper, and MiniExcel.",
-        "BuildProperties020": "Write retries",
-        "JsonToYaml031": "File format demo: JsonToYaml",
-        "RunCsvRoundTrip040": "File format demo: DataTable CSV round-trip",
-        "CSharpSnippet002": "using CodeWF.Toolkit.Files.Extensions;\nusing CodeWF.Toolkit.Files.Exports;\n\nvar student = new Student { Name = \"Alice\", Age = 20, City = \"Chengdu\" };\n\nstudent.ToJson(out var json, out var error1);\nstudent.ToYaml(out var yaml, out var error2);\n\njson.FromJson<Student>(out var fromJson, out var error3);\nyaml.FromYaml<Student>(out var fromYaml, out var error4);\n\njson.JsonPrettify(2, sortKeys: true, out var pretty, out _);\njson.JsonToYaml(out var yaml2, out _);\n\n// DataTable ↔ Csv / Excel\ndataTable.ExportToCsv(\"students.csv\", Encoding.UTF8, out var error5);\n\"students.csv\".ImportFromCsv(out var error6, out var table);\ndataTable.ExportToXlsx(\"students.xlsx\", out var error7);",
-        "table012": "Export and import CSV",
-        "FromYaml035": "File format demo: FromYaml",
-        "ToJson024": "Failed: ",
-        "Prettify028": "Failed: ",
-        "Prettify029": "File format demo: JsonPrettify (indent 2, sorted keys)",
-        "ToYaml027": "File format demo: ToYaml",
-        "ToYaml026": "Failed: ",
-        "RunCsvRoundTrip036": "Yes",
-        "RunCsvRoundTrip037": "No",
-        "BuildProperties022": "Number of retries for safe FileHelper I/O.",
-        "RunCsvRoundTrip039": "Restored: {0} rows, {1} columns → first row {2}",
-        "table011": "DataTable ↔ CSV / Excel (real file round-trip)",
-        "forward006": "JsonPrettify and sort",
-        "BuildProperties021": "retries"
-      },
-      "LoggingMicrosoftPage": {
-        "pipeline011": "Write a user-message log",
-        "BuildProperties031": "Provider",
-        "BuildProperties027": "LogUser* extensions write CodeWFUserLogState.",
-        "RunParser044": "Template keys: {0}\nParsed result: {1}",
-        "BuildProvider036": "  CodeWFLoggerRuntime / LogEventFeed / LineTemplateController / CodeWFLogHealth registered",
-        "BuildProperties024": "Minimum level",
-        "BuildProvider034": "ServiceProvider built; repeated clicks do not register it again.",
-        "options019": "CodeWFLoggerOptions: configuration binding and validation\nCodeWFFileLogOptions: file rotation and retention\nCodeWFLoggerProvider: MEL integration\nCodeWFLoggerRuntime: shared logging runtime",
-        "BuildProperties033": "Shared with static Logger",
-        "BuildProperties029": "Runtime state",
-        "WriteUserMessage041": "User {User} logged in at {Time} from {Ip}",
-        "pipeline009": "Real pipeline (built with ServiceCollection)",
-        "options018": "Options overview",
-        "register006": "Registration",
-        "BuildProvider037": "MEL provider built",
-        "RunParser045": "MessageTemplateParser: {0} placeholders",
-        "Append046": "Awaiting log write",
-        "BuildProperties032": "Event flow",
-        "pipeline012": "The bootstrap provider shares the event stream with static Logger; logs appear in the workspace panel and log files.",
-        "Content005": "Build ServiceProvider (AddCodeWF)",
-        "BuildProperties025": "Include scopes",
-        "parser016": "Parse",
-        "parser017": "MessageTemplateParser extracts placeholder names and formats arguments, including alignment and numeric formatting.",
-        "Content021": "Connect MEL logs to the core Logger with file rotation, UI events, structured templates, and user-message markers.",
-        "WriteUserMessage040": "Login succeeded",
-        "Content002": "Awaiting MEL logs…",
-        "BuildProperties030": "Container and event-stream state.",
-        "WriteStructured038": "User {User} logged in at {Time} from {Ip}",
-        "BuildProvider035": "AddCodeWF → ServiceProvider built; ILoggerFactory ready.",
-        "parser015": "Parameter",
-        "parser013": "Structured templates (MessageTemplateParser)",
-        "pipeline010": "Write a MEL log",
-        "Content020": "Microsoft.Extensions.Logging provider",
-        "register008": "AddCodeWF registers CodeWFLoggerRuntime, LogEventFeed, LineTemplateController, and CodeWFLogHealth.",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Logging.Microsoft;\nusing Microsoft.Extensions.DependencyInjection;\nusing Microsoft.Extensions.Logging;\n\nbuilder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Console.Enabled = true;\n    options.EventFeed.Enabled = true;\n    options.Capture.Scopes = true;\n    options.BridgeStaticLogger = true;\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});\n\nvar services = new ServiceCollection();\nservices.AddLogging(builder => builder.AddCodeWF(options => options.File.DirectoryPath = logDirectory));\nawait using var provider = services.BuildServiceProvider();\nvar factory = provider.GetRequiredService<ILoggerFactory>();\nvar logger = factory.CreateLogger(\"Demo\");\n\nlogger.LogInformation(\"User {User} logged in at {Time} from {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");\n\nlogger.LogUserInformation(\"Login succeeded\", \"User {User} logged in at {Time} from {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");",
-        "BuildProperties023": "Maps to CodeWFLoggerOptions.",
-        "register007": "builder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Capture.Scopes = true;\n    options.Capture.Activity = true;\n    options.BridgeStaticLogger = true;\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});",
-        "RunParser043": "User {User} logged in at {Time} from {Ip}",
-        "Content003": "User {User} logged in at {Time} from {Ip}",
-        "WriteStructured039": "[MEL/Information] User admin logged in at 10:24 from 192.168.1.8 (User=admin, Ip=192.168.1.8)",
-        "BuildProperties028": "Queue overflow policy",
-        "parser014": "Template",
-        "Content004": "Awaiting parsing",
-        "BuildProperties022": "Provider options",
-        "WriteUserMessage042": "[MEL/Information] Login succeeded (UserMessage; full template in the file)",
-        "BuildProperties026": "User-message marker"
-      },
-      "ImageIconPage": {
-        "Merge029": "Complete: {0}\n{1} bytes · {2} sizes",
-        "BuildProperties026": "Source image",
-        "Merge031": "Merge failed: ",
-        "merge008": "Sizes are set by Included Sizes in the property panel; default: 16,24,32,48,64,128,256.",
-        "merge004": "Source image",
-        "Merge030": "Icon generated: {0} sizes, {1} bytes",
-        "Content002": "Ready (output: %TEMP%\\CodeWFToolkitDemo\\image)",
-        "BuildProperties023": "Output image quality.",
-        "Separate034": "Complete, output files:\n  {0}",
-        "Separate035": "Icon separated: {0} files",
-        "Merge028": "Source image not found: {0}",
-        "BuildProperties018": "ICO generation parameters.",
-        "merge005": "Output file",
-        "Separate037": "Icon separation failed",
-        "BuildProperties017": "Icon options",
-        "others013": "Other image capabilities (Magick.NET)",
-        "BuildProperties027": "Output directory",
-        "BuildProperties022": "Quality",
-        "separate012": "Size list",
-        "separate010": "Source icon",
-        "merge006": "Reset to repository logo",
-        "BuildProperties020": "PNG compression",
-        "BuildProperties024": "Input / output",
-        "Merge032": "Icon generation failed",
-        "CSharpSnippet001": "using CodeWF.Toolkit.Image;\n\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\n\nawait ImageHelper.SeparateGenerateIcon(\"logo.png\", \"out/icons\", [16, 32]);\n\nusing var image = new MagickImage(\"photo.jpg\");\nimage.Resize(800, 0);\nimage.Write(\"photo.webp\");",
-        "separate009": "Separate (SeparateGenerateIcon)",
-        "BuildProperties025": "Demo directory and source image.",
-        "merge007": "Size previews (populated after generation)",
-        "Separate033": "Source image not found: {0}",
-        "Content015": "Icons: merge and separate multiple sizes",
-        "Content016": "ImageHelper.MergeGenerateIcon / SeparateGenerateIcon use Magick.NET. Generate actual files in a temporary directory.",
-        "BuildProperties019": "Included sizes",
-        "Separate036": "Separation failed: ",
-        "separate011": "Output directory",
-        "others014": "Formats: PNG / JPG / WebP / BMP, with quality options\nResize: preserve aspect ratio or set dimensions\nWatermarks: text or images with position and opacity\nICO: merge and separate sizes\nQR: QrCodeGenerator",
-        "BuildProperties021": "Magick.NET output compression switch.",
-        "merge003": "Merge (MergeGenerateIcon)"
-      },
-      "LoggingCorePage": {
-        "stream008": "Log stream (real Logger)",
-        "options015": "Current log directory",
-        "BuildProperties024": "Rotate by sequence number above the per-file size limit.",
-        "ApplyTemplate038": "{Timestamp:HH:mm:ss.fff} {Level:en} {Message} [Category {Category}]{NewLine}",
-        "BuildProperties034": "{0} entries (RecentEventCapacity)",
-        "members016": "Members",
-        "SampleLogs003": "Debug: configuration loaded",
-        "SampleLogs005": "Memory utilization: 82%",
-        "BuildProperties027": "Per-file limit (MB)",
-        "BuildProperties021": "Filter level for console and UI event output.",
-        "SampleLogs006": "Connection timed out (sample exception)",
-        "BuildProperties022": "Console output",
-        "BuildProperties023": "File rotation",
-        "BuildProperties030": "Runtime state",
-        "CSharpSnippet002": "using CodeWF.Toolkit.Logging;\n\nLogger.TryInitialize(new LoggerOptions\n{\n    MinimumLevel = LogLevel.Information,\n    EnableConsole = true,\n    File = new FileLogOptions\n    {\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\n        MaxFileSizeBytes = 32 * 1024 * 1024,\n        RetentionDays = 30,\n        BatchSize = 200,\n        FlushInterval = TimeSpan.FromMilliseconds(500),\n        OutputTemplate = null,\n    },\n    LineTemplate = \"{Timestamp:yyyy-MM-dd HH:mm:ss.fff} 【{Level:zh}】 {UserMessage}{NewLine}\",\n    QueueCapacity = 10_000,\n    QueueFullMode = LogQueueFullMode.DropTraceAndDebug,\n});\n\nLogger.Debug(\"Example\");\nLogger.Info(\"Example\");\nLogger.Warn(\"Example\");\nLogger.Error(\"Example\", new TimeoutException(\"connect timeout\"));\n\nusing var subscription = Logger.Events.Subscribe(logEvent => Console.WriteLine(logEvent.Message));\n\nLogger.LineTemplate.TryUpdate(\"{Timestamp:HH:mm:ss.fff} {Level:zh} {Message}{NewLine}\", out var error);\n\nawait Logger.ShutdownAsync();",
-        "XamlSnippet001": "<codewf:LogView Source=\"{Binding LogSource}\" MaxDisplayCount=\"500\" />",
-        "SampleLogs007": "Critical: unrecoverable disk write failure",
-        "stream011": "Logs reach the console, asynchronous rotating files, and the UI event stream displayed here and in the workspace.",
-        "Content018": "Logger core",
-        "SampleLogs004": "Service started, listening on 127.0.0.1:39561",
-        "ApplyTemplate041": "Template validation failed:\n{0}\n\n{1}",
-        "BuildProperties029": "days",
-        "ClearStream037": "UI log stream cleared; log files remain available.",
-        "stream010": "Clear",
-        "Content019": "Static Logger provides console, rotating files, and UI events. Write real logs and observe both this page and the workspace log panel.",
-        "ApplyTemplate039": "LineTemplate updated:\n{0}",
-        "ApplyTemplate042": "Output template validation failed: ",
-        "ApplyTemplate040": "Output template updated",
-        "BuildProperties031": "Logging runtime state.",
-        "BuildProperties028": "Retention days",
-        "BuildProperties026": "Maps to LoggerOptions.",
-        "OnPropertyCommitted035": "Logging option (demo): {0} = {1}",
-        "stream009": "Minimum display level",
-        "BuildProperties025": "Logger options",
-        "OnDocumentOpened036": "Opened demo: Logger core",
-        "BuildProperties020": "Minimum level",
-        "BuildProperties032": "Log directory",
-        "templateButton012": "Apply custom template",
-        "members017": "Logger.TryInitialize / Initialize: initialize the runtime\nLogger.Trace / Debug / Info / Warn / Error / Fatal: write logs\nLogger.Events: UI event stream\nLogger.FlushAsync: flush pending writes\nLogger.ShutdownAsync: complete pending writes and stop\nLogger.Health: diagnostic counters",
-        "BuildProperties033": "Event capacity",
-        "options014": "File writes are asynchronous; flush or shut down before exit. UI event callbacks run on a background thread.",
-        "options013": "Initialization and options"
-      },
-      "RuntimeFlowPage": {
-        "XamlCode001": "builder.Services.AddEventBus(assemblies);\napp.UseEventBus();\n\nvar server = new EventServer();\nserver.Start(\"127.0.0.1\", 39561);\nawait client.ConnectAsync(\"127.0.0.1\", 39561);",
-        "CSharpCode002": "AddStep(DemoKeys.StepServer, new EventBusPage());\nAddStep(DemoKeys.StepConnect, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepPublish, new EventBusPage());\nAddStep(DemoKeys.StepQuery, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepObserve, new LoggingCorePage());\nAttachSceneShell();\n\nLogger.Info(\"Example\");\nclient.Publish(\"demo.greeting\", \"hello\", out _);"
-      },
-      "MainViewModel": {
-        "BuildGlobalProperties026": "Dark",
-        "RunSmokeAsync015": "Smoke check: bus={0}, query={1:HH:mm:ss}, serialization={2}",
-        "RunSmokeAsync013": "CodeWF.Toolkit demo",
-        "BuildGlobalProperties032": "Workspace appearance settings, configured through PropertyGrid.",
-        "RunSmokeAsync012": "Smoke started",
-        "RunSmokeAsync017": "Smoke complete",
-        "ApplyAppearance018": "Dark",
-        "BuildGlobalProperties023": "Mode",
-        "WriteSampleLogs008": "Demo: information log",
-        "BuildGlobalProperties024": "Light",
-        "OnGlobalPropertyCommitted035": "Dark",
-        "ApplyAppearance020": "Appearance: {0} / {1}",
-        "WriteSampleLogs011": "Sample exception",
-        "ToggleTool005": "Showing panel: ",
-        "BuildGlobalProperties027": "Dark",
-        "SelectedCulture002": "Language changed to ",
-        "Content001": "简体中文",
-        "BuildGlobalProperties034": "Workspace language settings.",
-        "BuildGlobalProperties030": "Application language; changes take effect immediately (I18nManager.Culture).",
-        "SyncGlobalItems037": "Light",
-        "SyncGlobalItems036": "Dark",
-        "WriteSampleLogs010": "Demo: error log",
-        "RunSmokeAsync014": "Serialization round-trip",
-        "BuildGlobalProperties031": "Appearance",
-        "WriteSampleLogs009": "Demo: warning log",
-        "SyncDocumentClosed004": "Closed document: ",
-        "BuildGlobalProperties028": "Light / dark mode. Fixed Semi palettes keep their own brightness.",
-        "ResetLayout007": "Reset workspace layout",
-        "RunSmokeAsync016": "Smoke failed",
-        "BuildGlobalProperties025": "Dark",
-        "BuildGlobalProperties029": "Language",
-        "BuildGlobalProperties022": "Palette: .NET Purple / AI Aurora / AI Ember, plus six Semi palettes.",
-        "BuildGlobalProperties033": "Language",
-        "ToggleTool006": "Hiding panel: ",
-        "OpenItem003": "Opened document: ",
-        "BuildGlobalProperties021": "Palette",
-        "ApplyAppearance019": "Light"
-      },
-      "WelcomePage": {
-        "View002": "Pub/sub · queries · integrations",
-        "View001": "Core extensions · app infrastructure",
-        "View005": "Log streams · file rotation",
-        "View006": "Binary protocols · TCP / UDP",
-        "View003": "Formats · archives · indexing",
-        "View004": "Conversions · icons · QR codes"
-      },
-      "ScenePageBase": {
-        "GoToStep001": "Workflow step {0}/{1}: {2}"
-      },
-      "MainViewModelShell": {
-        "CommitRename001": "Restored original name: {0}",
-        "LoadLayoutFrom004": "Layout restored: ",
-        "LoadLayoutFrom005": "Failed to restore layout: ",
-        "CommitRename002": "Renamed: {0} → {1}",
-        "SaveLayoutTo003": "Failed to save layout: "
-      },
-      "LabFlowPage": {
-        "CSharpCode002": "AddStep(DemoKeys.StepFormat, new FilesFormatPage());\nAddStep(DemoKeys.StepArchive, new FilesArchivePage());\nAddStep(DemoKeys.StepImage, new ImageIconPage());\nAddStep(DemoKeys.StepExport, new ImageQrPage());\nAttachSceneShell();\n\nvar yaml = student.ToYaml(out var error);\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(sourceDirectory, \"archive.7z\");\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qrcode.png\");",
-        "XamlCode001": "<PackageReference Include=\"CodeWF.Toolkit.Files\" />\n<PackageReference Include=\"CodeWF.Toolkit.Image\" />\n\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [24, 32, 48]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qr.png\");"
-      },
-      "ToolkitModels": {
-        "Name001": "Alice",
-        "City002": "Chengdu"
-      },
-      "DemoBootstrapper": {
-        "Initialize001": "CodeWF.Toolkit started. Log directory: "
-      }
-    },
     "Api": {
       "StringExtensions": {
         "Desc": "Split and join strings with empty-entry handling."
@@ -1140,6 +498,940 @@
       "SectionProtocol": "Protocol & Address",
       "SectionSockets": "Socket Sessions",
       "SectionRemoteFiles": "Remote Files"
+    },
+    "Content": {
+      "Core": {
+        "Properties": {
+          "TruncationLength": "Truncation length",
+          "Characters": "characters",
+          "LengthUsedByTheStringTruncationDemo": "Length used by the string truncation demo.",
+          "ExtensionMethods": "Extension methods",
+          "ParametersForTheCoreExtensionDemos": "Parameters for the Core extension demos.",
+          "Namespace": "Namespace",
+          "EnableRegexExtensions": "Enable regex extensions",
+          "WildcardExpressionUsedByIsMatch": "Wildcard expression used by IsMatch.",
+          "UpdateChecking": "Update checking",
+          "OptionsForGitHubReleaseUpdateChecking": "Options for GitHub Release update checking.",
+          "ETagConditionalCheck": "ETag conditional check",
+          "304ResponsesDoNotConsumeTheAPIQuota": "304 responses do not consume the API quota.",
+          "Endpoint": "Endpoint",
+          "WebEndpointFirstAPIFallback": "Web endpoint first, API fallback"
+        },
+        "CheckUpdateAsync": {
+          "RepositoryMustUseOwnerRepoFormat": "Repository must use owner/repo format.",
+          "ETagCacheHitsAvoidConsumingTheAPIQuota": "(ETag cache hits avoid consuming the API quota)\n",
+          "Checking": "Checking…",
+          "CheckingUpdatesCurrentFormat": "Checking updates: {0}/{1} (current {2})",
+          "UpdateCheckFailedFormat": "Update check failed: {0}",
+          "UpdateCheckResultSucceededTrueUpdateNullCurrentVersionIsFormat": "\n\nUpdateCheckResult.Succeeded = true\nUpdate = null → current version {0} is up to date",
+          "UpdateCheckAlreadyUpToDate": "Update check: already up to date",
+          "None": "(none)",
+          "CurrentNewVersionFormat": "→ Current {0}: new version {1}",
+          "UpdateCheckNewVersionFormat": "Update check: new version {0}"
+        },
+        "Content": {
+          "CodeWFToolkitIsACollectionOfNETExtensions": "CodeWF.Toolkit is a collection of .NET extensions",
+          "ClickAButtonAboveToViewItsResult": "Click a button above to view its result",
+          "NotCheckedYet": "Not checked yet",
+          "CheckUpdates": "Check updates",
+          "CoreExtensionsAndInfrastructure": "Core: extensions and infrastructure",
+          "CoreHasNoThirdPartyDependenciesTryExtensions": "Core has no third-party dependencies. Try extensions and update checking, and configure the options through the property panel."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Core.Extensions;\nusing CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Core.UpdateChecking;\n\nvar text = \"CodeWF.Toolkit is a collection of .NET extensions\";\nvar cut = text.Length > 18 ? text[..18] + \"…\" : text;\nvar size = ((double)3_221_225_472).FormatBytes();           // 3.00 GB\nvar money = 1234.ToChineseNumber();\n\nvar matched = \"CodeWF.Toolkit\".IsMatch(\"CodeWF*\");\n\nvar encoding = FileHelper.GetFileEncodeType(\"app.log\");\nawait FileHelper.SafeWriteAllTextAsync(\"app.log\", \"hello\", encoding);\n\nvar dataDir = AppDataMigrator.ResolveAndMigrate(\"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);\n\nvar checker = new UpdateChecker(\"dotnet9\", \"CodeWF.Toolkit\");\nvar result = await checker.CheckAsync(new Version(1, 0, 0, 0));\nif (!result.Succeeded) { /* result.Error */ }\nelse if (result.Update is null) { /* Up to date */ }\nelse { /* result.Update.Version / Tag / Notes / AssetUrl */ }",
+          "Xaml": "<PackageReference Include=\"CodeWF.Toolkit.Core\" />"
+        },
+        "data": {
+          "ApplicationDataDirectoriesAndEncodingDetection": "Application data directories and encoding detection",
+          "VarDataDirAppDataMigratorResolveAndMigrateCodeWFToolkitConfigJson": "var dataDir = AppDataMigrator.ResolveAndMigrate(\n    \"CodeWF.Toolkit\", \"config.json\", AppContext.BaseDirectory);",
+          "FileHelperGetFileEncodeTypeEncodingDetectionFileHelperSafeReadAllTextSafeText": "FileHelper.GetFileEncodeType: encoding detection\nFileHelper.SafeReadAllText: safe text input\nFileHelper.SafeWriteAllText: safe text output\nAppDataMigrator: application data migration"
+        },
+        "RunBytes": {
+          "CoreExtensionDemoByteFormatting": "Core extension demo: byte formatting"
+        },
+        "RunMatch": {
+          "Extensions": "*extensions*",
+          "RegexExtensionsIsMatchWildcardCharacterDigitLetter": "RegexExtensions.IsMatch: * wildcard, ? character, # digit, @ letter:\n",
+          "CoreExtensionDemoPatternMatching": "Core extension demo: pattern matching"
+        },
+        "RunSlug": {
+          "ReplaceNonAlphanumericCharactersAndLowercaseFormat": "Replace non-alphanumeric characters and lowercase:\n{0}",
+          "CoreExtensionDemoIdentifierConversion": "Core extension demo: identifier conversion"
+        },
+        "RunTruncate": {
+          "OriginalTruncatedToFormat": "Original: {0}\nTruncated to {1}: {2}",
+          "CoreExtensionDemoTruncateToCharactersFormat": "Core extension demo: truncate to {0} characters"
+        },
+        "tools": {
+          "StringNumericExtensionsRealCalls": "String / numeric extensions (real calls)",
+          "TruncateTo18": "Truncate to 18",
+          "ConvertToIdentifier": "Convert to identifier",
+          "ByteUnits": "Byte units",
+          "MatchPattern": "Match pattern",
+          "SetTruncationLengthInThePropertyPanelByte": "Set truncation length in the property panel; byte formatting uses DoubleExtensions.FormatBytes.",
+          "StringExtensionsMatchingAndJoiningDoubleExtensionsReadableByteSizes": "StringExtensions: matching and joining\nDoubleExtensions: readable byte sizes\nDateTimeExtensions: date helpers\nEnumExtensions: enum descriptions"
+        },
+        "update": {
+          "UpdateChecker": "UpdateChecker",
+          "Repository": "Repository",
+          "CurrentVersion": "Current version",
+          "EnableETagCache": "Enable ETag cache",
+          "ChecksTheReleasesLatestRedirectFirstReusesCached": "Checks the releases/latest redirect first, reuses cached tags, and falls back to the API. ETag 304 responses avoid consuming the API quota."
+        }
+      },
+      "DemoBootstrapper": {
+        "Initialize": {
+          "CodeWFToolkitStartedLogDirectory": "CodeWF.Toolkit started. Log directory: "
+        }
+      },
+      "EventBusIntegrations": {
+        "Append": {
+          "AwaitingStartup": "Awaiting startup"
+        },
+        "aspnet": {
+          "AutomaticallyDiscoverHandlersAndInitializeThemWithThe": "Automatically discover handlers and initialize them with the request pipeline."
+        },
+        "Properties": {
+          "HostIntegration": "Host integration",
+          "ConnectionAndKeepAliveSettingsForTheDistributed": "Connection and keep-alive settings for the distributed bus.",
+          "InProcess": "In-process",
+          "Port": "Port",
+          "EventServerListenPort": "EventServer listen port.",
+          "HeartbeatSeconds": "Heartbeat (seconds)",
+          "ClientHeartbeatInterval": "Client heartbeat interval.",
+          "ReplayOfflineMessages": "Replay offline messages",
+          "OfflineClientMessagesAreReplayedAfterReconnection": "Offline client messages are replayed after reconnection."
+        },
+        "Content": {
+          "Stopped": "● Stopped",
+          "Disconnected": "● Disconnected",
+          "AwaitingServerStartup": "Awaiting server startup…",
+          "ClientSubscriptionFormat": "[Client subscription] {0}",
+          "StartServerAndClient": "Start server and client",
+          "Stop": "Stop",
+          "BusIntegrations": "Bus integrations",
+          "OneHandlerModelForThreeHostIntegrationsSocket": "One handler model for three host integrations. Socket supports cross-process and cross-machine communication; try a local connection below."
+        },
+        "Source": {
+          "CSharp": "using PrismBus = CodeWF.Toolkit.EventBus.Prism.EventBusExtensions;\nusing AspNetBus = CodeWF.Toolkit.EventBus.AspNetCore.EventBusExtensions;\n\nPrismBus.AddEventBus(containerRegistry, assemblies);\nPrismBus.UseEventBus(container, assemblies);\nAspNetBus.AddEventBus(builder.Services, assemblies);\nAspNetBus.UseEventBus(app, assemblies);\n\nusing var server = new EventServer();\nawait server.StartAsync(\"127.0.0.1\", 39561);\nusing var client = new EventClient();\nawait client.ConnectAsync(\"127.0.0.1\", 39561);\nclient.Subscribe<string>(\"demo.greeting\", message => Console.WriteLine(message));\nclient.Publish(\"demo.greeting\", \"hello\", out var error);\nclient.Disconnect();\nserver.Stop();",
+          "Xaml": "<PackageReference Include=\"CodeWF.Toolkit.EventBus.Socket\" />"
+        },
+        "prism": {
+          "UsingCodeWFToolkitEventBusPrismContainerRegistryAddEventBusAssemblies": "using CodeWF.Toolkit.EventBus.Prism;\n\ncontainerRegistry.AddEventBus(assemblies);\ncontainer.UseEventBus(assemblies);",
+          "ForPrismDryIocAvaloniaRegisterHandlersInThe": "For Prism.DryIoc.Avalonia: register handlers in the container and initialize them with the module."
+        },
+        "Publish": {
+          "StartTheServerAndClientFirst": "Start the server and client first.",
+          "ClientPublishDeliveredFormat": "client.Publish(\"{0}\", \"{1}\") → delivered",
+          "ClientPublishFailedFormat": "client.Publish failed: {0}",
+          "SocketBusPublishFormat": "Socket bus publish: {0} = {1}"
+        },
+        "socket": {
+          "DistributedSocketBusEventServerEventClientRealConnection": "Distributed Socket bus: EventServer / EventClient (real connection)",
+          "ServerClient": "Server / client",
+          "ListenAddress": "Listen address",
+          "Port": "Port",
+          "HeartbeatSeconds": "Heartbeat (seconds)",
+          "Server": "Server",
+          "Client": "Client",
+          "HeartbeatReconnectionAndOfflineReplayNetWrapperProvidesThe": "Heartbeat, reconnection, and offline replay; NetWrapper provides the transport.",
+          "PublishSubscribe": "Publish / subscribe",
+          "Topic": "Topic",
+          "Content": "Content",
+          "ClearSession": "Clear session"
+        },
+        "StartAsync": {
+          "RunningFormat": "● Running ({0}:{1})",
+          "Connected": "● Connected",
+          "ConnectionFailed": "● Connection failed",
+          "EventClientConnectAsyncConnectedToFormat": "EventClient.ConnectAsync → connected to {0}:{1}",
+          "EventClientConnectAsyncFailed": "EventClient.ConnectAsync → failed",
+          "ClientSubscribeStringDemoGreetingSubscribed": "client.Subscribe<string>(\"demo.greeting\", …) → subscribed",
+          "SocketBusStartedFormat": "Socket bus started: {0}:{1}",
+          "StartupFailedFormat": "Startup failed: {0}",
+          "SocketBusStartupFailed": "Socket bus startup failed"
+        },
+        "StopAsync": {
+          "Stopped": "● Stopped",
+          "Disconnected": "● Disconnected",
+          "SocketBusStopped": "Socket bus stopped"
+        }
+      },
+      "EventBus": {
+        "Append": {
+          "SessionCleared": "Session cleared"
+        },
+        "Properties": {
+          "BusInstance": "Bus instance",
+          "TheActualEventBusInstanceOwnedByThisDemo": "The actual EventBus instance owned by this demo.",
+          "PublishAsynchronously": "Publish asynchronously",
+          "UsePublishAsyncWhenEnabled": "Use PublishAsync when enabled.",
+          "AssemblyScanning": "Assembly scanning",
+          "RegisterEventHandlerMethodsFromAnAssembly": "Register [EventHandler] methods from an assembly.",
+          "HandlerOrder": "Handler order",
+          "ExecutionOrderWhenACommandHasMultipleHandlers": "Execution order when a command has multiple handlers."
+        },
+        "ClearFeed": {
+          "SessionCleared": "Session cleared",
+          "EventBusSessionCleared": "EventBus session cleared"
+        },
+        "Content": {
+          "BusReadyTwoGreetCommandSubscribersAndOneTimeQuery": "Bus ready: two GreetCommand subscribers and one TimeQuery handler",
+          "RemoveSecondSubscription": "Remove second subscription",
+          "Subscribed": "Subscribed",
+          "InProcessEventBus": "In-process event bus",
+          "PublishSubscribeCommandQueryAndUnsubscribeRunThrough": "Publish / subscribe, Command / Query, and unsubscribe run through the real local event bus."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.EventBus;\n\nvar bus = new EventBus();\n\nAction<GreetCommand> first = cmd => Console.WriteLine($\"[lambda] {cmd.Name}\");\nbus.Subscribe(first);\n\nbus.Subscribe(new TimeQueryHandler());\nbus.Subscribe<GreetCommand>(cmd => Console.WriteLine($\"[lambda2] {cmd.Name}\"));\n\nbus.Publish(new GreetCommand(\"CodeWF\"));\nawait bus.PublishAsync(new GreetCommand(\"Toolkit\"));\n\nvar query = new TimeQuery();\nbus.Query(query);\nConsole.WriteLine($\"Example\");\n\nbus.Unsubscribe(first);\nbus.Unsubscribe<TimeQueryHandler>();\nbus.Unsubscribe(handler);\n\nbus.Subscribe([typeof(TimeQueryHandler).Assembly]);",
+          "Xaml": "<PackageReference Include=\"CodeWF.Toolkit.EventBus\" />"
+        },
+        "OnPropertyCommitted": {
+          "AssemblyScanningTimeQueryHandlerRegistered": "Assembly scanning: TimeQueryHandler registered",
+          "EventBusRegisteringHandlersFromTheAssembly": "EventBus: registering handlers from the assembly"
+        },
+        "Publish": {
+          "EventBusPublishGreetCommandFormat": "EventBus publish: GreetCommand(\"{0}\")"
+        },
+        "PublishAsync": {
+          "EventBusAsyncPublishGreetCommandFormat": "EventBus async publish: GreetCommand(\"{0}\")"
+        },
+        "Query": {
+          "QueryTimeQueryResultFormat": "[Query] TimeQuery.Result = {0:HH:mm:ss.fff}",
+          "EventBusQueryTimeQuery": "EventBus query: TimeQuery"
+        },
+        "registration": {
+          "Registration": "Registration",
+          "EventBusSubscribePublishNoDependenciesEventBusPrismDesktop": "EventBus: Subscribe / Publish, no dependencies\nEventBus.Prism: desktop DI integration\nEventBus.AspNetCore: web application integration\nEventBus.Socket: distributed messages, heartbeat, reconnection, and offline replay"
+        },
+        "session": {
+          "SessionLiveBus": "Session (live bus)",
+          "Clear": "Clear",
+          "HandlerExceptionsPropagatePublishAsyncExecutesSubscribersInRegistration": "Handler exceptions propagate; PublishAsync executes subscribers in registration order."
+        },
+        "subscriptions": {
+          "Subscriptions": "Subscriptions",
+          "GreetCommandLambdaRegisteredGreetCommandEventHandlerRegisteredLaterOrder": "GreetCommand   lambda          registered\nGreetCommand   [EventHandler]  registered (later order)\nTimeQuery      [EventHandler]  registered (query result)",
+          "SecondGreetCommandSubscription": "Second GreetCommand subscription: "
+        },
+        "ToggleSecondSubscription": {
+          "RemoveSecondSubscription": "Remove second subscription",
+          "Subscribed": "Subscribed",
+          "RestoreSecondSubscription": "Restore second subscription",
+          "Unsubscribed": "Unsubscribed",
+          "Enabled": "Enabled",
+          "Cancel": "Cancel",
+          "SecondEventBusSubscriptionFormat": "Second EventBus subscription: {0}"
+        }
+      },
+      "FilesArchive": {
+        "Append": {
+          "Ready": "Ready"
+        },
+        "archive": {
+          "ArchiveCompressionSharpCompress": "Archive compression (SharpCompress)",
+          "PrepareSampleFiles": "Prepare sample files",
+          "ClearOutput": "Clear output",
+          "SharpCompressZIPCompressionWithLZMAAndUTF8": "SharpCompress ZIP compression with LZMA and UTF-8 names. Entries use a shared root; files on different drives are rejected."
+        },
+        "Properties": {
+          "CompressionOptions": "Compression options",
+          "DemoParametersOutputFilenamesAreFixed": "Demo parameters; output filenames are fixed.",
+          "CompressionAlgorithm": "Compression algorithm",
+          "UTF8EntryNames": "UTF-8 entry names",
+          "SampleFileCount": "Sample file count",
+          "Items": "items",
+          "NumberOfSampleFilesToCreate": "Number of sample files to create.",
+          "ConfigurationEntry": "Configuration entry",
+          "AppConfigReadWriteDemo": "App.config read / write demo.",
+          "FileLocation": "File location",
+          "IncludeABOMWhenWritingAppSettings": "Include a BOM when writing appSettings."
+        },
+        "Compress": {
+          "CompleteArchive7zBytesEntriesLZMAUTF8Format": "Complete: archive.7z ({0} bytes, {1} entries, LZMA / UTF-8)",
+          "ArchiveCompleteEntriesBytesFormat": "Archive complete: {0} entries, {1} bytes",
+          "CompressionFailed": "Compression failed: ",
+          "ArchiveCompressionFailed": "Archive compression failed"
+        },
+        "config": {
+          "Write": "Write",
+          "SetGetOrAddUseLightweightXMLWritesSuitableFor": "Set / GetOrAdd use lightweight XML writes suitable for trimming. Configuration overloads require unreferenced code."
+        },
+        "Content": {
+          "ReadyOutputTEMPCodeWFToolkitDemoArchive": "Ready (output: %TEMP%\\CodeWFToolkitDemo\\archive)",
+          "ArchivesAndAppConfig": "Archives and App.config",
+          "SevenZipCompressorUsesSharpCompressAndAppConfigHelperHandlesAppSettingsThe": "SevenZipCompressor uses SharpCompress and AppConfigHelper handles appSettings. The operations below write real files."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Core.FileExtensions;\nusing CodeWF.Toolkit.Files.Helpers;\n\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(\"docs/Export results\", \"archive.7z\", rootdir: \"docs\");\ncompressor.Decompress(\"archive.7z\", \"out/restored\");\n\nAppConfigHelper.Set(\"App.Language\", \"en-US\");\nvar ok = AppConfigHelper.TryGet<string>(\"App.Language\", out var lang);\nAppConfigHelper.SetOrAdd(\"Log.MinimumLevel\", \"Information\");\nvar level = AppConfigHelper.GetOrAdd(\"Log.MinimumLevel\", \"Information\");"
+        },
+        "Decompress": {
+          "RunCompressFirst": "Run Compress first.",
+          "RestoredFiles": "Restored files:\n  ",
+          "ArchiveExtractedFilesRestoredFormat": "Archive extracted: {0} files restored",
+          "ExtractionFailed": "Extraction failed: ",
+          "ArchiveExtractionFailed": "Archive extraction failed"
+        },
+        "DescribeConfig": {
+          "NotCreatedYetFormat": "(not created yet) {0}",
+          "NotSet": "(not set)"
+        },
+        "PrepareSamples": {
+          "ExportResults": "Export results",
+          "ReadmeMd": "Readme.md",
+          "CodeWFToolkitSampleDocument": "# CodeWF.Toolkit sample document\n",
+          "NameAgeCityAlice20Chengdu": "Name,Age,City\nAlice,20,Chengdu\n",
+          "PrototypeHtml": "Prototype.html",
+          "ToolkitDesignReference": "<!-- Toolkit design reference -->\n",
+          "SampleFilesPreparedFormat": "Sample files prepared: {0}",
+          "ArchiveDemoSampleFilesPrepared": "Archive demo: sample files prepared"
+        },
+        "WriteConfig": {
+          "EnterAKey": "Enter a Key.",
+          "TryGetReadFormat": "TryGet → {0}; read {1} = {2}",
+          "AppConfigWrittenFormat": "App.config written: {0} = {1}",
+          "WriteFailed": "Write failed: ",
+          "AppConfigWriteFailed": "App.config write failed"
+        }
+      },
+      "FilesFormat": {
+        "backward": {
+          "TextObject": "Text → object",
+          "ExtensionsUseOutErrorParsingReturnsFalseWith": "Extensions use out error: parsing returns false with an error message instead of throwing."
+        },
+        "Properties": {
+          "FormatOptions": "Format options",
+          "DefaultFileIOOptions": "Default file I/O options.",
+          "DefaultFormat": "Default format",
+          "WriteRetries": "Write retries",
+          "Retries": "retries",
+          "NumberOfRetriesForSafeFileHelperIO": "Number of retries for safe FileHelper I/O.",
+          "IncludeABOMWhenWritingFiles": "Include a BOM when writing files."
+        },
+        "Content": {
+          "SelectAnOutputFormat": "Select an output format",
+          "AwaitingParsing": "Awaiting parsing",
+          "FilesJSONYAMLCSVExcel": "Files: JSON / YAML / CSV / Excel",
+          "RealRoundTripConversionUsingSystemTextJson": "Real round-trip conversion using System.Text.Json, YamlDotNet, CsvHelper, and MiniExcel."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Files.Extensions;\nusing CodeWF.Toolkit.Files.Exports;\n\nvar student = new Student { Name = \"Alice\", Age = 20, City = \"Chengdu\" };\n\nstudent.ToJson(out var json, out var error1);\nstudent.ToYaml(out var yaml, out var error2);\n\njson.FromJson<Student>(out var fromJson, out var error3);\nyaml.FromYaml<Student>(out var fromYaml, out var error4);\n\njson.JsonPrettify(2, sortKeys: true, out var pretty, out _);\njson.JsonToYaml(out var yaml2, out _);\n\n// DataTable ↔ Csv / Excel\ndataTable.ExportToCsv(\"students.csv\", Encoding.UTF8, out var error5);\n\"students.csv\".ImportFromCsv(out var error6, out var table);\ndataTable.ExportToXlsx(\"students.xlsx\", out var error7);",
+          "Xaml": "<ItemGroup>\n  <PackageReference Include=\"CodeWF.Toolkit.Files\" Version=\"1.0.0.1\" />\n</ItemGroup>"
+        },
+        "forward": {
+          "ObjectTextRealCall": "Object → text (real call)",
+          "JsonPrettifyAndSort": "JsonPrettify and sort"
+        },
+        "FromJson": {
+          "Failed": "Failed: ",
+          "FileFormatDemoFromJson": "File format demo: FromJson"
+        },
+        "FromYaml": {
+          "Failed": "Failed: ",
+          "FileFormatDemoFromYaml": "File format demo: FromYaml"
+        },
+        "JsonToYaml": {
+          "Failed": "Failed: ",
+          "FileFormatDemoJsonToYaml": "File format demo: JsonToYaml"
+        },
+        "model": {
+          "DataModel": "Data model",
+          "PublicSealedClassStudentAlicePublicIntAge": "public sealed class Student\n{\n    public string Name { get; set; } = \"Alice\";\n    public int Age { get; set; } = 20;\n    public string City { get; set; } = \"Chengdu\";\n}"
+        },
+        "Prettify": {
+          "Failed": "Failed: ",
+          "FileFormatDemoJsonPrettifyIndent2SortedKeys": "File format demo: JsonPrettify (indent 2, sorted keys)"
+        },
+        "RunCsvRoundTrip": {
+          "Yes": "Yes",
+          "No": "No",
+          "FileSizeBytesUTF8BOMFormat": "File size: {0} bytes · UTF-8 BOM: {1}",
+          "RestoredRowsColumnsFirstRowFormat": "Restored: {0} rows, {1} columns → first row {2}",
+          "FileFormatDemoDataTableCSVRoundTrip": "File format demo: DataTable CSV round-trip"
+        },
+        "table": {
+          "DataTableCSVExcelRealFileRoundTrip": "DataTable ↔ CSV / Excel (real file round-trip)",
+          "ExportAndImportCSV": "Export and import CSV",
+          "DataTableExtensionsExportToCsvExportToXlsxDataTableExtensionsImportFromCsvImportFromExcelImportBy": "DataTableExtensions.ExportToCsv / ExportToXlsx\nDataTableExtensions.ImportFromCsv / ImportFromExcel / Import (by extension)",
+          "FilesAreWrittenUnderTEMPCodeWFToolkitDemo": "Files are written under %TEMP%\\CodeWFToolkitDemo."
+        },
+        "ToJson": {
+          "Failed": "Failed: ",
+          "FileFormatDemoToJson": "File format demo: ToJson"
+        },
+        "ToYaml": {
+          "Failed": "Failed: ",
+          "FileFormatDemoToYaml": "File format demo: ToYaml"
+        }
+      },
+      "FilesIndex": {
+        "BuildMatrix": {
+          "BuiltInSystemTextJson": "Built-in System.Text.Json",
+          "ReflectionOverloadsRequireUnreferencedCodeUseJsonTypeInfoT": "Reflection overloads require unreferenced code; use JsonTypeInfo<T> for AOT.",
+          "ReflectionBasedSerializerBuilderUseStaticSourceGenerationFor": "Reflection-based SerializerBuilder; use static source generation for AOT.",
+          "DataTableRoundTripsForBatchExports": "DataTable round-trips for batch exports",
+          "ArchiveCompression": "Archive compression",
+          "CheckSharpCompressSupportBeforeUsingSplitArchivesOr": "Check SharpCompress support before using split archives or encryption.",
+          "NotTrimSafeUseFilePathOverloadsFor": "Not trim safe; use file path overloads for AOT.",
+          "SafeFileIO": "Safe file I/O",
+          "StringByteFileIOWithRetries": "String / byte file I/O with retries",
+          "Capability": "Capability",
+          "Dependencies": "Dependencies",
+          "Notes": "Notes"
+        },
+        "Properties": {
+          "DefaultFormat": "Default format",
+          "DefaultSerializationFormatInTheDemo": "Default serialization format in the demo.",
+          "AOTFriendlyMode": "AOT-friendly mode",
+          "RecommendJsonTypeInfoTAndStaticGeneratedSerializersWhen": "Recommend JsonTypeInfo<T> and static generated serializers when enabled."
+        },
+        "Content": {
+          "CapabilityMatrix": "Capability matrix",
+          "RelatedPages": "Related pages",
+          "TryJSONYAMLCSVRoundTripsOnFile": "Try JSON / YAML / CSV round-trips on File Formats, or archives and App.config on Archive Configuration.",
+          "ThisPageIndexesTheAPIsUseTheLinked": "This page indexes the APIs; use the linked demos to try them.",
+          "RoundTripDemosSameAPIsAsFileFormats": "Round-trip demos (same APIs as File Formats)",
+          "OpenFileFormatsOrArchiveConfigurationFromThe": "Open File Formats or Archive Configuration from the navigation to try the APIs."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Files.Extensions;\n\nvar json = student.ToJson(out var error);\n\nvar yaml = student.ToYaml(out error);\n\n// Csv / Excel：DataTableExtensions（CsvHelper / MiniExcel）\ndataTable.ToExcel(\"students.xlsx\");\n\nawait FileExtension.SafeWriteAllTextAsync(\"app.log\", \"hello\");"
+        }
+      },
+      "ImageIcon": {
+        "Properties": {
+          "IconOptions": "Icon options",
+          "ICOGenerationParameters": "ICO generation parameters.",
+          "IncludedSizes": "Included sizes",
+          "PNGCompression": "PNG compression",
+          "MagickNETOutputCompressionSwitch": "Magick.NET output compression switch.",
+          "Quality": "Quality",
+          "OutputImageQuality": "Output image quality.",
+          "InputOutput": "Input / output",
+          "DemoDirectoryAndSourceImage": "Demo directory and source image.",
+          "SourceImage": "Source image",
+          "OutputDirectory": "Output directory"
+        },
+        "Content": {
+          "ReadyOutputTEMPCodeWFToolkitDemoImage": "Ready (output: %TEMP%\\CodeWFToolkitDemo\\image)",
+          "IconsMergeAndSeparateMultipleSizes": "Icons: merge and separate multiple sizes",
+          "ImageHelperMergeGenerateIconSeparateGenerateIconUseMagickNETGenerateActual": "ImageHelper.MergeGenerateIcon / SeparateGenerateIcon use Magick.NET. Generate actual files in a temporary directory."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Image;\n\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\n\nawait ImageHelper.SeparateGenerateIcon(\"logo.png\", \"out/icons\", [16, 32]);\n\nusing var image = new MagickImage(\"photo.jpg\");\nimage.Resize(800, 0);\nimage.Write(\"photo.webp\");"
+        },
+        "merge": {
+          "MergeMergeGenerateIcon": "Merge (MergeGenerateIcon)",
+          "SourceImage": "Source image",
+          "OutputFile": "Output file",
+          "ResetToRepositoryLogo": "Reset to repository logo",
+          "SizePreviewsPopulatedAfterGeneration": "Size previews (populated after generation)",
+          "SizesAreSetByIncludedSizesInThe": "Sizes are set by Included Sizes in the property panel; default: 16,24,32,48,64,128,256."
+        },
+        "Merge": {
+          "SourceImageNotFoundFormat": "Source image not found: {0}",
+          "CompleteBytesSizesFormat": "Complete: {0}\n{1} bytes · {2} sizes",
+          "IconGeneratedSizesBytesFormat": "Icon generated: {0} sizes, {1} bytes",
+          "MergeFailed": "Merge failed: ",
+          "IconGenerationFailed": "Icon generation failed"
+        },
+        "others": {
+          "OtherImageCapabilitiesMagickNET": "Other image capabilities (Magick.NET)",
+          "FormatsPNGJPGWebPBMPWithQualityOptions": "Formats: PNG / JPG / WebP / BMP, with quality options\nResize: preserve aspect ratio or set dimensions\nWatermarks: text or images with position and opacity\nICO: merge and separate sizes\nQR: QrCodeGenerator"
+        },
+        "separate": {
+          "SeparateSeparateGenerateIcon": "Separate (SeparateGenerateIcon)",
+          "SourceIcon": "Source icon",
+          "OutputDirectory": "Output directory",
+          "SizeList": "Size list"
+        },
+        "Separate": {
+          "SourceImageNotFoundFormat": "Source image not found: {0}",
+          "CompleteOutputFilesFormat": "Complete, output files:\n  {0}",
+          "IconSeparatedFilesFormat": "Icon separated: {0} files",
+          "SeparationFailed": "Separation failed: ",
+          "IconSeparationFailed": "Icon separation failed"
+        }
+      },
+      "ImageQr": {
+        "Properties": {
+          "QRCodeOptions": "QR code options",
+          "FixedQrCodeGeneratorParametersInTheCurrentImplementation": "Fixed QrCodeGenerator parameters in the current implementation.",
+          "QRCodeSize": "QR code size",
+          "400400FinalCanvasWidth500": "400 × 400 (final canvas width: 500)",
+          "ErrorCorrection": "Error correction",
+          "CharacterSet": "Character set",
+          "ImageProcessing": "Image processing",
+          "SampleProcessingOptions": "Sample processing options.",
+          "OutputQuality": "Output quality",
+          "GeneratePreview": "Generate preview",
+          "ScaleTheGeneratedImageForPreview": "Scale the generated image for preview."
+        },
+        "Content": {
+          "ScanToVisitTheRepository": "Scan to visit the repository",
+          "ReadyToGenerateOutputTEMPCodeWFToolkitDemoImage": "Ready to generate (output: %TEMP%\\CodeWFToolkitDemo\\image)",
+          "QRCodesAndImageProcessing": "QR codes and image processing",
+          "QrCodeGeneratorProducesImageFilesThatCanBeProcessed": "QrCodeGenerator produces image files that can be processed with ImageHelper / Magick.NET. Generate a real QR code below."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Image;\nusing ImageMagick;\n\nQrCodeGenerator.GenerateQrCode(\n    title: \"CodeWF.Toolkit\",\n    content: \"https://github.com/dotnet9/CodeWF.Toolkit\",\n    imagePath: \"qrcode.png\",\n    subTitle: \"Scan to visit the repository\");\n\nusing var image = new MagickImage(\"qrcode.png\");\nimage.Resize(300, 0);\nimage.Write(\"qrcode-preview.png\");"
+        },
+        "generate": {
+          "GenerateQRCodeQrCodeGenerator": "Generate QR code (QrCodeGenerator)",
+          "Title": "Title",
+          "Content": "Content",
+          "Subtitle": "Subtitle",
+          "GenerateQRCode": "Generate QR code",
+          "ZXingCreatesTheQRBitmapMagickNETAdds": "ZXing creates the QR bitmap; Magick.NET adds the title and subtitle. Canvas: 500×600 (630 with subtitle), H correction, UTF-8."
+        },
+        "Generate": {
+          "CompleteBytes100QualityFormat": "Complete: {0}\n{1} bytes · 100% quality",
+          "QRCodeGeneratedBytesFormat": "QR code generated: {0}, {1} bytes",
+          "GenerationFailed": "Generation failed: ",
+          "QRCodeGenerationFailed": "QR code generation failed"
+        },
+        "pipeline": {
+          "ImagePipelineImageHelperMagickNET": "Image pipeline (ImageHelper / Magick.NET)",
+          "ConvertNewMagickImagePhotoJpgWritePhotoWebp": "Convert: new MagickImage(\"photo.jpg\").Write(\"photo.webp\");\nResize: image.Resize(800, 0);\nWatermark: text or image composition\nIcons: ImageHelper.MergeGenerateIcon / SeparateGenerateIcon"
+        },
+        "preview": {
+          "PreviewScaledGeneratedImage": "Preview (scaled generated image)"
+        }
+      },
+      "LabFlow": {
+        "CSharpCode": {
+          "AddStepDemoKeysStepFormatNewFilesFormatPageAddStepDemoKeysStepArchive": "AddStep(DemoKeys.StepFormat, new FilesFormatPage());\nAddStep(DemoKeys.StepArchive, new FilesArchivePage());\nAddStep(DemoKeys.StepImage, new ImageIconPage());\nAddStep(DemoKeys.StepExport, new ImageQrPage());\nAttachSceneShell();\n\nvar yaml = student.ToYaml(out var error);\nvar compressor = new SevenZipCompressor(httpClient);\ncompressor.Zip(sourceDirectory, \"archive.7z\");\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [16, 24, 32, 48, 64, 128, 256]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qrcode.png\");"
+        },
+        "XamlCode": {
+          "PackageReferenceIncludeCodeWFToolkitFilesPackageReferenceIncludeCodeWF": "<PackageReference Include=\"CodeWF.Toolkit.Files\" />\n<PackageReference Include=\"CodeWF.Toolkit.Image\" />\n\nawait ImageHelper.MergeGenerateIcon(\"logo.png\", \"logo.ico\", [24, 32, 48]);\nQrCodeGenerator.GenerateQrCode(\"CodeWF\", \"https://codewf.com\", \"qr.png\");"
+        }
+      },
+      "LoggingCore": {
+        "ApplyTemplate": {
+          "Category": "{Timestamp:HH:mm:ss.fff} {Level:en} {Message} [Category {Category}]{NewLine}",
+          "LineTemplateUpdatedFormat": "LineTemplate updated:\n{0}",
+          "OutputTemplateUpdated": "Output template updated",
+          "TemplateValidationFailedFormat": "Template validation failed:\n{0}\n\n{1}",
+          "OutputTemplateValidationFailed": "Output template validation failed: "
+        },
+        "Properties": {
+          "MinimumLevel": "Minimum level",
+          "FilterLevelForConsoleAndUIEventOutput": "Filter level for console and UI event output.",
+          "ConsoleOutput": "Console output",
+          "FileRotation": "File rotation",
+          "RotateBySequenceNumberAboveThePerFile": "Rotate by sequence number above the per-file size limit.",
+          "LoggerOptions": "Logger options",
+          "MapsToLoggerOptions": "Maps to LoggerOptions.",
+          "PerFileLimitMB": "Per-file limit (MB)",
+          "RetentionDays": "Retention days",
+          "Days": "days",
+          "RuntimeState": "Runtime state",
+          "LoggingRuntimeState": "Logging runtime state.",
+          "LogDirectory": "Log directory",
+          "EventCapacity": "Event capacity",
+          "EntriesRecentEventCapacityFormat": "{0} entries (RecentEventCapacity)"
+        },
+        "ClearStream": {
+          "UILogStreamClearedLogFilesRemainAvailable": "UI log stream cleared; log files remain available."
+        },
+        "Content": {
+          "LoggerCore": "Logger core",
+          "StaticLoggerProvidesConsoleRotatingFilesAndUI": "Static Logger provides console, rotating files, and UI events. Write real logs and observe both this page and the workspace log panel."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Logging;\n\nLogger.TryInitialize(new LoggerOptions\n{\n    MinimumLevel = LogLevel.Information,\n    EnableConsole = true,\n    File = new FileLogOptions\n    {\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\n        MaxFileSizeBytes = 32 * 1024 * 1024,\n        RetentionDays = 30,\n        BatchSize = 200,\n        FlushInterval = TimeSpan.FromMilliseconds(500),\n        OutputTemplate = null,\n    },\n    LineTemplate = \"{Timestamp:yyyy-MM-dd HH:mm:ss.fff} 【{Level:zh}】 {UserMessage}{NewLine}\",\n    QueueCapacity = 10_000,\n    QueueFullMode = LogQueueFullMode.DropTraceAndDebug,\n});\n\nLogger.Debug(\"Example\");\nLogger.Info(\"Example\");\nLogger.Warn(\"Example\");\nLogger.Error(\"Example\", new TimeoutException(\"connect timeout\"));\n\nusing var subscription = Logger.Events.Subscribe(logEvent => Console.WriteLine(logEvent.Message));\n\nLogger.LineTemplate.TryUpdate(\"{Timestamp:HH:mm:ss.fff} {Level:zh} {Message}{NewLine}\", out var error);\n\nawait Logger.ShutdownAsync();",
+          "Xaml": "<codewf:LogView Source=\"{Binding LogSource}\" MaxDisplayCount=\"500\" />"
+        },
+        "members": {
+          "Members": "Members",
+          "LoggerTryInitializeInitializeInitializeTheRuntimeLoggerTrace": "Logger.TryInitialize / Initialize: initialize the runtime\nLogger.Trace / Debug / Info / Warn / Error / Fatal: write logs\nLogger.Events: UI event stream\nLogger.FlushAsync: flush pending writes\nLogger.ShutdownAsync: complete pending writes and stop\nLogger.Health: diagnostic counters"
+        },
+        "OnDocumentOpened": {
+          "OpenedDemoLoggerCore": "Opened demo: Logger core"
+        },
+        "OnPropertyCommitted": {
+          "LoggingOptionDemoFormat": "Logging option (demo): {0} = {1}"
+        },
+        "options": {
+          "InitializationAndOptions": "Initialization and options",
+          "FileWritesAreAsynchronousFlushOrShutDown": "File writes are asynchronous; flush or shut down before exit. UI event callbacks run on a background thread.",
+          "CurrentLogDirectory": "Current log directory"
+        },
+        "SampleLogs": {
+          "DebugConfigurationLoaded": "Debug: configuration loaded",
+          "ServiceStartedListeningOn127001": "Service started, listening on 127.0.0.1:39561",
+          "MemoryUtilization82": "Memory utilization: 82%",
+          "ConnectionTimedOutSampleException": "Connection timed out (sample exception)",
+          "CriticalUnrecoverableDiskWriteFailure": "Critical: unrecoverable disk write failure"
+        },
+        "stream": {
+          "LogStreamRealLogger": "Log stream (real Logger)",
+          "MinimumDisplayLevel": "Minimum display level",
+          "Clear": "Clear",
+          "LogsReachTheConsoleAsynchronousRotatingFilesAnd": "Logs reach the console, asynchronous rotating files, and the UI event stream displayed here and in the workspace."
+        },
+        "templateButton": {
+          "ApplyCustomTemplate": "Apply custom template"
+        }
+      },
+      "LoggingMicrosoft": {
+        "Append": {
+          "AwaitingLogWrite": "Awaiting log write"
+        },
+        "Properties": {
+          "ProviderOptions": "Provider options",
+          "MapsToCodeWFLoggerOptions": "Maps to CodeWFLoggerOptions.",
+          "MinimumLevel": "Minimum level",
+          "IncludeScopes": "Include scopes",
+          "UserMessageMarker": "User-message marker",
+          "LogUserExtensionsWriteCodeWFUserLogState": "LogUser* extensions write CodeWFUserLogState.",
+          "QueueOverflowPolicy": "Queue overflow policy",
+          "RuntimeState": "Runtime state",
+          "ContainerAndEventStreamState": "Container and event-stream state.",
+          "Provider": "Provider",
+          "EventFlow": "Event flow",
+          "SharedWithStaticLogger": "Shared with static Logger"
+        },
+        "BuildProvider": {
+          "ServiceProviderBuiltRepeatedClicksDoNotRegisterIt": "ServiceProvider built; repeated clicks do not register it again.",
+          "AddCodeWFServiceProviderBuiltILoggerFactoryReady": "AddCodeWF → ServiceProvider built; ILoggerFactory ready.",
+          "CodeWFLoggerRuntimeLogEventFeedLineTemplateControllerCodeWFLogHealthRegistered": "  CodeWFLoggerRuntime / LogEventFeed / LineTemplateController / CodeWFLogHealth registered",
+          "MELProviderBuilt": "MEL provider built"
+        },
+        "Content": {
+          "AwaitingMELLogs": "Awaiting MEL logs…",
+          "UserLoggedInAtFrom": "User {User} logged in at {Time} from {Ip}",
+          "AwaitingParsing": "Awaiting parsing",
+          "BuildServiceProviderAddCodeWF": "Build ServiceProvider (AddCodeWF)",
+          "MicrosoftExtensionsLoggingProvider": "Microsoft.Extensions.Logging provider",
+          "ConnectMELLogsToTheCoreLoggerWith": "Connect MEL logs to the core Logger with file rotation, UI events, structured templates, and user-message markers."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Logging.Microsoft;\nusing Microsoft.Extensions.DependencyInjection;\nusing Microsoft.Extensions.Logging;\n\nbuilder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Console.Enabled = true;\n    options.EventFeed.Enabled = true;\n    options.Capture.Scopes = true;\n    options.BridgeStaticLogger = true;\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});\n\nvar services = new ServiceCollection();\nservices.AddLogging(builder => builder.AddCodeWF(options => options.File.DirectoryPath = logDirectory));\nawait using var provider = services.BuildServiceProvider();\nvar factory = provider.GetRequiredService<ILoggerFactory>();\nvar logger = factory.CreateLogger(\"Demo\");\n\nlogger.LogInformation(\"User {User} logged in at {Time} from {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");\n\nlogger.LogUserInformation(\"Login succeeded\", \"User {User} logged in at {Time} from {Ip}\", \"admin\", \"10:24\", \"192.168.1.8\");"
+        },
+        "options": {
+          "OptionsOverview": "Options overview",
+          "CodeWFLoggerOptionsConfigurationBindingAndValidationCodeWFFileLogOptionsFileRotation": "CodeWFLoggerOptions: configuration binding and validation\nCodeWFFileLogOptions: file rotation and retention\nCodeWFLoggerProvider: MEL integration\nCodeWFLoggerRuntime: shared logging runtime"
+        },
+        "parser": {
+          "StructuredTemplatesMessageTemplateParser": "Structured templates (MessageTemplateParser)",
+          "Template": "Template",
+          "Parameter": "Parameter",
+          "Parse": "Parse",
+          "MessageTemplateParserExtractsPlaceholderNamesAndFormatsArgumentsIncluding": "MessageTemplateParser extracts placeholder names and formats arguments, including alignment and numeric formatting."
+        },
+        "pipeline": {
+          "RealPipelineBuiltWithServiceCollection": "Real pipeline (built with ServiceCollection)",
+          "WriteAMELLog": "Write a MEL log",
+          "WriteAUserMessageLog": "Write a user-message log",
+          "TheBootstrapProviderSharesTheEventStreamWith": "The bootstrap provider shares the event stream with static Logger; logs appear in the workspace panel and log files."
+        },
+        "register": {
+          "Registration": "Registration",
+          "BuilderLoggingAddCodeWFOptions": "builder.Logging.AddCodeWF(options =>\n{\n    options.File.DirectoryPath = \"logs\";\n    options.File.RetentionDays = 7;\n    options.Capture.Scopes = true;\n    options.Capture.Activity = true;\n    options.BridgeStaticLogger = true;\n    options.Queue.FullMode = LogQueueFullMode.DropOldest;\n});",
+          "AddCodeWFRegistersCodeWFLoggerRuntimeLogEventFeedLineTemplateControllerAndCodeWFLogHealth": "AddCodeWF registers CodeWFLoggerRuntime, LogEventFeed, LineTemplateController, and CodeWFLogHealth."
+        },
+        "RunParser": {
+          "UserLoggedInAtFrom": "User {User} logged in at {Time} from {Ip}",
+          "TemplateKeysParsedResultFormat": "Template keys: {0}\nParsed result: {1}",
+          "MessageTemplateParserPlaceholdersFormat": "MessageTemplateParser: {0} placeholders"
+        },
+        "WriteStructured": {
+          "UserLoggedInAtFrom": "User {User} logged in at {Time} from {Ip}",
+          "MELInformationUserAdminLoggedInAt10": "[MEL/Information] User admin logged in at 10:24 from 192.168.1.8 (User=admin, Ip=192.168.1.8)"
+        },
+        "WriteUserMessage": {
+          "LoginSucceeded": "Login succeeded",
+          "UserLoggedInAtFrom": "User {User} logged in at {Time} from {Ip}",
+          "MELInformationLoginSucceededUserMessageFullTemplateIn": "[MEL/Information] Login succeeded (UserMessage; full template in the file)"
+        }
+      },
+      "LoggingOptions": {
+        "BuildOptionsTable": {
+          "DiscardLogsBelowThisLevel": "Discard logs below this level",
+          "ConsoleOutputOptionalForDesktopApplications": "Console output (optional for desktop applications)",
+          "LogDirectory": "Log directory",
+          "PerFileSizeLimitBeforeRotation": "Per-file size limit before rotation",
+          "RetentionDays": "Retention days",
+          "CustomizeTheOutputTemplateWithLineTemplateController": "Customize the output template with LineTemplateController",
+          "LocalizedLevelNames": "Localized level names",
+          "Parameter": "Parameter",
+          "Default": "Default",
+          "Description": "Description"
+        },
+        "Properties": {
+          "MinimumLevel": "Minimum level",
+          "DiscardLogsBelowThisLevel": "Discard logs below this level.",
+          "FileRotation": "File rotation",
+          "RotateFilesAtTheSizeLimitAndRemove": "Rotate files at the size limit and remove files past the retention period.",
+          "UIEventStream": "UI event stream",
+          "EnableTheEventStreamForDesktopLogControls": "Enable the event stream for desktop log controls."
+        },
+        "Content": {
+          "ReadyClickAButtonToViewDiagnosticsOr": "Ready: click a button to view diagnostics or recent events",
+          "OptionsOverview": "Options overview",
+          "HealthAndEventStream": "Health and event stream",
+          "LoggerHealthDiagnostics": "Logger.Health diagnostics",
+          "LoggerEventsSnapshot": "Logger.Events snapshot",
+          "WriteThreeSampleLogs": "Write three sample logs",
+          "EventCallbacksRunOnABackgroundThreadUI": "Event callbacks run on a background thread; UI subscribers must dispatch to the UI thread.",
+          "IntegrationWithCodeWFAvalonia": "Integration with CodeWF.Avalonia",
+          "CodeWFAvaloniaLogLogViewSubscribesDirectlyToThis": "CodeWF.Avalonia.Log LogView subscribes directly to this UI event stream.",
+          "TheWorkspaceLogPanelIsAnInstanceOf": "The workspace log panel is an instance of that control."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.Logging;\n\nLogger.TryInitialize(new LoggerOptions\n{\n    MinimumLevel = LogLevel.Debug,\n    EnableConsole = false,\n    File = new FileLogOptions\n    {\n        DirectoryPath = Path.Combine(AppContext.BaseDirectory, \"logs\"),\n        MaxFileSizeBytes = 32 * 1024 * 1024,\n        RetentionDays = 30,\n    },\n});\n\nvar snapshot = Logger.Health.GetSnapshot();\nvar dropped = snapshot.DroppedCount;\n\nvar recent = Logger.Events.GetRecentEvents();\n\nawait Logger.ShutdownAsync();"
+        },
+        "ShowFeed": {
+          "LoggerEventsGetRecentEventsEntriesFormat": "Logger.Events.GetRecentEvents() → {0} entries",
+          "UIEventSnapshotEntriesFormat": "UI event snapshot: {0} entries"
+        },
+        "ShowHealth": {
+          "NoneDropped": "  (none dropped)",
+          "LogHealthEntriesDroppedFormat": "Log health: {0} entries dropped"
+        },
+        "WriteSamples": {
+          "DemoInformationLog": "Demo: information log",
+          "DemoWarningLog": "Demo: warning log",
+          "DemoErrorLog": "Demo: error log",
+          "SampleException": "Sample exception"
+        }
+      },
+      "Shell": {
+        "ApplyAppearance": {
+          "Dark": "Dark",
+          "Light": "Light",
+          "AppearanceFormat": "Appearance: {0} / {1}"
+        },
+        "OnGlobalPropertyCommitted": {
+          "Dark": "Dark"
+        },
+        "RunSmokeAsync": {
+          "SmokeStarted": "Smoke started",
+          "CodeWFToolkitDemo": "CodeWF.Toolkit demo",
+          "SerializationRoundTrip": "Serialization round-trip",
+          "SmokeCheckBusQuerySerializationFormat": "Smoke check: bus={0}, query={1:HH:mm:ss}, serialization={2}",
+          "SmokeFailed": "Smoke failed",
+          "SmokeComplete": "Smoke complete"
+        },
+        "SyncGlobalItems": {
+          "Dark": "Dark",
+          "Light": "Light"
+        },
+        "CommitRename": {
+          "RestoredOriginalNameFormat": "Restored original name: {0}",
+          "RenamedFormat": "Renamed: {0} → {1}"
+        },
+        "LoadLayoutFrom": {
+          "LayoutRestored": "Layout restored: ",
+          "FailedToRestoreLayout": "Failed to restore layout: "
+        },
+        "SaveLayoutTo": {
+          "FailedToSaveLayout": "Failed to save layout: "
+        }
+      },
+      "NetPacket": {
+        "AddField": {
+          "FieldNameCannotBeEmpty": "Field name cannot be empty.",
+          "DemoStringDisplayOnlyEditTheCDeclarationFormat": "[Demo] {0,-6} string = (display only; edit the C# declaration for real wire fields)",
+          "AddedADisplayOnlyFieldWireFieldsAreFormat": "Added a display-only field {0}. Wire fields are declared by compile-time attributes and cannot change dynamically.",
+          "NetWeaverDemoAddedDisplayOnlyFieldFormat": "NetWeaver demo: added display-only field {0}"
+        },
+        "Properties": {
+          "PacketHeader": "Packet header",
+          "ValueDeclaredByNetHeadInTheSample": "Value declared by [NetHead] in the sample.",
+          "SystemIdentifierWrittenIntoThePacketHeader": "System identifier written into the packet header.",
+          "ProtocolVersionDeclaredInThePacketHeader": "Protocol version declared in the packet header.",
+          "LittleEndianInt32": "Little endian (Int32)",
+          "Int32UsesBinaryWriterLittleEndianEncoding": "Int32 uses BinaryWriter little-endian encoding.",
+          "BitFieldLayout": "Bit-field layout",
+          "UseNetFieldOffsetAttributeForAnExplicitBitFieldLayout": "Use NetFieldOffsetAttribute for an explicit bit-field layout."
+        },
+        "Content": {
+          "AwaitingSerialization": "Awaiting serialization",
+          "NetWeaverAttributeDrivenBinarySerialization": "NetWeaver: attribute-driven binary serialization",
+          "NetHeadDeclaresThePacketHeaderAndNetFieldOrderDefines": "[NetHead] declares the packet header and [NetFieldOrder] defines field order. Buttons below perform real serialization and deserialization."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.NetWeaver;\nusing CodeWF.Toolkit.NetWeaver.Base;\n\n[NetHead(0x01, 1)]\npublic sealed class SamplePacket : INetObject\n{\n    [NetFieldOrder(0)]\n    public int Id { get; set; }\n\n    [NetFieldOrder(1)]\n    public float Score { get; set; }\n\n    [NetFieldOrder(2)]\n    public string Title { get; set; } = string.Empty;\n}\n\nvar packet = new SamplePacket { Id = 42, Score = 1.0f, Title = \"hello\" };\n\nvar buffer = packet.Serialize(systemId: 1);\nvar restored = buffer.Deserialize<SamplePacket>();\n\nConsole.WriteLine($\"Example\");"
+        },
+        "declaration": {
+          "ProtocolDeclaration": "Protocol declaration",
+          "NetIgnoreMemberSkipAMemberNetFieldOffsetAttributeExplicitBitField": "[NetIgnoreMember]: skip a member\nNetFieldOffsetAttribute: explicit bit-field offsets\n[NetFieldOrder]: wire field ordering",
+          "FieldEncodingInt4LittleEndianBytesFloat": "Field encoding: int → 4 little-endian bytes; float → 4 bytes; string → length prefix and UTF-8."
+        },
+        "Deserialize": {
+          "DeserializeSamplePacketBytesFormat": "Deserialize<SamplePacket>() ← {0} bytes",
+          "RoundTripMatch": "Round-trip: match",
+          "RoundTripMismatch": "Round-trip: mismatch!",
+          "NetWeaverDeserializationRoundTripComplete": "NetWeaver deserialization: round-trip complete"
+        },
+        "fields": {
+          "WireFieldsRealSerialization": "Wire fields (real serialization)",
+          "AddField": "Add field",
+          "ClearFields": "Clear fields"
+        },
+        "head": {
+          "PacketHeader": "Packet header",
+          "ByteOrder": "Byte order",
+          "LittleEndianInt32": "Little endian (Int32)",
+          "FixedHeaderSize": "Fixed header size",
+          "BytesFormat": "{0} bytes",
+          "NetHeadDeclaresTheHeaderSerializationAndDeserializationUse": "[NetHead] declares the header. Serialization and deserialization use the same type metadata."
+        },
+        "Serialize": {
+          "SerializeSystemIdBytesFormat": "Serialize(systemId: {0}) → {1} bytes\n",
+          "HeaderNetHead0x01BytesFormat": "Header [NetHead(0x01, {0})] · {1} bytes\n\n",
+          "NetWeaverSerializationBytesSystemIdFormat": "NetWeaver serialization: {0} bytes (systemId={1})"
+        }
+      },
+      "NetSocket": {
+        "Append": {
+          "AwaitingStartup": "Awaiting startup"
+        },
+        "Properties": {
+          "ConnectionOptions": "Connection options",
+          "LocalLoopbackConnectionOptions": "Local loopback connection options.",
+          "Host": "Host",
+          "Port": "Port",
+          "AvailableTemporaryPort": "Available temporary port",
+          "ClientTimeoutSeconds": "Client timeout (seconds)",
+          "ServerHeartbeatTimeout": "Server heartbeat timeout.",
+          "ChunkSizeKB": "Chunk size (KB)",
+          "FileTransfer": "File transfer",
+          "OptionsForTheRemoteFileDemo": "Options for the remote file demo.",
+          "ResumeTransfer": "Resume transfer",
+          "ResumeFromTheByteCountInTheTemporary": "Resume from the byte count in the temporary .part file.",
+          "DownloadDirectory": "Download directory"
+        },
+        "Content": {
+          "NotStarted": "● Not started",
+          "Disconnected": "● Disconnected",
+          "AwaitingStartup": "Awaiting startup…",
+          "AwaitingDownload": "Awaiting download",
+          "StartServerAndClient": "Start server and client",
+          "Stop": "Stop",
+          "DownloadSampleChunksAndResume": "Download sample (chunks and resume)",
+          "NetWrapperTCPUDPAndRemoteFiles": "NetWrapper: TCP / UDP and remote files",
+          "TcpSocketServerTcpSocketClientProvideCommandDispatchAndAResumable": "TcpSocketServer / TcpSocketClient provide command dispatch and a resumable remote file system. Try a real local loopback connection below."
+        },
+        "Source": {
+          "CSharp": "using CodeWF.Toolkit.NetWrapper.Helpers;\nusing CodeWF.Toolkit.NetWrapper.Models;\n\nvar server = new TcpSocketServer();\nvar (ok, error) = await server.StartAsync(\"Example\", \"127.0.0.1\", 39561);\nvar fileSystem = server.UseFileSystem();\nfileSystem.FileTransferProgress += (_, e) =>\n    Console.WriteLine($\"{e.FileName} {e.Progress:F1}% ({e.BytesPerSecond / 1024 / 1024:F1} MB/s)\");\n\nvar client = new TcpSocketClient();\nawait client.ConnectAsync(\"Example\", \"127.0.0.1\", 39561);\n\nvar feature = client.UseFileSystem();\nfeature.FileTransferProgress += (_, e) => Console.WriteLine($\"Download {e.FileName} {e.Progress:F1}%\");\nfeature.FileTransferOutcome += (_, e) => Console.WriteLine($\"Finish：{e.LocalFilePath}\");\n\nawait client.DownloadFileAsync(\"demo-download.bin\", localSaveDirectory);\n\nawait client.SendCommandAsync(new Heartbeat { TaskId = 1001 });\n\nclient.Stop();\nawait server.StopAsync();"
+        },
+        "DownloadAsync": {
+          "StartTheServerAndClientFirst": "Start the server and client first.",
+          "SamplePreparedBytesFormat": "Sample prepared: {0} ({1:N0} bytes)\n",
+          "ClientDownloadFileAsyncAwaitingServerChunks": "client.DownloadFileAsync(...) → awaiting server chunks…",
+          "DownloadFailed": "Download failed: ",
+          "NetWrapperDemoDownloadFailed": "NetWrapper demo download failed"
+        },
+        "messages": {
+          "MessagesAndSession": "Messages and session",
+          "ClearSession": "Clear session",
+          "SendHeartbeat": "Send Heartbeat",
+          "TcpSocketServerStartAsyncServerMarkIpPortTimeoutTcpSocketClientConnectAsync": "TcpSocketServer.StartAsync(serverMark, ip, port, timeout)\nTcpSocketClient.ConnectAsync(name, ip, port)\nSendCommandAsync: command dispatch\nDownloadFileAsync: chunked transfer with resume support",
+          "TheServerRemovesClientsWithNoActivityFor": "The server removes clients with no activity for 30 seconds."
+        },
+        "OnPropertyCommitted": {
+          "SetTheTimeoutBeforeStartupTimeOutIsRead": "Set the timeout before startup; TimeOut is read only."
+        },
+        "OnTransferOutcome": {
+          "Completed": "Completed",
+          "Failed": "Failed",
+          "DownloadFormat": "Download {0}: {1}\n",
+          "Upload": "Upload",
+          "Download": "Download",
+          "DirectionTaskCancelledFormat": "Direction {0} · task {1} · cancelled {2}\n",
+          "ResultFormat": "Result: {0}",
+          "Success": "Success",
+          "NetWrapperDemoDownloadEndedSuccessFormat": "NetWrapper demo download ended: {0}, success={1}"
+        },
+        "OnTransferProgress": {
+          "DownloadFormat": "Download {0}\n",
+          "ProgressBytesFormat": "Progress {0:F1}% · {1:N0} / {2:N0} bytes\n",
+          "ChunkSizeKBTaskFormat": "Chunk size {0} KB · task {1}"
+        },
+        "SendHeartbeatAsync": {
+          "StartTheServerAndClientFirst": "Start the server and client first.",
+          "ClientSendCommandAsyncNewHeartbeatSent": "client.SendCommandAsync(new Heartbeat { ... }) → sent",
+          "NetWrapperDemoHeartbeatSent": "NetWrapper demo: heartbeat sent",
+          "SendFailed": "Send failed: ",
+          "NetWrapperDemoHeartbeatFailed": "NetWrapper demo heartbeat failed"
+        },
+        "server": {
+          "ServerClient": "Server / client",
+          "ListenAddress": "Listen address",
+          "127001Loopback": "127.0.0.1 (loopback)",
+          "Port": "Port",
+          "AvailableTemporaryPortIpHelperGetAvailableTcpPort": "Available temporary port (IpHelper.GetAvailableTcpPort)",
+          "Server": "Server",
+          "Client": "Client",
+          "ClientCount": "Client count",
+          "ClientConnectionsDisconnectionsAndErrorsAreBroadcastThrough": "Client connections, disconnections, and errors are broadcast through EventBus using SocketClientChangedCommand / TcpClientErrorCommand."
+        },
+        "StartAsync": {
+          "DemoFileService": "Demo file service",
+          "ServerStartupFailed": "Server startup failed: ",
+          "Running127001Format": "● Running (127.0.0.1:{0})",
+          "ServerStartAsyncDemoFileService12700Format": "server.StartAsync(\"Demo file service\", \"127.0.0.1\", {0}) → started",
+          "ClientConnectionFailed": "Client connection failed: ",
+          "Connected": "● Connected",
+          "ClientConnectAsyncConnectedLocalEndpointFormat": "client.ConnectAsync → connected (local endpoint {0})",
+          "NetWrapperDemoTCPConnectedAt12700Format": "NetWrapper demo: TCP connected at 127.0.0.1:{0}",
+          "StartupError": "Startup error: ",
+          "NetWrapperDemoStartupFailed": "NetWrapper demo startup failed"
+        },
+        "StopAsync": {
+          "NotStarted": "● Not started",
+          "Disconnected": "● Disconnected",
+          "NetWrapperDemoStopped": "NetWrapper demo stopped"
+        },
+        "transfer": {
+          "RemoteFileSystemRealDownload": "Remote file system (real download)",
+          "SampleSizeMB": "Sample size (MB)",
+          "DownloadsA2MBSampleByDefaultThroughChunk": "Downloads a 2MB sample by default through chunk messages, acknowledgments, and completion, with hash validation and resume support."
+        }
+      },
+      "RuntimeFlow": {
+        "CSharpCode": {
+          "AddStepDemoKeysStepServerNewEventBusPageAddStepDemoKeysStepConnect": "AddStep(DemoKeys.StepServer, new EventBusPage());\nAddStep(DemoKeys.StepConnect, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepPublish, new EventBusPage());\nAddStep(DemoKeys.StepQuery, new EventBusIntegrationsPage());\nAddStep(DemoKeys.StepObserve, new LoggingCorePage());\nAttachSceneShell();\n\nLogger.Info(\"Example\");\nclient.Publish(\"demo.greeting\", \"hello\", out _);"
+        },
+        "XamlCode": {
+          "BuilderServicesAddEventBusAssembliesAppUseEventBusVarServer": "builder.Services.AddEventBus(assemblies);\napp.UseEventBus();\n\nvar server = new EventServer();\nserver.Start(\"127.0.0.1\", 39561);\nawait client.ConnectAsync(\"127.0.0.1\", 39561);"
+        }
+      },
+      "ScenePageBase": {
+        "GoToStep": {
+          "WorkflowStepFormat": "Workflow step {0}/{1}: {2}"
+        }
+      },
+      "ToolkitModels": {
+        "City": {
+          "Chengdu": "Chengdu"
+        },
+        "Name": {
+          "Alice": "Alice"
+        }
+      },
+      "Welcome": {
+        "View": {
+          "CoreExtensionsAppInfrastructure": "Core extensions · app infrastructure",
+          "PubSubQueriesIntegrations": "Pub/sub · queries · integrations",
+          "FormatsArchivesIndexing": "Formats · archives · indexing",
+          "ConversionsIconsQRCodes": "Conversions · icons · QR codes",
+          "LogStreamsFileRotation": "Log streams · file rotation",
+          "BinaryProtocolsTCPUDP": "Binary protocols · TCP / UDP"
+        },
+        "Content": {
+          "OverviewSubscriberReceivedGreetCommandFormat": "Overview subscriber received GreetCommand: {0}"
+        },
+        "PublishAsync": {
+          "OverviewEventFlowFailed": "Overview event flow failed: "
+        },
+        "RunPipelineAsync": {
+          "OverviewFilePipelineComplete": "Overview file pipeline complete: ",
+          "OverviewFilePipelineFailed": "Overview file pipeline failed: "
+        }
+      }
     }
   }
 }

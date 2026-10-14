@@ -13,7 +13,9 @@
         "prototypeId": "welcome",
         "titleZh": "介绍",
         "titleEn": "Introduction",
-        "description": ""
+        "description": "",
+        "icon": "⌂",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.About",
@@ -23,9 +25,13 @@
         "prototypeId": "about",
         "titleZh": "关于",
         "titleEn": "About",
-        "description": ""
+        "description": "",
+        "icon": "ⓘ",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       }
-    ]
+    ],
+    "icon": "⌂",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   },
   {
     "titleKey": "Demo.Group.Extensions",
@@ -44,7 +50,9 @@
         "description": "StringExtensions",
         "input": "one,,two,three",
         "code": "input.Split(',').Join(\" / \", removeEmptyEntry: true);",
-        "sectionKey": "Demo.Catalog.SectionText"
+        "sectionKey": "Demo.Catalog.SectionText",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.RegexExtensions",
@@ -57,7 +65,9 @@
         "description": "RegexExtensions",
         "input": "item42\nitem##",
         "code": "text.IsMatch(pattern);\npattern.ConvertPattern();",
-        "sectionKey": "Demo.Catalog.SectionText"
+        "sectionKey": "Demo.Catalog.SectionText",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.DoubleExtensions",
@@ -70,7 +80,9 @@
         "description": "DoubleExtensions",
         "input": "1048576",
         "code": "double.Parse(input).FormatBytes();",
-        "sectionKey": "Demo.Catalog.SectionNumbers"
+        "sectionKey": "Demo.Catalog.SectionNumbers",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.NumberExtension",
@@ -83,7 +95,9 @@
         "description": "NumberExtension",
         "input": "123.45",
         "code": "number.ToChineseNumber();\nNumberExtension.ToChineseMoney(number);",
-        "sectionKey": "Demo.Catalog.SectionNumbers"
+        "sectionKey": "Demo.Catalog.SectionNumbers",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.RandomExtension",
@@ -96,7 +110,9 @@
         "description": "RandomExtension",
         "input": "1,100",
         "code": "RandomExtension.GetInt(min, max);",
-        "sectionKey": "Demo.Catalog.SectionNumbers"
+        "sectionKey": "Demo.Catalog.SectionNumbers",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.DateTimeExtension",
@@ -109,7 +125,9 @@
         "description": "DateTimeExtension",
         "input": "2026-10-13T12:00:00Z",
         "code": "date.GetUnixTimeSeconds();\ndate.GetUnixTimeMilliseconds();",
-        "sectionKey": "Demo.Catalog.SectionDates"
+        "sectionKey": "Demo.Catalog.SectionDates",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.TimeSpanExtensions",
@@ -122,7 +140,9 @@
         "description": "TimeSpanExtensions",
         "input": "3661234",
         "code": "milliseconds.FormatMilliseconds();",
-        "sectionKey": "Demo.Catalog.SectionDates"
+        "sectionKey": "Demo.Catalog.SectionDates",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.DateTimeConverter",
@@ -135,7 +155,9 @@
         "description": "DateTimeConverter",
         "input": "2026-10-13T12:00:00Z",
         "code": "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);",
-        "sectionKey": "Demo.Catalog.SectionDates"
+        "sectionKey": "Demo.Catalog.SectionDates",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.IConvertibleExtensions",
@@ -148,7 +170,9 @@
         "description": "IConvertibleExtensions",
         "input": "42",
         "code": "input.ConvertTo<int>();\ntype.IsNumeric();",
-        "sectionKey": "Demo.Catalog.SectionTypes"
+        "sectionKey": "Demo.Catalog.SectionTypes",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.ObjectExtension",
@@ -161,7 +185,9 @@
         "description": "ObjectExtension",
         "input": "",
         "code": "input.IsNullOrEmpty();\ntype.IsPrimitive();",
-        "sectionKey": "Demo.Catalog.SectionTypes"
+        "sectionKey": "Demo.Catalog.SectionTypes",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.LinqExtension",
@@ -174,7 +200,9 @@
         "description": "LinqExtension",
         "input": "3",
         "code": "positive.And(value => value < limit).Compile(preferInterpretation: true);",
-        "sectionKey": "Demo.Catalog.SectionTypes"
+        "sectionKey": "Demo.Catalog.SectionTypes",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.EnumExtension",
@@ -187,7 +215,9 @@
         "description": "EnumExtension",
         "input": "",
         "code": "typeof(DayOfWeek).GetDictionary();",
-        "sectionKey": "Demo.Catalog.SectionTypes"
+        "sectionKey": "Demo.Catalog.SectionTypes",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.AssemblyExtensions",
@@ -200,7 +230,9 @@
         "description": "AssemblyExtensions",
         "input": "",
         "code": "assembly.Title();\nassembly.Version();\nassembly.Company();",
-        "sectionKey": "Demo.Catalog.SectionTypes"
+        "sectionKey": "Demo.Catalog.SectionTypes",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.ValidationExtension",
@@ -213,9 +245,13 @@
         "description": "ValidationExtension",
         "input": "",
         "code": "new ValidationSample { Name = input }.TryValidateObject(out var errors);",
-        "sectionKey": "Demo.Catalog.SectionTypes"
+        "sectionKey": "Demo.Catalog.SectionTypes",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       }
-    ]
+    ],
+    "icon": "⟨⟩",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   },
   {
     "titleKey": "Demo.Group.System",
@@ -234,7 +270,9 @@
         "description": "ActionHelper",
         "input": "20,100",
         "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out.",
-        "sectionKey": "Demo.Catalog.SectionExecution"
+        "sectionKey": "Demo.Catalog.SectionExecution",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.NativeLibraryHelper",
@@ -247,7 +285,9 @@
         "description": "NativeLibraryHelper",
         "input": "GetTickCount64",
         "code": "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);",
-        "sectionKey": "Demo.Catalog.SectionExecution"
+        "sectionKey": "Demo.Catalog.SectionExecution",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.FileHelper",
@@ -260,7 +300,9 @@
         "description": "FileHelper",
         "input": "Hello, CodeWF!",
         "code": "await FileHelper.SafeWriteAllTextAsync(path, input);\nawait FileHelper.SafeReadAllTextAsync(path);",
-        "sectionKey": "Demo.Catalog.SectionFiles"
+        "sectionKey": "Demo.Catalog.SectionFiles",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.FileExtension",
@@ -273,7 +315,9 @@
         "description": "FileExtension",
         "input": "..",
         "code": "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);",
-        "sectionKey": "Demo.Catalog.SectionFiles"
+        "sectionKey": "Demo.Catalog.SectionFiles",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.SevenZipCompressor",
@@ -286,7 +330,9 @@
         "description": "SevenZipCompressor",
         "input": "Hello archive",
         "code": "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);",
-        "sectionKey": "Demo.Catalog.SectionFiles"
+        "sectionKey": "Demo.Catalog.SectionFiles",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4 7.5h16v11.5H4z\"/><path d=\"M2.5 4.5h19v3h-19z\"/><path d=\"M11 12h2v3h-2z\"/>"
       },
       {
         "titleKey": "Demo.Item.AppDataMigrator",
@@ -299,7 +345,9 @@
         "description": "AppDataMigrator",
         "input": "demo.json",
         "code": "AppDataMigrator.ResolveAndMigrate(appName, fileName, baseDirectory, portableMarkerFileName);",
-        "sectionKey": "Demo.Catalog.SectionApplication"
+        "sectionKey": "Demo.Catalog.SectionApplication",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.UpdateChecker",
@@ -312,7 +360,9 @@
         "description": "UpdateChecker",
         "input": "dotnet9/CodeWF.Toolkit",
         "code": "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);",
-        "sectionKey": "Demo.Catalog.SectionApplication"
+        "sectionKey": "Demo.Catalog.SectionApplication",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.AppConfigHelper",
@@ -325,9 +375,13 @@
         "description": "AppConfigHelper",
         "input": "42",
         "code": "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);",
-        "sectionKey": "Demo.Catalog.SectionApplication"
+        "sectionKey": "Demo.Catalog.SectionApplication",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       }
-    ]
+    ],
+    "icon": "▣",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   },
   {
     "titleKey": "Demo.Group.Data",
@@ -346,7 +400,9 @@
         "description": "JsonExtensions",
         "input": "Ada",
         "code": "model.ToJson(jsonTypeInfo, out var json, out var error);\njson.FromJson(jsonTypeInfo, out var model, out var error);",
-        "sectionKey": "Demo.Catalog.SectionSerialization"
+        "sectionKey": "Demo.Catalog.SectionSerialization",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.YamlExtensions",
@@ -359,7 +415,9 @@
         "description": "YamlExtensions",
         "input": "Ada",
         "code": "model.ToYaml(jsonTypeInfo, out var yaml, out var error);\nyaml.FromYaml(jsonTypeInfo, out var model, out var error);",
-        "sectionKey": "Demo.Catalog.SectionSerialization"
+        "sectionKey": "Demo.Catalog.SectionSerialization",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.DataTableExtensions",
@@ -372,7 +430,9 @@
         "description": "DataTableExtensions",
         "input": "Ada,42\nLin,24",
         "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);",
-        "sectionKey": "Demo.Catalog.SectionTables"
+        "sectionKey": "Demo.Catalog.SectionTables",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.ImageIcon",
@@ -383,7 +443,9 @@
         "titleZh": "ImageHelper",
         "titleEn": "ImageHelper",
         "description": "ImageHelper",
-        "sectionKey": "Demo.Catalog.SectionImages"
+        "sectionKey": "Demo.Catalog.SectionImages",
+        "icon": "▥",
+        "prototypeIcon": "<rect x=\"3.5\" y=\"4.5\" width=\"17\" height=\"15\" rx=\"1.7\"/><circle cx=\"9\" cy=\"10\" r=\"1.8\"/><path d=\"M4.5 17l4.5-4.5 3.5 3.5 2.5-2.5 5 5\"/>"
       },
       {
         "titleKey": "Demo.Item.ImageQr",
@@ -394,9 +456,13 @@
         "titleZh": "QrCodeGenerator",
         "titleEn": "QrCodeGenerator",
         "description": "QrCodeGenerator",
-        "sectionKey": "Demo.Catalog.SectionImages"
+        "sectionKey": "Demo.Catalog.SectionImages",
+        "icon": "▦",
+        "prototypeIcon": "<rect x=\"4\" y=\"4\" width=\"6.5\" height=\"6.5\" rx=\"1\"/><rect x=\"13.5\" y=\"4\" width=\"6.5\" height=\"6.5\" rx=\"1\"/><rect x=\"4\" y=\"13.5\" width=\"6.5\" height=\"6.5\" rx=\"1\"/><path d=\"M13.5 13.5h3v3h-3zM17.5 17.5h2.5v2.5h-2.5z\"/>"
       }
-    ]
+    ],
+    "icon": "▦",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   },
   {
     "titleKey": "Demo.Group.Events",
@@ -413,7 +479,9 @@
         "titleZh": "EventBus",
         "titleEn": "EventBus",
         "description": "EventBus",
-        "sectionKey": "Demo.Catalog.SectionEventBus"
+        "sectionKey": "Demo.Catalog.SectionEventBus",
+        "icon": "◉",
+        "prototypeIcon": "<circle cx=\"12\" cy=\"12\" r=\"2.6\"/><circle cx=\"5\" cy=\"6.5\" r=\"2\"/><circle cx=\"19\" cy=\"6.5\" r=\"2\"/><circle cx=\"5\" cy=\"17.5\" r=\"2\"/><circle cx=\"19\" cy=\"17.5\" r=\"2\"/><path d=\"M6.6 7.8l3.6 2.9M17.4 7.8l-3.6 2.9M6.6 16.2l3.6-2.9M17.4 16.2l-3.6-2.9\"/>"
       },
       {
         "titleKey": "Demo.Item.PrismExtensions",
@@ -426,7 +494,9 @@
         "description": "PrismExtensions",
         "input": "",
         "code": "registry.AddEventBus(assembly);\ncontainer.UseEventBus(assembly);\ncontainer.Resolve<IEventBus>().Query(query);",
-        "sectionKey": "Demo.Catalog.SectionEventBus"
+        "sectionKey": "Demo.Catalog.SectionEventBus",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.AspNetCoreExtensions",
@@ -439,7 +509,9 @@
         "description": "AspNetCoreExtensions",
         "input": "",
         "code": "services.AddEventBus(assembly);\napplicationBuilder.UseEventBus(assembly);\nprovider.GetRequiredService<IEventBus>().Query(query);",
-        "sectionKey": "Demo.Catalog.SectionEventBus"
+        "sectionKey": "Demo.Catalog.SectionEventBus",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.EventServer",
@@ -452,7 +524,9 @@
         "description": "EventServer",
         "input": "Hello broker",
         "code": "await broker.StartAsync(\"127.0.0.1\", port);\n// Local clients validate broker routing.\nbroker.Stop();",
-        "sectionKey": "Demo.Catalog.SectionBroker"
+        "sectionKey": "Demo.Catalog.SectionBroker",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.EventClient",
@@ -465,9 +539,13 @@
         "description": "EventClient",
         "input": "Hello subscriber",
         "code": "await client.ConnectAsync(\"127.0.0.1\", port);\nclient.Subscribe<string>(subject, receive);\nawait publisher.PublishAsync(subject, input);",
-        "sectionKey": "Demo.Catalog.SectionBroker"
+        "sectionKey": "Demo.Catalog.SectionBroker",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       }
-    ]
+    ],
+    "icon": "◉",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   },
   {
     "titleKey": "Demo.Group.Network",
@@ -484,7 +562,9 @@
         "titleZh": "SerializeHelper",
         "titleEn": "SerializeHelper",
         "description": "SerializeHelper",
-        "sectionKey": "Demo.Catalog.SectionProtocol"
+        "sectionKey": "Demo.Catalog.SectionProtocol",
+        "icon": "▦",
+        "prototypeIcon": "<path d=\"M12 3.5l8 4.5v8l-8 4.5-8-4.5v-8z\"/><path d=\"M4 8l8 4.5 8-4.5M12 12.5v8\"/>"
       },
       {
         "titleKey": "Demo.Item.NetHelper",
@@ -497,7 +577,9 @@
         "description": "NetHelper",
         "input": "",
         "code": "NetHelper.GetTaskId();\nNetHelper.GetIgnoreTask();",
-        "sectionKey": "Demo.Catalog.SectionProtocol"
+        "sectionKey": "Demo.Catalog.SectionProtocol",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.IpHelper",
@@ -510,7 +592,9 @@
         "description": "IpHelper",
         "input": "127.0.0.1:39561",
         "code": "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
-        "sectionKey": "Demo.Catalog.SectionProtocol"
+        "sectionKey": "Demo.Catalog.SectionProtocol",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServer",
@@ -523,7 +607,9 @@
         "description": "TcpSocketServer",
         "input": "Hello TCP",
         "code": "await server.StartAsync(mark, \"127.0.0.1\", port);\nserver.RegisterCommandHandler(receive);\nawait server.StopAsync();",
-        "sectionKey": "Demo.Catalog.SectionSockets"
+        "sectionKey": "Demo.Catalog.SectionSockets",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.TcpSocketClient",
@@ -536,7 +622,9 @@
         "description": "TcpSocketClient",
         "input": "Hello TCP",
         "code": "await client.ConnectAsync(mark, \"127.0.0.1\", port);\nawait client.SendCommandAsync(packet);\nawait client.StopAsync();",
-        "sectionKey": "Demo.Catalog.SectionSockets"
+        "sectionKey": "Demo.Catalog.SectionSockets",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.UdpSocketServer",
@@ -549,7 +637,9 @@
         "description": "UdpSocketServer",
         "input": "239.1.1.1",
         "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
-        "sectionKey": "Demo.Catalog.SectionSockets"
+        "sectionKey": "Demo.Catalog.SectionSockets",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.UdpSocketClient",
@@ -562,7 +652,9 @@
         "description": "UdpSocketClient",
         "input": "239.1.1.1",
         "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
-        "sectionKey": "Demo.Catalog.SectionSockets"
+        "sectionKey": "Demo.Catalog.SectionSockets",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.TcpSocketClientFileSystemFeature",
@@ -575,7 +667,9 @@
         "description": "TcpSocketClientFileSystemFeature",
         "input": "",
         "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);",
-        "sectionKey": "Demo.Catalog.SectionRemoteFiles"
+        "sectionKey": "Demo.Catalog.SectionRemoteFiles",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServerFileSystemFeature",
@@ -588,9 +682,13 @@
         "description": "TcpSocketServerFileSystemFeature",
         "input": "",
         "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();",
-        "sectionKey": "Demo.Catalog.SectionRemoteFiles"
+        "sectionKey": "Demo.Catalog.SectionRemoteFiles",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       }
-    ]
+    ],
+    "icon": "⇄",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   },
   {
     "titleKey": "Demo.Group.Logging",
@@ -606,7 +704,9 @@
         "prototypeId": "log-core",
         "titleZh": "Logger",
         "titleEn": "Logger",
-        "description": "Logger"
+        "description": "Logger",
+        "icon": "☰",
+        "prototypeIcon": "<path d=\"M5.5 4.5h13v15h-13z\"/><path d=\"M8.5 9h7M8.5 12.5h7M8.5 16h4\"/>"
       },
       {
         "titleKey": "Demo.Item.LogMicrosoft",
@@ -616,7 +716,9 @@
         "prototypeId": "log-microsoft",
         "titleZh": "CodeWFLoggingBuilderExtensions",
         "titleEn": "CodeWFLoggingBuilderExtensions",
-        "description": "CodeWFLoggingBuilderExtensions"
+        "description": "CodeWFLoggingBuilderExtensions",
+        "icon": "⊕",
+        "prototypeIcon": "<path d=\"M12 3.5l8.5 4.5v8L12 20.5 3.5 16V8z\"/><path d=\"M8.5 12h7M12 8.5v7\"/>"
       },
       {
         "titleKey": "Demo.Item.LogEventFeed",
@@ -628,7 +730,9 @@
         "titleEn": "LogEventFeed",
         "description": "LogEventFeed",
         "input": "Sample log event",
-        "code": "Logger.Info(input);\nLogger.Events.GetRecentEvents();"
+        "code": "Logger.Info(input);\nLogger.Events.GetRecentEvents();",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       },
       {
         "titleKey": "Demo.Item.CodeWFLogHealth",
@@ -640,9 +744,13 @@
         "titleEn": "CodeWFLogHealth",
         "description": "CodeWFLogHealth",
         "input": "",
-        "code": "Logger.Health.GetSnapshot();"
+        "code": "Logger.Health.GetSnapshot();",
+        "icon": "•",
+        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
       }
-    ]
+    ],
+    "icon": "☰",
+    "prototypeIcon": "<path d=\"M5.5 4.5h13v15h-13z\"/><path d=\"M8.5 9h7M8.5 12.5h7M8.5 16h4\"/>"
   },
   {
     "titleKey": "Demo.Group.Examples",
@@ -658,7 +766,9 @@
         "prototypeId": "flow-runtime",
         "titleZh": "事件与日志导览",
         "titleEn": "Events and logging tour",
-        "description": ""
+        "description": "",
+        "icon": "▶",
+        "prototypeIcon": "<rect x=\"3\" y=\"4.5\" width=\"18\" height=\"12.5\" rx=\"1.7\"/><path d=\"M8 21h8M12 17v4\"/><path d=\"M7 9.5l2.5 2 3-3 4 4\"/>"
       },
       {
         "titleKey": "Demo.Item.LabFlow",
@@ -668,8 +778,12 @@
         "prototypeId": "flow-lab",
         "titleZh": "文件处理工作流",
         "titleEn": "File workflow",
-        "description": ""
+        "description": "",
+        "icon": "⚗",
+        "prototypeIcon": "<path d=\"M10 3.5v6.2L5.6 17a2.4 2.4 0 0 0 2.1 3.5h8.6a2.4 2.4 0 0 0 2.1-3.5L14 9.7V3.5\"/><path d=\"M8.5 3.5h7\"/><path d=\"M7.6 14h8.8\"/>"
       }
-    ]
+    ],
+    "icon": "▶",
+    "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
   }
 ]
