@@ -173,7 +173,7 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 ## 演示 / Demos
 
-Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，49 个页面按类名查找，组合工作流集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
+Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，49 个页面按类名查找；CSV / Excel 提供真实表格回读，网络与文件系统提供可保持的会话和传输操作，组合示例集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
 
 ![.NET 紫色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dotnet.png)
 
@@ -183,7 +183,11 @@ Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像�
 
 ![文件流水线与真实产物](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-pipeline.png)
 
-![主题与实验切换](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-interactions.gif)
+![CSV 与 Excel 导出回读](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-table.png)
+
+![文件系统会话与目录请求](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-files.png)
+
+![主题与实验截图巡览](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-interactions.gif)
 
 The Ribbon and Dock demo groups APIs by function, with one helper class per primary menu entry. Composite workflows are in the final category. Its UI libraries come from NuGet; cloning CodeWF.Toolkit alone is sufficient to build the GUI and console demos.
 
