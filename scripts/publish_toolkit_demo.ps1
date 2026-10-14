@@ -39,7 +39,7 @@ $ilcArgs = @(
 if ($RuntimeIdentifier.StartsWith("osx-", [StringComparison]::OrdinalIgnoreCase)) { $ilcArgs += "-p:StripSymbols=false" }
 
 Write-Host "发布 CodeWF.Toolkit.Demo.Avalonia $RuntimeIdentifier (Version=$Version)"
-& dotnet publish $projectPath -c Release -r $RuntimeIdentifier @ilcArgs -o $outputPath
+& dotnet publish $projectPath -c Release -r $RuntimeIdentifier -m:1 @ilcArgs -o $outputPath
 if ($LASTEXITCODE -ne 0) { throw "publish failed for $RuntimeIdentifier" }
 
 if (-not (Test-Path -LiteralPath $outputPath -PathType Container)) {

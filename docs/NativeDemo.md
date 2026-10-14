@@ -1,4 +1,4 @@
-# CodeWF.Toolkit 原生 Demo
+﻿# CodeWF.Toolkit 原生 Demo
 
 Demo 使用 Ribbon + Dock，以单个帮助类或公开 API 为导航单位。9 个分类、52 个页面由 `design/catalog.json` 管理；组合工作流放在“综合示例”，首页直接展示目录。
 
@@ -13,9 +13,9 @@ Demo 使用 Ribbon + Dock，以单个帮助类或公开 API 为导航单位。9 
 
 ## 主题与国际化
 
-标题栏色圈和下拉共用配色状态，提供 .NET 紫、AI 极光、AI 暖陶及既有 Semi 配色。新增配色遵循 Semi 的资源字典结构，通过显式 `ThemeVariant` 加载；不按 RGB 字符串判断主题。
+标题栏色圈和下拉共用配色状态，提供 .NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空八套配色。浅色、深色和跟随系统独立选择，标题栏与属性面板同步；切换语言保留模式选中项。
 
-`StudioTheme` 位于 `CodeWF.Avalonia.Controls`，在 Semi 与 CodeWF 控件主题后加载。`DotNetLight/Dark`、`AuroraLight/Dark`、`EmberLight/Dark` 分别继承浅色与深色变体；`StudioBackground`、`StudioSurface`、`StudioText`、`StudioAccent` 等资源用于应用外壳。
+`StudioTheme` 与 `StudioThemeController` 位于 `CodeWF.Avalonia.Controls`。在 Semi 与 CodeWF 控件主题后加载 StudioTheme，控制器使用显式枚举选择独立浅深资源，并订阅平台主题变化；退出时释放订阅。新增配色遵循 Semi 的资源字典结构，不按 RGB 字符串判断主题。
 
 NuGet 库的语言 JSON 内嵌程序集，Demo 自身的 JSON 输出到 `I18n/`。应用通过 Lang 正常加载自身资源即可按同键覆盖库文案，无需 resolver 或逐库注册。资源键由 T4 生成，普通构建直接消费已提交的生成文件。
 
@@ -38,11 +38,11 @@ npm ci --prefix design/tests
 npm test --prefix design/tests
 ```
 
-浏览器门禁覆盖全部路由 × 中英文 × 1440/1120 两种宽度，共 208 次检查，验证实际 Ribbon/导航点击、内容、源码、下拉对齐、属性搜索/排序、列宽/行高拖拽和脚本异常。浏览器原型不执行 .NET API；真实行为由原生 Demo 验证。
+浏览器门禁覆盖全部路由 × 中英文 × 1440/1120 两种宽度，共 208 次检查，另验八套配色的浅深组合与系统模式变化，验证实际 Ribbon/导航点击、内容、源码、下拉对齐、属性搜索/排序、列宽/行高拖拽和脚本异常。浏览器原型不执行 .NET API；真实行为由原生 Demo 验证。
 
 ## Windows NativeAOT
 
-本轮版本 `1.0.0.14`，环境为 Windows x64 / .NET SDK 10.0.303。`global.json` 固定稳定版 .NET 10。
+本轮版本 `1.0.0.15`，环境为 Windows x64 / .NET SDK 10.0.303。`global.json` 固定稳定版 .NET 10。
 
 ```powershell
 dotnet test CodeWF.Toolkit.slnx -c Release
@@ -56,13 +56,13 @@ Start-Process $demo -ArgumentList '--capture ./artifacts/studio-qa' -Wait -PassT
 
 ## 独立构建与真实 API
 
-Demo 通过正式版本 NuGet 引用 `CodeWF.Avalonia.Controls/TreeDataGrid/Dock/Lang/Log 12.1.4.12`，没有跨仓库工程引用。12 个生产库保持无 UI 依赖，Demo 通过同仓 ProjectReference 展示当前 Toolkit 实现。
+Demo 通过正式版本 NuGet 引用 `CodeWF.Avalonia.Controls/TreeDataGrid/Dock/Lang/Log 12.1.4.13`，没有跨仓库工程引用。12 个生产库保持无 UI 依赖，Demo 通过同仓 ProjectReference 展示当前 Toolkit 实现。
 
 本机联调可将 nupkg 打到 `temp_nugets` 环境变量指定目录，使用仓外 NuGet 配置还原；临时源、缓存和绝对路径不提交。CI 仍使用 nuget.org。
 
 本轮库与网络测试 314 项通过，3 项会启动系统浏览器或文件管理器的测试改为手动桌面验收、默认跳过。除逐页渲染外，原生冒烟调用 JSON/YAML、CSV/Excel、ZIP、二维码/图标、TCP/UDP、Socket 事件总线和临时目录文件传输；验证退订、取消/续传及 SHA256。国际化页调用 I18nManager/JsonLocalizer，更新页通过受控 HTTP 调用 IUpdateService，不在离线验收中请求 GitHub 或启动真实安装器。
 
-Windows 原生冒烟已通过。当前 README 截图取自本轮已生成的原生页面；完整分类截图批次因暂停桌面操作而未完成，后续在用户方便时补验。
+Windows x64 NativeAOT 冒烟与截图均退出 0，52 页 × 16 配色组合共 832 次渲染零失败；真实文档浮动、独立参数、语言切换后的模式选择及网络/文件会话通过。网络冒烟输出启动、发送、停止阶段并设置 10 秒验证超时，方便定位环境或生命周期异常。
 
 ## 验收边界
 

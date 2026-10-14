@@ -239,6 +239,8 @@ Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像�
 
 核心扩展再按文本、数值、日期时间、类型与查询分组，密集命令使用双行排列，保留完整帮助类名。UI 从公开 NuGet 安装 CodeWF.Avalonia 包，单独克隆本仓即可构建；`global.json` 选择稳定版 .NET 10 SDK。
 
+标题栏提供浅色、深色、跟随系统三态，搭配 .NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空八套配色。颜色与模式独立选择，通过 NuGet 中的 StudioThemeController 跟随系统并同步文档属性面板。
+
 ![Ribbon 帮助类分组与原生 Dock 工作区](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-ribbon.png)
 
 ![.NET 紫色原生演示台](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dotnet.png)
