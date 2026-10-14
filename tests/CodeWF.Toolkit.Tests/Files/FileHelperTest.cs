@@ -23,7 +23,7 @@ public class FileHelperTest
         FileHelper.DeleteFileIfExist(tempFilePath);
     }
 
-    [Fact]
+    [Fact(Skip = "手动桌面验收：会打开文件管理器，不在常规测试中执行。")]
     public void Test_OpenFolder_Success()
     {
         var tempFilePath = FileHelper.GetTempFileName(Assembly.GetExecutingAssembly().GetName().Name!);
@@ -32,7 +32,7 @@ public class FileHelperTest
         FileHelper.OpenFolder(tempDir!);
     }
 
-    [Fact]
+    [Fact(Skip = "手动桌面验收：会打开文件管理器并选中文件，不在常规测试中执行。")]
     public void Test_OpenFolderAndSelectFile_Success()
     {
         var tempFilePath = FileHelper.GetTempFileName(Assembly.GetExecutingAssembly().GetName().Name!);
