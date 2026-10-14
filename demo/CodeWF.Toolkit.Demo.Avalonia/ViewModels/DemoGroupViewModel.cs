@@ -1,3 +1,6 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
 using System.Collections.ObjectModel;
 using CodeWF.Avalonia.Lang;
 using CodeWF.Toolkit.Demo.Avalonia.Views;
@@ -16,7 +19,7 @@ public class DemoItemViewModel : ReactiveObject
     private bool _isSelected;
     private bool _isFilteredOut;
 
-    public DemoItemViewModel(string titleKey, Func<DemoPageBase> pageFactory, string api = "", string package = "", string prototypeId = "", string sectionKey = "", string icon = "◆")
+    public DemoItemViewModel(string titleKey, Func<DemoPageBase> pageFactory, string api = "", string package = "", string prototypeId = "", string sectionKey = "", string icon = "◆", string iconKey = "SemiIconGridView")
     {
         TitleKey = titleKey;
         PageFactory = pageFactory;
@@ -25,6 +28,8 @@ public class DemoItemViewModel : ReactiveObject
         PrototypeId = prototypeId;
         SectionKey = sectionKey;
         Icon = icon;
+        RibbonIcon = Application.Current?.FindResource(iconKey) as Geometry
+            ?? throw new InvalidOperationException("Missing Semi icon: " + iconKey);
         I18nManager.Instance.CultureChanged += (_, _) =>
         {
             this.RaisePropertyChanged(nameof(Title));
@@ -87,6 +92,9 @@ public class DemoItemViewModel : ReactiveObject
 
     public string Icon { get; }
 
+    /// <summary>复用 Semi 矢量资源，避免字体回退造成图标大小不一致。</summary>
+    public Geometry RibbonIcon { get; }
+
     public override string ToString() => DisplayTitle;
 }
 
@@ -138,7 +146,7 @@ public class DemoGroupViewModel : ReactiveObject
     public override string ToString() => Title;
 }
 
-/// <summary>A presentation group inside a Ribbon tab; commands still map one-to-one to APIs.</summary>
+/// <summary>Ribbon 页签内的展示分组，每个命令对应一个 API。</summary>
 public sealed class DemoRibbonSection : ReactiveObject
 {
     public DemoRibbonSection(string titleKey, IReadOnlyList<DemoItemViewModel> items, bool useSmallCommands)
@@ -153,5 +161,5 @@ public sealed class DemoRibbonSection : ReactiveObject
     public IReadOnlyList<DemoItemViewModel> Items { get; }
     public bool UseSmallCommands { get; }
     public string Title => I18nManager.Instance.GetResource(TitleKey);
-    public double CommandHeight => UseSmallCommands ? 31 : 62;
+    public double CommandHeight => UseSmallCommands ? 40 : 80;
 }

@@ -10,14 +10,15 @@
 |---|---|
 | 首页 / Home | `介绍`、`关于` |
 | 核心扩展 / Core Extensions | `StringExtensions`、`RegexExtensions`、`DoubleExtensions`、`NumberExtension`、`RandomExtension`、`DateTimeExtension`、`TimeSpanExtensions`、`DateTimeConverter`、`IConvertibleExtensions`、`ObjectExtension`、`LinqExtension`、`EnumExtension`、`AssemblyExtensions`、`ValidationExtension` |
-| 系统与文件 / System & Files | `ActionHelper`、`NativeLibraryHelper`、`FileHelper`、`FileExtension`、`SevenZipCompressor`、`AppDataMigrator`、`UpdateChecker`、`AppConfigHelper` |
+| 系统与文件 / System & Files | `ActionHelper`、`NativeLibraryHelper`、`FileHelper`、`FileExtension`、`SevenZipCompressor`、`AppDataMigrator`、`UpdateChecker`、`UpdateService`、`AppConfigHelper` |
 | 数据与图像 / Data & Images | `JsonExtensions`、`YamlExtensions`、`DataTableExtensions`、`ImageHelper`、`QrCodeGenerator` |
+| 国际化 / Localization | `I18nManager`、`JsonLocalizer` |
 | 事件与集成 / Events & Integration | `EventBus`、`Prism.EventBusExtensions`、`AspNetCore.EventBusExtensions`、`EventServer`、`EventClient` |
 | 协议与网络 / Protocol & Network | `SerializeHelper`、`NetHelper`、`IpHelper`、`TcpSocketServer`、`TcpSocketClient`、`UdpSocketServer`、`UdpSocketClient`、`TcpSocketClientFileSystemFeature`、`TcpSocketServerFileSystemFeature` |
 | 日志与观测 / Logging & Diagnostics | `Logger`、`CodeWFLoggingBuilderExtensions`、`LogEventFeed`、`CodeWFLogHealth` |
 | 综合示例 / Examples | `事件与日志导览`、`文件处理工作流` |
 
-共 8 个分类、49 个页面。文档区默认完整展示功能演示；源码面板由“查看源码”打开，只提供有内容的 XAML / C# 标签。页面标题展示 API 名、NuGet 包与功能说明。
+共 9 个分类、52 个页面。文档区默认完整展示功能演示；源码面板由“查看源码”打开，只提供有内容的 XAML / C# 标签。页面标题展示 API 名、NuGet 包与功能说明。
 
 ## 配色与交互
 
@@ -27,7 +28,7 @@
 
 ## 维护
 
-1. 在 `catalog.json` 维护分类、API、包名、页面构造表达式、路由与图标。`icon` 是原生字形，`prototypeIcon` 是浏览器 SVG 内容，两者均由目录管理。
+1. 在 `catalog.json` 维护分类、API、包名、页面构造表达式、路由与图标。`icon` 是导航字形，`iconKey` 引用 Semi 原生矢量资源，`prototypeIcon` 是对应 MIT 图标的浏览器 SVG 内容，两者均由目录管理。
 2. 在 Demo 的 `I18n/` JSON 中维护中英文标题和说明。资源键使用稳定的业务语义，例如 `Demo.Shell.GlobalSettings.PaletteLabel`；不要使用方法名加位置编号，修改文案时保留原键。
 3. 实现原生页面，并为原型注册交互演示。执行 `pwsh scripts/sync_design_catalog.ps1`，同步浏览器数据与 `DemoCatalog.g.cs`。页面标识 `DemoPages` 和显式工厂由脚本生成，无需手工维护 switch 或图标字典。
 4. 执行 `pwsh scripts/sync_design_catalog.ps1 -Check`、目录一致性测试和原生 Demo 冒烟。生成文件需要提交，正常 `dotnet build` 不依赖 PowerShell 或 Node.js。
@@ -39,7 +40,7 @@
 
 浏览器原型展示交互与布局，不运行 .NET、原生窗口、Socket 或文件导出。页面明确提示仅为浏览器预览；实际 API 结果在原生 Demo 中产生。原生控件使用 Semi 与 Dock 的模板，字体、窗口按钮和平台交互存在差异。
 
-浏览器逐页检查 49 个路由、中英文和导航切换，未发现脚本异常。NativeAOT 运行范围、命令与限制见 [原生 Demo 文档](../docs/NativeDemo.md)。
+浏览器逐页检查 52 个路由、中英文和导航切换，未发现脚本异常。NativeAOT 运行范围、命令与限制见 [原生 Demo 文档](../docs/NativeDemo.md)。
 
 ## 重点页面用例
 
@@ -69,10 +70,12 @@
 
 ## 排版与 Ribbon 校准
 
-保留 8 个一级分类，在命令区显示明确的功能子组；每个菜单仍对应单个 API。超过 7 项的分类使用双行命令，保留完整 API 名，窗口较窄时横向滚动。分类标题 12px、命令 11px、子组标题 10px；标题栏 52px、分类行 42px、命令区约 86px。页头标题 19px、说明 12px，导航叶子 11.5px。
+保留 9 个一级分类，在命令区显示明确的功能子组；每个菜单仍对应单个 API。超过 7 项的分类使用双行命令，保留完整 API 名，窗口较窄时横向滚动。分类标题 12px、命令 11px、子组标题 10px；标题栏 52px、分类行 42px、命令区约 86px。页头标题 19px、说明 12px，导航叶子 11.5px。
 
-原型对照时裁掉 HTML 的装饰性桌面背景，使用 1440×860 和 1120×640 两种窗口尺寸、中英文 64 个 Ribbon 状态。原生继续使用 Semi / Dock 模板；窗口按钮、PropertyGrid 编辑器和平台字体的几何不做 HTML 仿制。不能把路由检查或截图数量当作全状态逐像素相同的证明。
+原型对照时裁掉 HTML 的装饰性桌面背景，使用 1440×860 和 1120×640 两种窗口尺寸、中英文 72 个 Ribbon 状态。原生继续使用 Semi / Dock 模板；窗口按钮、PropertyGrid 编辑器和平台字体的几何不做 HTML 仿制。不能把路由检查或截图数量当作全状态逐像素相同的证明。
 
 IpHelper 归到协议与网络。核心扩展按文本、数值、日期时间、类型与查询分组，系统与文件按执行、文件、应用配置分组；每个帮助类在页内展示参数、实际调用和结果，网络页提供持续会话。
 
-属性栏有页面参数时只显示该页参数，否则回退全局外观与语言设置；不额外堆放空参数和状态统计。全局标签、密度选项和配色名称也从原生语言资源生成。
+属性栏只显示该页参数，介绍页提供全局外观与语言设置；不额外堆放空参数和状态统计。全局标签、密度选项和配色名称也从原生语言资源生成。
+
+Ribbon 命令图标统一为 32×32 Semi 矢量图标，快捷图标 24×24、按钮热区 34×34；组仅显示标题。Semi 图形资源遵循其 MIT 许可。

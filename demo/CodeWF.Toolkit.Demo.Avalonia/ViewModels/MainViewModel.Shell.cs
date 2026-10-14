@@ -1,3 +1,4 @@
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -401,8 +402,8 @@ public partial class MainViewModel
         var text = RenameText.Trim();
         target.CustomTitle = text.Length == 0 || text == target.Title ? null : text;
         Logger.Info(string.IsNullOrEmpty(target.CustomTitle)
-            ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Shell.CommitRename.RestoredOriginalNameFormat"), target.Title)
-            : string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Shell.CommitRename.RenamedFormat"), target.Title, target.CustomTitle));
+            ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Shell.CommitRename.RestoredOriginalNameFormat), target.Title)
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Shell.CommitRename.RenamedFormat), target.Title, target.CustomTitle));
         RenameTarget = null;
         this.RaisePropertyChanged(nameof(HasRenames));
         RefreshDocumentTitles();
@@ -538,7 +539,7 @@ public partial class MainViewModel
             Density = Density.ToString(),
             Culture = SelectedCulture.Name,
             NavVisible = IsPanelVisible(_navTool),
-            PropsVisible = IsPanelVisible(_propTool),
+            PropsVisible = ActiveDocument?.PropertiesVisible ?? true,
             LogVisible = IsPanelVisible(_logTool),
             Documents = Documents.Select(d => d.TitleKey).ToArray(),
             ActiveDocument = ActiveDocument?.TitleKey,
@@ -560,7 +561,7 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            Logger.Warn(L.Instance.GetResource("Demo.Content.Shell.SaveLayoutTo.FailedToSaveLayout") + ex.Message);
+            Logger.Warn(L.Instance.GetResource(DemoResources.Content.Shell.SaveLayoutTo.FailedToSaveLayout) + ex.Message);
             return false;
         }
     }
@@ -632,16 +633,16 @@ public partial class MainViewModel
             }
 
             SetPanelVisible(_navTool, state.NavVisible);
-            SetPanelVisible(_propTool, state.PropsVisible);
+            if (ActiveDocument is { } restoredDocument) restoredDocument.PropertiesVisible = state.PropsVisible;
             SetPanelVisible(_logTool, state.LogVisible);
 
             this.RaisePropertyChanged(nameof(HasRenames));
-            Logger.Info(L.Instance.GetResource("Demo.Content.Shell.LoadLayoutFrom.LayoutRestored") + path);
+            Logger.Info(L.Instance.GetResource(DemoResources.Content.Shell.LoadLayoutFrom.LayoutRestored) + path);
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Warn(L.Instance.GetResource("Demo.Content.Shell.LoadLayoutFrom.FailedToRestoreLayout") + ex.Message);
+            Logger.Warn(L.Instance.GetResource(DemoResources.Content.Shell.LoadLayoutFrom.FailedToRestoreLayout) + ex.Message);
             return false;
         }
     }
@@ -659,7 +660,6 @@ public partial class MainViewModel
         TogglePanel(tool.Id switch
         {
             "Tool.Nav" => "nav",
-            "Tool.Props" => "props",
             _ => "log",
         });
     }

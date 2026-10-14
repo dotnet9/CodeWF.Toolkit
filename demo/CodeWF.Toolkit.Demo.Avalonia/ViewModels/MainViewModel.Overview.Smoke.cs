@@ -1,3 +1,4 @@
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -9,12 +10,12 @@ namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 
 public partial class MainViewModel
 {
-    // Deterministic visual QA of the native application, independent of persisted user layout.
+    // 原生应用视觉验收，使用固定布局，不依赖用户保存的布局。
     public async Task CaptureStudioAsync(Window window, string directory)
     {
         Directory.CreateDirectory(directory);
         var overview = (Views.Pages.WelcomePage)Documents.First(d => d.Page is Views.Pages.WelcomePage).Page;
-        // Dock creates document content after the window's Loaded event.
+        // Dock 在窗口 Loaded 事件后创建文档内容。
         var readyBy = DateTime.UtcNow.AddSeconds(10);
         while (!overview.IsLoaded || overview.Bounds.Width <= 0 || overview.Bounds.Height <= 0)
         {
@@ -68,7 +69,7 @@ public partial class MainViewModel
         Save("compact-window");
         window.Width = 1440;
         window.Height = 860;
-        foreach (var key in new[] { "Demo.Item.EventClient", DemoPages.NetPacket, "Demo.Item.JsonExtensions", DemoPages.ImageIcon, DemoPages.LogCore })
+        foreach (var key in new[] { DemoResources.Item.EventClient, DemoPages.NetPacket, DemoResources.Item.JsonExtensions, DemoPages.ImageIcon, DemoPages.LogCore })
         {
             overview.Overview.NavigateCommand.Execute(key);
             await WaitForDocumentAsync();
@@ -79,7 +80,7 @@ public partial class MainViewModel
             if (ActiveDocument?.Page is Views.Pages.FileSystemDemoPage filePage) await filePage.ViewModel.StopAsync();
         }
 
-        foreach (var key in new[] { "Demo.Item.JsonExtensions", "Demo.Item.YamlExtensions", "Demo.Item.PrismExtensions", "Demo.Item.FileHelper", "Demo.Item.EventClient", "Demo.Item.DataTableExtensions", "Demo.Item.TcpSocketClientFileSystemFeature" })
+        foreach (var key in new[] { DemoResources.Item.JsonExtensions, DemoResources.Item.YamlExtensions, DemoResources.Item.PrismExtensions, DemoResources.Item.FileHelper, DemoResources.Item.EventClient, DemoResources.Item.DataTableExtensions, DemoResources.Item.TcpSocketClientFileSystemFeature })
         {
             overview.Overview.NavigateCommand.Execute(key);
             await WaitForDocumentAsync();
@@ -152,6 +153,14 @@ public partial class MainViewModel
                         .OfType<Button>().Select(button => button.DataContext).OfType<DemoItemViewModel>().ToArray();
                     if (commands.Length != group.Items.Count || !commands.SequenceEqual(group.Items))
                         throw new InvalidOperationException("Ribbon commands do not match the catalog: " + group.TitleKey);
+                    var icons = window.FindControl<ScrollViewer>("RibbonCommands")!.GetVisualDescendants()
+                        .OfType<PathIcon>().Where(icon => icon.Classes.Contains("ribbon-icon")).ToArray();
+                    if (icons.Length != commands.Length || icons.Any(icon => icon.Data is null || icon.Bounds.Width != 32 || icon.Bounds.Height != 32))
+                        throw new InvalidOperationException("Ribbon vector icons must occupy 32 by 32 pixels.");
+                    var quickIcons = window.GetVisualDescendants().OfType<Button>()
+                        .Where(button => button.Classes.Contains("ribbon-quick")).Select(button => button.Content).OfType<PathIcon>().ToArray();
+                    if (quickIcons.Length != 4 || quickIcons.Any(icon => icon.Data is null || icon.Bounds.Width != 24 || icon.Bounds.Height != 24))
+                        throw new InvalidOperationException("Ribbon quick icons must occupy 24 by 24 pixels.");
                     Save($"ribbon-{group.TitleKey.Split('.').Last()}-{(int)size.Width}-{culture.Name}");
                 }
             }
@@ -167,6 +176,7 @@ public partial class MainViewModel
 
     private async Task<bool> SmokeOverviewAsync(CancellationToken cancellation)
     {
+        await SmokeDocumentIsolationAsync(cancellation);
         try
         {
             foreach (var palette in Palettes.Take(3))
@@ -219,7 +229,7 @@ public partial class MainViewModel
             if (new FileInfo(Path.Combine(output, "sample.ico")).Length <= 6) throw new InvalidOperationException("Empty ICO artifact");
             await SmokeLocalTransportsAsync(cancellation);
             Logger.Info("Artifact smoke: generated JSON/YAML metadata, quoted scalar types, ZIP, QR and ICO passed");
-            foreach (var key in new[] { DemoPages.Bus, "Demo.Item.EventClient", DemoPages.NetPacket, "Demo.Item.JsonExtensions", DemoPages.ImageIcon, DemoPages.LogCore })
+            foreach (var key in new[] { DemoPages.Bus, DemoResources.Item.EventClient, DemoPages.NetPacket, DemoResources.Item.JsonExtensions, DemoPages.ImageIcon, DemoPages.LogCore })
             {
                 overview.Overview.NavigateCommand.Execute(key);
                 if (ActiveDocument?.TitleKey != key) throw new InvalidOperationException("Overview navigation failed: " + key);

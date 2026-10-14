@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
@@ -10,9 +11,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>事件总线页：真实的进程内总线（订阅 / 发布 / 查询 / 退订）。</summary>
 public sealed class EventBusPage : DemoPageBase
 {
-    private static string XamlSnippet => L.Instance.GetResource("Demo.Content.EventBus.Source.Xaml");
+    private static string XamlSnippet => L.Instance.GetResource(DemoResources.Content.EventBus.Source.Xaml);
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.EventBus.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.EventBus.Source.CSharp);
 
     private readonly CodeWF.Toolkit.EventBus.EventBus _bus = new();
     private readonly SelectableTextBlock _feed;
@@ -78,11 +79,11 @@ public sealed class EventBusPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("bus.core", L.Instance.GetResource("Demo.Content.EventBus.Properties.BusInstance"), L.Instance.GetResource("Demo.Content.EventBus.Properties.TheActualEventBusInstanceOwnedByThisDemo"),
-            DemoProperty.ReadOnly("bus.name", L.Instance.GetResource("Demo.Content.EventBus.Properties.BusInstance"), "EventBus"),
-            DemoProperty.Bool("bus.async", L.Instance.GetResource("Demo.Content.EventBus.Properties.PublishAsynchronously"), false, L.Instance.GetResource("Demo.Content.EventBus.Properties.UsePublishAsyncWhenEnabled")),
-            DemoProperty.Bool("bus.scan", L.Instance.GetResource("Demo.Content.EventBus.Properties.AssemblyScanning"), false, L.Instance.GetResource("Demo.Content.EventBus.Properties.RegisterEventHandlerMethodsFromAnAssembly")),
-            DemoProperty.Number("bus.order", L.Instance.GetResource("Demo.Content.EventBus.Properties.HandlerOrder"), 1, 0, 100, 1, null, L.Instance.GetResource("Demo.Content.EventBus.Properties.ExecutionOrderWhenACommandHasMultipleHandlers"))));
+        DemoProperty.Category("bus.core", L.Instance.GetResource(DemoResources.Content.EventBus.Properties.BusInstance), L.Instance.GetResource(DemoResources.Content.EventBus.Properties.TheActualEventBusInstanceOwnedByThisDemo),
+            DemoProperty.ReadOnly("bus.name", L.Instance.GetResource(DemoResources.Content.EventBus.Properties.BusInstance), "EventBus"),
+            DemoProperty.Bool("bus.async", L.Instance.GetResource(DemoResources.Content.EventBus.Properties.PublishAsynchronously), false, L.Instance.GetResource(DemoResources.Content.EventBus.Properties.UsePublishAsyncWhenEnabled)),
+            DemoProperty.Bool("bus.scan", L.Instance.GetResource(DemoResources.Content.EventBus.Properties.AssemblyScanning), false, L.Instance.GetResource(DemoResources.Content.EventBus.Properties.RegisterEventHandlerMethodsFromAnAssembly)),
+            DemoProperty.Number("bus.order", L.Instance.GetResource(DemoResources.Content.EventBus.Properties.HandlerOrder), 1, 0, 100, 1, null, L.Instance.GetResource(DemoResources.Content.EventBus.Properties.ExecutionOrderWhenACommandHasMultipleHandlers))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -93,8 +94,8 @@ public sealed class EventBusPage : DemoPageBase
         else if (change.Item.Id == "bus.scan" && DemoProperty.Flag(change))
         {
             _bus.Subscribe([typeof(TimeQueryHandler).Assembly]);
-            Append(L.Instance.GetResource("Demo.Content.EventBus.OnPropertyCommitted.AssemblyScanningTimeQueryHandlerRegistered"));
-            Logger.Info(L.Instance.GetResource("Demo.Content.EventBus.OnPropertyCommitted.EventBusRegisteringHandlersFromTheAssembly"));
+            Append(L.Instance.GetResource(DemoResources.Content.EventBus.OnPropertyCommitted.AssemblyScanningTimeQueryHandlerRegistered));
+            Logger.Info(L.Instance.GetResource(DemoResources.Content.EventBus.OnPropertyCommitted.EventBusRegisteringHandlersFromTheAssembly));
         }
     }
 
@@ -103,7 +104,7 @@ public sealed class EventBusPage : DemoPageBase
         var name = _message.Text ?? string.Empty;
         Append($"Publish(new GreetCommand(\"{name}\"))");
         _bus.Publish(new GreetCommand(name));
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBus.Publish.EventBusPublishGreetCommandFormat"), name));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBus.Publish.EventBusPublishGreetCommandFormat), name));
     }
 
     private async Task PublishAsync()
@@ -111,15 +112,15 @@ public sealed class EventBusPage : DemoPageBase
         var name = _message.Text ?? string.Empty;
         Append($"PublishAsync(new GreetCommand(\"{name}\"))");
         await _bus.PublishAsync(new GreetCommand(name));
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBus.PublishAsync.EventBusAsyncPublishGreetCommandFormat"), name));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBus.PublishAsync.EventBusAsyncPublishGreetCommandFormat), name));
     }
 
     private void Query()
     {
         var query = new TimeQuery();
         _bus.Query(query);
-        Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBus.Query.QueryTimeQueryResultFormat"), query.Result));
-        Logger.Info(L.Instance.GetResource("Demo.Content.EventBus.Query.EventBusQueryTimeQuery"));
+        Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBus.Query.QueryTimeQueryResultFormat), query.Result));
+        Logger.Info(L.Instance.GetResource(DemoResources.Content.EventBus.Query.EventBusQueryTimeQuery));
     }
 
     private void ToggleSecondSubscription()
@@ -128,28 +129,28 @@ public sealed class EventBusPage : DemoPageBase
         if (_secondSubscriptionActive)
         {
             _bus.Subscribe(_secondSubscription);
-            _unsubscribeButton.Content = L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.RemoveSecondSubscription");
-            _subscriptionState.Text = L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.Subscribed");
+            _unsubscribeButton.Content = L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.RemoveSecondSubscription);
+            _subscriptionState.Text = L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.Subscribed);
         }
         else
         {
             _bus.Unsubscribe(_secondSubscription);
-            _unsubscribeButton.Content = L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.RestoreSecondSubscription");
-            _subscriptionState.Text = L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.Unsubscribed");
+            _unsubscribeButton.Content = L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.RestoreSecondSubscription);
+            _subscriptionState.Text = L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.Unsubscribed);
         }
 
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.SecondEventBusSubscriptionFormat"), (_secondSubscriptionActive ? L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.Enabled") : L.Instance.GetResource("Demo.Content.EventBus.ToggleSecondSubscription.Cancel"))));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.SecondEventBusSubscriptionFormat), (_secondSubscriptionActive ? L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.Enabled) : L.Instance.GetResource(DemoResources.Content.EventBus.ToggleSecondSubscription.Cancel))));
     }
 
     private void ClearFeed()
     {
-        _feed.Text = L.Instance.GetResource("Demo.Content.EventBus.ClearFeed.SessionCleared");
-        Logger.Info(L.Instance.GetResource("Demo.Content.EventBus.ClearFeed.EventBusSessionCleared"));
+        _feed.Text = L.Instance.GetResource(DemoResources.Content.EventBus.ClearFeed.SessionCleared);
+        Logger.Info(L.Instance.GetResource(DemoResources.Content.EventBus.ClearFeed.EventBusSessionCleared));
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current == L.Instance.GetResource("Demo.Content.EventBus.Append.SessionCleared") ? line : current + "\n" + line;
+        _feed.Text = string.IsNullOrEmpty(current) || current == L.Instance.GetResource(DemoResources.Content.EventBus.Append.SessionCleared) ? line : current + "\n" + line;
     }
 }

@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ public sealed class NetPacketPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.NetPacket.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.NetPacket.Source.CSharp);
 
     private readonly ObservableCollection<string> _fieldRows = [];
     private readonly ListBox _fieldList;
@@ -56,8 +57,8 @@ public sealed class NetPacketPage : DemoPageBase
         var head = Ui.Card("@Demo.Content.NetPacket.head.PacketHeader",
             Ui.Field("systemId", _systemId),
             Ui.Field("version", _version),
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetPacket.head.ByteOrder"), Ui.Key("@Demo.Content.NetPacket.head.LittleEndianInt32")),
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetPacket.head.FixedHeaderSize"), Ui.Key(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.head.BytesFormat"), SerializeHelper.PacketHeadLen))),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetPacket.head.ByteOrder), Ui.Key("@Demo.Content.NetPacket.head.LittleEndianInt32")),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetPacket.head.FixedHeaderSize), Ui.Key(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.head.BytesFormat), SerializeHelper.PacketHeadLen))),
             Ui.Hint("@Demo.Content.NetPacket.head.NetHeadDeclaresTheHeaderSerializationAndDeserializationUse"));
 
         var declaration = Ui.Card("@Demo.Content.NetPacket.declaration.ProtocolDeclaration",
@@ -92,11 +93,11 @@ public sealed class NetPacketPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("pkt.head", L.Instance.GetResource("Demo.Content.NetPacket.Properties.PacketHeader"), L.Instance.GetResource("Demo.Content.NetPacket.Properties.ValueDeclaredByNetHeadInTheSample"),
-            DemoProperty.Number("pkt.systemid", "systemId", 1, 0, 255, 1, null, L.Instance.GetResource("Demo.Content.NetPacket.Properties.SystemIdentifierWrittenIntoThePacketHeader")),
-            DemoProperty.Number("pkt.version", "version", 1, 0, 255, 1, null, L.Instance.GetResource("Demo.Content.NetPacket.Properties.ProtocolVersionDeclaredInThePacketHeader")),
-            DemoProperty.Bool("pkt.bigendian", L.Instance.GetResource("Demo.Content.NetPacket.Properties.LittleEndianInt32"), true, L.Instance.GetResource("Demo.Content.NetPacket.Properties.Int32UsesBinaryWriterLittleEndianEncoding")),
-            DemoProperty.Bool("pkt.offset", L.Instance.GetResource("Demo.Content.NetPacket.Properties.BitFieldLayout"), false, L.Instance.GetResource("Demo.Content.NetPacket.Properties.UseNetFieldOffsetAttributeForAnExplicitBitFieldLayout"))));
+        DemoProperty.Category("pkt.head", L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.PacketHeader), L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.ValueDeclaredByNetHeadInTheSample),
+            DemoProperty.Number("pkt.systemid", "systemId", 1, 0, 255, 1, null, L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.SystemIdentifierWrittenIntoThePacketHeader)),
+            DemoProperty.Number("pkt.version", "version", 1, 0, 255, 1, null, L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.ProtocolVersionDeclaredInThePacketHeader)),
+            DemoProperty.Bool("pkt.bigendian", L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.LittleEndianInt32), true, L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.Int32UsesBinaryWriterLittleEndianEncoding)),
+            DemoProperty.Bool("pkt.offset", L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.BitFieldLayout), false, L.Instance.GetResource(DemoResources.Content.NetPacket.Properties.UseNetFieldOffsetAttributeForAnExplicitBitFieldLayout))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -134,13 +135,13 @@ public sealed class NetPacketPage : DemoPageBase
         var name = (_newField.Text ?? string.Empty).Trim();
         if (name.Length == 0)
         {
-            _output.Text = L.Instance.GetResource("Demo.Content.NetPacket.AddField.FieldNameCannotBeEmpty");
+            _output.Text = L.Instance.GetResource(DemoResources.Content.NetPacket.AddField.FieldNameCannotBeEmpty);
             return;
         }
 
-        _fieldRows.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.AddField.DemoStringDisplayOnlyEditTheCDeclarationFormat"), name));
-        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.AddField.AddedADisplayOnlyFieldWireFieldsAreFormat"), name);
-        Logger.Warn(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.AddField.NetWeaverDemoAddedDisplayOnlyFieldFormat"), name));
+        _fieldRows.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.AddField.DemoStringDisplayOnlyEditTheCDeclarationFormat), name));
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.AddField.AddedADisplayOnlyFieldWireFieldsAreFormat), name);
+        Logger.Warn(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.AddField.NetWeaverDemoAddedDisplayOnlyFieldFormat), name));
     }
 
     private void Serialize()
@@ -156,10 +157,10 @@ public sealed class NetPacketPage : DemoPageBase
         var buffer = packet.Serialize(systemId);
         var hex = string.Join(' ', buffer.Select(b => "0x" + b.ToString("X2")));
 
-        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.Serialize.SerializeSystemIdBytesFormat"), systemId, buffer.Length)
-                       + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.Serialize.HeaderNetHead0x01BytesFormat"), _version.Text, SerializeHelper.PacketHeadLen)
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.Serialize.SerializeSystemIdBytesFormat), systemId, buffer.Length)
+                       + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.Serialize.HeaderNetHead0x01BytesFormat), _version.Text, SerializeHelper.PacketHeadLen)
                        + hex;
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.Serialize.NetWeaverSerializationBytesSystemIdFormat"), buffer.Length, systemId));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.Serialize.NetWeaverSerializationBytesSystemIdFormat), buffer.Length, systemId));
     }
 
     private void Deserialize()
@@ -169,7 +170,7 @@ public sealed class NetPacketPage : DemoPageBase
         var restored = buffer.Deserialize<SamplePacket>();
 
         var builder = new StringBuilder();
-        builder.AppendLine(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetPacket.Deserialize.DeserializeSamplePacketBytesFormat"), buffer.Length));
+        builder.AppendLine(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetPacket.Deserialize.DeserializeSamplePacketBytesFormat), buffer.Length));
         builder.AppendLine($"  Id    = {restored.Id}");
         builder.AppendLine($"  Score = {restored.Score}");
         builder.AppendLine($"  Title = \"{restored.Title}\"");
@@ -177,11 +178,11 @@ public sealed class NetPacketPage : DemoPageBase
         builder.Append(restored.Id == packet.Id
                        && Math.Abs(restored.Score - packet.Score) < 0.001f
                        && restored.Title == packet.Title
-            ? L.Instance.GetResource("Demo.Content.NetPacket.Deserialize.RoundTripMatch")
-            : L.Instance.GetResource("Demo.Content.NetPacket.Deserialize.RoundTripMismatch"));
+            ? L.Instance.GetResource(DemoResources.Content.NetPacket.Deserialize.RoundTripMatch)
+            : L.Instance.GetResource(DemoResources.Content.NetPacket.Deserialize.RoundTripMismatch));
 
         _output.Text = builder.ToString();
-        Logger.Info(L.Instance.GetResource("Demo.Content.NetPacket.Deserialize.NetWeaverDeserializationRoundTripComplete"));
+        Logger.Info(L.Instance.GetResource(DemoResources.Content.NetPacket.Deserialize.NetWeaverDeserializationRoundTripComplete));
     }
 
     private static string PropertyTypeName(Type type) => type == typeof(int) ? "int"

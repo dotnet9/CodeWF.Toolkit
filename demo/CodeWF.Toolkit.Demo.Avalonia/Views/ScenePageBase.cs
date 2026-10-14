@@ -1,3 +1,5 @@
+﻿using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia;
 using Avalonia.Controls;
@@ -111,11 +113,20 @@ public abstract class ScenePageBase : DemoPageBase
         }
 
         _stepIndex = index;
+        RefreshProperties();
         RefreshStepStates();
         RefreshSummary();
         _pageHost.Content = ActiveScenePage;
         ActiveScenePage?.OnDocumentOpened();
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ScenePageBase.GoToStep.WorkflowStepFormat"), index + 1, _pages.Count, I18nManager.Instance.GetResource(_stepKeys[index])));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ScenePageBase.GoToStep.WorkflowStepFormat), index + 1, _pages.Count, I18nManager.Instance.GetResource(_stepKeys[index])));
+    }
+
+    protected override IReadOnlyList<PropertyItem> BuildProperties() => ActiveScenePage?.Properties ?? [];
+    public override void OnPropertyCommitted(PropertyValueChange change) => ActiveScenePage?.OnPropertyCommitted(change);
+    public override void RefreshProperties()
+    {
+        ActiveScenePage?.RefreshProperties();
+        base.RefreshProperties();
     }
 
     public override void OnDocumentOpened()

@@ -489,17 +489,21 @@ window.addEventListener("error",function(e){
           </span>
           <span id="dT" style="display:flex;gap:4px"></span>
         </div>
+        <div class="document-workspace">
         <div class="dbody doc" id="dBody"></div>
-      </div>
-
+        <div class="document-splitter" role="separator" aria-orientation="vertical" tabindex="0"></div>
       <div class="panel p-props">
         <div class="phd">
-          <span class="hdic"><svg class="svgic s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h9M17 6.5h3M4 12h4M12 12h8M4 17.5h11M19 17.5h1"/><circle cx="14.5" cy="6.5" r="2.2"/><circle cx="9.5" cy="12" r="2.2"/><circle cx="16.5" cy="17.5" r="2.2"/></svg></span>
+
           <span data-i18n="props">属性</span><span class="cnt" id="pgCnt"></span>
           <span class="tb"><button id="hideProp2" title="隐藏面板" data-i18n="dock.hide">隐藏</button></span>
         </div>
         <div class="pbd pgp" id="pGrid"></div>
       </div>
+        </div>
+      </div>
+
+
 
     </div>
 
@@ -576,5 +580,7 @@ window.addEventListener("error",function(e){
 <script src="assets/studio.js"></script>
 <script src="assets/catalog-gallery.js"></script>
 <script src="assets/helper-examples.js"></script>
+<link rel="stylesheet" href="assets/property-panel.css">
+<script src="assets/property-panel.js"></script>
 </body>
 </html>

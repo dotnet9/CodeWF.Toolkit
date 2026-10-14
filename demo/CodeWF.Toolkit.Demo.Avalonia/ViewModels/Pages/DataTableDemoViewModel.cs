@@ -1,3 +1,5 @@
+﻿using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Text;
@@ -24,7 +26,25 @@ public sealed class DataTableDemoViewModel : ReactiveObject
         CsvCommand = ReactiveCommand.CreateFromTask(() => RunAsync(false));
         ExcelCommand = ReactiveCommand.CreateFromTask(() => RunAsync(true));
     }
-    public string Input { get => _input; set => this.RaiseAndSetIfChanged(ref _input, value); }
+    private PropertyItem? _inputProperty;
+    public string Input
+    {
+        get => _input;
+        set { this.RaiseAndSetIfChanged(ref _input, value); if (_inputProperty is not null) _inputProperty.Value = value; }
+    }
+
+    public IReadOnlyList<PropertyItem> BuildProperties()
+    {
+        _inputProperty = new PropertyItem { Id = nameof(Input), Name = I18nManager.Instance.GetResource(DemoResources.Catalog.Input),
+            Kind = PropertyItemKind.MultilineText, Value = Input, DefaultValue = Input };
+        return [_inputProperty];
+    }
+
+    public void Commit(PropertyValueChange change)
+    {
+        if (change.Item.Id == nameof(Input)) Input = change.NewValue?.ToString() ?? "";
+    }
+
     public string Output { get => _output; private set => this.RaiseAndSetIfChanged(ref _output, value); }
     public bool IsBusy { get => _busy; private set => this.RaiseAndSetIfChanged(ref _busy, value); }
     public bool Succeeded { get; private set; }
@@ -47,7 +67,7 @@ public sealed class DataTableDemoViewModel : ReactiveObject
             Output = $"{result.Path}\nRows = {Rows.Count}\nBytes = {new FileInfo(result.Path).Length}";
             Succeeded = true;
         }
-        catch (Exception ex) { Output = string.Format(I18nManager.Instance.GetResource("Demo.Catalog.Failed"), ex.Message); }
+        catch (Exception ex) { Output = string.Format(I18nManager.Instance.GetResource(DemoResources.Catalog.Failed), ex.Message); }
         finally { IsBusy = false; }
     }
 
@@ -58,10 +78,10 @@ public sealed class DataTableDemoViewModel : ReactiveObject
         foreach (var line in input.Split('\n', StringSplitOptions.RemoveEmptyEntries))
         {
             var cells = line.TrimEnd('\r').Split(',');
-            if (cells.Length != 2) throw new FormatException(I18nManager.Instance.GetResource("Demo.Catalog.TableFormat"));
+            if (cells.Length != 2) throw new FormatException(I18nManager.Instance.GetResource(DemoResources.Catalog.TableFormat));
             table.Rows.Add(cells[0], cells[1]);
         }
-        if (table.Rows.Count == 0) throw new FormatException(I18nManager.Instance.GetResource("Demo.Catalog.TableFormat"));
+        if (table.Rows.Count == 0) throw new FormatException(I18nManager.Instance.GetResource(DemoResources.Catalog.TableFormat));
         var directory = Path.Combine(Path.GetTempPath(), "CodeWFToolkitDemo", "tables", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(directory);
         var path = Path.Combine(directory, excel ? "sample.xlsx" : "sample.csv");

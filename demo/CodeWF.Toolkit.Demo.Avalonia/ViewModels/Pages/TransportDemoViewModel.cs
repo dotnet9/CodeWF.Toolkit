@@ -1,3 +1,5 @@
+﻿using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows.Input;
@@ -9,7 +11,7 @@ using ReactiveUI;
 
 namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels.Pages;
 
-/// <summary>Observable local protocol sessions, using the production server and client APIs.</summary>
+/// <summary>使用真实服务端和客户端 API 的本地协议会话演示。</summary>
 public sealed class TransportDemoViewModel : ReactiveObject
 {
     private readonly SemaphoreSlim _gate = new(1, 1);
@@ -45,7 +47,25 @@ public sealed class TransportDemoViewModel : ReactiveObject
     public bool CanStart => !IsRunning && !IsBusy;
     public bool CanOperate => IsRunning && !IsBusy;
     public bool Succeeded { get; private set; }
-    public string Input { get => _input; set => this.RaiseAndSetIfChanged(ref _input, value); }
+    private PropertyItem? _inputProperty;
+    public string Input
+    {
+        get => _input;
+        set { this.RaiseAndSetIfChanged(ref _input, value); if (_inputProperty is not null) _inputProperty.Value = value; }
+    }
+
+    public IReadOnlyList<PropertyItem> BuildProperties()
+    {
+        _inputProperty = new PropertyItem { Id = nameof(Input), Name = I18nManager.Instance.GetResource(DemoResources.Catalog.Input),
+            Kind = PropertyItemKind.MultilineText, Value = Input, DefaultValue = Input };
+        return [_inputProperty];
+    }
+
+    public void Commit(PropertyValueChange change)
+    {
+        if (change.Item.Id == nameof(Input)) Input = change.NewValue?.ToString() ?? "";
+    }
+
     public string Output { get => _output; private set => this.RaiseAndSetIfChanged(ref _output, value); }
     public int ReceivedCount { get => _receivedCount; private set => this.RaiseAndSetIfChanged(ref _receivedCount, value); }
     public ICommand StartCommand { get; }
@@ -100,20 +120,20 @@ public sealed class TransportDemoViewModel : ReactiveObject
                 Output = $"127.0.0.1:{port}";
             }
             IsRunning = true;
-            Output += "\n" + I18nManager.Instance.GetResource("Demo.Catalog.TransportStarted");
+            Output += "\n" + I18nManager.Instance.GetResource(DemoResources.Catalog.TransportStarted);
         }
         catch { await StopCoreAsync(); throw; }
     });
 
     public Task SendAsync() => ExecuteAsync(async () =>
     {
-        if (!IsRunning) throw new InvalidOperationException(I18nManager.Instance.GetResource("Demo.Catalog.FileStartFirst"));
+        if (!IsRunning) throw new InvalidOperationException(I18nManager.Instance.GetResource(DemoResources.Catalog.FileStartFirst));
         _received = new(TaskCreationOptions.RunContinuationsAsynchronously);
         var payload = Input;
         if (IsEvent && !IsSubscribed)
         {
             if (!_publisher!.Publish(Subject, payload, out var error)) throw new IOException(error);
-            Output += "\n" + I18nManager.Instance.GetResource("Demo.Catalog.TransportNoSubscription");
+            Output += "\n" + I18nManager.Instance.GetResource(DemoResources.Catalog.TransportNoSubscription);
             return;
         }
         for (var attempt = 0; attempt < (IsEvent || IsUdp ? 20 : 1) && !_received.Task.IsCompleted; attempt++)
@@ -147,13 +167,13 @@ public sealed class TransportDemoViewModel : ReactiveObject
         if (_tcpServer is not null) await _tcpServer.StopAsync();
         _registration?.Dispose(); _registration = null; _tcpClient = null; _tcpServer = null;
         IsRunning = false; IsSubscribed = false;
-        Output += "\n" + I18nManager.Instance.GetResource("Demo.Catalog.FileStopped");
+        Output += "\n" + I18nManager.Instance.GetResource(DemoResources.Catalog.FileStopped);
     }
     private async Task ExecuteAsync(Func<Task> action)
     {
         await _gate.WaitAsync(); IsBusy = true; Succeeded = false;
         try { await action(); Succeeded = true; }
-        catch (Exception ex) { Output += "\n" + string.Format(I18nManager.Instance.GetResource("Demo.Catalog.Failed"), ex.Message); }
+        catch (Exception ex) { Output += "\n" + string.Format(I18nManager.Instance.GetResource(DemoResources.Catalog.Failed), ex.Message); }
         finally { IsBusy = false; _gate.Release(); }
     }
 }

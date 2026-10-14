@@ -92,7 +92,8 @@
       "Data": "Data & Images",
       "Events": "Events & Integration",
       "Network": "Protocol & Network",
-      "Examples": "Examples"
+      "Examples": "Examples",
+      "Localization": "Localization"
     },
     "Item": {
       "Welcome": "Introduction",
@@ -150,7 +151,10 @@
       "TcpSocketClientFileSystemFeature": "TcpSocketClientFileSystemFeature",
       "TcpSocketServerFileSystemFeature": "TcpSocketServerFileSystemFeature",
       "LogEventFeed": "LogEventFeed",
-      "CodeWFLogHealth": "CodeWFLogHealth"
+      "CodeWFLogHealth": "CodeWFLogHealth",
+      "UpdateService": "UpdateService",
+      "I18nManager": "I18nManager",
+      "JsonLocalizer": "JsonLocalizer"
     },
     "Scene": {
       "Step.Server": "Bus basics",
@@ -433,6 +437,15 @@
       },
       "CodeWFLogHealth": {
         "Desc": "Read a logging health snapshot with queue and diagnostic status."
+      },
+      "UpdateService": {
+        "Desc": "Exercise checks, downloads, SHA-256, cancellation and the missing-installer guard with controlled HTTP data. No installer is launched."
+      },
+      "I18nManager": {
+        "Desc": "Inspect the shared engine culture, loaded languages and a resource key. Switch language in the title bar."
+      },
+      "JsonLocalizer": {
+        "Desc": "Enter a culture to read embedded Core update messages with English fallback. No application copy of library resources is needed."
       }
     },
     "Catalog": {
@@ -497,7 +510,16 @@
       "SectionBroker": "Event Broker",
       "SectionProtocol": "Protocol & Address",
       "SectionSockets": "Socket Sessions",
-      "SectionRemoteFiles": "Remote Files"
+      "SectionRemoteFiles": "Remote Files",
+      "SectionLanguage": "Languages & Resources",
+      "LocalizationHint": "Browser preview of language lookup; real embedded resources run in the native demo.",
+      "UpdateFixtureHint": "Controlled update preview: check, download, SHA-256 and cancel. No software is installed.",
+      "UpdateCheck": "Check",
+      "UpdateDownload": "Download & verify",
+      "UpdateCancel": "Cancel",
+      "UpdateAvailable": "Demo version v2.0.0 available",
+      "UpdateVerified": "Download verified (preview)",
+      "UpdateCanceled": "Canceled (preview)"
     },
     "Content": {
       "Core": {

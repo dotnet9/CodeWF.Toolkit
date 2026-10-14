@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
@@ -16,6 +17,7 @@ using CodeWF.Toolkit.Files.Extensions;
 using CodeWF.Toolkit.Files.FileExtensions;
 using CodeWF.Toolkit.Files.Helpers;
 using CodeWF.Toolkit.Logging;
+using CodeWF.Toolkit.Lang.Json;
 using CodeWF.Toolkit.NetWrapper.FileSystem;
 using CodeWF.Toolkit.NetWrapper.Helpers;
 
@@ -57,9 +59,9 @@ public static partial class HelperDemoCatalog
             {
                 var values = text.Split(',').Select(value => int.Parse(value, CultureInfo.InvariantCulture)).ToArray();
                 if (values.Length != 2 || values.Any(value => value < 0 || value > 5000))
-                    throw new FormatException(global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource("Demo.Catalog.ActionFormat"));
+                    throw new FormatException(global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Catalog.ActionFormat));
                 var result = await Task.Run(() => ActionHelper.CheckOvertime(() => Thread.Sleep(values[0]), values[1]));
-                return $"CheckOvertime = {result}\n" + global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(result ? "Demo.Catalog.ActionCompleted" : "Demo.Catalog.ActionTimedOut");
+                return $"CheckOvertime = {result}\n" + global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(result ? DemoResources.Catalog.ActionCompleted : DemoResources.Catalog.ActionTimedOut);
             }),
         "IpHelper" => Sync(key, "127.0.0.1:39561", "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
             text => { var success = IpHelper.TrySplitIpPort(text, out var ip, out var port); return $"Valid = {success}\nIP = {ip}\nPort = {port}\nLocal IPv4 = {string.Join(", ", IpHelper.GetAllIpV4(true))}"; }),
@@ -71,6 +73,11 @@ public static partial class HelperDemoCatalog
             text => { var directory = TemporaryDirectory(); File.WriteAllText(Path.Combine(directory, "portable.marker"), ""); return AppDataMigrator.ResolveAndMigrate("CodeWFDemo.Catalog." + Guid.NewGuid().ToString("N"), Path.GetFileName(text), directory, "portable.marker"); }),
         "UpdateChecker" => Async(key, "dotnet9/CodeWF.Toolkit", "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);", async text =>
             { var parts = text.Trim('/').Split('/'); if (parts.Length != 2) throw new FormatException("Expected owner/repository."); using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(15) }; var result = await new UpdateChecker(http, parts[0], parts[1]).CheckAsync(new Version(1,0)); return $"Succeeded = {result.Succeeded}\nTag = {result.Update?.Tag}\nError = {result.Error}"; }, smoke: false),
+        "UpdateService" => Async(key, "Hello update", "await updates.CheckAsync(currentVersion);\nawait updates.DownloadAsync(update, progress);\n// Controlled HTTP fixture; no installer is launched.", UpdatePipeline),
+        "I18nManager" => Sync(key, DemoResources.Item.Welcome, "I18nManager.Instance.Culture;\nI18nManager.Instance.GetLanguages();\nI18nManager.Instance.GetResource(input);", text =>
+            { var manager = CodeWF.Toolkit.Lang.I18nManager.Instance; return $"Culture = {manager.Culture?.Name}\nLanguages = {string.Join(", ", manager.GetLanguages()?.Select(language => language.CultureName) ?? [])}\n{text} = {manager.GetResource(text.Trim())}"; }),
+        "JsonLocalizer" => Sync(key, "zh-CN", "new JsonLocalizer(typeof(UpdateService).Assembly)\n    .GetResource(ResourceKeys.Update.RepositoryRequired, culture);", culture =>
+            { culture = CultureInfo.GetCultureInfo(culture.Trim()).Name; var localizer = new JsonLocalizer(typeof(UpdateService).Assembly); return $"Culture = {culture}\n{localizer.GetResource(CodeWF.Toolkit.Core.I18n.ResourceKeys.Update.RepositoryRequired, culture)}"; }),
         "FileExtension" => Sync(key, "..", "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);", text => $"IsPathInUpperTwoLevelsOfCurrentDir = {FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(text)}"),
         "SevenZipCompressor" => Sync(key, "Hello archive", "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);", Archive),
         "AppConfigHelper" => Sync(key, "42", "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);", text =>
@@ -112,7 +119,7 @@ public static partial class HelperDemoCatalog
     private static string NativeMethod(string method)
     {
         if (!OperatingSystem.IsWindows())
-            return global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource("Demo.Catalog.WindowsOnly");
+            return global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Catalog.WindowsOnly);
         if (!NativeLibraryHelper.GetMethod(Environment.SystemDirectory, "kernel32", "", "", method.Trim(), out var address, out var error))
             throw new InvalidOperationException(error);
         return $"Resolved = True\nAddress = {address}";

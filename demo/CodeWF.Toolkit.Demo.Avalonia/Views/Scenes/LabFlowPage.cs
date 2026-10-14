@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
@@ -26,7 +27,7 @@ public sealed class LabFlowPage : ScenePageBase
 
     protected override string SummaryKey => DemoKeys.SummaryLab;
 
-    public override string XamlCode => L.Instance.GetResource("Demo.Content.LabFlow.XamlCode.PackageReferenceIncludeCodeWFToolkitFilesPackageReferenceIncludeCodeWF");
+    public override string XamlCode => L.Instance.GetResource(DemoResources.Content.LabFlow.XamlCode.PackageReferenceIncludeCodeWFToolkitFilesPackageReferenceIncludeCodeWF);
 
-    public override string CSharpCode => L.Instance.GetResource("Demo.Content.LabFlow.CSharpCode.AddStepDemoKeysStepFormatNewFilesFormatPageAddStepDemoKeysStepArchive");
+    public override string CSharpCode => L.Instance.GetResource(DemoResources.Content.LabFlow.CSharpCode.AddStepDemoKeysStepFormatNewFilesFormatPageAddStepDemoKeysStepArchive);
 }

@@ -1,3 +1,5 @@
+﻿using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Security.Cryptography;
@@ -14,7 +16,7 @@ using ReactiveUI;
 
 namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels.Pages;
 
-/// <summary>A real local session, with every operation confined to a fresh demo directory.</summary>
+/// <summary>真实本地文件会话，所有操作仅作用于新建的演示目录。</summary>
 public sealed class FileSystemDemoViewModel : ReactiveObject
 {
     private readonly SemaphoreSlim _gate = new(1, 1);
@@ -58,6 +60,16 @@ public sealed class FileSystemDemoViewModel : ReactiveObject
     public bool LastTransferWasCancelled { get; private set; }
     public string Output { get => _output; private set => this.RaiseAndSetIfChanged(ref _output, value); }
     public double Progress { get => _progress; private set => this.RaiseAndSetIfChanged(ref _progress, value); }
+    public int TransferSize { get; private set; } = 4 * 1024 * 1024;
+    public IReadOnlyList<PropertyItem> BuildProperties() => [new PropertyItem
+    {
+        Id = nameof(TransferSize), Name = nameof(TransferSize), Kind = PropertyItemKind.Number,
+        Value = (decimal)TransferSize, DefaultValue = 4m * 1024 * 1024, Minimum = 1, Maximum = 16 * 1024 * 1024, Increment = 1024
+    }];
+    public void Commit(PropertyValueChange change)
+    {
+        if (change.Item.Id == nameof(TransferSize)) TransferSize = Math.Clamp(Convert.ToInt32(change.NewValue), 1, 16 * 1024 * 1024);
+    }
     public string RootDirectory => Path.Combine(_directory, "server");
     public ObservableCollection<TablePreviewRow> Rows { get; } = [];
     public FlatTreeDataGridSource<TablePreviewRow> Source { get; }
@@ -133,7 +145,7 @@ public sealed class FileSystemDemoViewModel : ReactiveObject
         await BrowseCoreAsync();
     });
 
-    public Task TransferAsync(bool upload, int sampleSizeBytes = 4 * 1024 * 1024, bool cancelAfterFirstBlock = false) => ExecuteAsync(async () =>
+    public Task TransferAsync(bool upload, int? sampleSizeBytes = null, bool cancelAfterFirstBlock = false) => ExecuteAsync(async () =>
     {
         RequireSession();
         using var cancellation = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -150,13 +162,13 @@ public sealed class FileSystemDemoViewModel : ReactiveObject
             if (upload)
             {
                 var path = Path.Combine(local, "payload.bin");
-                if (!File.Exists(path) || new FileInfo(path).Length != sampleSizeBytes)
-                    await Task.Run(() => File.WriteAllBytes(path, RandomNumberGenerator.GetBytes(sampleSizeBytes)), cancellation.Token);
+                if (!File.Exists(path) || new FileInfo(path).Length != (sampleSizeBytes ?? TransferSize))
+                    await Task.Run(() => File.WriteAllBytes(path, RandomNumberGenerator.GetBytes(sampleSizeBytes ?? TransferSize)), cancellation.Token);
                 await _clientFeature!.UploadFileAsync(path, remotePath, cancellation.Token);
             }
             else await _clientFeature!.DownloadFileAsync(remotePath, Path.Combine(local, "download"), cancellation.Token);
             var result = await _transfer.Task.WaitAsync(TimeSpan.FromSeconds(30));
-            if (result.IsCancelled) { LastTransferWasCancelled = true; Output += "\n" + I18nManager.Instance.GetResource("Demo.Catalog.FileCancelled"); return; }
+            if (result.IsCancelled) { LastTransferWasCancelled = true; Output += "\n" + I18nManager.Instance.GetResource(DemoResources.Catalog.FileCancelled); return; }
             if (!result.Success) throw new IOException(result.Message);
             var source = Path.Combine(local, "payload.bin");
             var target = upload ? remotePath : Path.Combine(local, "download", "payload.bin");
@@ -198,17 +210,17 @@ public sealed class FileSystemDemoViewModel : ReactiveObject
         _registration?.Dispose(); _clientFeature?.Dispose(); _serverFeature?.Dispose();
         _registration = null; _clientFeature = null; _serverFeature = null; _client = null; _server = null;
         IsRunning = false;
-        Output += "\n" + I18nManager.Instance.GetResource("Demo.Catalog.FileStopped");
+        Output += "\n" + I18nManager.Instance.GetResource(DemoResources.Catalog.FileStopped);
     }
     private async Task ExecuteAsync(Func<Task> action)
     {
         await _gate.WaitAsync();
         IsBusy = true; Succeeded = false;
         try { await action(); Succeeded = true; }
-        catch (OperationCanceledException) { LastTransferWasCancelled = true; Output += "\n" + I18nManager.Instance.GetResource("Demo.Catalog.FileCancelled"); }
-        catch (Exception ex) { Output += "\n" + string.Format(I18nManager.Instance.GetResource("Demo.Catalog.Failed"), ex.Message); }
+        catch (OperationCanceledException) { LastTransferWasCancelled = true; Output += "\n" + I18nManager.Instance.GetResource(DemoResources.Catalog.FileCancelled); }
+        catch (Exception ex) { Output += "\n" + string.Format(I18nManager.Instance.GetResource(DemoResources.Catalog.Failed), ex.Message); }
         finally { IsBusy = false; _gate.Release(); }
     }
-    private void RequireSession() { if (!IsRunning) throw new InvalidOperationException(I18nManager.Instance.GetResource("Demo.Catalog.FileStartFirst")); }
+    private void RequireSession() { if (!IsRunning) throw new InvalidOperationException(I18nManager.Instance.GetResource(DemoResources.Catalog.FileStartFirst)); }
     private static TaskCompletionSource<T> NewCompletion<T>() => new(TaskCreationOptions.RunContinuationsAsynchronously);
 }

@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Diagnostics;
 using System.Globalization;
@@ -25,7 +26,7 @@ public sealed class WelcomeViewModel : ReactiveObject
     private int _labIndex;
     private bool _experimentsExpanded;
     private string _message = "Hello, CodeWF!";
-    private string _busOutput = L.Instance.GetResource("Demo.Studio.BusReady");
+    private string _busOutput = L.Instance.GetResource(DemoResources.Studio.BusReady);
     private string _integerText = "42";
     private string _byteOutput = string.Empty;
     private string _copyStatus = string.Empty;
@@ -41,8 +42,8 @@ public sealed class WelcomeViewModel : ReactiveObject
         {
             _received++;
             this.RaisePropertyChanged(nameof(ReceivedCount));
-            BusOutput = string.Format(L.Instance.GetResource("Demo.Studio.Delivery"), command.Name, _received, DateTime.Now);
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Welcome.Content.OverviewSubscriberReceivedGreetCommandFormat"), command.Name));
+            BusOutput = string.Format(L.Instance.GetResource(DemoResources.Studio.Delivery), command.Name, _received, DateTime.Now);
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Welcome.Content.OverviewSubscriberReceivedGreetCommandFormat), command.Name));
         };
         _bus.Subscribe(_receive);
         PublishCommand = ReactiveCommand.CreateFromTask(PublishAsync);
@@ -63,11 +64,11 @@ public sealed class WelcomeViewModel : ReactiveObject
         {
             if (CopyToClipboard is null) throw new InvalidOperationException("Clipboard unavailable");
             await CopyToClipboard(InstallCommand);
-            CopyStatus = global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource("Demo.Studio.Copied");
+            CopyStatus = global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Studio.Copied);
         }
         catch
         {
-            CopyStatus = global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource("Demo.Studio.CopyFailed");
+            CopyStatus = global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Studio.CopyFailed);
         }
     }
     public ICommand PublishCommand { get; }
@@ -80,13 +81,13 @@ public sealed class WelcomeViewModel : ReactiveObject
     public bool ExperimentsExpanded { get => _experimentsExpanded; set => this.RaiseAndSetIfChanged(ref _experimentsExpanded, value); }
     public int LabIndex { get => _labIndex; set => this.RaiseAndSetIfChanged(ref _labIndex, value); }
     public IReadOnlyList<DemoGroupViewModel> CatalogGroups { get; } = DemoCatalog.CreateGroups()
-        .Where(group => group.TitleKey is not "Demo.Group.Home" and not "Demo.Group.Examples").ToArray();
+        .Where(group => group.TitleKey is not DemoResources.Group.Home and not DemoResources.Group.Examples).ToArray();
 
     public string Message { get => _message; set => this.RaiseAndSetIfChanged(ref _message, value); }
     public string BusOutput { get => _busOutput; private set => this.RaiseAndSetIfChanged(ref _busOutput, value); }
     public string IntegerText { get => _integerText; set => this.RaiseAndSetIfChanged(ref _integerText, value); }
     public string ByteOutput { get => _byteOutput; private set => this.RaiseAndSetIfChanged(ref _byteOutput, value); }
-    public string SubscriptionStatus => L.Instance.GetResource(_subscribed ? "Demo.Studio.Subscribed" : "Demo.Studio.Unsubscribed");
+    public string SubscriptionStatus => L.Instance.GetResource(_subscribed ? DemoResources.Studio.Subscribed : DemoResources.Studio.Unsubscribed);
     public bool IsSubscribed => _subscribed;
     public int ReceivedCount => _received;
     public bool IsIntegerValid => int.TryParse(IntegerText, NumberStyles.Integer, CultureInfo.InvariantCulture, out _);
@@ -95,7 +96,7 @@ public sealed class WelcomeViewModel : ReactiveObject
     public void RefreshCulture()
     {
         this.RaisePropertyChanged(nameof(SubscriptionStatus));
-        if (!_hasPublished) BusOutput = L.Instance.GetResource("Demo.Studio.BusReady");
+        if (!_hasPublished) BusOutput = L.Instance.GetResource(DemoResources.Studio.BusReady);
     }
     public bool IsPublishing => _stage == 0;
     public bool IsRouting => _stage == 1;
@@ -125,14 +126,14 @@ public sealed class WelcomeViewModel : ReactiveObject
             }
             else
             {
-                BusOutput = string.Format(L.Instance.GetResource("Demo.Studio.NoDelivery"), message);
+                BusOutput = string.Format(L.Instance.GetResource(DemoResources.Studio.NoDelivery), message);
             }
             await Task.Delay(180);
         }
         catch (Exception ex)
         {
             BusOutput = ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Content.Welcome.PublishAsync.OverviewEventFlowFailed") + ex.Message);
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.Welcome.PublishAsync.OverviewEventFlowFailed) + ex.Message);
         }
         finally { SetStage(-1); }
     }
@@ -159,13 +160,13 @@ public sealed class WelcomeViewModel : ReactiveObject
     {
         if (!int.TryParse(IntegerText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
         {
-            ByteOutput = L.Instance.GetResource("Demo.Studio.Int32Range");
+            ByteOutput = L.Instance.GetResource(DemoResources.Studio.Int32Range);
             return;
         }
         // SerializeObject writes Int32 through BinaryWriter (little endian), without a packet header.
         var bytes = value.SerializeObject();
         var restored = (int)bytes.DeserializeObject(typeof(int))!;
-        ByteOutput = string.Format(L.Instance.GetResource("Demo.Studio.ByteResult"), BitConverter.ToString(bytes).Replace('-', ' '), bytes.Length, value, restored);
+        ByteOutput = string.Format(L.Instance.GetResource(DemoResources.Studio.ByteResult), BitConverter.ToString(bytes).Replace('-', ' '), bytes.Length, value, restored);
     }
 
     public async Task RunPipelineAsync()
@@ -201,12 +202,12 @@ public sealed class WelcomeViewModel : ReactiveObject
             _outputDirectory = directory;
             this.RaisePropertyChanged(nameof(HasOutput));
             PipelineOutput += $"\n✓ QR · qr.png\n{directory}";
-            Logger.Info(L.Instance.GetResource("Demo.Content.Welcome.RunPipelineAsync.OverviewFilePipelineComplete") + directory);
+            Logger.Info(L.Instance.GetResource(DemoResources.Content.Welcome.RunPipelineAsync.OverviewFilePipelineComplete) + directory);
         }
         catch (Exception ex)
         {
             PipelineOutput += "\n✕ " + ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Content.Welcome.RunPipelineAsync.OverviewFilePipelineFailed") + ex.Message);
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.Welcome.RunPipelineAsync.OverviewFilePipelineFailed) + ex.Message);
         }
     }
 

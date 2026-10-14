@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <!-- Lang Json 后端按输出目录 I18n\ 递归扫描 *.json，Demo 语言资源随包拷贝 -->
-    <Content Include="I18n\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="I18n\**\*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
@@ -23,7 +24,7 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Source.CSharp);
 
     private readonly SelectableTextBlock _feed;
     private readonly TextBox _template;
@@ -38,7 +39,7 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
     public LoggingMicrosoftPage()
     {
         _feed = Ui.Code("@Demo.Content.LoggingMicrosoft.Content.AwaitingMELLogs", output: true);
-        _template = Ui.Input(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Content.UserLoggedInAtFrom"));
+        _template = Ui.Input(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Content.UserLoggedInAtFrom));
         _values = Ui.Input("admin,10:24,192.168.1.8");
         _templateOutput = Ui.Code("@Demo.Content.LoggingMicrosoft.Content.AwaitingParsing", output: true);
         _providerButton = Ui.Button("@Demo.Content.LoggingMicrosoft.Content.BuildServiceProviderAddCodeWF", BuildProvider, primary: true);
@@ -53,8 +54,8 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
             Ui.Hint("@Demo.Content.LoggingMicrosoft.pipeline.TheBootstrapProviderSharesTheEventStreamWith"));
 
         var parser = Ui.Card("@Demo.Content.LoggingMicrosoft.parser.StructuredTemplatesMessageTemplateParser",
-            Ui.Field(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.parser.Template"), _template),
-            Ui.Field(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.parser.Parameter"), _values),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.parser.Template), _template),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.parser.Parameter), _values),
             Ui.Row(Ui.Button("@Demo.Content.LoggingMicrosoft.parser.Parse", () => RunParser(_template.Text, _values.Text), primary: true)),
             _templateOutput,
             Ui.Hint("@Demo.Content.LoggingMicrosoft.parser.MessageTemplateParserExtractsPlaceholderNamesAndFormatsArgumentsIncluding"));
@@ -78,14 +79,14 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("mel.core", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.ProviderOptions"), L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.MapsToCodeWFLoggerOptions"),
-            DemoProperty.Choice("mel.level", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.MinimumLevel"), "Information", ["Trace", "Debug", "Information", "Warning", "Error"]),
-            DemoProperty.Bool("mel.scope", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.IncludeScopes"), true, "CodeWFCaptureOptions.Scopes。"),
-            DemoProperty.Bool("mel.user", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.UserMessageMarker"), false, L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.LogUserExtensionsWriteCodeWFUserLogState")),
-            DemoProperty.Choice("mel.queue", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.QueueOverflowPolicy"), "DropOldest", ["DropOldest", "DropNewest", "Block"])),
-        DemoProperty.Category("mel.state", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.RuntimeState"), L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.ContainerAndEventStreamState"),
-            DemoProperty.ReadOnly("mel.provider", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.Provider"), "CodeWFLoggerProvider"),
-            DemoProperty.ReadOnly("mel.feed", L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.EventFlow"), L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Properties.SharedWithStaticLogger"))));
+        DemoProperty.Category("mel.core", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.ProviderOptions), L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.MapsToCodeWFLoggerOptions),
+            DemoProperty.Choice("mel.level", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.MinimumLevel), "Information", ["Trace", "Debug", "Information", "Warning", "Error"]),
+            DemoProperty.Bool("mel.scope", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.IncludeScopes), true, "CodeWFCaptureOptions.Scopes。"),
+            DemoProperty.Bool("mel.user", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.UserMessageMarker), false, L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.LogUserExtensionsWriteCodeWFUserLogState)),
+            DemoProperty.Choice("mel.queue", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.QueueOverflowPolicy), "DropOldest", ["DropOldest", "DropNewest", "Block"])),
+        DemoProperty.Category("mel.state", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.RuntimeState), L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.ContainerAndEventStreamState),
+            DemoProperty.ReadOnly("mel.provider", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.Provider), "CodeWFLoggerProvider"),
+            DemoProperty.ReadOnly("mel.feed", L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.EventFlow), L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Properties.SharedWithStaticLogger))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -99,7 +100,7 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
     {
         if (_serviceProvider is not null)
         {
-            Append(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.BuildProvider.ServiceProviderBuiltRepeatedClicksDoNotRegisterIt"));
+            Append(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.BuildProvider.ServiceProviderBuiltRepeatedClicksDoNotRegisterIt));
             return;
         }
 
@@ -116,9 +117,9 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
         _serviceProvider = services.BuildServiceProvider();
         var factory = _serviceProvider.GetRequiredService<ILoggerFactory>();
         _melLogger = factory.CreateLogger("CodeWF.Toolkit.Demo.MelDemo");
-        Append(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.BuildProvider.AddCodeWFServiceProviderBuiltILoggerFactoryReady"));
-        Append(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.BuildProvider.CodeWFLoggerRuntimeLogEventFeedLineTemplateControllerCodeWFLogHealthRegistered"));
-        Logger.Info(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.BuildProvider.MELProviderBuilt"));
+        Append(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.BuildProvider.AddCodeWFServiceProviderBuiltILoggerFactoryReady));
+        Append(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.BuildProvider.CodeWFLoggerRuntimeLogEventFeedLineTemplateControllerCodeWFLogHealthRegistered));
+        Logger.Info(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.BuildProvider.MELProviderBuilt));
     }
 
     private void WriteStructured()
@@ -128,8 +129,8 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
             BuildProvider();
         }
 
-        _melLogger!.LogInformation(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.WriteStructured.UserLoggedInAtFrom"), "admin", "10:24", "192.168.1.8");
-        Append(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.WriteStructured.MELInformationUserAdminLoggedInAt10"));
+        _melLogger!.LogInformation(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.WriteStructured.UserLoggedInAtFrom), "admin", "10:24", "192.168.1.8");
+        Append(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.WriteStructured.MELInformationUserAdminLoggedInAt10));
     }
 
     private void WriteUserMessage()
@@ -139,13 +140,13 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
             BuildProvider();
         }
 
-        _melLogger!.LogUserInformation(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.WriteUserMessage.LoginSucceeded"), L.Instance.GetResource("Demo.Content.LoggingMicrosoft.WriteUserMessage.UserLoggedInAtFrom"), "admin", "10:24", "192.168.1.8");
-        Append(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.WriteUserMessage.MELInformationLoginSucceededUserMessageFullTemplateIn"));
+        _melLogger!.LogUserInformation(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.WriteUserMessage.LoginSucceeded), L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.WriteUserMessage.UserLoggedInAtFrom), "admin", "10:24", "192.168.1.8");
+        Append(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.WriteUserMessage.MELInformationLoginSucceededUserMessageFullTemplateIn));
     }
 
     private void RunParser(string? template, string? values)
     {
-        template = string.IsNullOrEmpty(template) ? L.Instance.GetResource("Demo.Content.LoggingMicrosoft.RunParser.UserLoggedInAtFrom") : template;
+        template = string.IsNullOrEmpty(template) ? L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.RunParser.UserLoggedInAtFrom) : template;
         var args = (values ?? string.Empty).Split(',', StringSplitOptions.TrimEntries).Cast<object?>().ToArray();
 
         var names = new List<string>();
@@ -173,14 +174,14 @@ public sealed class LoggingMicrosoftPage : DemoPageBase
             rendered = rendered.Replace("{" + names[index] + "}", $"<{names[index]}:{value}>", StringComparison.Ordinal);
         }
 
-        _templateOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.LoggingMicrosoft.RunParser.TemplateKeysParsedResultFormat"), string.Join(", ", names), rendered);
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.LoggingMicrosoft.RunParser.MessageTemplateParserPlaceholdersFormat"), names.Count));
+        _templateOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.RunParser.TemplateKeysParsedResultFormat), string.Join(", ", names), rendered);
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.RunParser.MessageTemplateParserPlaceholdersFormat), names.Count));
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource("Demo.Content.LoggingMicrosoft.Append.AwaitingLogWrite"), StringComparison.Ordinal)
+        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource(DemoResources.Content.LoggingMicrosoft.Append.AwaitingLogWrite), StringComparison.Ordinal)
             ? line
             : current + "\n" + line;
     }

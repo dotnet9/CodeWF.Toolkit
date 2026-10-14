@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Data;
@@ -14,9 +15,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>文件格式页：Json / Yaml / Csv(Excel) 的真实往返，含 DataTable 导入导出。</summary>
 public sealed class FilesFormatPage : DemoPageBase
 {
-    private static string XamlSnippet => L.Instance.GetResource("Demo.Content.FilesFormat.Source.Xaml");
+    private static string XamlSnippet => L.Instance.GetResource(DemoResources.Content.FilesFormat.Source.Xaml);
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.FilesFormat.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.FilesFormat.Source.CSharp);
 
     private static readonly Student Sample = new();
 
@@ -67,33 +68,33 @@ public sealed class FilesFormatPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("files.fmt", L.Instance.GetResource("Demo.Content.FilesFormat.Properties.FormatOptions"), L.Instance.GetResource("Demo.Content.FilesFormat.Properties.DefaultFileIOOptions"),
-            DemoProperty.Choice("files.format", L.Instance.GetResource("Demo.Content.FilesFormat.Properties.DefaultFormat"), "Yaml", ["Json", "Yaml", "Csv", "Excel"]),
-            DemoProperty.Number("files.retry", L.Instance.GetResource("Demo.Content.FilesFormat.Properties.WriteRetries"), 3, 0, 10, 1, L.Instance.GetResource("Demo.Content.FilesFormat.Properties.Retries"), L.Instance.GetResource("Demo.Content.FilesFormat.Properties.NumberOfRetriesForSafeFileHelperIO")),
-            DemoProperty.Bool("files.bom", "UTF-8 BOM", false, L.Instance.GetResource("Demo.Content.FilesFormat.Properties.IncludeABOMWhenWritingFiles"))));
+        DemoProperty.Category("files.fmt", L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.FormatOptions), L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.DefaultFileIOOptions),
+            DemoProperty.Choice("files.format", L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.DefaultFormat), "Yaml", ["Json", "Yaml", "Csv", "Excel"]),
+            DemoProperty.Number("files.retry", L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.WriteRetries), 3, 0, 10, 1, L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.Retries), L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.NumberOfRetriesForSafeFileHelperIO)),
+            DemoProperty.Bool("files.bom", "UTF-8 BOM", false, L.Instance.GetResource(DemoResources.Content.FilesFormat.Properties.IncludeABOMWhenWritingFiles))));
 
     private void ToJson()
     {
         if (!Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out var error))
         {
-            _forward.Text = L.Instance.GetResource("Demo.Content.FilesFormat.ToJson.Failed") + error;
+            _forward.Text = L.Instance.GetResource(DemoResources.Content.FilesFormat.ToJson.Failed) + error;
             return;
         }
 
         _forward.Text = json;
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.ToJson.FileFormatDemoToJson"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.ToJson.FileFormatDemoToJson));
     }
 
     private void ToYaml()
     {
         if (!Sample.ToYaml(OverviewJsonContext.Default.Student, out var yaml, out var error))
         {
-            _forward.Text = L.Instance.GetResource("Demo.Content.FilesFormat.ToYaml.Failed") + error;
+            _forward.Text = L.Instance.GetResource(DemoResources.Content.FilesFormat.ToYaml.Failed) + error;
             return;
         }
 
         _forward.Text = yaml;
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.ToYaml.FileFormatDemoToYaml"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.ToYaml.FileFormatDemoToYaml));
     }
 
     private void Prettify()
@@ -101,12 +102,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out _);
         if (!json.JsonPrettify(2, sortKeys: true, out var pretty, out var error))
         {
-            _forward.Text = L.Instance.GetResource("Demo.Content.FilesFormat.Prettify.Failed") + error;
+            _forward.Text = L.Instance.GetResource(DemoResources.Content.FilesFormat.Prettify.Failed) + error;
             return;
         }
 
         _forward.Text = pretty;
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.Prettify.FileFormatDemoJsonPrettifyIndent2SortedKeys"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.Prettify.FileFormatDemoJsonPrettifyIndent2SortedKeys));
     }
 
     private void JsonToYaml()
@@ -114,12 +115,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out _);
         if (!json.JsonToYaml(out var yaml, out var error))
         {
-            _forward.Text = L.Instance.GetResource("Demo.Content.FilesFormat.JsonToYaml.Failed") + error;
+            _forward.Text = L.Instance.GetResource(DemoResources.Content.FilesFormat.JsonToYaml.Failed) + error;
             return;
         }
 
         _forward.Text = yaml;
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.JsonToYaml.FileFormatDemoJsonToYaml"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.JsonToYaml.FileFormatDemoJsonToYaml));
     }
 
     private void FromJson()
@@ -127,12 +128,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToJson(OverviewJsonContext.Default.Student, out var json, out _);
         if (!json.FromJson(OverviewJsonContext.Default.Student, out var student, out var error) || student is null)
         {
-            _backward.Text = L.Instance.GetResource("Demo.Content.FilesFormat.FromJson.Failed") + error;
+            _backward.Text = L.Instance.GetResource(DemoResources.Content.FilesFormat.FromJson.Failed) + error;
             return;
         }
 
         _backward.Text = $"FromJson<Student> → Name={student.Name}, Age={student.Age}, City={student.City}  (error = null)";
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.FromJson.FileFormatDemoFromJson"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.FromJson.FileFormatDemoFromJson));
     }
 
     private void FromYaml()
@@ -140,12 +141,12 @@ public sealed class FilesFormatPage : DemoPageBase
         Sample.ToYaml(OverviewJsonContext.Default.Student, out var yaml, out _);
         if (!yaml.FromYaml(OverviewJsonContext.Default.Student, out var student, out var error) || student is null)
         {
-            _backward.Text = L.Instance.GetResource("Demo.Content.FilesFormat.FromYaml.Failed") + error;
+            _backward.Text = L.Instance.GetResource(DemoResources.Content.FilesFormat.FromYaml.Failed) + error;
             return;
         }
 
         _backward.Text = $"FromYaml<Student> → Name={student.Name}, Age={student.Age}, City={student.City}  (error = null)";
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.FromYaml.FileFormatDemoFromYaml"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.FromYaml.FileFormatDemoFromYaml));
     }
 
     private void RunCsvRoundTrip()
@@ -170,17 +171,17 @@ public sealed class FilesFormatPage : DemoPageBase
         };
         if (File.Exists(csvPath))
         {
-            lines.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.FilesFormat.RunCsvRoundTrip.FileSizeBytesUTF8BOMFormat"), new FileInfo(csvPath).Length, (HasBom(csvPath) ? L.Instance.GetResource("Demo.Content.FilesFormat.RunCsvRoundTrip.Yes") : L.Instance.GetResource("Demo.Content.FilesFormat.RunCsvRoundTrip.No"))));
+            lines.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.FilesFormat.RunCsvRoundTrip.FileSizeBytesUTF8BOMFormat), new FileInfo(csvPath).Length, (HasBom(csvPath) ? L.Instance.GetResource(DemoResources.Content.FilesFormat.RunCsvRoundTrip.Yes) : L.Instance.GetResource(DemoResources.Content.FilesFormat.RunCsvRoundTrip.No))));
         }
 
         lines.Add($"ImportFromCsv → {(imported ? "true" : "false：" + importError)}");
         if (imported && back is not null)
         {
-            lines.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.FilesFormat.RunCsvRoundTrip.RestoredRowsColumnsFirstRowFormat"), back.Rows.Count, back.Columns.Count, string.Join(", ", back.Rows[0].ItemArray)));
+            lines.Add(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.FilesFormat.RunCsvRoundTrip.RestoredRowsColumnsFirstRowFormat), back.Rows.Count, back.Columns.Count, string.Join(", ", back.Rows[0].ItemArray)));
         }
 
         _backward.Text = string.Join('\n', lines);
-        Log(L.Instance.GetResource("Demo.Content.FilesFormat.RunCsvRoundTrip.FileFormatDemoDataTableCSVRoundTrip"));
+        Log(L.Instance.GetResource(DemoResources.Content.FilesFormat.RunCsvRoundTrip.FileFormatDemoDataTableCSVRoundTrip));
     }
 
     private static bool HasBom(string path)

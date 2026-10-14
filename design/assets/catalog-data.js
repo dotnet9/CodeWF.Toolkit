@@ -16,7 +16,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "Introduction",
         "description": "",
         "icon": "⌂",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M2 11.45a1 1 0 0 1 .33-.75l9-8.1a1 1 0 0 1 1.34 0l9 8.1a1 1 0 0 1 .33.75V20a2 2 0 0 1-2 2h-4a1 1 0 0 1-1-1v-4a3 3 0 0 0-6 0v4a1 1 0 0 1-1 1H4a2 2 0 0 1-2-2v-8.55Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconHome"
       },
       {
         "titleKey": "Demo.Item.About",
@@ -28,7 +29,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "About",
         "description": "",
         "icon": "ⓘ",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm2-16a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm-5 3.75c0-.41.34-.75.75-.75h2.75a1 1 0 0 1 1 1v5.5h.75a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5h.75v-5h-.75a.75.75 0 0 1-.75-.75Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconInfoCircle"
       }
     ],
     "icon": "⌂",
@@ -53,7 +55,8 @@ window.CodeWFDemoCatalog = [
         "code": "input.Split(',').Join(\" / \", removeEmptyEntry: true);",
         "sectionKey": "Demo.Catalog.SectionText",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.RegexExtensions",
@@ -68,7 +71,8 @@ window.CodeWFDemoCatalog = [
         "code": "text.IsMatch(pattern);\npattern.ConvertPattern();",
         "sectionKey": "Demo.Catalog.SectionText",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.DoubleExtensions",
@@ -83,7 +87,8 @@ window.CodeWFDemoCatalog = [
         "code": "double.Parse(input).FormatBytes();",
         "sectionKey": "Demo.Catalog.SectionNumbers",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.NumberExtension",
@@ -98,7 +103,8 @@ window.CodeWFDemoCatalog = [
         "code": "number.ToChineseNumber();\nNumberExtension.ToChineseMoney(number);",
         "sectionKey": "Demo.Catalog.SectionNumbers",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.RandomExtension",
@@ -113,7 +119,8 @@ window.CodeWFDemoCatalog = [
         "code": "RandomExtension.GetInt(min, max);",
         "sectionKey": "Demo.Catalog.SectionNumbers",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.DateTimeExtension",
@@ -128,7 +135,8 @@ window.CodeWFDemoCatalog = [
         "code": "date.GetUnixTimeSeconds();\ndate.GetUnixTimeMilliseconds();",
         "sectionKey": "Demo.Catalog.SectionDates",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.TimeSpanExtensions",
@@ -143,7 +151,8 @@ window.CodeWFDemoCatalog = [
         "code": "milliseconds.FormatMilliseconds();",
         "sectionKey": "Demo.Catalog.SectionDates",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.DateTimeConverter",
@@ -158,7 +167,8 @@ window.CodeWFDemoCatalog = [
         "code": "DateTimeConverter.IsISO8601DateTimeString(input);\nDateTimeConverter.DateToExcelFormat(date);",
         "sectionKey": "Demo.Catalog.SectionDates",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.IConvertibleExtensions",
@@ -173,7 +183,8 @@ window.CodeWFDemoCatalog = [
         "code": "input.ConvertTo<int>();\ntype.IsNumeric();",
         "sectionKey": "Demo.Catalog.SectionTypes",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.ObjectExtension",
@@ -188,7 +199,8 @@ window.CodeWFDemoCatalog = [
         "code": "input.IsNullOrEmpty();\ntype.IsPrimitive();",
         "sectionKey": "Demo.Catalog.SectionTypes",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.LinqExtension",
@@ -203,7 +215,8 @@ window.CodeWFDemoCatalog = [
         "code": "positive.And(value => value < limit).Compile(preferInterpretation: true);",
         "sectionKey": "Demo.Catalog.SectionTypes",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.EnumExtension",
@@ -218,7 +231,8 @@ window.CodeWFDemoCatalog = [
         "code": "typeof(DayOfWeek).GetDictionary();",
         "sectionKey": "Demo.Catalog.SectionTypes",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.AssemblyExtensions",
@@ -233,7 +247,8 @@ window.CodeWFDemoCatalog = [
         "code": "assembly.Title();\nassembly.Version();\nassembly.Company();",
         "sectionKey": "Demo.Catalog.SectionTypes",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       },
       {
         "titleKey": "Demo.Item.ValidationExtension",
@@ -248,7 +263,8 @@ window.CodeWFDemoCatalog = [
         "code": "new ValidationSample { Name = input }.TryValidateObject(out var errors);",
         "sectionKey": "Demo.Catalog.SectionTypes",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M14.49 4.19a1.5 1.5 0 0 0-2.98-.38l-2 16a1.5 1.5 0 1 0 2.98.38l2-16ZM8.06 5.94a1.5 1.5 0 0 1 0 2.12L4.12 12l3.94 3.94a1.5 1.5 0 1 1-2.12 2.12l-5-5a1.5 1.5 0 0 1 0-2.12l5-5a1.5 1.5 0 0 1 2.12 0Zm7.88 0a1.5 1.5 0 0 1 2.12 0l5 5a1.5 1.5 0 0 1 0 2.12l-5 5a1.5 1.5 0 0 1-2.12-2.12L19.88 12l-3.94-3.94a1.5 1.5 0 0 1 0-2.12Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconCode"
       }
     ],
     "icon": "⟨⟩",
@@ -273,7 +289,8 @@ window.CodeWFDemoCatalog = [
         "code": "ActionHelper.CheckOvertime(() => Thread.Sleep(delayMilliseconds), timeoutMilliseconds);\n// true = completed within the timeout; false = timed out.",
         "sectionKey": "Demo.Catalog.SectionExecution",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       },
       {
         "titleKey": "Demo.Item.NativeLibraryHelper",
@@ -288,7 +305,8 @@ window.CodeWFDemoCatalog = [
         "code": "NativeLibraryHelper.GetMethod(Environment.SystemDirectory, \"kernel32\", \"\", \"\", method, out var address, out var error);",
         "sectionKey": "Demo.Catalog.SectionExecution",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       },
       {
         "titleKey": "Demo.Item.FileHelper",
@@ -303,7 +321,8 @@ window.CodeWFDemoCatalog = [
         "code": "await FileHelper.SafeWriteAllTextAsync(path, input);\nawait FileHelper.SafeReadAllTextAsync(path);",
         "sectionKey": "Demo.Catalog.SectionFiles",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       },
       {
         "titleKey": "Demo.Item.FileExtension",
@@ -318,7 +337,8 @@ window.CodeWFDemoCatalog = [
         "code": "FileExtension.IsPathInUpperTwoLevelsOfCurrentDir(input);",
         "sectionKey": "Demo.Catalog.SectionFiles",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       },
       {
         "titleKey": "Demo.Item.SevenZipCompressor",
@@ -333,7 +353,8 @@ window.CodeWFDemoCatalog = [
         "code": "compressor.Zip(sourceDirectory, zipPath);\ncompressor.Decompress(zipPath, destinationDirectory);",
         "sectionKey": "Demo.Catalog.SectionFiles",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4 7.5h16v11.5H4z\"/><path d=\"M2.5 4.5h19v3h-19z\"/><path d=\"M11 12h2v3h-2z\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       },
       {
         "titleKey": "Demo.Item.AppDataMigrator",
@@ -348,7 +369,8 @@ window.CodeWFDemoCatalog = [
         "code": "AppDataMigrator.ResolveAndMigrate(appName, fileName, baseDirectory, portableMarkerFileName);",
         "sectionKey": "Demo.Catalog.SectionApplication",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       },
       {
         "titleKey": "Demo.Item.UpdateChecker",
@@ -363,7 +385,24 @@ window.CodeWFDemoCatalog = [
         "code": "await new UpdateChecker(httpClient, owner, repository).CheckAsync(currentVersion);",
         "sectionKey": "Demo.Catalog.SectionApplication",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
+      },
+      {
+        "titleKey": "Demo.Item.UpdateService",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"UpdateService\"))",
+        "api": "UpdateService",
+        "package": "CodeWF.Toolkit.Core",
+        "prototypeId": "updateservice",
+        "titleZh": "UpdateService",
+        "titleEn": "UpdateService",
+        "description": "UpdateService",
+        "input": "Hello update",
+        "code": "await updates.CheckAsync(currentVersion);\nawait updates.DownloadAsync(update, progress);\n// Controlled HTTP fixture; no installer is launched.",
+        "sectionKey": "Demo.Catalog.SectionApplication",
+        "icon": "◎",
+        "prototypeIcon": "<path d=\"M17.84 8.06A6.5 6.5 0 1 0 5.18 11 4.5 4.5 0 0 0 5.5 20H17a6 6 0 0 0 .84-11.94Zm-6.16 9.67a.5.5 0 0 0 .64 0l5.15-4.29a.25.25 0 0 0-.16-.44H14V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5V13H6.7c-.24 0-.35.3-.17.44l5.15 4.3Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconDownload"
       },
       {
         "titleKey": "Demo.Item.AppConfigHelper",
@@ -378,7 +417,8 @@ window.CodeWFDemoCatalog = [
         "code": "AppConfigHelper.SetOrAdd(path, \"Sample\", input);\nAppConfigHelper.TryGet<string>(path, \"Sample\", out var value);",
         "sectionKey": "Demo.Catalog.SectionApplication",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M5 2a3 3 0 0 0-3 3v3h20c0-2-1-4-3-4h-6.45a3 3 0 0 1-1.87-.66l-1.13-.9A2 2 0 0 0 8.3 2H5Z\n        M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-9Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconFolder"
       }
     ],
     "icon": "▣",
@@ -403,7 +443,8 @@ window.CodeWFDemoCatalog = [
         "code": "model.ToJson(jsonTypeInfo, out var json, out var error);\njson.FromJson(jsonTypeInfo, out var model, out var error);",
         "sectionKey": "Demo.Catalog.SectionSerialization",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z\n        M13 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-5Z\n        M13 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V4Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconGridView"
       },
       {
         "titleKey": "Demo.Item.YamlExtensions",
@@ -418,7 +459,8 @@ window.CodeWFDemoCatalog = [
         "code": "model.ToYaml(jsonTypeInfo, out var yaml, out var error);\nyaml.FromYaml(jsonTypeInfo, out var model, out var error);",
         "sectionKey": "Demo.Catalog.SectionSerialization",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z\n        M13 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-5Z\n        M13 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V4Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconGridView"
       },
       {
         "titleKey": "Demo.Item.DataTableExtensions",
@@ -433,7 +475,8 @@ window.CodeWFDemoCatalog = [
         "code": "table.ExportToCsv(csvPath, Encoding.UTF8, out var error);\ncsvPath.ImportFromCsv(out error, out var csvTable);\ntable.ExportToXlsx(excelPath, out error);\nexcelPath.ImportFromExcel(out error, out var excelTable);",
         "sectionKey": "Demo.Catalog.SectionTables",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z\n        M13 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-5Z\n        M13 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V4Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconGridView"
       },
       {
         "titleKey": "Demo.Item.ImageIcon",
@@ -446,7 +489,8 @@ window.CodeWFDemoCatalog = [
         "description": "ImageHelper",
         "sectionKey": "Demo.Catalog.SectionImages",
         "icon": "▥",
-        "prototypeIcon": "<rect x=\"3.5\" y=\"4.5\" width=\"17\" height=\"15\" rx=\"1.7\"/><circle cx=\"9\" cy=\"10\" r=\"1.8\"/><path d=\"M4.5 17l4.5-4.5 3.5 3.5 2.5-2.5 5 5\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z\n        M13 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-5Z\n        M13 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V4Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconGridView"
       },
       {
         "titleKey": "Demo.Item.ImageQr",
@@ -459,11 +503,54 @@ window.CodeWFDemoCatalog = [
         "description": "QrCodeGenerator",
         "sectionKey": "Demo.Catalog.SectionImages",
         "icon": "▦",
-        "prototypeIcon": "<rect x=\"4\" y=\"4\" width=\"6.5\" height=\"6.5\" rx=\"1\"/><rect x=\"13.5\" y=\"4\" width=\"6.5\" height=\"6.5\" rx=\"1\"/><rect x=\"4\" y=\"13.5\" width=\"6.5\" height=\"6.5\" rx=\"1\"/><path d=\"M13.5 13.5h3v3h-3zM17.5 17.5h2.5v2.5h-2.5z\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z\n        M13 15c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-5Z\n        M13 4c0-1.1.9-2 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V4Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconGridView"
       }
     ],
     "icon": "▦",
     "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/>"
+  },
+  {
+    "titleKey": "Demo.Group.Localization",
+    "titleZh": "国际化",
+    "titleEn": "Localization",
+    "id": "localization",
+    "icon": "◎",
+    "prototypeIcon": "<circle cx=\"12\" cy=\"12\" r=\"8\"/><path d=\"M4 12h16\"/>",
+    "items": [
+      {
+        "titleKey": "Demo.Item.I18nManager",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"I18nManager\"))",
+        "api": "I18nManager",
+        "package": "CodeWF.Toolkit.Lang",
+        "prototypeId": "i18nmanager",
+        "titleZh": "I18nManager",
+        "titleEn": "I18nManager",
+        "description": "I18nManager",
+        "input": "Demo.Item.Welcome",
+        "code": "I18nManager.Instance.Culture;\nI18nManager.Instance.GetLanguages();\nI18nManager.Instance.GetResource(input);",
+        "sectionKey": "Demo.Catalog.SectionLanguage",
+        "icon": "◎",
+        "prototypeIcon": "<path d=\"M3 4.5C3 3.67 3.67 3 4.5 3h15c.83 0 1.5.67 1.5 1.5v3a1.5 1.5 0 0 1-3 0V6h-4.5v13h2a1.5 1.5 0 0 1 0 3h-7a1.5 1.5 0 0 1 0-3h2V6H6v1.5a1.5 1.5 0 1 1-3 0v-3Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconText"
+      },
+      {
+        "titleKey": "Demo.Item.JsonLocalizer",
+        "page": "HelperDemoPage(HelperDemoCatalog.Create(\"JsonLocalizer\"))",
+        "api": "JsonLocalizer",
+        "package": "CodeWF.Toolkit.Lang",
+        "prototypeId": "jsonlocalizer",
+        "titleZh": "JsonLocalizer",
+        "titleEn": "JsonLocalizer",
+        "description": "JsonLocalizer",
+        "input": "zh-CN",
+        "code": "new JsonLocalizer(typeof(UpdateService).Assembly)\n    .GetResource(ResourceKeys.Update.RepositoryRequired, culture);",
+        "sectionKey": "Demo.Catalog.SectionLanguage",
+        "icon": "◎",
+        "prototypeIcon": "<path d=\"M3 4.5C3 3.67 3.67 3 4.5 3h15c.83 0 1.5.67 1.5 1.5v3a1.5 1.5 0 0 1-3 0V6h-4.5v13h2a1.5 1.5 0 0 1 0 3h-7a1.5 1.5 0 0 1 0-3h2V6H6v1.5a1.5 1.5 0 1 1-3 0v-3Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconText"
+      }
+    ]
   },
   {
     "titleKey": "Demo.Group.Events",
@@ -482,7 +569,8 @@ window.CodeWFDemoCatalog = [
         "description": "EventBus",
         "sectionKey": "Demo.Catalog.SectionEventBus",
         "icon": "◉",
-        "prototypeIcon": "<circle cx=\"12\" cy=\"12\" r=\"2.6\"/><circle cx=\"5\" cy=\"6.5\" r=\"2\"/><circle cx=\"19\" cy=\"6.5\" r=\"2\"/><circle cx=\"5\" cy=\"17.5\" r=\"2\"/><circle cx=\"19\" cy=\"17.5\" r=\"2\"/><path d=\"M6.6 7.8l3.6 2.9M17.4 7.8l-3.6 2.9M6.6 16.2l3.6-2.9M17.4 16.2l-3.6-2.9\"/>"
+        "prototypeIcon": "<path d=\"M3.6 14.2 15.1.65c.3-.4.95-.15.9.35l-2 8h6a.5.5 0 0 1 .4.8L8.9 23.35c-.3.4-.95.15-.9-.35l2-8H4a.5.5 0 0 1-.4-.8Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconBolt"
       },
       {
         "titleKey": "Demo.Item.PrismExtensions",
@@ -497,7 +585,8 @@ window.CodeWFDemoCatalog = [
         "code": "registry.AddEventBus(assembly);\ncontainer.UseEventBus(assembly);\ncontainer.Resolve<IEventBus>().Query(query);",
         "sectionKey": "Demo.Catalog.SectionEventBus",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M3.6 14.2 15.1.65c.3-.4.95-.15.9.35l-2 8h6a.5.5 0 0 1 .4.8L8.9 23.35c-.3.4-.95.15-.9-.35l2-8H4a.5.5 0 0 1-.4-.8Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconBolt"
       },
       {
         "titleKey": "Demo.Item.AspNetCoreExtensions",
@@ -512,7 +601,8 @@ window.CodeWFDemoCatalog = [
         "code": "services.AddEventBus(assembly);\napplicationBuilder.UseEventBus(assembly);\nprovider.GetRequiredService<IEventBus>().Query(query);",
         "sectionKey": "Demo.Catalog.SectionEventBus",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M3.6 14.2 15.1.65c.3-.4.95-.15.9.35l-2 8h6a.5.5 0 0 1 .4.8L8.9 23.35c-.3.4-.95.15-.9-.35l2-8H4a.5.5 0 0 1-.4-.8Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconBolt"
       },
       {
         "titleKey": "Demo.Item.EventServer",
@@ -527,7 +617,8 @@ window.CodeWFDemoCatalog = [
         "code": "await broker.StartAsync(\"127.0.0.1\", port);\n// Local clients validate broker routing.\nbroker.Stop();",
         "sectionKey": "Demo.Catalog.SectionBroker",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M3.6 14.2 15.1.65c.3-.4.95-.15.9.35l-2 8h6a.5.5 0 0 1 .4.8L8.9 23.35c-.3.4-.95.15-.9-.35l2-8H4a.5.5 0 0 1-.4-.8Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconBolt"
       },
       {
         "titleKey": "Demo.Item.EventClient",
@@ -542,7 +633,8 @@ window.CodeWFDemoCatalog = [
         "code": "await client.ConnectAsync(\"127.0.0.1\", port);\nclient.Subscribe<string>(subject, receive);\nawait publisher.PublishAsync(subject, input);",
         "sectionKey": "Demo.Catalog.SectionBroker",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M3.6 14.2 15.1.65c.3-.4.95-.15.9.35l-2 8h6a.5.5 0 0 1 .4.8L8.9 23.35c-.3.4-.95.15-.9-.35l2-8H4a.5.5 0 0 1-.4-.8Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconBolt"
       }
     ],
     "icon": "◉",
@@ -565,7 +657,8 @@ window.CodeWFDemoCatalog = [
         "description": "SerializeHelper",
         "sectionKey": "Demo.Catalog.SectionProtocol",
         "icon": "▦",
-        "prototypeIcon": "<path d=\"M12 3.5l8 4.5v8l-8 4.5-8-4.5v-8z\"/><path d=\"M4 8l8 4.5 8-4.5M12 12.5v8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.NetHelper",
@@ -580,7 +673,8 @@ window.CodeWFDemoCatalog = [
         "code": "NetHelper.GetTaskId();\nNetHelper.GetIgnoreTask();",
         "sectionKey": "Demo.Catalog.SectionProtocol",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.IpHelper",
@@ -595,7 +689,8 @@ window.CodeWFDemoCatalog = [
         "code": "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
         "sectionKey": "Demo.Catalog.SectionProtocol",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServer",
@@ -610,7 +705,8 @@ window.CodeWFDemoCatalog = [
         "code": "await server.StartAsync(mark, \"127.0.0.1\", port);\nserver.RegisterCommandHandler(receive);\nawait server.StopAsync();",
         "sectionKey": "Demo.Catalog.SectionSockets",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.TcpSocketClient",
@@ -625,7 +721,8 @@ window.CodeWFDemoCatalog = [
         "code": "await client.ConnectAsync(mark, \"127.0.0.1\", port);\nawait client.SendCommandAsync(packet);\nawait client.StopAsync();",
         "sectionKey": "Demo.Catalog.SectionSockets",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.UdpSocketServer",
@@ -640,7 +737,8 @@ window.CodeWFDemoCatalog = [
         "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
         "sectionKey": "Demo.Catalog.SectionSockets",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.UdpSocketClient",
@@ -655,7 +753,8 @@ window.CodeWFDemoCatalog = [
         "code": "server.Start(mark, systemId, group, port, localIp);\nclient.Received += Receive;\nawait client.ConnectAsync(mark, group, port, endpoint, systemId);\nawait server.SendCommandAsync(packet, DateTimeOffset.UtcNow);",
         "sectionKey": "Demo.Catalog.SectionSockets",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.TcpSocketClientFileSystemFeature",
@@ -670,7 +769,8 @@ window.CodeWFDemoCatalog = [
         "code": "feature.FileTransferProgress += OnProgress;\nfeature.FileTransferOutcome += OnOutcome;\nawait feature.BrowseFileSystemAsync(root);\nawait feature.CreateDirectoryAsync(path);\nawait feature.UploadFileAsync(localFile, remoteFile, cancellationToken);\nawait feature.DownloadFileAsync(remoteFile, localDirectory, cancellationToken);\nawait feature.DeletePathAsync(path, true);",
         "sectionKey": "Demo.Catalog.SectionRemoteFiles",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       },
       {
         "titleKey": "Demo.Item.TcpSocketServerFileSystemFeature",
@@ -685,7 +785,8 @@ window.CodeWFDemoCatalog = [
         "code": "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\nawait server.StopAsync();",
         "sectionKey": "Demo.Catalog.SectionRemoteFiles",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M12.94 2.94a5.74 5.74 0 1 1 8.12 8.12l-2.67 2.67a7.05 7.05 0 0 0-.4-3.85l.95-.94a2.74 2.74 0 1 0-3.88-3.88l-4 4a2.74 2.74 0 0 0 .9 4.48l-2.2 2.2a5.77 5.77 0 0 1-.82-8.8l4-4Zm-10 10 2.67-2.67a7.04 7.04 0 0 0 .4 3.85l-.95.94a2.74 2.74 0 1 0 3.88 3.88l4-4a2.74 2.74 0 0 0-.57-4.31l2.16-2.16a5.74 5.74 0 0 1 .53 8.6l-4 4a5.74 5.74 0 0 1-8.12-8.13Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconLink"
       }
     ],
     "icon": "⇄",
@@ -707,7 +808,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "Logger",
         "description": "Logger",
         "icon": "☰",
-        "prototypeIcon": "<path d=\"M5.5 4.5h13v15h-13z\"/><path d=\"M8.5 9h7M8.5 12.5h7M8.5 16h4\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 11.5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\n        M2 19c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconListView"
       },
       {
         "titleKey": "Demo.Item.LogMicrosoft",
@@ -719,7 +821,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "CodeWFLoggingBuilderExtensions",
         "description": "CodeWFLoggingBuilderExtensions",
         "icon": "⊕",
-        "prototypeIcon": "<path d=\"M12 3.5l8.5 4.5v8L12 20.5 3.5 16V8z\"/><path d=\"M8.5 12h7M12 8.5v7\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 11.5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\n        M2 19c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconListView"
       },
       {
         "titleKey": "Demo.Item.LogEventFeed",
@@ -733,7 +836,8 @@ window.CodeWFDemoCatalog = [
         "input": "Sample log event",
         "code": "Logger.Info(input);\nLogger.Events.GetRecentEvents();",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 11.5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\n        M2 19c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconListView"
       },
       {
         "titleKey": "Demo.Item.CodeWFLogHealth",
@@ -747,7 +851,8 @@ window.CodeWFDemoCatalog = [
         "input": "",
         "code": "Logger.Health.GetSnapshot();",
         "icon": "•",
-        "prototypeIcon": "<path d=\"M4.5 10.8L12 4l7.5 6.8\"/><path d=\"M6.5 10v9.5h11V10\"/><path d=\"M10.5 19.5v-4.8h3v4.8\"/>"
+        "prototypeIcon": "<path d=\"M2 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z\n        M2 11.5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\n        M2 19c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconListView"
       }
     ],
     "icon": "☰",
@@ -769,7 +874,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "Events and logging tour",
         "description": "",
         "icon": "▶",
-        "prototypeIcon": "<rect x=\"3\" y=\"4.5\" width=\"18\" height=\"12.5\" rx=\"1.7\"/><path d=\"M8 21h8M12 17v4\"/><path d=\"M7 9.5l2.5 2 3-3 4 4\"/>"
+        "prototypeIcon": "<path d=\"M2 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3Z\n        M9.5 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3Z\n        M10.5 17a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3Z\n        M2 10.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3Z\n        M18 9.5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3Z\n        M9.5 10.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3Z\n        M3 17a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3Z\n        M17 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3Z\n        M18 17a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconApps"
       },
       {
         "titleKey": "Demo.Item.LabFlow",
@@ -781,7 +887,8 @@ window.CodeWFDemoCatalog = [
         "titleEn": "File workflow",
         "description": "",
         "icon": "⚗",
-        "prototypeIcon": "<path d=\"M10 3.5v6.2L5.6 17a2.4 2.4 0 0 0 2.1 3.5h8.6a2.4 2.4 0 0 0 2.1-3.5L14 9.7V3.5\"/><path d=\"M8.5 3.5h7\"/><path d=\"M7.6 14h8.8\"/>"
+        "prototypeIcon": "<path d=\"M2 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3Z\n        M9.5 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3Z\n        M10.5 17a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3Z\n        M2 10.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3Z\n        M18 9.5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3Z\n        M9.5 10.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3Z\n        M3 17a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3Z\n        M17 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3Z\n        M18 17a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3Z\" fill=\"currentColor\" stroke=\"none\"/>",
+        "iconKey": "SemiIconApps"
       }
     ],
     "icon": "▶",
@@ -851,7 +958,16 @@ window.CodeWFCatalogText = {
     "SectionBroker": "事件代理",
     "SectionProtocol": "协议与地址",
     "SectionSockets": "Socket 会话",
-    "SectionRemoteFiles": "远程文件"
+    "SectionRemoteFiles": "远程文件",
+    "SectionLanguage": "语言与资源",
+    "LocalizationHint": "浏览器预览语言查询；真实库资源读取在原生 Demo 中执行。",
+    "UpdateFixtureHint": "受控更新流程预览：检查、下载、SHA-256 和取消。不会安装软件。",
+    "UpdateCheck": "检查",
+    "UpdateDownload": "下载并校验",
+    "UpdateCancel": "取消",
+    "UpdateAvailable": "发现演示版本 v2.0.0",
+    "UpdateVerified": "已完成下载与校验（预览）",
+    "UpdateCanceled": "已取消（预览）"
   },
   "en-US": {
     "Title": "Helper catalog",
@@ -915,7 +1031,16 @@ window.CodeWFCatalogText = {
     "SectionBroker": "Event Broker",
     "SectionProtocol": "Protocol & Address",
     "SectionSockets": "Socket Sessions",
-    "SectionRemoteFiles": "Remote Files"
+    "SectionRemoteFiles": "Remote Files",
+    "SectionLanguage": "Languages & Resources",
+    "LocalizationHint": "Browser preview of language lookup; real embedded resources run in the native demo.",
+    "UpdateFixtureHint": "Controlled update preview: check, download, SHA-256 and cancel. No software is installed.",
+    "UpdateCheck": "Check",
+    "UpdateDownload": "Download & verify",
+    "UpdateCancel": "Cancel",
+    "UpdateAvailable": "Demo version v2.0.0 available",
+    "UpdateVerified": "Download verified (preview)",
+    "UpdateCanceled": "Canceled (preview)"
   }
 };
 window.CodeWFCatalogDescriptions = {
@@ -1054,6 +1179,15 @@ window.CodeWFCatalogDescriptions = {
     },
     "CodeWFLogHealth": {
       "Desc": "读取日志健康快照，查看队列和诊断状态。"
+    },
+    "UpdateService": {
+      "Desc": "通过受控 HTTP 数据验证检查、下载、SHA-256、取消和安装缺文件保护，不启动安装程序。"
+    },
+    "I18nManager": {
+      "Desc": "查询共享语言引擎的当前文化、已加载语言和资源键；使用标题栏切换语言。"
+    },
+    "JsonLocalizer": {
+      "Desc": "输入文化名称，读取 Core 内嵌更新文案并验证英文回退，无需应用复制库资源。"
     }
   },
   "en-US": {
@@ -1191,6 +1325,15 @@ window.CodeWFCatalogDescriptions = {
     },
     "CodeWFLogHealth": {
       "Desc": "Read a logging health snapshot with queue and diagnostic status."
+    },
+    "UpdateService": {
+      "Desc": "Exercise checks, downloads, SHA-256, cancellation and the missing-installer guard with controlled HTTP data. No installer is launched."
+    },
+    "I18nManager": {
+      "Desc": "Inspect the shared engine culture, loaded languages and a resource key. Switch language in the title bar."
+    },
+    "JsonLocalizer": {
+      "Desc": "Enter a culture to read embedded Core update messages with English fallback. No application copy of library resources is needed."
     }
   }
 };

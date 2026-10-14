@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia;
@@ -20,7 +21,7 @@ public sealed class ImageIconPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.ImageIcon.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.ImageIcon.Source.CSharp);
 
     private static readonly uint[] DefaultSizes = [16, 24, 32, 48, 64, 128, 256];
 
@@ -44,17 +45,17 @@ public sealed class ImageIconPage : DemoPageBase
         _preview = new WrapPanel();
 
         var merge = Ui.Card("@Demo.Content.ImageIcon.merge.MergeMergeGenerateIcon",
-            Ui.Field(L.Instance.GetResource("Demo.Content.ImageIcon.merge.SourceImage"), Ui.Key(_sourceImage)),
-            Ui.Field(L.Instance.GetResource("Demo.Content.ImageIcon.merge.OutputFile"), _destIcon),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.ImageIcon.merge.SourceImage), Ui.Key(_sourceImage)),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.ImageIcon.merge.OutputFile), _destIcon),
             Ui.Row(Ui.Button("MergeGenerateIcon", Merge, primary: true),
                 Ui.Button("@Demo.Content.ImageIcon.merge.ResetToRepositoryLogo", () => _destIcon.Text = "logo.ico")),
             Ui.Card("@Demo.Content.ImageIcon.merge.SizePreviewsPopulatedAfterGeneration", _preview),
             Ui.Hint("@Demo.Content.ImageIcon.merge.SizesAreSetByIncludedSizesInThe"));
 
         var separate = Ui.Card("@Demo.Content.ImageIcon.separate.SeparateSeparateGenerateIcon",
-            Ui.Field(L.Instance.GetResource("Demo.Content.ImageIcon.separate.SourceIcon"), Ui.Key(_sourceImage)),
-            Ui.Field(L.Instance.GetResource("Demo.Content.ImageIcon.separate.OutputDirectory"), Ui.Key(Path.Combine(_outputDirectory, "icons"))),
-            Ui.Field(L.Instance.GetResource("Demo.Content.ImageIcon.separate.SizeList"), _separateSizes),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.ImageIcon.separate.SourceIcon), Ui.Key(_sourceImage)),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.ImageIcon.separate.OutputDirectory), Ui.Key(Path.Combine(_outputDirectory, "icons"))),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.ImageIcon.separate.SizeList), _separateSizes),
             Ui.Row(Ui.Button("SeparateGenerateIcon", Separate)),
             _output);
 
@@ -80,13 +81,13 @@ public sealed class ImageIconPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("ic.opt", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.IconOptions"), L.Instance.GetResource("Demo.Content.ImageIcon.Properties.ICOGenerationParameters"),
-            DemoProperty.ReadOnly("ic.sizes", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.IncludedSizes"), string.Join(",", DefaultSizes)),
-            DemoProperty.Bool("ic.compress", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.PNGCompression"), true, L.Instance.GetResource("Demo.Content.ImageIcon.Properties.MagickNETOutputCompressionSwitch")),
-            DemoProperty.Number("ic.quality", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.Quality"), 92, 1, 100, 1, "%", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.OutputImageQuality"))),
-        DemoProperty.Category("ic.io", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.InputOutput"), L.Instance.GetResource("Demo.Content.ImageIcon.Properties.DemoDirectoryAndSourceImage"),
-            DemoProperty.ReadOnly("ic.source", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.SourceImage"), "Assets/logo.png"),
-            DemoProperty.ReadOnly("ic.dest", L.Instance.GetResource("Demo.Content.ImageIcon.Properties.OutputDirectory"), Path.Combine("%TEMP%", "CodeWFToolkitDemo", "image"))));
+        DemoProperty.Category("ic.opt", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.IconOptions), L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.ICOGenerationParameters),
+            DemoProperty.ReadOnly("ic.sizes", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.IncludedSizes), string.Join(",", DefaultSizes)),
+            DemoProperty.Bool("ic.compress", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.PNGCompression), true, L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.MagickNETOutputCompressionSwitch)),
+            DemoProperty.Number("ic.quality", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.Quality), 92, 1, 100, 1, "%", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.OutputImageQuality))),
+        DemoProperty.Category("ic.io", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.InputOutput), L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.DemoDirectoryAndSourceImage),
+            DemoProperty.ReadOnly("ic.source", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.SourceImage), "Assets/logo.png"),
+            DemoProperty.ReadOnly("ic.dest", L.Instance.GetResource(DemoResources.Content.ImageIcon.Properties.OutputDirectory), Path.Combine("%TEMP%", "CodeWFToolkitDemo", "image"))));
 
     private async void Merge()
     {
@@ -95,7 +96,7 @@ public sealed class ImageIconPage : DemoPageBase
             Directory.CreateDirectory(_outputDirectory);
             if (!File.Exists(_sourceImage))
             {
-                _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageIcon.Merge.SourceImageNotFoundFormat"), _sourceImage);
+                _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ImageIcon.Merge.SourceImageNotFoundFormat), _sourceImage);
                 return;
             }
 
@@ -103,14 +104,14 @@ public sealed class ImageIconPage : DemoPageBase
             await ImageHelper.MergeGenerateIcon(_sourceImage, dest, _sizes);
             var size = new FileInfo(dest).Length;
             _output.Text = $"MergeGenerateIcon(\"logo.png\", \"{Path.GetFileName(dest)}\", [{string.Join(",", _sizes)}])\n"
-                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageIcon.Merge.CompleteBytesSizesFormat"), dest, size, _sizes.Length);
+                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ImageIcon.Merge.CompleteBytesSizesFormat), dest, size, _sizes.Length);
             FillPreview();
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageIcon.Merge.IconGeneratedSizesBytesFormat"), _sizes.Length, size));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ImageIcon.Merge.IconGeneratedSizesBytesFormat), _sizes.Length, size));
         }
         catch (Exception ex)
         {
-            _output.Text = L.Instance.GetResource("Demo.Content.ImageIcon.Merge.MergeFailed") + ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Content.ImageIcon.Merge.IconGenerationFailed"), ex);
+            _output.Text = L.Instance.GetResource(DemoResources.Content.ImageIcon.Merge.MergeFailed) + ex.Message;
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.ImageIcon.Merge.IconGenerationFailed), ex);
         }
     }
 
@@ -120,7 +121,7 @@ public sealed class ImageIconPage : DemoPageBase
         {
             if (!File.Exists(_sourceImage))
             {
-                _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageIcon.Separate.SourceImageNotFoundFormat"), _sourceImage);
+                _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ImageIcon.Separate.SourceImageNotFoundFormat), _sourceImage);
                 return;
             }
 
@@ -131,13 +132,13 @@ public sealed class ImageIconPage : DemoPageBase
 
             var files = Directory.GetFiles(folder, "*.ico").Select(Path.GetFileName).OrderBy(name => name).ToList();
             _output.Text = $"SeparateGenerateIcon(\"logo.png\", \"icons\", [{string.Join(",", sizes)}])\n"
-                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageIcon.Separate.CompleteOutputFilesFormat"), string.Join("\n  ", files));
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.ImageIcon.Separate.IconSeparatedFilesFormat"), files.Count));
+                           + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ImageIcon.Separate.CompleteOutputFilesFormat), string.Join("\n  ", files));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.ImageIcon.Separate.IconSeparatedFilesFormat), files.Count));
         }
         catch (Exception ex)
         {
-            _output.Text = L.Instance.GetResource("Demo.Content.ImageIcon.Separate.SeparationFailed") + ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Content.ImageIcon.Separate.IconSeparationFailed"), ex);
+            _output.Text = L.Instance.GetResource(DemoResources.Content.ImageIcon.Separate.SeparationFailed) + ex.Message;
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.ImageIcon.Separate.IconSeparationFailed), ex);
         }
     }
 

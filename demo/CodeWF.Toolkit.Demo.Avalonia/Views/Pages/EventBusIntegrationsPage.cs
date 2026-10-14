@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
@@ -12,9 +13,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>总线集成页：Prism / ASP.NET Core 注册形态讲解 + 真实的 Socket 分布式总线互通。</summary>
 public sealed class EventBusIntegrationsPage : DemoPageBase
 {
-    private static string XamlSnippet => L.Instance.GetResource("Demo.Content.EventBusIntegrations.Source.Xaml");
+    private static string XamlSnippet => L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Source.Xaml);
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.EventBusIntegrations.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Source.CSharp);
 
     private readonly TextBox _host;
     private readonly TextBox _port;
@@ -42,9 +43,9 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         var aspNetOutput = Ui.Code(string.Empty, output: true);
         aspNetOutput.Bind(SelectableTextBlock.TextProperty, registration.WhenAnyValue(model => model.AspNetOutput));
         var prismButton = new Button { Command = registration.PrismCommand };
-        prismButton.Bind(ContentControl.ContentProperty, new global::CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension("Demo.Studio.IntegrationRun").CreateBinding());
+        prismButton.Bind(ContentControl.ContentProperty, new global::CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension(DemoResources.Studio.IntegrationRun).CreateBinding());
         var aspNetButton = new Button { Command = registration.AspNetCommand };
-        aspNetButton.Bind(ContentControl.ContentProperty, new global::CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension("Demo.Studio.IntegrationRun").CreateBinding());
+        aspNetButton.Bind(ContentControl.ContentProperty, new global::CodeWF.Avalonia.Lang.MarkupExtensions.I18nExtension(DemoResources.Studio.IntegrationRun).CreateBinding());
         _host = Ui.Input("127.0.0.1");
         _port = Ui.Input("39561");
         _heartbeat = Ui.Input("10");
@@ -54,7 +55,7 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         _topic = Ui.Input("demo.greeting");
         _payload = Ui.Input("hello");
 
-        _subscriberHandler = message => Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.Content.ClientSubscriptionFormat"), message));
+        _subscriberHandler = message => Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Content.ClientSubscriptionFormat), message));
 
         _startButton = Ui.Button("@Demo.Content.EventBusIntegrations.Content.StartServerAndClient", async () => await StartAsync(), primary: true);
         _stopButton = Ui.Button("@Demo.Content.EventBusIntegrations.Content.Stop", async () => await StopAsync());
@@ -63,16 +64,16 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         var socket = Ui.Card("@Demo.Content.EventBusIntegrations.socket.DistributedSocketBusEventServerEventClientRealConnection",
             Ui.TwoColumns(
                 Ui.Card("@Demo.Content.EventBusIntegrations.socket.ServerClient",
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.ListenAddress"), _host),
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.Port"), _port),
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.HeartbeatSeconds"), _heartbeat),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.ListenAddress), _host),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.Port), _port),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.HeartbeatSeconds), _heartbeat),
                     Ui.Row(_startButton, _stopButton),
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.Server"), _serverState),
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.Client"), _clientState),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.Server), _serverState),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.Client), _clientState),
                     Ui.Hint("@Demo.Content.EventBusIntegrations.socket.HeartbeatReconnectionAndOfflineReplayNetWrapperProvidesThe")),
                 Ui.Card("@Demo.Content.EventBusIntegrations.socket.PublishSubscribe",
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.Topic"), _topic),
-                    Ui.Field(L.Instance.GetResource("Demo.Content.EventBusIntegrations.socket.Content"), _payload),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.Topic), _topic),
+                    Ui.Field(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.socket.Content), _payload),
                     Ui.Row(_publishButton, Ui.Button("@Demo.Content.EventBusIntegrations.socket.ClearSession", () => _feed.Text = string.Empty)),
                     _feed)),
             Ui.Code("""
@@ -118,11 +119,11 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("busint.host", L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.HostIntegration"), L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.ConnectionAndKeepAliveSettingsForTheDistributed"),
-            DemoProperty.Choice("busint.mode", L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.HostIntegration"), "Socket", [L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.InProcess"), "Prism", "ASP.NET Core", "Socket"]),
-            DemoProperty.Number("busint.port", L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.Port"), 39561, 1024, 65535, 1, null, L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.EventServerListenPort")),
-            DemoProperty.Number("busint.heartbeat", L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.HeartbeatSeconds"), 10, 1, 120, 1, "s", L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.ClientHeartbeatInterval")),
-            DemoProperty.Bool("busint.resend", L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.ReplayOfflineMessages"), true, L.Instance.GetResource("Demo.Content.EventBusIntegrations.Properties.OfflineClientMessagesAreReplayedAfterReconnection"))));
+        DemoProperty.Category("busint.host", L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.HostIntegration), L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.ConnectionAndKeepAliveSettingsForTheDistributed),
+            DemoProperty.Choice("busint.mode", L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.HostIntegration), "Socket", [L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.InProcess), "Prism", "ASP.NET Core", "Socket"]),
+            DemoProperty.Number("busint.port", L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.Port), 39561, 1024, 65535, 1, null, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.EventServerListenPort)),
+            DemoProperty.Number("busint.heartbeat", L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.HeartbeatSeconds), 10, 1, 120, 1, "s", L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.ClientHeartbeatInterval)),
+            DemoProperty.Bool("busint.resend", L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.ReplayOfflineMessages), true, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Properties.OfflineClientMessagesAreReplayedAfterReconnection))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
@@ -151,13 +152,13 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         {
             _server = new EventServer();
             _server.Start(host, port);
-            _serverState.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.RunningFormat"), host, port);
+            _serverState.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.RunningFormat), host, port);
             Append($"EventServer.Start(\"{host}\", {port})");
 
             _client = new EventClient();
             var connected = await _client.ConnectAsync(host, port).WaitAsync(TimeSpan.FromSeconds(5));
-            _clientState.Text = connected ? L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.Connected") : L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.ConnectionFailed");
-            Append(connected ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.EventClientConnectAsyncConnectedToFormat"), host, port) : L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.EventClientConnectAsyncFailed"));
+            _clientState.Text = connected ? L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.Connected) : L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.ConnectionFailed);
+            Append(connected ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.EventClientConnectAsyncConnectedToFormat), host, port) : L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.EventClientConnectAsyncFailed));
             if (!connected)
             {
                 await StopAsync();
@@ -166,13 +167,13 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
 
             _client.Subscribe("demo.greeting", _subscriberHandler);
             _subscribed = true;
-            Append(L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.ClientSubscribeStringDemoGreetingSubscribed"));
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.SocketBusStartedFormat"), host, port));
+            Append(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.ClientSubscribeStringDemoGreetingSubscribed));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.SocketBusStartedFormat), host, port));
         }
         catch (Exception ex)
         {
-            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.StartupFailedFormat"), ex.Message));
-            Logger.Error(L.Instance.GetResource("Demo.Content.EventBusIntegrations.StartAsync.SocketBusStartupFailed"), ex);
+            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.StartupFailedFormat), ex.Message));
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StartAsync.SocketBusStartupFailed), ex);
             await StopAsync();
         }
         finally
@@ -205,10 +206,10 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
             _server = null;
         }
 
-        _serverState.Text = L.Instance.GetResource("Demo.Content.EventBusIntegrations.StopAsync.Stopped");
-        _clientState.Text = L.Instance.GetResource("Demo.Content.EventBusIntegrations.StopAsync.Disconnected");
+        _serverState.Text = L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StopAsync.Stopped);
+        _clientState.Text = L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StopAsync.Disconnected);
         Append("EventServer.Stop() / EventClient.Disconnect()");
-        Logger.Warn(L.Instance.GetResource("Demo.Content.EventBusIntegrations.StopAsync.SocketBusStopped"));
+        Logger.Warn(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.StopAsync.SocketBusStopped));
         await Task.CompletedTask;
     }
 
@@ -216,7 +217,7 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
     {
         if (_client is null || !_subscribed)
         {
-            Append(L.Instance.GetResource("Demo.Content.EventBusIntegrations.Publish.StartTheServerAndClientFirst"));
+            Append(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Publish.StartTheServerAndClientFirst));
             return;
         }
 
@@ -224,15 +225,15 @@ public sealed class EventBusIntegrationsPage : DemoPageBase
         var payload = _payload.Text ?? string.Empty;
         var ok = _client.Publish(topic, payload, out var error);
         Append(ok
-            ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.Publish.ClientPublishDeliveredFormat"), topic, payload)
-            : string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.Publish.ClientPublishFailedFormat"), error));
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.EventBusIntegrations.Publish.SocketBusPublishFormat"), topic, payload));
+            ? string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Publish.ClientPublishDeliveredFormat), topic, payload)
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Publish.ClientPublishFailedFormat), error));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Publish.SocketBusPublishFormat), topic, payload));
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource("Demo.Content.EventBusIntegrations.Append.AwaitingStartup"), StringComparison.Ordinal)
+        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource(DemoResources.Content.EventBusIntegrations.Append.AwaitingStartup), StringComparison.Ordinal)
             ? line
             : current + "\n" + line;
     }

@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using System.Globalization;
 using CodeWF.Avalonia.Lang;
@@ -40,6 +41,6 @@ public static class DemoBootstrapper
             File = new FileLogOptions { DirectoryPath = LogFolder },
         });
 
-        Logger.Info(L.Instance.GetResource("Demo.Content.DemoBootstrapper.Initialize.CodeWFToolkitStartedLogDirectory") + LogFolder);
+        Logger.Info(L.Instance.GetResource(DemoResources.Content.DemoBootstrapper.Initialize.CodeWFToolkitStartedLogDirectory) + LogFolder);
     }
 }

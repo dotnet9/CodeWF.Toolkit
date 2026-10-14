@@ -89,6 +89,7 @@ public sealed class DemoResourceTests
                 Assert.Contains("\"" + key + "\"", factory);
                 Assert.False(string.IsNullOrWhiteSpace(item.GetProperty("icon").GetString()), key);
                 Assert.False(string.IsNullOrWhiteSpace(item.GetProperty("prototypeIcon").GetString()), key);
+                Assert.StartsWith("SemiIcon", item.GetProperty("iconKey").GetString());
                 if (group.GetProperty("id").GetString() is "home" or "examples") continue;
                 var api = item.GetProperty("api").GetString()!;
                 Assert.False(string.IsNullOrWhiteSpace(api), key);

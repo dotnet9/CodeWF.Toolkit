@@ -92,7 +92,8 @@
       "Data": "数据与图像",
       "Events": "事件与集成",
       "Network": "协议与网络",
-      "Examples": "综合示例"
+      "Examples": "综合示例",
+      "Localization": "国际化"
     },
     "Item": {
       "Welcome": "介绍",
@@ -150,7 +151,10 @@
       "TcpSocketClientFileSystemFeature": "TcpSocketClientFileSystemFeature",
       "TcpSocketServerFileSystemFeature": "TcpSocketServerFileSystemFeature",
       "LogEventFeed": "LogEventFeed",
-      "CodeWFLogHealth": "CodeWFLogHealth"
+      "CodeWFLogHealth": "CodeWFLogHealth",
+      "UpdateService": "UpdateService",
+      "I18nManager": "I18nManager",
+      "JsonLocalizer": "JsonLocalizer"
     },
     "Scene": {
       "Step.Server": "总线基础",
@@ -433,6 +437,15 @@
       },
       "CodeWFLogHealth": {
         "Desc": "读取日志健康快照，查看队列和诊断状态。"
+      },
+      "UpdateService": {
+        "Desc": "通过受控 HTTP 数据验证检查、下载、SHA-256、取消和安装缺文件保护，不启动安装程序。"
+      },
+      "I18nManager": {
+        "Desc": "查询共享语言引擎的当前文化、已加载语言和资源键；使用标题栏切换语言。"
+      },
+      "JsonLocalizer": {
+        "Desc": "输入文化名称，读取 Core 内嵌更新文案并验证英文回退，无需应用复制库资源。"
       }
     },
     "Catalog": {
@@ -497,7 +510,16 @@
       "SectionBroker": "事件代理",
       "SectionProtocol": "协议与地址",
       "SectionSockets": "Socket 会话",
-      "SectionRemoteFiles": "远程文件"
+      "SectionRemoteFiles": "远程文件",
+      "SectionLanguage": "语言与资源",
+      "LocalizationHint": "浏览器预览语言查询；真实库资源读取在原生 Demo 中执行。",
+      "UpdateFixtureHint": "受控更新流程预览：检查、下载、SHA-256 和取消。不会安装软件。",
+      "UpdateCheck": "检查",
+      "UpdateDownload": "下载并校验",
+      "UpdateCancel": "取消",
+      "UpdateAvailable": "发现演示版本 v2.0.0",
+      "UpdateVerified": "已完成下载与校验（预览）",
+      "UpdateCanceled": "已取消（预览）"
     },
     "Content": {
       "Core": {

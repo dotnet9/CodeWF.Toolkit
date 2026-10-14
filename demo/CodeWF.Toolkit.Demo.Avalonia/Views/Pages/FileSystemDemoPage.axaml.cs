@@ -1,3 +1,5 @@
+﻿using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Avalonia.Controls;
 using CodeWF.Avalonia.Lang.MarkupExtensions;
 using CodeWF.Avalonia.TreeDataGrid;
@@ -16,10 +18,12 @@ public sealed partial class FileSystemDemoPage : DemoPageBase
         InitializeComponent();
         DataContext = ViewModel;
         PreviewGrid.EnableDefaults(ViewModel.Source);
-        SessionHint.Bind(TextBlock.TextProperty, new I18nExtension(server ? "Demo.Catalog.FileServerHint" : "Demo.Catalog.FileClientHint").CreateBinding());
+        SessionHint.Bind(TextBlock.TextProperty, new I18nExtension(server ? DemoResources.Catalog.FileServerHint : DemoResources.Catalog.FileClientHint).CreateBinding());
     }
     public override string TitleKey => "Demo.Item.TcpSocket" + (_server ? "Server" : "Client") + "FileSystemFeature";
     public override string DescriptionKey => "Demo.Api.TcpSocket" + (_server ? "Server" : "Client") + "FileSystemFeature.Desc";
+    protected override IReadOnlyList<PropertyItem> BuildProperties() => ViewModel.BuildProperties();
+    public override void OnPropertyCommitted(PropertyValueChange change) => ViewModel.Commit(change);
     public override string XamlCode => "";
     public override string CSharpCode => _server
         ? "using var feature = new TcpSocketServerFileSystemFeature(server) { RootDirectory = isolatedRoot };\nawait server.StartAsync(mark, \"127.0.0.1\", 0);\n// The local client drives real browse, create, delete and file-transfer requests.\nawait server.StopAsync();"

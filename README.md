@@ -44,14 +44,13 @@ A collection of UI-independent .NET infrastructure libraries: tool extensions, f
 
 ### 国际化（CodeWF.Toolkit.Lang）
 
-控制台、服务和基础库可直接使用 `CodeWF.Toolkit.Lang`，无需引入 Avalonia。JSON 保持现有格式：`language`、`description`、`cultureName` 为元数据，其余对象路径组成稳定资源键。嵌入资源需在项目中设置 `EmbeddedResource`。
+控制台、服务和基础库可直接使用 `CodeWF.Toolkit.Lang`，无需引入 Avalonia。JSON 保持现有格式：`language`、`description`、`cultureName` 为元数据，其余对象路径组成稳定资源键。NuGet 库使用 `EmbeddedResource`；Demo 和桌面应用将 JSON 复制到输出和发布目录的 `I18n/`，保持宿主资源可替换。
 
 ```csharp
 using CodeWF.Toolkit.Lang;
 using CodeWF.Toolkit.Lang.Json;
 
-var plugin = new JsonLangPlugin { ScanResourceFolder = false };
-plugin.AddResource(typeof(Program).Assembly);
+var plugin = new JsonLangPlugin { ResourceFolder = Path.Combine(AppContext.BaseDirectory, "I18n") };
 I18nManager.Instance.Register(plugin, new System.Globalization.CultureInfo("en-US"));
 I18nManager.Instance.Culture = new System.Globalization.CultureInfo("zh-CN");
 var text = I18nManager.Instance.GetResource("App.Title");
@@ -82,6 +81,25 @@ if (result is { Succeeded: true, Update: { AssetUrl: not null, ChecksumUrl: not 
 ```
 
 无匹配资产或校验文件时，界面提供 `UpdateInfo.PageUrl` 作为发布页入口。检查失败通过 `UpdateCheckResult` 返回；下载失败和取消通过异常通知调用方，需由界面状态机处理。安装分发为 Windows EXE、Linux DEB、macOS DMG/PKG；便携 ZIP 只打开目录，启动失败返回手动处理。错误和日志从库的嵌入 JSON 读取，无需应用复制资源。
+
+**UpdateChecking 的资源由 Toolkit 维护。** 安装 Core 包后，中英文 JSON 已嵌入程序集；无需提供 resolver、创建 JSON 或注册语言插件。未注册应用国际化时跟随 `CultureInfo.CurrentUICulture`；注册后跟随 `I18nManager.Instance.Culture`，不支持的语言回退到库内英文。
+
+需要定制时，应用可在自己的国际化资源中只定义要替换的稳定键，使用既有 `JsonLangPlugin` 扫描输出目录。例如应用输出的 `I18n/en-US.json` 可写：
+
+```json
+{
+  "language": "English",
+  "description": "MyApp overrides",
+  "cultureName": "en-US",
+  "Toolkit.Core.Update.AssetMissing": "No package is available for this application."
+}
+```
+
+只有应用提供的键被覆盖，其余文案仍从 Core 内嵌资源读取。完整键表在 [Core 中英文资源](src/Core/CodeWF.Toolkit.Core/I18n/)；覆盖带占位符的文案时保留 `{0}`、`{1}` 等格式参数。
+
+库和 Demo 的 C# 资源键由 `I18n/Language.tt` 生成到 `Language.g.cs`，引用 `I18n.ResourceKeys` 强类型常量。修改 JSON 后执行 `pwsh scripts/sync_localization_keys.ps1`；CI 以 `-Check` 检查生成文件。普通构建直接使用已提交的生成代码，无需安装 T4。XAML 仍使用原有 `I18n` 绑定。
+
+`AssemblyExtensions.CompileTime()` 优先读取 Core 包的 `buildTransitive` 构建目标写入的 UTC `CodeWF.BuildTimestamp` 元数据，支持 NativeAOT；旧程序集回退到 PE 时间或文件修改时间，并排除确定性构建的哈希时间戳。需要可重复构建时设置固定的 `CodeWFBuildTimestamp`（ISO 8601），或用 `CodeWFGenerateBuildTimestamp=false` 关闭自动生成；默认使用本次构建时间，会影响程序集的字节级可重复性。
 
 各库的运行时错误、日志、枚举描述使用 `Toolkit.<库名>.<语义>` 键。中英文资源随各自 NuGet 包嵌入，中文数字转换所需字符表作为固定算法数据读取，不随界面语言改变。编译期 AOT/裁剪诊断保留英文常量，以符合 .NET 特性参数约束。
 
@@ -217,7 +235,7 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 ## 演示 / Demos
 
-Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，49 个页面按类名查找；CSV / Excel 提供真实表格回读，网络与文件系统提供可保持的会话和传输操作，组合示例集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
+Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，52 个页面按类名查找；CSV / Excel 提供真实表格回读，网络与文件系统提供可保持的会话和传输操作，组合示例集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
 
 核心扩展再按文本、数值、日期时间、类型与查询分组，密集命令使用双行排列，保留完整帮助类名。UI 从公开 NuGet 安装 CodeWF.Avalonia 包，单独克隆本仓即可构建；`global.json` 选择稳定版 .NET 10 SDK。
 

@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
@@ -19,7 +20,7 @@ public sealed class LoggingOptionsPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.LoggingOptions.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.LoggingOptions.Source.CSharp);
 
     private readonly SelectableTextBlock _output;
 
@@ -40,7 +41,7 @@ public sealed class LoggingOptionsPage : DemoPageBase
                 Ui.Hint("@Demo.Content.LoggingOptions.Content.EventCallbacksRunOnABackgroundThreadUI")),
             Ui.Card("@Demo.Content.LoggingOptions.Content.IntegrationWithCodeWFAvalonia",
                 Ui.Hint("@Demo.Content.LoggingOptions.Content.CodeWFAvaloniaLogLogViewSubscribesDirectlyToThis"
-                        + L.Instance.GetResource("Demo.Content.LoggingOptions.Content.TheWorkspaceLogPanelIsAnInstanceOf"))));
+                        + L.Instance.GetResource(DemoResources.Content.LoggingOptions.Content.TheWorkspaceLogPanelIsAnInstanceOf))));
     }
 
     public override string TitleKey => DemoKeys.LoggingOptionsExampleTitle;
@@ -56,30 +57,30 @@ public sealed class LoggingOptionsPage : DemoPageBase
         new PropertyItem
         {
             Id = "logging.level",
-            Name = L.Instance.GetResource("Demo.Content.LoggingOptions.Properties.MinimumLevel"),
+            Name = L.Instance.GetResource(DemoResources.Content.LoggingOptions.Properties.MinimumLevel),
             Kind = PropertyItemKind.Choice,
             Options = ["Trace", "Debug", "Information", "Warning", "Error"],
             Value = "Information",
             DefaultValue = "Information",
-            Description = L.Instance.GetResource("Demo.Content.LoggingOptions.Properties.DiscardLogsBelowThisLevel"),
+            Description = L.Instance.GetResource(DemoResources.Content.LoggingOptions.Properties.DiscardLogsBelowThisLevel),
         },
         new PropertyItem
         {
             Id = "logging.rotating",
-            Name = L.Instance.GetResource("Demo.Content.LoggingOptions.Properties.FileRotation"),
+            Name = L.Instance.GetResource(DemoResources.Content.LoggingOptions.Properties.FileRotation),
             Kind = PropertyItemKind.Boolean,
             Value = true,
             DefaultValue = true,
-            Description = L.Instance.GetResource("Demo.Content.LoggingOptions.Properties.RotateFilesAtTheSizeLimitAndRemove"),
+            Description = L.Instance.GetResource(DemoResources.Content.LoggingOptions.Properties.RotateFilesAtTheSizeLimitAndRemove),
         },
         new PropertyItem
         {
             Id = "logging.feed",
-            Name = L.Instance.GetResource("Demo.Content.LoggingOptions.Properties.UIEventStream"),
+            Name = L.Instance.GetResource(DemoResources.Content.LoggingOptions.Properties.UIEventStream),
             Kind = PropertyItemKind.Boolean,
             Value = true,
             DefaultValue = true,
-            Description = L.Instance.GetResource("Demo.Content.LoggingOptions.Properties.EnableTheEventStreamForDesktopLogControls"),
+            Description = L.Instance.GetResource(DemoResources.Content.LoggingOptions.Properties.EnableTheEventStreamForDesktopLogControls),
         },
     ];
 
@@ -87,44 +88,44 @@ public sealed class LoggingOptionsPage : DemoPageBase
     {
         var rows = new (string Option, string Default, string Note)[]
         {
-            ("MinimumLevel", "Information", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.DiscardLogsBelowThisLevel")),
-            ("EnableConsole", "true", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.ConsoleOutputOptionalForDesktopApplications")),
-            ("File.DirectoryPath", "BaseDirectory/logs", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.LogDirectory")),
-            ("File.MaxFileSizeBytes", "32 MB", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.PerFileSizeLimitBeforeRotation")),
-            ("File.RetentionDays", "30", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.RetentionDays")),
-            ("LineTemplate", "DefaultTemplate", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.CustomizeTheOutputTemplateWithLineTemplateController")),
-            ("LocalizedLevelFormatter", "zh / en", L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.LocalizedLevelNames")),
+            ("MinimumLevel", "Information", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.DiscardLogsBelowThisLevel)),
+            ("EnableConsole", "true", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.ConsoleOutputOptionalForDesktopApplications)),
+            ("File.DirectoryPath", "BaseDirectory/logs", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.LogDirectory)),
+            ("File.MaxFileSizeBytes", "32 MB", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.PerFileSizeLimitBeforeRotation)),
+            ("File.RetentionDays", "30", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.RetentionDays)),
+            ("LineTemplate", "DefaultTemplate", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.CustomizeTheOutputTemplateWithLineTemplateController)),
+            ("LocalizedLevelFormatter", "zh / en", L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.LocalizedLevelNames)),
         };
 
-        return Ui.Table([L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.Parameter"), L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.Default"), L.Instance.GetResource("Demo.Content.LoggingOptions.BuildOptionsTable.Description")], rows.Select(r => new[] { r.Option, r.Default, r.Note }).ToArray());
+        return Ui.Table([L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.Parameter), L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.Default), L.Instance.GetResource(DemoResources.Content.LoggingOptions.BuildOptionsTable.Description)], rows.Select(r => new[] { r.Option, r.Default, r.Note }).ToArray());
     }
 
     private void ShowHealth()
     {
         var snapshot = Logger.Health.GetSnapshot();
         var byLevel = snapshot.DroppedByLevel.Count == 0
-            ? L.Instance.GetResource("Demo.Content.LoggingOptions.ShowHealth.NoneDropped")
+            ? L.Instance.GetResource(DemoResources.Content.LoggingOptions.ShowHealth.NoneDropped)
             : string.Join(Environment.NewLine, snapshot.DroppedByLevel.Select(p => $"  {p.Key}: {p.Value}"));
 
         _output.Text = $"Logger.Health.GetSnapshot()" + Environment.NewLine
             + $"  DroppedCount = {snapshot.DroppedCount}" + Environment.NewLine
             + "  DroppedByLevel:" + Environment.NewLine + byLevel;
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.LoggingOptions.ShowHealth.LogHealthEntriesDroppedFormat"), snapshot.DroppedCount));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.LoggingOptions.ShowHealth.LogHealthEntriesDroppedFormat), snapshot.DroppedCount));
     }
 
     private void ShowFeed()
     {
         var recent = Logger.Events.GetRecentEvents();
-        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.LoggingOptions.ShowFeed.LoggerEventsGetRecentEventsEntriesFormat"), recent.Count) + Environment.NewLine
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.LoggingOptions.ShowFeed.LoggerEventsGetRecentEventsEntriesFormat), recent.Count) + Environment.NewLine
             + string.Join(Environment.NewLine, recent.Take(8).Select(e => $"  [{e.Level}] {e.Message}"));
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.LoggingOptions.ShowFeed.UIEventSnapshotEntriesFormat"), recent.Count));
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.LoggingOptions.ShowFeed.UIEventSnapshotEntriesFormat), recent.Count));
     }
 
     private void WriteSamples()
     {
-        Logger.Info(L.Instance.GetResource("Demo.Content.LoggingOptions.WriteSamples.DemoInformationLog"));
-        Logger.Warn(L.Instance.GetResource("Demo.Content.LoggingOptions.WriteSamples.DemoWarningLog"));
-        Logger.Error(L.Instance.GetResource("Demo.Content.LoggingOptions.WriteSamples.DemoErrorLog"), new InvalidOperationException(L.Instance.GetResource("Demo.Content.LoggingOptions.WriteSamples.SampleException")));
+        Logger.Info(L.Instance.GetResource(DemoResources.Content.LoggingOptions.WriteSamples.DemoInformationLog));
+        Logger.Warn(L.Instance.GetResource(DemoResources.Content.LoggingOptions.WriteSamples.DemoWarningLog));
+        Logger.Error(L.Instance.GetResource(DemoResources.Content.LoggingOptions.WriteSamples.DemoErrorLog), new InvalidOperationException(L.Instance.GetResource(DemoResources.Content.LoggingOptions.WriteSamples.SampleException)));
         ShowFeed();
     }
 

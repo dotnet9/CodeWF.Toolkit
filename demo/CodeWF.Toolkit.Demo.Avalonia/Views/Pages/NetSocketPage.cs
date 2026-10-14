@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
@@ -22,7 +23,7 @@ public sealed class NetSocketPage : DemoPageBase
         </ItemGroup>
         """;
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.NetSocket.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.NetSocket.Source.CSharp);
 
     private readonly TextBox _clientCount;
     private readonly TextBox _sampleSize;
@@ -54,12 +55,12 @@ public sealed class NetSocketPage : DemoPageBase
         _downloadButton = Ui.Button("@Demo.Content.NetSocket.Content.DownloadSampleChunksAndResume", async () => await DownloadAsync(), primary: true);
 
         var server = Ui.Card("@Demo.Content.NetSocket.server.ServerClient",
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetSocket.server.ListenAddress"), Ui.Key("@Demo.Content.NetSocket.server.127001Loopback")),
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetSocket.server.Port"), Ui.Key("@Demo.Content.NetSocket.server.AvailableTemporaryPortIpHelperGetAvailableTcpPort")),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetSocket.server.ListenAddress), Ui.Key("@Demo.Content.NetSocket.server.127001Loopback")),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetSocket.server.Port), Ui.Key("@Demo.Content.NetSocket.server.AvailableTemporaryPortIpHelperGetAvailableTcpPort")),
             Ui.Row(_startButton, _stopButton),
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetSocket.server.Server"), _serverState),
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetSocket.server.Client"), _clientState),
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetSocket.server.ClientCount"), _clientCount),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetSocket.server.Server), _serverState),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetSocket.server.Client), _clientState),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetSocket.server.ClientCount), _clientCount),
             Ui.Hint("@Demo.Content.NetSocket.server.ClientConnectionsDisconnectionsAndErrorsAreBroadcastThrough"));
 
         var messages = Ui.Card("@Demo.Content.NetSocket.messages.MessagesAndSession",
@@ -70,7 +71,7 @@ public sealed class NetSocketPage : DemoPageBase
             Ui.Hint("@Demo.Content.NetSocket.messages.TheServerRemovesClientsWithNoActivityFor"));
 
         var transfer = Ui.Card("@Demo.Content.NetSocket.transfer.RemoteFileSystemRealDownload",
-            Ui.Field(L.Instance.GetResource("Demo.Content.NetSocket.transfer.SampleSizeMB"), _sampleSize),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.NetSocket.transfer.SampleSizeMB), _sampleSize),
             _downloadButton,
             _transferOutput,
             Ui.Hint("@Demo.Content.NetSocket.transfer.DownloadsA2MBSampleByDefaultThroughChunk"));
@@ -91,20 +92,20 @@ public sealed class NetSocketPage : DemoPageBase
     public override string CSharpCode => CSharpSnippet;
 
     protected override IReadOnlyList<PropertyItem> BuildProperties() => DemoProperty.Finish(
-        DemoProperty.Category("ns.conn", L.Instance.GetResource("Demo.Content.NetSocket.Properties.ConnectionOptions"), L.Instance.GetResource("Demo.Content.NetSocket.Properties.LocalLoopbackConnectionOptions"),
-            DemoProperty.ReadOnly("ns.host", L.Instance.GetResource("Demo.Content.NetSocket.Properties.Host"), "127.0.0.1"),
-            DemoProperty.ReadOnly("ns.port", L.Instance.GetResource("Demo.Content.NetSocket.Properties.Port"), L.Instance.GetResource("Demo.Content.NetSocket.Properties.AvailableTemporaryPort")),
-            DemoProperty.Number("ns.timeout", L.Instance.GetResource("Demo.Content.NetSocket.Properties.ClientTimeoutSeconds"), 30, 5, 300, 1, "s", L.Instance.GetResource("Demo.Content.NetSocket.Properties.ServerHeartbeatTimeout")),
-            DemoProperty.Number("ns.chunk", L.Instance.GetResource("Demo.Content.NetSocket.Properties.ChunkSizeKB"), 64, 4, 1024, 4, "KB", "FileTransferBlockSize。")),
-        DemoProperty.Category("ns.file", L.Instance.GetResource("Demo.Content.NetSocket.Properties.FileTransfer"), L.Instance.GetResource("Demo.Content.NetSocket.Properties.OptionsForTheRemoteFileDemo"),
-            DemoProperty.Bool("ns.resume", L.Instance.GetResource("Demo.Content.NetSocket.Properties.ResumeTransfer"), true, L.Instance.GetResource("Demo.Content.NetSocket.Properties.ResumeFromTheByteCountInTheTemporary")),
-            DemoProperty.ReadOnly("ns.dir", L.Instance.GetResource("Demo.Content.NetSocket.Properties.DownloadDirectory"), Path.Combine("%TEMP%", "CodeWFToolkitDemo", "net"))));
+        DemoProperty.Category("ns.conn", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.ConnectionOptions), L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.LocalLoopbackConnectionOptions),
+            DemoProperty.ReadOnly("ns.host", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.Host), "127.0.0.1"),
+            DemoProperty.ReadOnly("ns.port", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.Port), L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.AvailableTemporaryPort)),
+            DemoProperty.Number("ns.timeout", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.ClientTimeoutSeconds), 30, 5, 300, 1, "s", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.ServerHeartbeatTimeout)),
+            DemoProperty.Number("ns.chunk", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.ChunkSizeKB), 64, 4, 1024, 4, "KB", "FileTransferBlockSize。")),
+        DemoProperty.Category("ns.file", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.FileTransfer), L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.OptionsForTheRemoteFileDemo),
+            DemoProperty.Bool("ns.resume", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.ResumeTransfer), true, L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.ResumeFromTheByteCountInTheTemporary)),
+            DemoProperty.ReadOnly("ns.dir", L.Instance.GetResource(DemoResources.Content.NetSocket.Properties.DownloadDirectory), Path.Combine("%TEMP%", "CodeWFToolkitDemo", "net"))));
 
     public override void OnPropertyCommitted(PropertyValueChange change)
     {
         if (change.Item.Id == "ns.timeout" && _server is not null)
         {
-            Append(L.Instance.GetResource("Demo.Content.NetSocket.OnPropertyCommitted.SetTheTimeoutBeforeStartupTimeOutIsRead"));
+            Append(L.Instance.GetResource(DemoResources.Content.NetSocket.OnPropertyCommitted.SetTheTimeoutBeforeStartupTimeOutIsRead));
         }
     }
 
@@ -120,42 +121,42 @@ public sealed class NetSocketPage : DemoPageBase
         {
             _port = CodeWF.Toolkit.Core.Helpers.IpHelper.GetAvailableTcpPort();
             _server = new TcpSocketServer();
-            var (started, startError) = await _server.StartAsync(L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.DemoFileService"), "127.0.0.1", _port);
+            var (started, startError) = await _server.StartAsync(L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.DemoFileService), "127.0.0.1", _port);
             if (!started)
             {
-                Append(L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.ServerStartupFailed") + startError);
+                Append(L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.ServerStartupFailed) + startError);
                 await StopAsync();
                 return;
             }
 
             _server.UseFileSystem(Directory.GetCurrentDirectory());
-            _serverState.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.Running127001Format"), _port);
-            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.ServerStartAsyncDemoFileService12700Format"), _port));
+            _serverState.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.Running127001Format), _port);
+            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.ServerStartAsyncDemoFileService12700Format), _port));
             Append($"server.UseFileSystem(\"{Directory.GetCurrentDirectory()}\")");
 
             _client = new TcpSocketClient();
-            var (connected, connectError) = await _client.ConnectAsync(L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.DemoFileService"), "127.0.0.1", _port);
+            var (connected, connectError) = await _client.ConnectAsync(L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.DemoFileService), "127.0.0.1", _port);
             if (!connected)
             {
-                Append(L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.ClientConnectionFailed") + connectError);
+                Append(L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.ClientConnectionFailed) + connectError);
                 await StopAsync();
                 return;
             }
 
-            _clientState.Text = L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.Connected");
+            _clientState.Text = L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.Connected);
             _clientCount.Text = _server.Clients.Count.ToString();
-            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.ClientConnectAsyncConnectedLocalEndpointFormat"), _client.LocalEndPoint));
+            Append(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.ClientConnectAsyncConnectedLocalEndpointFormat), _client.LocalEndPoint));
 
             _clientFileSystem = _client.UseFileSystem();
             _clientFileSystem.FileTransferProgress += OnTransferProgress;
             _clientFileSystem.FileTransferOutcome += OnTransferOutcome;
 
-            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.NetWrapperDemoTCPConnectedAt12700Format"), _port));
+            Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.NetWrapperDemoTCPConnectedAt12700Format), _port));
         }
         catch (Exception ex)
         {
-            Append(L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.StartupError") + ex.Message);
-            Logger.Error(L.Instance.GetResource("Demo.Content.NetSocket.StartAsync.NetWrapperDemoStartupFailed"), ex);
+            Append(L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.StartupError) + ex.Message);
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.NetSocket.StartAsync.NetWrapperDemoStartupFailed), ex);
             await StopAsync();
         }
         finally
@@ -185,31 +186,31 @@ public sealed class NetSocketPage : DemoPageBase
             _server = null;
         }
 
-        _serverState.Text = L.Instance.GetResource("Demo.Content.NetSocket.StopAsync.NotStarted");
-        _clientState.Text = L.Instance.GetResource("Demo.Content.NetSocket.StopAsync.Disconnected");
+        _serverState.Text = L.Instance.GetResource(DemoResources.Content.NetSocket.StopAsync.NotStarted);
+        _clientState.Text = L.Instance.GetResource(DemoResources.Content.NetSocket.StopAsync.Disconnected);
         _clientCount.Text = "0";
         Append("client.Stop() / await server.StopAsync()");
-        Logger.Warn(L.Instance.GetResource("Demo.Content.NetSocket.StopAsync.NetWrapperDemoStopped"));
+        Logger.Warn(L.Instance.GetResource(DemoResources.Content.NetSocket.StopAsync.NetWrapperDemoStopped));
     }
 
     private async Task SendHeartbeatAsync()
     {
         if (_client is null || _server is null)
         {
-            Append(L.Instance.GetResource("Demo.Content.NetSocket.SendHeartbeatAsync.StartTheServerAndClientFirst"));
+            Append(L.Instance.GetResource(DemoResources.Content.NetSocket.SendHeartbeatAsync.StartTheServerAndClientFirst));
             return;
         }
 
         try
         {
             await _client.SendCommandAsync(new Heartbeat { TaskId = Random.Shared.Next(1, 10_000) });
-            Append(L.Instance.GetResource("Demo.Content.NetSocket.SendHeartbeatAsync.ClientSendCommandAsyncNewHeartbeatSent"));
-            Logger.Info(L.Instance.GetResource("Demo.Content.NetSocket.SendHeartbeatAsync.NetWrapperDemoHeartbeatSent"));
+            Append(L.Instance.GetResource(DemoResources.Content.NetSocket.SendHeartbeatAsync.ClientSendCommandAsyncNewHeartbeatSent));
+            Logger.Info(L.Instance.GetResource(DemoResources.Content.NetSocket.SendHeartbeatAsync.NetWrapperDemoHeartbeatSent));
         }
         catch (Exception ex)
         {
-            Append(L.Instance.GetResource("Demo.Content.NetSocket.SendHeartbeatAsync.SendFailed") + ex.Message);
-            Logger.Error(L.Instance.GetResource("Demo.Content.NetSocket.SendHeartbeatAsync.NetWrapperDemoHeartbeatFailed"), ex);
+            Append(L.Instance.GetResource(DemoResources.Content.NetSocket.SendHeartbeatAsync.SendFailed) + ex.Message);
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.NetSocket.SendHeartbeatAsync.NetWrapperDemoHeartbeatFailed), ex);
         }
     }
 
@@ -217,7 +218,7 @@ public sealed class NetSocketPage : DemoPageBase
     {
         if (_client is null)
         {
-            Append(L.Instance.GetResource("Demo.Content.NetSocket.DownloadAsync.StartTheServerAndClientFirst"));
+            Append(L.Instance.GetResource(DemoResources.Content.NetSocket.DownloadAsync.StartTheServerAndClientFirst));
             return;
         }
 
@@ -231,16 +232,16 @@ public sealed class NetSocketPage : DemoPageBase
             var fileName = Path.GetFileName(_sampleFilePath);
 
             _downloadButton.IsEnabled = false;
-            _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.DownloadAsync.SamplePreparedBytesFormat"), fileName, new FileInfo(_sampleFilePath).Length)
-                                   + L.Instance.GetResource("Demo.Content.NetSocket.DownloadAsync.ClientDownloadFileAsyncAwaitingServerChunks");
+            _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.DownloadAsync.SamplePreparedBytesFormat), fileName, new FileInfo(_sampleFilePath).Length)
+                                   + L.Instance.GetResource(DemoResources.Content.NetSocket.DownloadAsync.ClientDownloadFileAsyncAwaitingServerChunks);
             Append($"client.DownloadFileAsync(\"{_sampleFilePath}\", \"{downloadDirectory}\")");
 
             await _client.DownloadFileAsync(_sampleFilePath, downloadDirectory);
         }
         catch (Exception ex)
         {
-            _transferOutput.Text = L.Instance.GetResource("Demo.Content.NetSocket.DownloadAsync.DownloadFailed") + ex.Message;
-            Logger.Error(L.Instance.GetResource("Demo.Content.NetSocket.DownloadAsync.NetWrapperDemoDownloadFailed"), ex);
+            _transferOutput.Text = L.Instance.GetResource(DemoResources.Content.NetSocket.DownloadAsync.DownloadFailed) + ex.Message;
+            Logger.Error(L.Instance.GetResource(DemoResources.Content.NetSocket.DownloadAsync.NetWrapperDemoDownloadFailed), ex);
             _downloadButton.IsEnabled = true;
         }
     }
@@ -270,26 +271,26 @@ public sealed class NetSocketPage : DemoPageBase
 
     private void OnTransferProgress(object? sender, FileTransferProgressEventArgs e)
     {
-        _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferProgress.DownloadFormat"), e.FileName)
-                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferProgress.ProgressBytesFormat"), e.Progress, e.TransferredBytes, e.TotalBytes)
-                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferProgress.ChunkSizeKBTaskFormat"), TcpSocketClientFileSystemFeature.FileTransferBlockSize / 1024, e.TaskId);
+        _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferProgress.DownloadFormat), e.FileName)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferProgress.ProgressBytesFormat), e.Progress, e.TransferredBytes, e.TotalBytes)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferProgress.ChunkSizeKBTaskFormat), TcpSocketClientFileSystemFeature.FileTransferBlockSize / 1024, e.TaskId);
     }
 
     private void OnTransferOutcome(object? sender, FileTransferOutcomeEventArgs e)
     {
         var localPath = Path.Combine(Path.GetTempPath(), "CodeWFToolkitDemo", "net", e.FileName);
-        _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.DownloadFormat"), (e.Success ? L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.Completed") : L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.Failed")), localPath)
-                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.DirectionTaskCancelledFormat"), (e.IsUpload ? L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.Upload") : L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.Download")), e.TaskId, e.IsCancelled)
-                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.ResultFormat"), e.Message);
-        Append($"FileTransferOutcome → {e.FileName}（{(e.Success ? L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.Success") : L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.Failed"))}）");
-        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.NetSocket.OnTransferOutcome.NetWrapperDemoDownloadEndedSuccessFormat"), e.FileName, e.Success));
+        _transferOutput.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.DownloadFormat), (e.Success ? L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.Completed) : L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.Failed)), localPath)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.DirectionTaskCancelledFormat), (e.IsUpload ? L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.Upload) : L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.Download)), e.TaskId, e.IsCancelled)
+                               + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.ResultFormat), e.Message);
+        Append($"FileTransferOutcome → {e.FileName}（{(e.Success ? L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.Success) : L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.Failed))}）");
+        Logger.Info(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.NetSocket.OnTransferOutcome.NetWrapperDemoDownloadEndedSuccessFormat), e.FileName, e.Success));
         _downloadButton.IsEnabled = true;
     }
 
     private void Append(string line)
     {
         var current = _feed.Text;
-        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource("Demo.Content.NetSocket.Append.AwaitingStartup"), StringComparison.Ordinal)
+        _feed.Text = string.IsNullOrEmpty(current) || current.StartsWith(L.Instance.GetResource(DemoResources.Content.NetSocket.Append.AwaitingStartup), StringComparison.Ordinal)
             ? line
             : current + "\n" + line;
     }

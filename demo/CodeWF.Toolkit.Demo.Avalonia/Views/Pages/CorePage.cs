@@ -1,3 +1,4 @@
+using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
 using L = global::CodeWF.Avalonia.Lang.I18nManager;
 using Avalonia.Controls;
@@ -12,9 +13,9 @@ namespace CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 /// <summary>Core 页：扩展方法（可实时试用）+ GitHub Release 更新检查。</summary>
 public sealed class CorePage : DemoPageBase
 {
-    private static string XamlSnippet => L.Instance.GetResource("Demo.Content.Core.Source.Xaml");
+    private static string XamlSnippet => L.Instance.GetResource(DemoResources.Content.Core.Source.Xaml);
 
-    private static string CSharpSnippet => L.Instance.GetResource("Demo.Content.Core.Source.CSharp");
+    private static string CSharpSnippet => L.Instance.GetResource(DemoResources.Content.Core.Source.CSharp);
 
     private readonly TextBox _input;
     private readonly SelectableTextBlock _output;
@@ -29,7 +30,7 @@ public sealed class CorePage : DemoPageBase
 
     public CorePage()
     {
-        _input = Ui.Input(L.Instance.GetResource("Demo.Content.Core.Content.CodeWFToolkitIsACollectionOfNETExtensions"));
+        _input = Ui.Input(L.Instance.GetResource(DemoResources.Content.Core.Content.CodeWFToolkitIsACollectionOfNETExtensions));
 
         _output = Ui.Code("@Demo.Content.Core.Content.ClickAButtonAboveToViewItsResult", output: true);
 
@@ -51,8 +52,8 @@ public sealed class CorePage : DemoPageBase
         _updateButton = Ui.Button("@Demo.Content.Core.Content.CheckUpdates", async () => await CheckUpdateAsync(), primary: true);
 
         var update = Ui.Card("@Demo.Content.Core.update.UpdateChecker",
-            Ui.Field(L.Instance.GetResource("Demo.Content.Core.update.Repository"), _updateRepo),
-            Ui.Field(L.Instance.GetResource("Demo.Content.Core.update.CurrentVersion"), _updateCurrent),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.Core.update.Repository), _updateRepo),
+            Ui.Field(L.Instance.GetResource(DemoResources.Content.Core.update.CurrentVersion), _updateCurrent),
             Ui.Row(_updateButton, _updateEtag, Ui.Key("@Demo.Content.Core.update.EnableETagCache")),
             _updateOutput,
             Ui.Hint("@Demo.Content.Core.update.ChecksTheReleasesLatestRedirectFirstReusesCached"),
@@ -85,16 +86,16 @@ public sealed class CorePage : DemoPageBase
 
     protected override IReadOnlyList<PropertyItem> BuildProperties()
     {
-        _truncateItem = DemoProperty.Number("core.truncate", L.Instance.GetResource("Demo.Content.Core.Properties.TruncationLength"), 18, 4, 200, 1, L.Instance.GetResource("Demo.Content.Core.Properties.Characters"), L.Instance.GetResource("Demo.Content.Core.Properties.LengthUsedByTheStringTruncationDemo"));
+        _truncateItem = DemoProperty.Number("core.truncate", L.Instance.GetResource(DemoResources.Content.Core.Properties.TruncationLength), 18, 4, 200, 1, L.Instance.GetResource(DemoResources.Content.Core.Properties.Characters), L.Instance.GetResource(DemoResources.Content.Core.Properties.LengthUsedByTheStringTruncationDemo));
 
         return DemoProperty.Finish(
-            DemoProperty.Category("core.ext", L.Instance.GetResource("Demo.Content.Core.Properties.ExtensionMethods"), L.Instance.GetResource("Demo.Content.Core.Properties.ParametersForTheCoreExtensionDemos"),
-                DemoProperty.ReadOnly("core.namespace", L.Instance.GetResource("Demo.Content.Core.Properties.Namespace"), "CodeWF.Toolkit.Core.Extensions"),
+            DemoProperty.Category("core.ext", L.Instance.GetResource(DemoResources.Content.Core.Properties.ExtensionMethods), L.Instance.GetResource(DemoResources.Content.Core.Properties.ParametersForTheCoreExtensionDemos),
+                DemoProperty.ReadOnly("core.namespace", L.Instance.GetResource(DemoResources.Content.Core.Properties.Namespace), "CodeWF.Toolkit.Core.Extensions"),
                 _truncateItem,
-                DemoProperty.Bool("core.regex", L.Instance.GetResource("Demo.Content.Core.Properties.EnableRegexExtensions"), true, L.Instance.GetResource("Demo.Content.Core.Properties.WildcardExpressionUsedByIsMatch"))),
-            DemoProperty.Category("core.update", L.Instance.GetResource("Demo.Content.Core.Properties.UpdateChecking"), L.Instance.GetResource("Demo.Content.Core.Properties.OptionsForGitHubReleaseUpdateChecking"),
-                DemoProperty.Bool("core.etag", L.Instance.GetResource("Demo.Content.Core.Properties.ETagConditionalCheck"), true, L.Instance.GetResource("Demo.Content.Core.Properties.304ResponsesDoNotConsumeTheAPIQuota")),
-                DemoProperty.ReadOnly("core.endpoint", L.Instance.GetResource("Demo.Content.Core.Properties.Endpoint"), L.Instance.GetResource("Demo.Content.Core.Properties.WebEndpointFirstAPIFallback"))));
+                DemoProperty.Bool("core.regex", L.Instance.GetResource(DemoResources.Content.Core.Properties.EnableRegexExtensions), true, L.Instance.GetResource(DemoResources.Content.Core.Properties.WildcardExpressionUsedByIsMatch))),
+            DemoProperty.Category("core.update", L.Instance.GetResource(DemoResources.Content.Core.Properties.UpdateChecking), L.Instance.GetResource(DemoResources.Content.Core.Properties.OptionsForGitHubReleaseUpdateChecking),
+                DemoProperty.Bool("core.etag", L.Instance.GetResource(DemoResources.Content.Core.Properties.ETagConditionalCheck), true, L.Instance.GetResource(DemoResources.Content.Core.Properties._304ResponsesDoNotConsumeTheAPIQuota)),
+                DemoProperty.ReadOnly("core.endpoint", L.Instance.GetResource(DemoResources.Content.Core.Properties.Endpoint), L.Instance.GetResource(DemoResources.Content.Core.Properties.WebEndpointFirstAPIFallback))));
     }
 
     public override void OnPropertyCommitted(PropertyValueChange change)
@@ -113,16 +114,16 @@ public sealed class CorePage : DemoPageBase
     {
         var text = _input.Text ?? string.Empty;
         var cut = text.Length > _truncateLength ? text[.._truncateLength] + "…" : text;
-        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.RunTruncate.OriginalTruncatedToFormat"), text, _truncateLength, cut);
-        Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.RunTruncate.CoreExtensionDemoTruncateToCharactersFormat"), _truncateLength));
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.RunTruncate.OriginalTruncatedToFormat), text, _truncateLength, cut);
+        Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.RunTruncate.CoreExtensionDemoTruncateToCharactersFormat), _truncateLength));
     }
 
     private void RunSlug()
     {
         var text = _input.Text ?? string.Empty;
         var slug = System.Text.RegularExpressions.Regex.Replace(text, "[^A-Za-z0-9]+", "_").ToLowerInvariant().Trim('_');
-        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.RunSlug.ReplaceNonAlphanumericCharactersAndLowercaseFormat"), slug);
-        Log(L.Instance.GetResource("Demo.Content.Core.RunSlug.CoreExtensionDemoIdentifierConversion"));
+        _output.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.RunSlug.ReplaceNonAlphanumericCharactersAndLowercaseFormat), slug);
+        Log(L.Instance.GetResource(DemoResources.Content.Core.RunSlug.CoreExtensionDemoIdentifierConversion));
     }
 
     private void RunBytes()
@@ -130,7 +131,7 @@ public sealed class CorePage : DemoPageBase
         double[] values = [1024, 1_048_576, 3_221_225_472];
         var lines = values.Select(v => $"{v,13:N0} B  →  {v.FormatBytes()}");
         _output.Text = "DoubleExtensions.FormatBytes：\n" + string.Join('\n', lines);
-        Log(L.Instance.GetResource("Demo.Content.Core.RunBytes.CoreExtensionDemoByteFormatting"));
+        Log(L.Instance.GetResource(DemoResources.Content.Core.RunBytes.CoreExtensionDemoByteFormatting));
     }
 
     private void RunMatch()
@@ -140,12 +141,12 @@ public sealed class CorePage : DemoPageBase
         {
             ("CodeWF*", text.IsMatch("CodeWF*")),
             ("*Toolkit", text.IsMatch("*Toolkit")),
-            (L.Instance.GetResource("Demo.Content.Core.RunMatch.Extensions"), text.IsMatch(L.Instance.GetResource("Demo.Content.Core.RunMatch.Extensions"))),
+            (L.Instance.GetResource(DemoResources.Content.Core.RunMatch.Extensions), text.IsMatch(L.Instance.GetResource(DemoResources.Content.Core.RunMatch.Extensions))),
             ("Toolkit", text.IsMatch("Toolkit")),
         };
-        _output.Text = L.Instance.GetResource("Demo.Content.Core.RunMatch.RegexExtensionsIsMatchWildcardCharacterDigitLetter")
+        _output.Text = L.Instance.GetResource(DemoResources.Content.Core.RunMatch.RegexExtensionsIsMatchWildcardCharacterDigitLetter)
                        + string.Join('\n', results.Select(r => $"{r.Pattern,-12} → {r.Matched}"));
-        Log(L.Instance.GetResource("Demo.Content.Core.RunMatch.CoreExtensionDemoPatternMatching"));
+        Log(L.Instance.GetResource(DemoResources.Content.Core.RunMatch.CoreExtensionDemoPatternMatching));
     }
 
     private async Task CheckUpdateAsync()
@@ -154,7 +155,7 @@ public sealed class CorePage : DemoPageBase
         var parts = repo.Split('/', StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length != 2)
         {
-            _updateOutput.Text = L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.RepositoryMustUseOwnerRepoFormat");
+            _updateOutput.Text = L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.RepositoryMustUseOwnerRepoFormat);
             return;
         }
 
@@ -165,9 +166,9 @@ public sealed class CorePage : DemoPageBase
 
         _updateButton.IsEnabled = false;
         _updateOutput.Text = $"GET https://github.com/{parts[0]}/{parts[1]}/releases/latest\n"
-                             + (_updateEtag.IsChecked == true ? L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.ETagCacheHitsAvoidConsumingTheAPIQuota") : string.Empty)
-                             + L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.Checking");
-        Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.CheckingUpdatesCurrentFormat"), parts[0], parts[1], current));
+                             + (_updateEtag.IsChecked == true ? L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.ETagCacheHitsAvoidConsumingTheAPIQuota) : string.Empty)
+                             + L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.Checking);
+        Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.CheckingUpdatesCurrentFormat), parts[0], parts[1], current));
 
         try
         {
@@ -179,21 +180,21 @@ public sealed class CorePage : DemoPageBase
             if (!result.Succeeded)
             {
                 _updateOutput.Text += $"\n\nUpdateCheckResult.Succeeded = false\nError = {result.Error}";
-                Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.UpdateCheckFailedFormat"), result.Error), "warn");
+                Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.UpdateCheckFailedFormat), result.Error), "warn");
             }
             else if (result.Update is null)
             {
-                _updateOutput.Text += string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.UpdateCheckResultSucceededTrueUpdateNullCurrentVersionIsFormat"), current);
-                Log(L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.UpdateCheckAlreadyUpToDate"));
+                _updateOutput.Text += string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.UpdateCheckResultSucceededTrueUpdateNullCurrentVersionIsFormat), current);
+                Log(L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.UpdateCheckAlreadyUpToDate));
             }
             else
             {
                 var update = result.Update;
                 _updateOutput.Text += "\n\nUpdateCheckResult.Succeeded = true\n"
                                       + $"Update = {{ Version: {update.Version}, Tag: {update.Tag} }}\n"
-                                      + $"Asset: {update.AssetName ?? L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.None")}\n"
-                                      + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.CurrentNewVersionFormat"), current, update.Tag);
-                Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource("Demo.Content.Core.CheckUpdateAsync.UpdateCheckNewVersionFormat"), update.Tag), "warn");
+                                      + $"Asset: {update.AssetName ?? L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.None)}\n"
+                                      + string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.CurrentNewVersionFormat), current, update.Tag);
+                Log(string.Format(System.Globalization.CultureInfo.CurrentCulture, L.Instance.GetResource(DemoResources.Content.Core.CheckUpdateAsync.UpdateCheckNewVersionFormat), update.Tag), "warn");
             }
         }
         finally

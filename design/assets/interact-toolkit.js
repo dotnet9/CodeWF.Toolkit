@@ -225,7 +225,7 @@ var SEG = {}, MODIFIED = {};
 function renderRTabs() {
  $("rTabs").innerHTML = CATALOG.map(function (g) {
   return '<div class="t2' + (g.id === curTab ? " on" : "") + '" data-t="' + g.id + '" role="tab" tabindex="0" title="' +
-   esc(tabName(g.id)) + '（双击折叠命令区）">' + tabIconSvg(g.id) + "<span>" + esc(tabName(g.id)) + "</span></div>";
+   esc(tabName(g.id)) + '（双击折叠命令区）">' + "<span>" + esc(tabName(g.id)) + "</span></div>";
  }).join("");
  document.querySelectorAll(".rt2 .t2").forEach(function (n) {
   n.onclick = function () { switchTab(n.dataset.t); };
@@ -449,6 +449,10 @@ function rowHtml(pageId, p) {
   ctl = '<div class="sw' + (p.value ? " on" : "") + '" data-id="' + p.id + '" role="switch" tabindex="0" title="' + esc(p.label || p.name) + '"></div>';
  } else if (p.type === "range") {
   ctl = '<input type="range" data-id="' + p.id + '" min="' + p.min + '" max="' + p.max + '" step="' + (p.step || 1) + '" value="' + p.value + '">';
+ } else if (p.type === "text" || p.type === "multiline") {
+  ctl = p.type === "multiline"
+   ? '<textarea data-id="' + p.id + '">' + esc(String(p.value)) + '</textarea>'
+   : '<input type="text" data-id="' + p.id + '" value="' + esc(String(p.value)) + '">';
  } else {
   ctl = '<input type="number" data-id="' + p.id + '" value="' + esc(String(p.value)) + '">';
  }
