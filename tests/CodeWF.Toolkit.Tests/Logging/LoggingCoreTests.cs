@@ -1,5 +1,6 @@
 using CodeWF.Toolkit.Logging;
 using Microsoft.Extensions.Logging;
+using CodeWF.Toolkit.Lang.Json;
 using System.Diagnostics;
 using Xunit;
 
@@ -179,7 +180,8 @@ public sealed class LoggingCoreTests
         Assert.Null(error);
         Assert.Equal("{UserMessage}", controller.Current);
         Assert.False(controller.TryUpdate("{Message}}", out error));
-        Assert.Contains("右花括号", error);
+        Assert.Equal(string.Format(new JsonLocalizer(typeof(LineTemplateController).Assembly)
+            .GetResource("Toolkit.Logging.Template.UnescapedClosingBrace"), 9), error);
         Assert.False(controller.TryUpdate("{Timestamp:not-a-format-%}", out error));
     }
 

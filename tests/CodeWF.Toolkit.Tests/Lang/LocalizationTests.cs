@@ -122,6 +122,9 @@ public sealed class LocalizationTests : IDisposable
         Assert.DoesNotContain("Toolkit.", chinese);
         Assert.Equal(numeral, 123.45m.ToChineseNumber());
         Assert.Equal(money, NumberExtension.ToChineseMoney(123.45m));
+        I18nManager.Instance.Culture = CultureInfo.GetCultureInfo("fr-FR");
+        Assert.Equal(numeral, 123.45m.ToChineseNumber());
+        Assert.Equal(money, NumberExtension.ToChineseMoney(123.45m));
     }
 
     private static JsonLangPlugin EmptyPlugin() => new() { ScanResourceFolder = false };

@@ -14,7 +14,7 @@ public static class NumberExtension
     /// <returns></returns>
     public static string ToChineseNumber(this IConvertible num)
     {
-        var x = num.ToString(CultureInfo.CurrentCulture);
+        var x = num.ToString(CultureInfo.InvariantCulture);
         if (x.Length == 0)
         {
             return "";
@@ -78,7 +78,7 @@ public static class NumberExtension
         B：将数字转换为二进制格式。
         A：将数字转换为 ASCII 字符。
          */
-        var s = m.ToString("#L#E#D#C#K#E#D#C#J#E#D#C#I#E#D#C#H#E#D#C#G#E#D#C#F#E#D#C#.0B0A");
+        var s = m.ToString("#L#E#D#C#K#E#D#C#J#E#D#C#I#E#D#C#H#E#D#C#G#E#D#C#F#E#D#C#.0B0A", CultureInfo.InvariantCulture);
 
         /*
          * ((?<=-|^)[^1-9]*)： 匹配负号（如果存在），并且匹配在小数点前面的所有非数字字符。

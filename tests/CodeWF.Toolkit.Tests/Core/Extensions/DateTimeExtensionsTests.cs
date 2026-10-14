@@ -1,9 +1,40 @@
 ﻿using CodeWF.Toolkit.Core.Extensions;
 
+using CodeWF.Toolkit.Lang;
+using CodeWF.Toolkit.Lang.Json;
+using System.Globalization;
+
 namespace CodeWF.Toolkit.Tests.Core.Extensions
 {
-    public class DateTimeExtensionsTests
+    [Collection("Localization")]
+    public class DateTimeExtensionsTests : IDisposable
     {
+        private readonly CultureInfo _culture = CultureInfo.CurrentCulture;
+        private readonly CultureInfo _uiCulture = CultureInfo.CurrentUICulture;
+        private readonly CultureInfo? _defaultCulture = CultureInfo.DefaultThreadCurrentCulture;
+        private readonly CultureInfo? _defaultUiCulture = CultureInfo.DefaultThreadCurrentUICulture;
+
+        public DateTimeExtensionsTests() => I18nManager.Instance.Register(
+            new JsonLangPlugin { ScanResourceFolder = false }, CultureInfo.GetCultureInfo("zh-CN"));
+
+        [Fact]
+        public void GetDiffTime_EnglishCulture_ReturnsLocalizedUnits()
+        {
+            I18nManager.Instance.Culture = CultureInfo.GetCultureInfo("en-US");
+            var begin = new DateTime(2023, 1, 1);
+            Assert.Equal("0s", begin.GetDiffTime(begin));
+            Assert.Equal("1h 2m 3s", begin.GetDiffTime(begin.AddHours(1).AddMinutes(2).AddSeconds(3)));
+        }
+
+        public void Dispose()
+        {
+            I18nManager.Instance.Register(new JsonLangPlugin { ScanResourceFolder = false }, _uiCulture);
+            CultureInfo.CurrentCulture = _culture;
+            CultureInfo.CurrentUICulture = _uiCulture;
+            CultureInfo.DefaultThreadCurrentCulture = _defaultCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = _defaultUiCulture;
+        }
+
         [Fact]
         public void GetDiffTime_SameDateTime_ReturnsZeroSeconds()
         {

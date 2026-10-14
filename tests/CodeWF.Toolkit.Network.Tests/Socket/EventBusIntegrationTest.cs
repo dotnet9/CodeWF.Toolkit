@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using CodeWF.Toolkit.Lang.Json;
 
 namespace CodeWF.Toolkit.Network.Tests.Socket;
 
@@ -216,7 +217,7 @@ public class EventBusIntegrationTest
                 200);
 
             Assert.Null(result.Result);
-            Assert.Contains("超时", result.ErrorMessage, StringComparison.Ordinal);
+            Assert.Equal(Localize("Toolkit.EventBus.Socket.Query.Timeout"), result.ErrorMessage);
         }
         finally
         {
@@ -245,7 +246,7 @@ public class EventBusIntegrationTest
                 cancellationTokenSource.Token);
 
             Assert.Null(result.Result);
-            Assert.Contains("取消", result.ErrorMessage, StringComparison.Ordinal);
+            Assert.Equal(Localize("Toolkit.EventBus.Socket.Query.Canceled"), result.ErrorMessage);
         }
         finally
         {
@@ -260,10 +261,12 @@ public class EventBusIntegrationTest
         var client = new EventClient(new EventBusOptions { MaxMessageSizeBytes = 1 });
 
         Assert.False(client.Publish(string.Empty, "message", out var emptySubjectError));
-        Assert.Contains("主题", emptySubjectError, StringComparison.Ordinal);
+        Assert.StartsWith(Localize("Toolkit.EventBus.Socket.Validation.InvalidSubject"), emptySubjectError, StringComparison.Ordinal);
         Assert.False(client.Publish("demo.validation", "message", out var oversizedMessageError));
-        Assert.Contains("消息体", oversizedMessageError, StringComparison.Ordinal);
+        Assert.StartsWith(Localize("Toolkit.EventBus.Socket.Validation.MessageTooLarge"), oversizedMessageError, StringComparison.Ordinal);
     }
+
+    private static string Localize(string key) => new JsonLocalizer(typeof(EventClient).Assembly).GetResource(key);
 
     [Fact]
     public async Task Client_ShouldFailHandshake_WhenAuthenticationTokenIsWrong()
