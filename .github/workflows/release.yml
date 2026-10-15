@@ -1,8 +1,8 @@
-name: release
+﻿name: release
 
 # 推送 v* 标签发布 CodeWF.Toolkit 演示应用全平台包（5 个 RID）：
 # 全平台 NativeAOT（完整反射元数据保全 Prism/DryIoc、Dock、Magick.NET）；
-# win-x64 出 Inno Setup 安装向导，linux 出 deb，macOS 出 dmg，另附各平台便携 zip，均带 sha256。
+# Windows 出 Inno Setup 安装器，Linux 出 deb，macOS 出 dmg，均附 sha256。
 on:
   push:
     tags:
@@ -31,7 +31,7 @@ jobs:
           - rid: linux-arm64
             os: ubuntu-24.04-arm
           - rid: osx-x64
-            os: macos-14
+            os: macos-15-intel
           - rid: osx-arm64
             os: macos-14
     runs-on: ${{ matrix.os }}
@@ -43,7 +43,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-          dotnet-quality: preview
 
       - name: 计算版本号
         id: version
@@ -65,10 +64,6 @@ jobs:
       - name: 发布（NativeAOT）
         shell: pwsh
         run: pwsh scripts/publish_toolkit_demo.ps1 -RuntimeIdentifier '${{ matrix.rid }}' -Version $env:APP_VERSION
-
-      - name: 打包便携 zip + sha256
-        shell: pwsh
-        run: pwsh scripts/package_demo_artifacts.ps1 -RuntimeIdentifier '${{ matrix.rid }}' -Version $env:APP_VERSION -Force
 
       - name: 打包 Linux deb + sha256
         if: startsWith(matrix.rid, 'linux-')
@@ -151,6 +146,10 @@ jobs:
           "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "tag_name=$tagName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
+      - name: 校验五平台安装包与 SHA-256
+        shell: pwsh
+        run: ./scripts/verify_release_installers.ps1 -Version '${{ steps.version.outputs.version }}'
+
       - name: 准备发布说明
         shell: pwsh
         env:
@@ -200,7 +199,6 @@ jobs:
           body_path: artifacts/release-body.md
           generate_release_notes: true
           files: |
-            artifacts/release/*.zip
             artifacts/release/*.deb
             artifacts/release/*.dmg
             artifacts/release/*.exe

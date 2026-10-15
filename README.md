@@ -275,7 +275,7 @@ dotnet run --project demo/CodeWF.Toolkit.Demo.Avalonia
 dotnet run --project demo/CodeWF.Toolkit.Demo.Avalonia -- --smoke
 ```
 
-图形演示台的安装包由 [GitHub Releases](https://github.com/dotnet9/CodeWF.Toolkit/releases) 提供（随 `v*` tag 构建）：Windows `setup.exe` / 便携 `zip`、Linux `deb`、macOS `dmg`，均附 `.sha256` 校验文件。控制台演示以源码运行，不作为安装包分发。
+图形演示台的安装包由 [GitHub Releases](https://github.com/dotnet9/CodeWF.Toolkit/releases) 提供（随 `v*` tag 构建）：Windows x64 `setup.exe`、Linux x64 / ARM64 `deb`、macOS x64 / ARM64 `dmg`，均附 `.sha256`，不分发便携压缩包。控制台演示以源码运行。
 
 ## 许可与贡献 / License and contributing
 

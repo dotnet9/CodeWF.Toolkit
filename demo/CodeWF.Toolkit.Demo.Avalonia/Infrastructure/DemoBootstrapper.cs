@@ -18,7 +18,11 @@ public static class DemoBootstrapper
     public const string DefaultCultureName = "zh-CN";
 
     /// <summary>语言资源目录（Json 后端按目录递归扫描）。</summary>
-    public static string I18nFolder { get; } = Path.Combine(AppContext.BaseDirectory, "I18n");
+    public static string I18nFolder { get; } = new[]
+    {
+        Path.Combine(AppContext.BaseDirectory, "I18n"),
+        Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "Resources", "I18n")),
+    }.FirstOrDefault(Directory.Exists) ?? Path.Combine(AppContext.BaseDirectory, "I18n");
 
     /// <summary>日志目录。</summary>
     public static string LogFolder { get; } = Path.Combine(Path.GetTempPath(), "CodeWFToolkitDemo", "logs");
