@@ -249,7 +249,7 @@ Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像�
 
 ![浮动文档保留属性面板](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dock-floating.png)
 
-快捷入口采用 18×18 图标与 30×30 点击热区，Ribbon 主命令使用 32×32 图标。每个文档内的演示和属性面板通过 GridSplitter 调整宽度，属性默认行高 31px、名称列宽 118px；下列历史页面截图来自 `1.0.0.18` 的 Windows x64 NativeAOT 程序。
+快捷入口采用 16×16 图标与 30×30 点击热区，Ribbon 主命令使用 32×32 图标。每个文档内的演示和属性面板通过 GridSplitter 调整宽度，属性默认行高 31px、名称列宽 118px。下列截图来自 `1.0.0.24` 的真实控件，普通页面通过 Skia 离屏采集，浮动与回停状态来自 NativeAOT 验证器。
 
 ![Ribbon 帮助类分组与原生 Dock 工作区](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-ribbon.png)
 
