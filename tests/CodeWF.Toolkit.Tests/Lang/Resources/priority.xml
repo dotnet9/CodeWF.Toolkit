@@ -1,0 +1,4 @@
+<Localization language="Library English" description="Embedded XML fixture" cultureName="en-US">
+  <Caption>Library caption</Caption>
+  <LibraryOnly>Library default</LibraryOnly>
+</Localization>

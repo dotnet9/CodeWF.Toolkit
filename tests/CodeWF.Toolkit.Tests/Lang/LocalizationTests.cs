@@ -66,6 +66,65 @@ public sealed class LocalizationTests : IDisposable
     }
 
     [Fact]
+    public void HostFilesOverrideOuterAndInnerEmbeddedResourcesBeforeAndAfterRegistration()
+    {
+        var folder = Directory.CreateTempSubdirectory("lang-priority-");
+        const string key = "Toolkit.Lang.Diagnostics.FolderMissing";
+        try
+        {
+            File.WriteAllText(Path.Combine(folder.FullName, "en-US.json"), """
+                {"language":"Host English","description":"Host resources","cultureName":"en-US",
+                 "Toolkit.Lang.Diagnostics.FolderMissing":"Host folder: {0}","Library.Empty":""}
+                """);
+            var plugin = new JsonLangPlugin { ResourceFolder = folder.FullName };
+            var inner = typeof(I18nManager).Assembly;
+            var outer = typeof(LocalizationTests).Assembly;
+            plugin.AddResource(inner);
+            I18nManager.Instance.Register(plugin, CultureInfo.GetCultureInfo("en-US"));
+            Assert.Equal("Host folder: {0}", I18nManager.Instance.GetResource(key));
+            I18nManager.Instance.AddResource(outer);
+            Assert.Equal("Host folder: {0}", I18nManager.Instance.GetResource(key));
+            Assert.Equal(string.Empty, I18nManager.Instance.GetResource("Library.Empty"));
+            Assert.Equal("Default", I18nManager.Instance.GetResource("Library.Fallback"));
+            Assert.Equal("Host English", plugin.GetLanguages()!.Single(item => item.CultureName == "en-US").Language);
+            I18nManager.Instance.Register(plugin, CultureInfo.GetCultureInfo("en-US"));
+            Assert.Equal("Host folder: {0}", I18nManager.Instance.GetResource(key));
+
+            var libraries = new JsonLangPlugin { ScanResourceFolder = false };
+            libraries.AddResource(inner, outer);
+            libraries.Load(CultureInfo.GetCultureInfo("en-US"));
+            Assert.Equal("Outer library folder: {0}", libraries.GetResource(key));
+            libraries.AddResource(inner);
+            Assert.Equal("Outer library folder: {0}", libraries.GetResource(key));
+            Assert.Equal("Please provide valid language JSON files.", libraries.GetResource("Toolkit.Lang.Diagnostics.JsonResourcesRequired"));
+        }
+        finally { folder.Delete(recursive: true); }
+    }
+
+    [Fact]
+    public void XmlHostFilesKeepPriorityWhenLibrariesAreAddedOrReloaded()
+    {
+        var folder = Directory.CreateTempSubdirectory("lang-xml-priority-");
+        try
+        {
+            File.WriteAllText(Path.Combine(folder.FullName, "en-US.xml"), """
+                <Localization language="Host English" description="Host XML" cultureName="en-US">
+                  <Caption>Host caption</Caption>
+                </Localization>
+                """);
+            var plugin = new XmlLangPlugin { ResourceFolder = folder.FullName };
+            plugin.Load(CultureInfo.GetCultureInfo("en-US"));
+            plugin.AddResource(typeof(LocalizationTests).Assembly);
+            Assert.Equal("Host caption", plugin.GetResource("Localization.Caption"));
+            Assert.Equal("Library default", plugin.GetResource("Localization.LibraryOnly"));
+            plugin.Load(CultureInfo.GetCultureInfo("en-US"));
+            Assert.Equal("Host caption", plugin.GetResource("Localization.Caption"));
+            Assert.Equal("Host English", plugin.GetLanguages()!.Single().Language);
+        }
+        finally { folder.Delete(recursive: true); }
+    }
+
+    [Fact]
     public void GenericLoaderPreservesCustomMetadataAndReturnsIndependentSnapshots()
     {
         var plugin = new JsonLangPlugin<CustomLanguage> { ScanResourceFolder = false };

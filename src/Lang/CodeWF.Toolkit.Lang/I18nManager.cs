@@ -10,9 +10,10 @@ namespace CodeWF.Toolkit.Lang;
 /// <summary>
 /// 运行时国际化管理器，负责注册插件、切换语言并刷新绑定。
 /// </summary>
-public class I18nManager : INotifyPropertyChanged
+public sealed class I18nManager : INotifyPropertyChanged
 {
     private ILangPlugin? _langPlugin;
+    private CultureInfo? _culture;
     private readonly object _syncRoot = new();
 
     /// <inheritdoc />
@@ -98,7 +99,7 @@ public class I18nManager : INotifyPropertyChanged
         {
             lock (_syncRoot)
             {
-                return _langPlugin?.Culture;
+                return _culture;
             }
         }
         set
@@ -110,7 +111,7 @@ public class I18nManager : INotifyPropertyChanged
 
             lock (_syncRoot)
             {
-                if (_langPlugin == null || Equals(_langPlugin.Culture, value))
+                if (Equals(_culture, value))
                 {
                     return;
                 }
@@ -179,12 +180,8 @@ public class I18nManager : INotifyPropertyChanged
 
     private void SetCulture(CultureInfo culture)
     {
-        if (_langPlugin == null)
-        {
-            return;
-        }
-
-        _langPlugin.Culture = culture;
+        if (_langPlugin != null) _langPlugin.Culture = culture;
+        _culture = culture;
         Thread.CurrentThread.CurrentCulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
         CultureInfo.DefaultThreadCurrentCulture = culture;

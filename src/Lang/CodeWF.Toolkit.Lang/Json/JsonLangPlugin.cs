@@ -18,7 +18,8 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
     private CultureInfo _culture = CultureInfo.InvariantCulture;
     private readonly object _syncRoot = new();
     private readonly List<string> _loadDiagnostics = new();
-    private readonly HashSet<Assembly> _resourceAssemblies = new();
+    private readonly List<Assembly> _resourceAssemblies = new();
+    private readonly Dictionary<string, TLanguage> _fileResources = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// 已加载的语言资源缓存，Key 为文化名称。
@@ -74,6 +75,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
             _defaultCulture = cultureInfo;
             _culture = cultureInfo;
             Resources.Clear();
+            _fileResources.Clear();
             _loadDiagnostics.Clear();
 
             if (ScanResourceFolder && !Directory.Exists(ResourceFolder))
@@ -82,13 +84,14 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
             }
             else if (ScanResourceFolder)
             {
-                foreach (var jsonFile in Directory.GetFiles(ResourceFolder, "*.json", SearchOption.AllDirectories))
+                foreach (var jsonFile in Directory.GetFiles(ResourceFolder, "*.json", SearchOption.AllDirectories).OrderBy(path => path, StringComparer.Ordinal))
                 {
                     TryAddLanguageFile(jsonFile);
                 }
             }
 
             LoadEmbeddedResources(_resourceAssemblies);
+            ApplyFileOverrides();
 
             if (Resources.Count == 0)
             {
@@ -97,7 +100,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>按内层到外层的顺序添加库资源；后添加的库覆盖同键，宿主输出资源始终优先。</summary>
     public void AddResource(params Assembly[] assemblies)
     {
         lock (_syncRoot)
@@ -105,11 +108,19 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
             var newAssemblies = assemblies
                 .Where(assembly => assembly != null)
                 .Distinct()
-                .Where(assembly => _resourceAssemblies.Add(assembly))
+                .Where(assembly => !_resourceAssemblies.Contains(assembly))
                 .ToArray();
 
+            if (newAssemblies.Length == 0) return;
+            _resourceAssemblies.AddRange(newAssemblies);
             LoadEmbeddedResources(newAssemblies);
+            ApplyFileOverrides();
         }
+    }
+
+    private void ApplyFileOverrides()
+    {
+        foreach (var language in _fileResources.Values) LocalizationLanguage.MergeInto(Resources, language);
     }
 
     private void LoadEmbeddedResources(IEnumerable<Assembly> assemblies)
@@ -117,7 +128,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
         foreach (var assembly in assemblies)
         {
             foreach (var resourceName in assembly.GetManifestResourceNames()
-                         .Where(name => name.EndsWith(".json", StringComparison.OrdinalIgnoreCase)))
+                         .Where(name => name.EndsWith(".json", StringComparison.OrdinalIgnoreCase)).OrderBy(name => name, StringComparer.Ordinal))
             {
                 TryAddLanguageResource(assembly, resourceName);
             }
@@ -166,7 +177,7 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
         try
         {
             using var doc = JsonDocument.Parse(File.ReadAllText(filePath));
-            if (TryAddLanguage(doc.RootElement))
+            if (TryAddLanguage(doc.RootElement, fromFile: true))
             {
                 return true;
             }
@@ -207,17 +218,11 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
         }
     }
 
-    private bool TryAddLanguage(JsonElement root)
+    private bool TryAddLanguage(JsonElement root, bool fromFile = false)
     {
         if (!TryReadLanguage(root, out var language))
         {
             return false;
-        }
-
-        if (!Resources.TryGetValue(language.CultureName, out var currentLanguage))
-        {
-            currentLanguage = language;
-            Resources[language.CultureName] = currentLanguage;
         }
 
         var allProperties = new Dictionary<string, string>();
@@ -228,10 +233,12 @@ public class JsonLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizat
         {
             if (!excludeKeys.Any(k => key.Equals(k, StringComparison.OrdinalIgnoreCase)))
             {
-                currentLanguage.Languages[key] = value;
+                language.Languages[key] = value;
             }
         }
 
+        LocalizationLanguage.MergeInto(Resources, language);
+        if (fromFile) LocalizationLanguage.MergeInto(_fileResources, language);
         return true;
     }
 

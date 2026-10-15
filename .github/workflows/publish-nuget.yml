@@ -44,14 +44,10 @@ jobs:
             Write-Host "::warning::未在 Directory.Build.props 中找到 <Version>，将使用项目默认版本。"
           }
 
-      - name: Build
-        shell: pwsh
-        run: dotnet build CodeWF.Toolkit.slnx -c Release
-
-      - name: Pack
+      - name: Build and pack libraries
         shell: pwsh
         run: |
-          # 仅打包库项目（tests / demo 不参与）
+          # 只构建和打包库，避免 Demo 的 Avalonia 包反向阻塞 Toolkit.Lang 发布。
           $projects = @(
             'src/Lang/CodeWF.Toolkit.Lang/CodeWF.Toolkit.Lang.csproj',
             'src/Core/CodeWF.Toolkit.Core/CodeWF.Toolkit.Core.csproj',
@@ -68,7 +64,7 @@ jobs:
           )
 
           foreach ($project in $projects) {
-            dotnet pack $project -c Release --no-build -o artifacts/packages
+            dotnet pack $project -c Release -o artifacts/packages
             if ($LASTEXITCODE -ne 0) { throw "pack failed: $project" }
           }
 

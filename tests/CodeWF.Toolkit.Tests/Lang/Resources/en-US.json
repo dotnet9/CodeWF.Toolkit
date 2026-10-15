@@ -3,5 +3,6 @@
   "description": "Test resources",
   "cultureName": "en-US",
   "Library": { "Greeting": "Hello {0}", "Fallback": "Default", "Empty": "" },
-  "Toolkit.Core.Update.AssetMissing": "Custom application download message."
+  "Toolkit.Core.Update.AssetMissing": "Custom application download message.",
+  "Toolkit.Lang.Diagnostics.FolderMissing": "Outer library folder: {0}"
 }

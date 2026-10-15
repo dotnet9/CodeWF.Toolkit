@@ -18,7 +18,8 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
     private CultureInfo _culture = CultureInfo.InvariantCulture;
     private readonly object _syncRoot = new();
     private readonly List<string> _loadDiagnostics = new();
-    private readonly HashSet<Assembly> _resourceAssemblies = new();
+    private readonly List<Assembly> _resourceAssemblies = new();
+    private readonly Dictionary<string, TLanguage> _fileResources = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// 已加载的语言资源缓存，Key 为文化名称。
@@ -71,6 +72,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
             _defaultCulture = cultureInfo;
             _culture = cultureInfo;
             Resources.Clear();
+            _fileResources.Clear();
             _loadDiagnostics.Clear();
 
             if (!Directory.Exists(ResourceFolder))
@@ -79,13 +81,14 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
             }
             else
             {
-                foreach (var xmlFile in Directory.GetFiles(ResourceFolder, "*.xml", SearchOption.AllDirectories))
+                foreach (var xmlFile in Directory.GetFiles(ResourceFolder, "*.xml", SearchOption.AllDirectories).OrderBy(path => path, StringComparer.Ordinal))
                 {
                     TryAddLanguageFile(xmlFile);
                 }
             }
 
             LoadEmbeddedResources(_resourceAssemblies);
+            ApplyFileOverrides();
 
             if (Resources.Count == 0)
             {
@@ -94,7 +97,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>按内层到外层的顺序添加库资源；后添加的库覆盖同键，宿主输出资源始终优先。</summary>
     public void AddResource(params Assembly[] assemblies)
     {
         lock (_syncRoot)
@@ -102,11 +105,19 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
             var newAssemblies = assemblies
                 .Where(assembly => assembly != null)
                 .Distinct()
-                .Where(assembly => _resourceAssemblies.Add(assembly))
+                .Where(assembly => !_resourceAssemblies.Contains(assembly))
                 .ToArray();
 
+            if (newAssemblies.Length == 0) return;
+            _resourceAssemblies.AddRange(newAssemblies);
             LoadEmbeddedResources(newAssemblies);
+            ApplyFileOverrides();
         }
+    }
+
+    private void ApplyFileOverrides()
+    {
+        foreach (var language in _fileResources.Values) LocalizationLanguage.MergeInto(Resources, language);
     }
 
     private void LoadEmbeddedResources(IEnumerable<Assembly> assemblies)
@@ -114,7 +125,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
         foreach (var assembly in assemblies)
         {
             foreach (var resourceName in assembly.GetManifestResourceNames()
-                         .Where(name => name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)))
+                         .Where(name => name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)).OrderBy(name => name, StringComparer.Ordinal))
             {
                 TryAddLanguageResource(assembly, resourceName);
             }
@@ -162,7 +173,7 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
     {
         try
         {
-            if (TryAddLanguage(XDocument.Load(filePath)))
+            if (TryAddLanguage(XDocument.Load(filePath), fromFile: true))
             {
                 return true;
             }
@@ -202,17 +213,11 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
         }
     }
 
-    private bool TryAddLanguage(XDocument xmlDoc)
+    private bool TryAddLanguage(XDocument xmlDoc, bool fromFile = false)
     {
         if (!TryReadLanguage(xmlDoc.Root, out var language))
         {
             return false;
-        }
-
-        if (!Resources.TryGetValue(language.CultureName, out var currentLanguage))
-        {
-            currentLanguage = language;
-            Resources[language.CultureName] = currentLanguage;
         }
 
         var propertyNodes = xmlDoc.Nodes().OfType<XElement>().DescendantsAndSelf()
@@ -222,9 +227,11 @@ public class XmlLangPlugin<TLanguage> : ILangPlugin where TLanguage : Localizati
         {
             var ancestorsNodeNames = propertyNode.AncestorsAndSelf().Reverse().Select(node => node.Name.LocalName);
             var key = string.Join(".", ancestorsNodeNames);
-            currentLanguage.Languages[key] = propertyNode.Value;
+            language.Languages[key] = propertyNode.Value;
         }
 
+        LocalizationLanguage.MergeInto(Resources, language);
+        if (fromFile) LocalizationLanguage.MergeInto(_fileResources, language);
         return true;
     }
 

@@ -42,6 +42,21 @@ public class LocalizationLanguage
     /// </summary>
     public string DetailText => string.IsNullOrWhiteSpace(Description) ? DisplayName : Description;
 
+    /// <summary>按来源优先级合并完整语言元数据与资源，后合并的来源覆盖同键。</summary>
+    internal static void MergeInto<TLanguage>(Dictionary<string, TLanguage> resources, TLanguage incoming)
+        where TLanguage : LocalizationLanguage, new()
+    {
+        if (!resources.TryGetValue(incoming.CultureName, out var current))
+        {
+            resources[incoming.CultureName] = incoming.Snapshot<TLanguage>();
+            return;
+        }
+
+        current.Language = incoming.Language;
+        current.Description = incoming.Description;
+        foreach (var (key, value) in incoming.Languages) current.Languages[key] = value;
+    }
+
     internal TLanguage Snapshot<TLanguage>() where TLanguage : LocalizationLanguage, new()
     {
         var snapshot = new TLanguage

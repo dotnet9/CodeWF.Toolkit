@@ -58,6 +58,8 @@ var text = I18nManager.Instance.GetResource("App.Title");
 
 库自身使用 `new JsonLocalizer(typeof(MyLibrary).Assembly)` 读取嵌入 JSON，无需调用方先注册。它跟随全局语言或当前 UI 文化，按请求文化、父文化、默认 `en-US` 回退；应用可用同名键覆盖库文案。空翻译保留，缺失键返回键本身。`JsonLangPlugin<TLanguage>`、`XmlLangPlugin<TLanguage>`、`ResxLangPlugin<TLanguage>` 支持已有语言元数据子类，解析逻辑只维护一份。裁剪或 NativeAOT 应用使用显式程序集或 `ResourceManager` 注册，避免 RESX 约定扫描。
 
+全进程只有 `CodeWF.Toolkit.Lang.I18nManager.Instance` 一个管理器；Avalonia 的国际化绑定直接订阅该实例。即使没有注册业务资源，也可设置 `Culture` 来切换库内嵌文案。覆盖优先级为 **业务输出资源 > 外层库内嵌资源 > 内层依赖库内嵌资源**。显式合并多个库时，`AddResource(innerAssembly, outerAssembly)` 按内层到外层注册；后注册的库覆盖同键，业务输出资源始终优先，追加库、重复注册和重新加载均不改变该规则。宿主无需为每个库提供 resolver 或复制库资源。
+
 ### 应用更新（CodeWF.Toolkit.Core）
 
 `IUpdateService` 统一检查 GitHub Release、匹配当前 RID、下载、SHA-256 校验与系统安装分发。应用只维护界面状态，程序集 `AssemblyInformationalVersion` 同时用于显示和版本比较。
