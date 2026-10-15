@@ -24,6 +24,7 @@ AppBuilder.Configure<CodeWF.Toolkit.Demo.Avalonia.App>().UseSkia().WithInterFont
     .UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false }).SetupWithoutStarting();
 DemoBootstrapper.Initialize();
 VerifyThirdPartyLocales();
+VerifyHiddenPropertyRows();
 var sharedItem = new PropertyItem { Kind = PropertyItemKind.Text, Value = "Before" };
 var sharedEditor = new PropertyCellEditor { DataContext = new PropertyLeafRow(sharedItem, 0, false) };
 sharedItem.Value = "After";
@@ -97,6 +98,45 @@ try
     return 0;
 }
 finally { window.Close(); }
+static void VerifyHiddenPropertyRows()
+{
+    var visible = false;
+    var hiddenLeaf = new PropertyItem { Name = "Private value", VisibleWhen = () => visible };
+    var hiddenCategory = new PropertyItem { Name = "Private category", Kind = PropertyItemKind.Category,
+        VisibleWhen = () => visible, Children = [new PropertyItem { Name = "Private descendant" }] };
+    var parent = new PropertyItem { Name = "Parent", Children = [new PropertyItem { Name = "Public" }, hiddenLeaf, hiddenCategory] };
+    var grid = new PropertyGrid { Items = new[] { parent } };
+    var shell = new Window { Width = 480, Height = 360, Content = grid };
+    try
+    {
+        shell.Show();
+        foreach (var mode in Enum.GetValues<PropertyGridViewMode>())
+        foreach (var query in new string?[] { null, "Parent", "Private" })
+        {
+            grid.ViewMode = mode;
+            grid.SearchText = query;
+            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+            Require(!grid.Rows.Any(row => row.Item.Name.StartsWith("Private", StringComparison.Ordinal)),
+                "Hidden items and categories stay hidden in " + mode + " with query " + query);
+            if (query == "Private") Require(grid.Rows.Count == 0, "Hidden matches do not retain their ancestors.");
+            if (mode == PropertyGridViewMode.Alphabetical)
+                Require(!grid.Rows.Any(row => row is PropertyCategoryRow), "Alphabetical search never adds category rows.");
+        }
+        grid.SearchText = "Private";
+        visible = true;
+        grid.Refresh();
+        Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+        Require(grid.Rows.Any(row => ReferenceEquals(row.Item, hiddenLeaf)),
+            "A refreshed dynamic visibility predicate makes the matching property accessible.");
+        visible = false;
+        grid.Refresh();
+        Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+        Require(grid.Rows.Count == 0, "Refreshing dynamic visibility removes the branch from current search results.");
+        Console.WriteLine("PASS PropertyGrid visibility: categories, hidden descendants, both sorting modes and dynamic refresh.");
+    }
+    finally { shell.Close(); }
+}
+
 static void VerifyThirdPartyLocales()
 {
     var application = Application.Current!;
@@ -255,6 +295,23 @@ static void VerifyTitleBar(global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow
     var toggle = shell.FindControl<Ursa.Controls.ThemeToggleButton>("TitleBarThemeToggle")!;
     var language = shell.FindControl<ComboBox>("TitleBarLanguageSelector")!;
     Require(toggle.IsThreeState, "Title bar uses the existing three-state Ursa control.");
+    var firstCulture = model.Cultures[0];
+    var lastCulture = model.Cultures[^1];
+    language.SelectedItem = firstCulture;
+    I18nManager.Instance.Culture = CultureInfo.GetCultureInfo(lastCulture.Name);
+    Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+    Require(ReferenceEquals(model.SelectedCulture, lastCulture) && ReferenceEquals(language.SelectedItem, lastCulture),
+        "Global culture changes synchronize the existing title-bar selection.");
+    language.SelectedItem = firstCulture;
+    Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+    Require(I18nManager.Instance.Culture.Name == firstCulture.Name,
+        "Choosing the previous language after an external change restores the global culture.");
+    Task.Run(() => I18nManager.Instance.Culture = CultureInfo.GetCultureInfo(lastCulture.Name)).GetAwaiter().GetResult();
+    Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+    Require(ReferenceEquals(language.SelectedItem, lastCulture),
+        "Background global culture changes update the existing language control on the UI thread.");
+    Require(model.StatusText == I18nManager.Instance.GetResource(global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys.Shell.Ready),
+        "The shell status refreshes after external culture changes.");
     var button = toggle.GetVisualDescendants().OfType<Button>().Single(item => item.Name == "PART_ThemeButton");
     foreach (var width in new[] { 1120, 1440 })
     {
