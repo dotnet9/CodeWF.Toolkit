@@ -9,6 +9,7 @@
 
     <!-- Avalonia 演示台（CodeWF.Toolkit.Demo.Avalonia） -->
     <PackageVersion Include="Avalonia" Version="12.1.4" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="12.1.4" />
     <PackageVersion Include="Avalonia.Headless" Version="12.1.4" />
     <PackageVersion Include="Avalonia.Desktop" Version="12.1.4" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.4" />
