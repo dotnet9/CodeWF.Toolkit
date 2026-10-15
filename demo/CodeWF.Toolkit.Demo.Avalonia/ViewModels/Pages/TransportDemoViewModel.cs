@@ -3,7 +3,7 @@ using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows.Input;
-using CodeWF.Avalonia.Lang;
+using CodeWF.Toolkit.Lang;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 using CodeWF.Toolkit.EventBus.Socket;
 using CodeWF.Toolkit.NetWrapper.Helpers;

@@ -1,5 +1,5 @@
-using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
-using L = global::CodeWF.Avalonia.Lang.I18nManager;
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
+using L = global::CodeWF.Toolkit.Lang.I18nManager;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 

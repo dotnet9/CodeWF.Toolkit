@@ -1,8 +1,8 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.ObjectModel;
-using CodeWF.Avalonia.Lang;
+using CodeWF.Toolkit.Lang;
 using CodeWF.Toolkit.Demo.Avalonia.Views;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Scenes;

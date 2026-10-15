@@ -1,12 +1,12 @@
 ﻿using CodeWF.Avalonia.Controls.Themes;
 using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
-using L = global::CodeWF.Avalonia.Lang.I18nManager;
+using L = global::CodeWF.Toolkit.Lang.I18nManager;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Avalonia.Threading;
-using CodeWF.Avalonia.Lang;
+using CodeWF.Toolkit.Lang;
 using CodeWF.Toolkit.Logging;
 using Dock.Model.ReactiveUI.Controls;
 using ReactiveUI;

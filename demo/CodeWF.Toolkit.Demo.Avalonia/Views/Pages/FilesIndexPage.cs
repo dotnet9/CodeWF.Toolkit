@@ -1,6 +1,6 @@
-using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
-using L = global::CodeWF.Avalonia.Lang.I18nManager;
+using L = global::CodeWF.Toolkit.Lang.I18nManager;
 using Avalonia.Controls;
 using CodeWF.Avalonia.TreeDataGrid.PropertyGrid;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
@@ -120,5 +120,5 @@ public sealed class FilesIndexPage : DemoPageBase
         return grid;
     }
 
-    private static string I18n(string key) => CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(key);
+    private static string I18n(string key) => CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(key);
 }

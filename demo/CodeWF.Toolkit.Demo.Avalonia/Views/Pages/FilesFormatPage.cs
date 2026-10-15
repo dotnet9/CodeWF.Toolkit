@@ -1,6 +1,6 @@
-using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using Ui = global::CodeWF.Avalonia.Controls.Presentation.StudioUi;
-using L = global::CodeWF.Avalonia.Lang.I18nManager;
+using L = global::CodeWF.Toolkit.Lang.I18nManager;
 using System.Data;
 using System.Text;
 using Avalonia.Controls;

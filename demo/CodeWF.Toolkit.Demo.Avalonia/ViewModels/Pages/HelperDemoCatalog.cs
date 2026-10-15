@@ -1,4 +1,4 @@
-using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
@@ -59,9 +59,9 @@ public static partial class HelperDemoCatalog
             {
                 var values = text.Split(',').Select(value => int.Parse(value, CultureInfo.InvariantCulture)).ToArray();
                 if (values.Length != 2 || values.Any(value => value < 0 || value > 5000))
-                    throw new FormatException(global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Catalog.ActionFormat));
+                    throw new FormatException(global::CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(DemoResources.Catalog.ActionFormat));
                 var result = await Task.Run(() => ActionHelper.CheckOvertime(() => Thread.Sleep(values[0]), values[1]));
-                return $"CheckOvertime = {result}\n" + global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(result ? DemoResources.Catalog.ActionCompleted : DemoResources.Catalog.ActionTimedOut);
+                return $"CheckOvertime = {result}\n" + global::CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(result ? DemoResources.Catalog.ActionCompleted : DemoResources.Catalog.ActionTimedOut);
             }),
         "IpHelper" => Sync(key, "127.0.0.1:39561", "IpHelper.TrySplitIpPort(input, out var ip, out var port);",
             text => { var success = IpHelper.TrySplitIpPort(text, out var ip, out var port); return $"Valid = {success}\nIP = {ip}\nPort = {port}\nLocal IPv4 = {string.Join(", ", IpHelper.GetAllIpV4(true))}"; }),
@@ -119,7 +119,7 @@ public static partial class HelperDemoCatalog
     private static string NativeMethod(string method)
     {
         if (!OperatingSystem.IsWindows())
-            return global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Catalog.WindowsOnly);
+            return global::CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(DemoResources.Catalog.WindowsOnly);
         if (!NativeLibraryHelper.GetMethod(Environment.SystemDirectory, "kernel32", "", "", method.Trim(), out var address, out var error))
             throw new InvalidOperationException(error);
         return $"Resolved = True\nAddress = {address}";

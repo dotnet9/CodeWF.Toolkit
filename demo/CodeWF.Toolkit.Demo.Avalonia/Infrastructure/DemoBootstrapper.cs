@@ -1,8 +1,8 @@
-using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
-using L = global::CodeWF.Avalonia.Lang.I18nManager;
+﻿using DemoResources = global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys;
+using L = global::CodeWF.Toolkit.Lang.I18nManager;
 using System.Globalization;
-using CodeWF.Avalonia.Lang;
-using CodeWF.Avalonia.Lang.Json;
+using CodeWF.Toolkit.Lang;
+using CodeWF.Toolkit.Lang.Json;
 using CodeWF.Toolkit.Logging;
 
 namespace CodeWF.Toolkit.Demo.Avalonia.Infrastructure;

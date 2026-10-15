@@ -78,7 +78,7 @@ public partial class MainViewModel
             var all = FilteredCommands;
             Expect(all.Count >= 20, "All document and shell commands listed by default", all.Count);
 
-            CommandQuery = global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Tool.Log);
+            CommandQuery = global::CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(DemoResources.Tool.Log);
             var filtered = FilteredCommands;
             Expect(filtered.Count > 0 && filtered.Count < all.Count, "Search returns a narrower result set", filtered.Count);
             MoveCommandSelection(1);
@@ -113,7 +113,7 @@ public partial class MainViewModel
         ok &= Check("Navigation filtering", () =>
         {
             var before = FilteredGroups.Sum(g => g.Items.Count(i => !i.IsFilteredOut));
-            NavFilter = global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Tool.Log);
+            NavFilter = global::CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(DemoResources.Tool.Log);
             var hits = FilteredGroups.Sum(g => g.Items.Count(i => !i.IsFilteredOut));
             Expect(hits > 0 && hits < before, "Filtering reduces visible leaves", hits);
             NavFilter = "zzz-no-match";
@@ -204,7 +204,7 @@ public partial class MainViewModel
             foreach (var paletteOpen in new[] { false, true })
             {
                 CommandPaletteOpen = paletteOpen;
-                NavFilter = paletteOpen ? global::CodeWF.Avalonia.Lang.I18nManager.Instance.GetResource(DemoResources.Tool.Log) : string.Empty;
+                NavFilter = paletteOpen ? global::CodeWF.Toolkit.Lang.I18nManager.Instance.GetResource(DemoResources.Tool.Log) : string.Empty;
                 Notify(DemoNotificationKind.Success, "Shell rendering", compact ? "Compact" : "Comfort");
 
                 var chrome = new global::Avalonia.Controls.Grid();
