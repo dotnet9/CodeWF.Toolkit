@@ -23,6 +23,11 @@ AppBuilder.Configure<CodeWF.Toolkit.Demo.Avalonia.App>().UseSkia().WithInterFont
     ] })
     .UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false }).SetupWithoutStarting();
 DemoBootstrapper.Initialize();
+VerifyThirdPartyLocales();
+var sharedItem = new PropertyItem { Kind = PropertyItemKind.Text, Value = "Before" };
+var sharedEditor = new PropertyCellEditor { DataContext = new PropertyLeafRow(sharedItem, 0, false) };
+sharedItem.Value = "After";
+Require(((TextBox)sharedEditor.Content!).Text == "After", "NuGet property editor follows programmatic values.");
 VerifyDockDocumentTransfer(Path.Combine(Path.GetFullPath(args.FirstOrDefault() ?? Path.GetTempPath()), "dock-captures"));
 var manager = I18nManager.Instance;
 var window = new Window { Width = 1120, Height = 760 };
@@ -92,6 +97,55 @@ try
     return 0;
 }
 finally { window.Close(); }
+static void VerifyThirdPartyLocales()
+{
+    var application = Application.Current!;
+    var editor = new TextBox { Text = "Locale verification" };
+    var shell = new Window { Width = 360, Height = 120, Content = editor };
+    try
+    {
+        shell.Show(); Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+        var menu = (MenuFlyout)editor.ContextFlyout!;
+        foreach (var culture in new[] { "en-US", "zh-CN", "ja-JP", "zh-Hant", "en-US" })
+        {
+            I18nManager.Instance.Culture = CultureInfo.GetCultureInfo(culture);
+            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+            ResourceDictionary semi = culture switch
+            {
+                "en-US" => new Semi.Avalonia.Locale.en_us(),
+                "ja-JP" => new Semi.Avalonia.Locale.ja_jp(),
+                "zh-Hant" => new Semi.Avalonia.Locale.zh_tw(),
+                _ => new Semi.Avalonia.Locale.zh_cn(),
+            };
+            ResourceDictionary ursa = culture switch
+            {
+                "en-US" => new Ursa.Themes.Semi.Locale.en_us(),
+                "ja-JP" => new Ursa.Themes.Semi.Locale.en_us(),
+                _ => new Ursa.Themes.Semi.Locale.zh_cn(),
+            };
+            menu.ShowAt(editor); Dispatcher.UIThread.RunJobs();
+            Require(Equals(((MenuItem)menu.Items[1]!).Header, semi["STRING_MENU_COPY"])
+                && Equals(((MenuItem)menu.Items[2]!).Header, semi["STRING_MENU_PASTE"]),
+                "Existing Semi editor menu follows global culture: " + culture);
+            Require(Equals(application.Styles.OfType<Ursa.Themes.Semi.UrsaSemiTheme>().Single().Resources["STRING_MENU_DIALOG_CANCEL"],
+                ursa["STRING_MENU_DIALOG_CANCEL"]), "Existing Ursa dialog follows global culture: " + culture);
+            menu.Hide();
+        }
+        application.Resources["STRING_MENU_COPY"] = "Host copy";
+        I18nManager.Instance.Culture = CultureInfo.GetCultureInfo("zh-CN");
+        Dispatcher.UIThread.RunJobs();
+        menu.ShowAt(editor); Dispatcher.UIThread.RunJobs();
+        Require(Equals(((MenuItem)menu.Items[1]!).Header, "Host copy"), "Theme locale changes preserve host overrides.");
+        menu.Hide();
+        Console.WriteLine("PASS Semi/Ursa: existing menu, global culture and host resource precedence.");
+    }
+    finally
+    {
+        application.Resources.Remove("STRING_MENU_COPY");
+        I18nManager.Instance.Culture = CultureInfo.GetCultureInfo("zh-CN");
+        shell.Close();
+    }
+}
 
 static void Require(bool condition, string message)
 {

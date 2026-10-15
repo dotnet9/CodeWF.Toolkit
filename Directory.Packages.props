@@ -21,12 +21,12 @@
     <PackageVersion Include="Dock.Avalonia" Version="12.1.0.6" />
     <PackageVersion Include="Dock.Avalonia.Themes.Simple" Version="12.1.0.6" />
     <PackageVersion Include="Dock.Model.ReactiveUI" Version="12.1.0.6" />
-    <PackageVersion Include="CodeWF.Avalonia.Controls" Version="12.1.4.22" />
+    <PackageVersion Include="CodeWF.Avalonia.Controls" Version="12.1.4.23" />
     <!-- PropertyGrid 控件所在包（TreeDataGrid 增强 + 通用属性面板） -->
-    <PackageVersion Include="CodeWF.Avalonia.TreeDataGrid" Version="12.1.4.22" />
-    <PackageVersion Include="CodeWF.Avalonia.Dock" Version="12.1.4.22" />
-    <PackageVersion Include="CodeWF.Avalonia.Lang" Version="12.1.4.22" />
-    <PackageVersion Include="CodeWF.Avalonia.Log" Version="12.1.4.22" />
+    <PackageVersion Include="CodeWF.Avalonia.TreeDataGrid" Version="12.1.4.23" />
+    <PackageVersion Include="CodeWF.Avalonia.Dock" Version="12.1.4.23" />
+    <PackageVersion Include="CodeWF.Avalonia.Lang" Version="12.1.4.23" />
+    <PackageVersion Include="CodeWF.Avalonia.Log" Version="12.1.4.23" />
     <PackageVersion Include="Xaml.Behaviors" Version="12.0.7" />
     <!-- PropertyGrid（CodeWF.Avalonia.Controls）所需的传递依赖：全新还原时需要显式声明版本 -->
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
