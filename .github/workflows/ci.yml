@@ -99,6 +99,9 @@ jobs:
       - name: 检查路由、语言和导航
         working-directory: design/tests
         run: npm test
+      - name: 检查原生参数契约与交互效果
+        working-directory: design/tests
+        run: node audit-native-parameters.cjs
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -119,3 +122,7 @@ jobs:
       - name: 验证五平台安装包门禁
         shell: pwsh
         run: ./scripts/tests/release_installers_test.ps1
+
+      - name: 验证 Linux 安装结构与失败传播
+        shell: pwsh
+        run: ./scripts/tests/linux_packaging_test.ps1

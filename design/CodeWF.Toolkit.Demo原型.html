@@ -613,6 +613,21 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 /* 三态模式入口与配色分别选择，下拉文字保持左对齐。 */
 .cap .theme-mode { min-width:100px; text-align:left; text-align-last:left; }
 
+/* 原型保留可见窗框，最小化和关闭后可重新打开模拟窗口。 */
+body.prototype-maximized { padding:0; }
+.prototype-window-restore { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); padding:12px 24px; border:1px solid var(--bd); border-radius:8px; color:var(--tx); background:var(--bg); box-shadow:0 12px 40px #0005; cursor:pointer; }
+.win { border-width:1px; border-style:solid; }
+@media(max-width:700px) { .win { border:1px solid var(--bd); } .cap .wb[data-window-action] { display:flex; } }
+
+/* 标题栏仅保留一种配色入口，三态按钮和可扩展语言菜单各占一个位置。 */
+.titlebar-language { position:relative; display:flex; align-items:center; }
+#languageMenu { position:absolute; top:calc(100% + 6px); right:0; min-width:152px; padding:5px; border:1px solid var(--bd); border-radius:8px; background:var(--bg2); box-shadow:0 8px 24px #0004; z-index:1000; }
+#languageMenu[hidden] { display:none; }
+#languageMenu button { display:block; width:100%; padding:8px 12px 8px 28px; border:0; border-radius:4px; background:transparent; color:var(--tx); text-align:left; cursor:pointer; position:relative; }
+#languageMenu button:hover, #languageMenu button:focus-visible { background:var(--hov); }
+#languageMenu button[aria-checked=true]::before { content:"✓"; position:absolute; left:9px; color:var(--pri); }
+#darkBtn svg { fill:none; stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+
 </style>
 <style>
 .catalog-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
@@ -673,24 +688,19 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
   <!-- ═══ 1. 标题栏 ═══ -->
   <div class="cap">
     <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPCEtLSBDb2RlV0YuVG9vbGtpdCDCtyDlt6XlhbflsYLlj6DvvJrlm5vlsYLog73lipvloIblj6DvvIhDb3JlL0ZpbGVzL0xvZ2dpbmcvTmV077yJ77yM6aG25bGC5Luj56CB5ous5Y+3IC0tPgogIDwhLS0g5Yeg5L2V77ya5Zub5Liq6I+x5b2i5Lit5b+DIHkgPSAxNjYvMjI2LzI4Ni8zNDbvvIjnrYnot50gNjDvvInvvIzlhoXlrrnnurXlkJHot6ggMTEy4oCTNDAw77yM5Lit5b+D5oGw5Li6IDI1NiAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idGtiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNjIzM0IiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEUxNTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJhbWJlciIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGQ0QzNEQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDk3NzA2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9InVybCgjdGtiZykiLz4KCiAgPCEtLSDlm5vlsYLloIblj6DvvJrmsLTlubMgNzbigJM0MzYg5bGF5Lit77yM5Z6C55u0IDExMuKAkzQwMCDlsYXkuK0gLS0+CiAgPHBhdGggZD0iTTI1NiAyOTIgTDQzNiAzNDYgTDI1NiA0MDAgTDc2IDM0NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjM1Ii8+CiAgPHBhdGggZD0iTTI1NiAyMzIgTDQzNiAyODYgTDI1NiAzNDAgTDc2IDI4NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTTI1NiAxNzIgTDQzNiAyMjYgTDI1NiAyODAgTDc2IDIyNiBaIiBmaWxsPSIjRjU5RTBCIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTI1NiAxMTIgTDQzNiAxNjYgTDI1NiAyMjAgTDc2IDE2NiBaIiBmaWxsPSJ1cmwoI2FtYmVyKSIvPgoKICA8IS0tIOmhtuWxguS7o+eggeaLrOWPt++8iOmhtumdouS4reW/gyAyNTYsMTY277yJIC0tPgogIDxnIHN0cm9rZT0iIzE2MjMzQiIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIj4KICAgIDxwYXRoIGQ9Ik0yMDYgMTQ4IEwxODAgMTY2IEwyMDYgMTg0Ii8+CiAgICA8cGF0aCBkPSJNMzA2IDE0OCBMMzMyIDE2NiBMMzA2IDE4NCIvPgogICAgPGxpbmUgeDE9IjI2OCIgeTE9IjE0MCIgeDI9IjI0NCIgeTI9IjE5MiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="CodeWF.Toolkit logo" title="CodeWF.Toolkit">
-    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.0.0.8</span>
+    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.0.0.22</span>
     <span class="sp"></span>
     <span class="pal" id="palDots"></span>
-    <select id="palSel" title="色板">
-      <option value="default">默认</option>
-      <option value="aqua">水生</option>
-      <option value="desert">沙漠</option>
-      <option value="dusk">黄昏</option>
-      <option value="night">夜空</option>
-      <option value="contrast">高对比</option>
-    </select>
     <button class="wb" id="darkBtn" title="深色 / 浅色（Ctrl+D）">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 9.6A5.6 5.6 0 0 1 6.4 3a5.6 5.6 0 1 0 6.6 6.6z"/></svg>
     </button>
-    <button class="wb" id="langBtn" style="width:34px;font-size:11px;font-weight:700;color:var(--tx2)" title="中文 / English（Ctrl+L）">文A</button>
-    <button class="wb" title="最小化"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6h8"/></svg></button>
-    <button class="wb" title="最大化"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2.5" width="7" height="7" rx="1.2"/></svg></button>
-    <button class="wb cls" title="关闭"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+    <div class="titlebar-language">
+      <button class="wb" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu" title="Language"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18z"/></svg></button>
+      <div id="languageMenu" role="menu" hidden></div>
+    </div>
+    <button class="wb" data-window-action="minimize" title="最小化"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6h8"/></svg></button>
+    <button class="wb" data-window-action="maximize" title="最大化"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2.5" width="7" height="7" rx="1.2"/></svg></button>
+    <button class="wb cls" data-window-action="close" title="关闭"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
   </div>
 
   <!-- ═══ 2. Ribbon 页签行 ═══ -->
@@ -2318,6 +2328,322 @@ window.CodeWFPrototypeSettings = {
     "group": "Appearance"
   }
 };
+window.CodeWFPropertyText = {
+  "zh-CN": {
+    "Core": {
+      "TruncationLength": "截断长度",
+      "Characters": "字符",
+      "LengthUsedByTheStringTruncationDemo": "字符串截断演示使用的长度。",
+      "ExtensionMethods": "扩展方法",
+      "ParametersForTheCoreExtensionDemos": "Core 包的扩展演示参数。",
+      "Namespace": "命名空间",
+      "EnableRegexExtensions": "启用正则扩展",
+      "WildcardExpressionUsedByIsMatch": "IsMatch 的通配式正则转换。",
+      "UpdateChecking": "更新检查",
+      "OptionsForGitHubReleaseUpdateChecking": "GitHub Release 更新检查选项。",
+      "ETagConditionalCheck": "ETag 增量检查",
+      "304ResponsesDoNotConsumeTheAPIQuota": "命中 304 时不计入 API 配额。",
+      "Endpoint": "检查端点",
+      "WebEndpointFirstAPIFallback": "网页端点优先，失败退回 API"
+    },
+    "EventBus": {
+      "BusInstance": "总线实例",
+      "TheActualEventBusInstanceOwnedByThisDemo": "演示页持有的真实 EventBus 实例。",
+      "PublishAsynchronously": "异步发布",
+      "UsePublishAsyncWhenEnabled": "开启后 Publish 走 PublishAsync。",
+      "AssemblyScanning": "程序集扫描",
+      "RegisterEventHandlerMethodsFromAnAssembly": "按程序集注册 [EventHandler]。",
+      "HandlerOrder": "处理器顺序",
+      "ExecutionOrderWhenACommandHasMultipleHandlers": "同命令多处理器时的执行顺序。"
+    },
+    "EventBusIntegrations": {
+      "HostIntegration": "宿主形态",
+      "ConnectionAndKeepAliveSettingsForTheDistributed": "分布式总线的连接与保活参数。",
+      "InProcess": "进程内",
+      "Port": "端口",
+      "EventServerListenPort": "EventServer 监听端口。",
+      "HeartbeatSeconds": "心跳(秒)",
+      "ClientHeartbeatInterval": "客户端心跳间隔。",
+      "ReplayOfflineMessages": "离线补发",
+      "OfflineClientMessagesAreReplayedAfterReconnection": "客户端离线期间的消息在重连后补发。"
+    },
+    "FilesArchive": {
+      "CompressionOptions": "压缩选项",
+      "DemoParametersOutputFilenamesAreFixed": "演示参数（写出文件名固定）。",
+      "CompressionAlgorithm": "压缩算法",
+      "UTF8EntryNames": "UTF-8 条目名",
+      "SampleFileCount": "样本文件数",
+      "Items": "个",
+      "NumberOfSampleFilesToCreate": "准备样本文件时生成的数量。",
+      "ConfigurationEntry": "配置项",
+      "AppConfigReadWriteDemo": "App.config 读写演示。",
+      "FileLocation": "文件位置",
+      "IncludeABOMWhenWritingAppSettings": "写入 appSettings 时是否带 BOM。"
+    },
+    "FilesFormat": {
+      "FormatOptions": "格式选项",
+      "DefaultFileIOOptions": "文件读写演示的默认选项（与原型一致）。",
+      "DefaultFormat": "默认格式",
+      "WriteRetries": "写入重试",
+      "Retries": "次",
+      "NumberOfRetriesForSafeFileHelperIO": "FileHelper 安全读写的重试次数。",
+      "IncludeABOMWhenWritingFiles": "写文件时是否输出 BOM。"
+    },
+    "FilesIndex": {
+      "DefaultFormat": "默认格式",
+      "DefaultSerializationFormatInTheDemo": "演示页默认使用的序列化格式。",
+      "AOTFriendlyMode": "AOT 友好模式",
+      "RecommendJsonTypeInfoTAndStaticGeneratedSerializersWhen": "开启后提示改用 JsonTypeInfo<T> / 静态源生成序列化。"
+    },
+    "ImageIcon": {
+      "IconOptions": "图标选项",
+      "ICOGenerationParameters": "ico 合成参数。",
+      "IncludedSizes": "包含尺寸",
+      "PNGCompression": "PNG 压缩",
+      "MagickNETOutputCompressionSwitch": "Magick.NET 写出时的压缩开关。",
+      "Quality": "质量",
+      "OutputImageQuality": "写出图片质量。",
+      "InputOutput": "输入输出",
+      "DemoDirectoryAndSourceImage": "演示目录与源图。",
+      "SourceImage": "源图",
+      "OutputDirectory": "输出目录"
+    },
+    "ImageQr": {
+      "QRCodeOptions": "二维码选项",
+      "FixedQrCodeGeneratorParametersInTheCurrentImplementation": "QrCodeGenerator 的固定参数（当前实现内置）。",
+      "QRCodeSize": "二维码尺寸",
+      "400400FinalCanvasWidth500": "400 × 400（最终画布 500 宽）",
+      "ErrorCorrection": "纠错级别",
+      "CharacterSet": "字符集",
+      "ImageProcessing": "图片处理",
+      "SampleProcessingOptions": "后续处理参数示例。",
+      "OutputQuality": "输出质量",
+      "GeneratePreview": "生成预览",
+      "ScaleTheGeneratedImageForPreview": "生成后缩放显示预览。"
+    },
+    "LoggingCore": {
+      "MinimumLevel": "最低级别",
+      "FilterLevelForConsoleAndUIEventOutput": "控制台与 UI 事件流的过滤参考级别。",
+      "ConsoleOutput": "控制台输出",
+      "FileRotation": "文件轮转",
+      "RotateBySequenceNumberAboveThePerFile": "超出单文件上限时按序号轮转。",
+      "LoggerOptions": "Logger 选项",
+      "MapsToLoggerOptions": "与 LoggerOptions 对应的选项。",
+      "PerFileLimitMB": "单文件上限(MB)",
+      "RetentionDays": "保留天数",
+      "Days": "天",
+      "RuntimeState": "运行状态",
+      "LoggingRuntimeState": "当前演示台的日志运行状态。",
+      "LogDirectory": "日志目录",
+      "EventCapacity": "事件流容量",
+      "EntriesRecentEventCapacityFormat": "{0} 条（RecentEventCapacity）"
+    },
+    "LoggingMicrosoft": {
+      "ProviderOptions": "提供程序选项",
+      "MapsToCodeWFLoggerOptions": "与 CodeWFLoggerOptions 对应。",
+      "MinimumLevel": "最低级别",
+      "IncludeScopes": "包含作用域",
+      "UserMessageMarker": "按用户标记",
+      "LogUserExtensionsWriteCodeWFUserLogState": "LogUser* 系列扩展写入 CodeWFUserLogState。",
+      "QueueOverflowPolicy": "队列满策略",
+      "RuntimeState": "运行状态",
+      "ContainerAndEventStreamState": "本页容器与事件流状态。",
+      "Provider": "提供程序",
+      "EventFlow": "事件流",
+      "SharedWithStaticLogger": "与静态 Logger 共用"
+    },
+    "LoggingOptions": {
+      "MinimumLevel": "最低级别",
+      "DiscardLogsBelowThisLevel": "低于该级别的日志会被丢弃。",
+      "FileRotation": "文件轮转",
+      "RotateFilesAtTheSizeLimitAndRemove": "按单文件上限轮转，并按保留天数清理。",
+      "UIEventStream": "UI 事件流",
+      "EnableTheEventStreamForDesktopLogControls": "开启 UI 事件流，供桌面端日志控件订阅。"
+    },
+    "NetPacket": {
+      "PacketHeader": "包头",
+      "ValueDeclaredByNetHeadInTheSample": "与 [NetHead] 对应的声明值（演示用）。",
+      "SystemIdentifierWrittenIntoThePacketHeader": "写入包头的系统标识。",
+      "ProtocolVersionDeclaredInThePacketHeader": "写入包头的协议版本。",
+      "LittleEndianInt32": "小端序（Int32）",
+      "Int32UsesBinaryWriterLittleEndianEncoding": "Int32 使用 BinaryWriter 的小端编码。",
+      "BitFieldLayout": "位域布局",
+      "UseNetFieldOffsetAttributeForAnExplicitBitFieldLayout": "使用 NetFieldOffsetAttribute 精确布局。"
+    },
+    "NetSocket": {
+      "ConnectionOptions": "连接参数",
+      "LocalLoopbackConnectionOptions": "演示用回环连接参数。",
+      "Host": "主机",
+      "Port": "端口",
+      "AvailableTemporaryPort": "临时可用端口",
+      "ClientTimeoutSeconds": "客户端超时(秒)",
+      "ServerHeartbeatTimeout": "服务端心跳检测超时。",
+      "ChunkSizeKB": "分块大小(KB)",
+      "FileTransfer": "文件传输",
+      "OptionsForTheRemoteFileDemo": "远程文件系统演示参数。",
+      "ResumeTransfer": "断点续传",
+      "ResumeFromTheByteCountInTheTemporary": "已传输字节由 .part 临时文件推断并续传。",
+      "DownloadDirectory": "下载目录"
+    }
+  },
+  "en-US": {
+    "Core": {
+      "TruncationLength": "Truncation length",
+      "Characters": "characters",
+      "LengthUsedByTheStringTruncationDemo": "Length used by the string truncation demo.",
+      "ExtensionMethods": "Extension methods",
+      "ParametersForTheCoreExtensionDemos": "Parameters for the Core extension demos.",
+      "Namespace": "Namespace",
+      "EnableRegexExtensions": "Enable regex extensions",
+      "WildcardExpressionUsedByIsMatch": "Wildcard expression used by IsMatch.",
+      "UpdateChecking": "Update checking",
+      "OptionsForGitHubReleaseUpdateChecking": "Options for GitHub Release update checking.",
+      "ETagConditionalCheck": "ETag conditional check",
+      "304ResponsesDoNotConsumeTheAPIQuota": "304 responses do not consume the API quota.",
+      "Endpoint": "Endpoint",
+      "WebEndpointFirstAPIFallback": "Web endpoint first, API fallback"
+    },
+    "EventBus": {
+      "BusInstance": "Bus instance",
+      "TheActualEventBusInstanceOwnedByThisDemo": "The actual EventBus instance owned by this demo.",
+      "PublishAsynchronously": "Publish asynchronously",
+      "UsePublishAsyncWhenEnabled": "Use PublishAsync when enabled.",
+      "AssemblyScanning": "Assembly scanning",
+      "RegisterEventHandlerMethodsFromAnAssembly": "Register [EventHandler] methods from an assembly.",
+      "HandlerOrder": "Handler order",
+      "ExecutionOrderWhenACommandHasMultipleHandlers": "Execution order when a command has multiple handlers."
+    },
+    "EventBusIntegrations": {
+      "HostIntegration": "Host integration",
+      "ConnectionAndKeepAliveSettingsForTheDistributed": "Connection and keep-alive settings for the distributed bus.",
+      "InProcess": "In-process",
+      "Port": "Port",
+      "EventServerListenPort": "EventServer listen port.",
+      "HeartbeatSeconds": "Heartbeat (seconds)",
+      "ClientHeartbeatInterval": "Client heartbeat interval.",
+      "ReplayOfflineMessages": "Replay offline messages",
+      "OfflineClientMessagesAreReplayedAfterReconnection": "Offline client messages are replayed after reconnection."
+    },
+    "FilesArchive": {
+      "CompressionOptions": "Compression options",
+      "DemoParametersOutputFilenamesAreFixed": "Demo parameters; output filenames are fixed.",
+      "CompressionAlgorithm": "Compression algorithm",
+      "UTF8EntryNames": "UTF-8 entry names",
+      "SampleFileCount": "Sample file count",
+      "Items": "items",
+      "NumberOfSampleFilesToCreate": "Number of sample files to create.",
+      "ConfigurationEntry": "Configuration entry",
+      "AppConfigReadWriteDemo": "App.config read / write demo.",
+      "FileLocation": "File location",
+      "IncludeABOMWhenWritingAppSettings": "Include a BOM when writing appSettings."
+    },
+    "FilesFormat": {
+      "FormatOptions": "Format options",
+      "DefaultFileIOOptions": "Default file I/O options.",
+      "DefaultFormat": "Default format",
+      "WriteRetries": "Write retries",
+      "Retries": "retries",
+      "NumberOfRetriesForSafeFileHelperIO": "Number of retries for safe FileHelper I/O.",
+      "IncludeABOMWhenWritingFiles": "Include a BOM when writing files."
+    },
+    "FilesIndex": {
+      "DefaultFormat": "Default format",
+      "DefaultSerializationFormatInTheDemo": "Default serialization format in the demo.",
+      "AOTFriendlyMode": "AOT-friendly mode",
+      "RecommendJsonTypeInfoTAndStaticGeneratedSerializersWhen": "Recommend JsonTypeInfo<T> and static generated serializers when enabled."
+    },
+    "ImageIcon": {
+      "IconOptions": "Icon options",
+      "ICOGenerationParameters": "ICO generation parameters.",
+      "IncludedSizes": "Included sizes",
+      "PNGCompression": "PNG compression",
+      "MagickNETOutputCompressionSwitch": "Magick.NET output compression switch.",
+      "Quality": "Quality",
+      "OutputImageQuality": "Output image quality.",
+      "InputOutput": "Input / output",
+      "DemoDirectoryAndSourceImage": "Demo directory and source image.",
+      "SourceImage": "Source image",
+      "OutputDirectory": "Output directory"
+    },
+    "ImageQr": {
+      "QRCodeOptions": "QR code options",
+      "FixedQrCodeGeneratorParametersInTheCurrentImplementation": "Fixed QrCodeGenerator parameters in the current implementation.",
+      "QRCodeSize": "QR code size",
+      "400400FinalCanvasWidth500": "400 × 400 (final canvas width: 500)",
+      "ErrorCorrection": "Error correction",
+      "CharacterSet": "Character set",
+      "ImageProcessing": "Image processing",
+      "SampleProcessingOptions": "Sample processing options.",
+      "OutputQuality": "Output quality",
+      "GeneratePreview": "Generate preview",
+      "ScaleTheGeneratedImageForPreview": "Scale the generated image for preview."
+    },
+    "LoggingCore": {
+      "MinimumLevel": "Minimum level",
+      "FilterLevelForConsoleAndUIEventOutput": "Filter level for console and UI event output.",
+      "ConsoleOutput": "Console output",
+      "FileRotation": "File rotation",
+      "RotateBySequenceNumberAboveThePerFile": "Rotate by sequence number above the per-file size limit.",
+      "LoggerOptions": "Logger options",
+      "MapsToLoggerOptions": "Maps to LoggerOptions.",
+      "PerFileLimitMB": "Per-file limit (MB)",
+      "RetentionDays": "Retention days",
+      "Days": "days",
+      "RuntimeState": "Runtime state",
+      "LoggingRuntimeState": "Logging runtime state.",
+      "LogDirectory": "Log directory",
+      "EventCapacity": "Event capacity",
+      "EntriesRecentEventCapacityFormat": "{0} entries (RecentEventCapacity)"
+    },
+    "LoggingMicrosoft": {
+      "ProviderOptions": "Provider options",
+      "MapsToCodeWFLoggerOptions": "Maps to CodeWFLoggerOptions.",
+      "MinimumLevel": "Minimum level",
+      "IncludeScopes": "Include scopes",
+      "UserMessageMarker": "User-message marker",
+      "LogUserExtensionsWriteCodeWFUserLogState": "LogUser* extensions write CodeWFUserLogState.",
+      "QueueOverflowPolicy": "Queue overflow policy",
+      "RuntimeState": "Runtime state",
+      "ContainerAndEventStreamState": "Container and event-stream state.",
+      "Provider": "Provider",
+      "EventFlow": "Event flow",
+      "SharedWithStaticLogger": "Shared with static Logger"
+    },
+    "LoggingOptions": {
+      "MinimumLevel": "Minimum level",
+      "DiscardLogsBelowThisLevel": "Discard logs below this level.",
+      "FileRotation": "File rotation",
+      "RotateFilesAtTheSizeLimitAndRemove": "Rotate files at the size limit and remove files past the retention period.",
+      "UIEventStream": "UI event stream",
+      "EnableTheEventStreamForDesktopLogControls": "Enable the event stream for desktop log controls."
+    },
+    "NetPacket": {
+      "PacketHeader": "Packet header",
+      "ValueDeclaredByNetHeadInTheSample": "Value declared by [NetHead] in the sample.",
+      "SystemIdentifierWrittenIntoThePacketHeader": "System identifier written into the packet header.",
+      "ProtocolVersionDeclaredInThePacketHeader": "Protocol version declared in the packet header.",
+      "LittleEndianInt32": "Little endian (Int32)",
+      "Int32UsesBinaryWriterLittleEndianEncoding": "Int32 uses BinaryWriter little-endian encoding.",
+      "BitFieldLayout": "Bit-field layout",
+      "UseNetFieldOffsetAttributeForAnExplicitBitFieldLayout": "Use NetFieldOffsetAttribute for an explicit bit-field layout."
+    },
+    "NetSocket": {
+      "ConnectionOptions": "Connection options",
+      "LocalLoopbackConnectionOptions": "Local loopback connection options.",
+      "Host": "Host",
+      "Port": "Port",
+      "AvailableTemporaryPort": "Available temporary port",
+      "ClientTimeoutSeconds": "Client timeout (seconds)",
+      "ServerHeartbeatTimeout": "Server heartbeat timeout.",
+      "ChunkSizeKB": "Chunk size (KB)",
+      "FileTransfer": "File transfer",
+      "OptionsForTheRemoteFileDemo": "Options for the remote file demo.",
+      "ResumeTransfer": "Resume transfer",
+      "ResumeFromTheByteCountInTheTemporary": "Resume from the byte count in the temporary .part file.",
+      "DownloadDirectory": "Download directory"
+    }
+  }
+};
 
 </script>
 <script>
@@ -2997,7 +3323,7 @@ function cpmRun() { var c = cpmAll[cpmIdx]; if (!c) return; cpmClose(); log2both
 /* ═══ 事件绑定 ═══ */
 function bindShell() {
  $("rTabsBar").ondblclick = function (e) { if (e.target.classList.contains("t2")) toggleRibbon(); };
- $("palSel").onchange = function () { setPalette(this.value); };
+
  $("darkBtn").onclick = toggleDark;
  $("darkBtn2").onclick = toggleDark;
  $("langBtn").onclick = function () { setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); };
@@ -3990,9 +4316,6 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   Object.assign(PAL_COLOR, { dotnet:"#512bd4", aurora:"linear-gradient(135deg,#8968ff,#26d4cc)", ember:"#bd674d" });
   SELF_PROPS[1].options = PAL_LIST.map(function (p) { return paletteNames[p]; });
   SELF_PROPS[1].apply = function (name) { setPalette(PAL_LIST.find(function (p) { return paletteNames[p] === name; }) || "dotnet"); };
-  var paletteSelect = $("palSel");
-  paletteSelect.setAttribute("aria-label", "界面配色");
-  paletteSelect.innerHTML = PAL_LIST.map(function (p) { return '<option value="' + p + '">' + paletteNames[p] + '</option>'; }).join("");
   renderPalDots = function () {
     var current = document.documentElement.dataset.palette;
     $("palDots").innerHTML = PAL_LIST.map(function (p) {
@@ -4003,7 +4326,6 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   setPalette = function (p) {
     if (PAL_LIST.indexOf(p) < 0) p = "dotnet";
     document.documentElement.dataset.palette = p;
-    paletteSelect.value = p;
     SELF_PROPS[1].value = paletteNames[p];
     renderPalDots();
     renderPGrid(ACTIVE_DOC);
@@ -4013,12 +4335,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   var systemTheme = matchMedia("(prefers-color-scheme: dark)");
   var themeMode = "system";
   try { themeMode = JSON.parse(localStorage.getItem(LAYOUT_KEY) || "null")?.theme || "system"; } catch (_) {}
-  var modeSelect = document.createElement("select");
-  modeSelect.id = "themeModeSel";
-  modeSelect.className = "theme-mode";
-  modeSelect.innerHTML = '<option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>';
-  $("darkBtn").hidden = true;
-  $("darkBtn").before(modeSelect);
+  var modeButton = $("darkBtn");
   SELF_PROPS[2].type = "combo";
   SELF_PROPS[2].options = ["system", "light", "dark"];
   SELF_PROPS[2].apply = function(mode) { setTheme(mode); };
@@ -4027,10 +4344,23 @@ if (typeof TK_BOOT === "function") TK_BOOT();
     document.documentElement.dataset.themeMode = themeMode;
     originalTheme(themeMode === "system" ? (systemTheme.matches ? "dark" : "light") : themeMode);
     SELF_PROPS[2].value = themeMode;
-    modeSelect.value = themeMode;
+    var paths = {system:'<rect x="2" y="2" width="12" height="9" rx="1.5"/><path d="M6 14h4M8 11v3"/>',light:'<circle cx="8" cy="8" r="3"/><path d="M8 0v2M8 14v2M0 8h2M14 8h2M2 2l1.5 1.5M12.5 12.5 14 14M2 14l1.5-1.5M12.5 3.5 14 2"/>',dark:'<path d="M13 9.6A5.6 5.6 0 0 1 6.4 3a5.6 5.6 0 1 0 6.6 6.6z"/>'};
+    modeButton.dataset.mode = themeMode;
+    modeButton.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true">' + paths[themeMode] + '</svg>';
     renderPGrid(ACTIVE_DOC);
   };
-  modeSelect.onchange = function() { setTheme(modeSelect.value); };
+  toggleDark = function() { setTheme({system:"light", light:"dark", dark:"system"}[themeMode]); };
+  modeButton.onclick = toggleDark;
+  $("darkBtn2").onclick = toggleDark;
+  var languageButton = $("langBtn"), languageMenu = $("languageMenu");
+  var languageNames = {"zh-CN":"简体中文", "en-US":"English"};
+  languageMenu.innerHTML = Object.keys(I18N).map(function(culture) { return '<button type="button" role="menuitemradio" data-language="' + culture + '">' + esc(languageNames[culture] || culture) + '</button>'; }).join('');
+  function closeLanguages() { languageMenu.hidden = true; languageButton.setAttribute("aria-expanded", "false"); }
+  languageButton.onclick = function(event) { event.stopPropagation(); languageMenu.hidden = !languageMenu.hidden; languageButton.setAttribute("aria-expanded", String(!languageMenu.hidden)); };
+  languageButton.onkeydown = function(event) { if(event.key === "ArrowDown") { event.preventDefault(); languageMenu.hidden = false; languageButton.setAttribute("aria-expanded", "true"); languageMenu.querySelector('button').focus(); } };
+  languageMenu.querySelectorAll('button').forEach(function(button) { button.onclick = function() { setLang(button.dataset.language); closeLanguages(); languageButton.focus(); }; });
+  document.addEventListener('click', function(event) { if(!event.target.closest('.titlebar-language')) closeLanguages(); });
+  document.addEventListener('keydown', function(event) { if(event.key === 'Escape' && !languageMenu.hidden) { closeLanguages(); languageButton.focus(); } });
   systemTheme.addEventListener("change", function() { if (themeMode === "system") setTheme("system"); });
   var originalRender = renderDoc;
   renderDoc = function (id) {
@@ -4204,7 +4534,6 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   renderInto = function (id,el) { originalRenderInto(id,el); if (id === 'welcome' && el) bindOverview(el); };
   var current = document.documentElement.dataset.palette;
   if (PAL_LIST.indexOf(current) < 0) current='dotnet';
-  paletteSelect.value=current;
   SELF_PROPS[1].value=paletteNames[current];
   setTheme(themeMode);
   renderPalDots();
@@ -4282,16 +4611,12 @@ if (typeof TK_BOOT === "function") TK_BOOT();
           : settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[value]];
       });
     });
-    var modeSelect = $("themeModeSel");
-    if (modeSelect) {
-      modeSelect.setAttribute("aria-label", settings.shell.GlobalSettings.ModeLabel);
-      Array.from(modeSelect.options).forEach(function(option) {
-        option.textContent = settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[option.value]];
-      });
-    }
-    var paletteSelect = $("palSel");
-    Array.from(paletteSelect.options).forEach(function(option, index) { option.textContent = settings.palettes[paletteKeys[index]]; });
-    paletteSelect.setAttribute("aria-label", settings.shell.Palette);
+    var modeButton = $("darkBtn"), mode = document.documentElement.dataset.themeMode || "system";
+    modeButton.title = settings.shell.GlobalSettings.ModeLabel + ": " + settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[mode]];
+    modeButton.setAttribute("aria-label", modeButton.title);
+    $("langBtn").title = settings.language;
+    $("langBtn").setAttribute("aria-label", settings.language);
+    $("languageMenu").querySelectorAll('button').forEach(function(button) { button.setAttribute('aria-checked', String(button.dataset.language === LANG)); });
     $("palDots").querySelectorAll("button").forEach(function(button, index) {
       button.title = settings.palettes[paletteKeys[index]]; button.setAttribute("aria-label", button.title);
     });
@@ -4320,7 +4645,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
         else if (entry.api === "DateTimeExtension") result = "seconds = "+Math.floor(Date.parse(input)/1000)+"\nmilliseconds = "+Date.parse(input);
         else if (entry.api === "IpHelper") { var parts = input.split(":"); result = "IP = "+parts[0]+"\nPort = "+parts[1]; }
         else result = entry.api+"\n"+input+"\n"+text("Preview");
-        el.querySelector(".catalog-result").textContent = result;
+        el.querySelector(".catalog-result").textContent = result + "\n" + text("Preview");
         log2both(entry.api+": "+text("Run"),"info");
       };
     }};
@@ -4350,6 +4675,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
       el.querySelector('button').onclick=function(){notify('warn','LogNotifications',text('Notification'));};
     }});
   }
+  if (toolkit) { PROTO['scene-format'] = PROTO['files-json']; PROTO['scene-archive'] = PROTO['files-archive']; }
   Object.keys(entries).forEach(function(id) { if (!PROTO[id] || entries[id].page.indexOf("HelperDemoPage") === 0) REG(id,generic(entries[id])); });
   REG('about',{zh:apiMeta(entries.about),props:[],render:function(el){
     el.innerHTML='<div class="demo"><h4>'+esc(text('About'))+'</h4><p>'+esc(text('AboutDesc'))+'</p><pre>dotnet add package CodeWF.'+(toolkit?'Toolkit.Core':'Avalonia.Controls')+'</pre><p>MIT · .NET 10 · Avalonia 12</p></div>';
@@ -4426,6 +4752,25 @@ if (typeof TK_BOOT === "function") TK_BOOT();
     return renderWithProperties(id);
   };
   curTab='home';
+  // 浏览器中模拟桌面窗体按钮，不影响浏览器自身窗口。
+  var frame=document.querySelector('.win');
+  function windowLabels(){
+    var labels=LANG==='en-US'?{minimize:'Minimize',maximize:'Maximize / restore',close:'Close'}:{minimize:'最小化',maximize:'最大化 / 还原',close:'关闭'};
+    document.querySelectorAll('[data-window-action]').forEach(function(button){button.title=labels[button.dataset.windowAction];button.setAttribute('aria-label',button.title);});
+  }
+  function windowAction(action){
+    if(action==='maximize'){document.body.classList.toggle('prototype-maximized');return;}
+    frame.style.display='none';
+    var restore=document.createElement('button');restore.className='prototype-window-restore';
+    restore.textContent=LANG==='en-US'?'Reopen demo window':'重新打开演示窗口';
+    restore.onclick=function(){frame.style.display='';restore.remove();};
+    document.body.appendChild(restore);restore.focus();
+  }
+  document.querySelectorAll('[data-window-action]').forEach(function(button){button.onclick=function(){windowAction(button.dataset.windowAction);};});
+  document.querySelector('.cap').ondblclick=function(event){if(!event.target.closest('button,select'))windowAction('maximize');};
+  var localizeWindow=setLang;
+  setLang=function(language){localizeWindow(language);windowLabels();};
+  windowLabels();
   renderRTabs();renderTree();renderDocTabs();
   if(ACTIVE_DOC&&entries[ACTIVE_DOC])renderDoc(ACTIVE_DOC);else openDoc('welcome');
 })();
@@ -4444,7 +4789,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
     var input=api==='JsonLocalizer'?'zh-CN':'Demo.Item.Welcome';
     el.innerHTML='<div class="demo"><p>'+esc(text('LocalizationHint'))+'</p><input class="catalog-input" value="'+esc(input)+'"><button class="btn pri">'+esc(text('Run'))+'</button></div><div class="demo"><h4>'+esc(text('Output'))+'</h4><pre class="catalog-result">'+esc(text('Ready'))+'</pre></div>';
     el.querySelector('button').onclick=function(){
-      var value=el.querySelector('input').value.trim(),result;
+      var value=el.querySelector('.catalog-input').value.trim(),result;
       if(api==='I18nManager')result='Culture = '+LANG+'\nLanguages = zh-CN, en-US\n'+value+' = '+(value==='Demo.Item.Welcome'?(LANG==='zh-CN'?'介绍':'Introduction'):value);
       else result='Culture = '+value+'\n'+(value.toLowerCase()==='zh-cn'?'必须指定 GitHub 仓库名（UpdateServiceOptions.Repository）。':'Specify a GitHub repository (UpdateServiceOptions.Repository).');
       el.querySelector('.catalog-result').textContent=result+'\n'+text('Preview');
@@ -4469,7 +4814,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   });
   register('ActionHelper',function(el){
     el.innerHTML='<div class="demo"><p>'+esc(text('ActionFormat'))+'</p><input class="catalog-input" value="20,100"><button class="btn pri">'+esc(text('Run'))+'</button><p class="catalog-result"></p></div>';
-    el.querySelector('button').onclick=function(){var values=el.querySelector('input').value.split(',').map(Number),valid=values.length===2&&values.every(function(n){return Number.isInteger(n)&&n>=0&&n<=5000;});el.querySelector('.catalog-result').textContent=valid?'CheckOvertime = '+(values[0]<=values[1])+'\n'+text(values[0]<=values[1]?'ActionCompleted':'ActionTimedOut'):text('ActionFormat');};
+    el.querySelector('button').onclick=function(){var values=el.querySelector('.catalog-input').value.split(',').map(Number),valid=values.length===2&&values.every(function(n){return Number.isInteger(n)&&n>=0&&n<=5000;});el.querySelector('.catalog-result').textContent=valid?'CheckOvertime = '+(values[0]<=values[1])+'\n'+text(values[0]<=values[1]?'ActionCompleted':'ActionTimedOut'):text('ActionFormat');};
   });
   ['TcpSocketClientFileSystemFeature','TcpSocketServerFileSystemFeature'].forEach(function(api){register(api,function(el){
     var running=false,folder=false,uploaded=false,busy=false,timer=null;
@@ -4490,7 +4835,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
       if(op==='upload'||op==='download'){
         if(op==='download'&&!uploaded){append('payload.bin: '+text('Ready'));return;}
         busy=true;var progress=el.querySelector('progress');progress.value=0;
-        timer=setInterval(function(){if(!el.isConnected){clearInterval(timer);return;}progress.value+=10;if(progress.value>=100){clearInterval(timer);busy=false;if(op==='upload')uploaded=true;append((op==='upload'?'UploadFileAsync':'DownloadFileAsync')+' · '+text('Preview'));paint();}},80);
+        timer=setInterval(function(){if(!el.isConnected){clearInterval(timer);return;}progress.value+=10;if(progress.value>=100){clearInterval(timer);busy=false;if(op==='upload')uploaded=true;append((op==='upload'?'UploadFileAsync':'DownloadFileAsync')+' · Bytes = '+el.dataset.transferSize+' · '+text('Preview'));paint();}},80);
       }
       paint();
     };});paint();
@@ -4512,6 +4857,141 @@ if (typeof TK_BOOT === "function") TK_BOOT();
     el.querySelectorAll('[data-tour]').forEach(function(button){button.onclick=function(){show(Number(button.dataset.tour));};});show(0);
   }});
   if(ACTIVE_DOC)renderDoc(ACTIVE_DOC);
+})();
+
+</script>
+<script>
+/* 参数契约与原生 BuildProperties 保持一致，浏览器结果仍为交互预览。 */
+"use strict";
+(function () {
+  var entries = window.CodeWFDemoCatalog.flatMap(function (group) { return group.items; });
+  var hosts = {}, sceneSteps = {};
+  function text(key) { return window.CodeWFCatalogText[LANG][key] || key; }
+  function label(path) {
+    if (path === 'Input') return text('Input');
+    var parts = path.split('.');
+    return window.CodeWFPropertyText[LANG]?.[parts[0]]?.[parts[1]] || path;
+  }
+  function prop(id, name, kind, value, options, minimum, maximum) {
+    var item = { id:id, resource:name, kind:kind, value:value, options:options, min:minimum, max:maximum };
+    if (kind === 'text' || kind === 'multiline') item.type = kind;
+    item.apply = function (next) {
+      if (kind === 'num') item.value = Math.max(minimum ?? -Infinity, Math.min(maximum ?? Infinity, Number(next)));
+      var host = hosts[id];
+      if (!host?.isConnected) return;
+      var target = id === 'Input' ? host.querySelector('.catalog-input') : host.querySelector('[data-native-property="' + id + '"]');
+      if (target) { if (target.type === 'checkbox') target.checked = Boolean(item.value); else target.value = item.value; }
+      if (id === 'TransferSize') host.dataset.transferSize = String(item.value);
+      if (id === 'img.preview') { var canvas = host.querySelector('canvas'); if (canvas) canvas.hidden = !item.value; }
+      var state = host.querySelector('.native-parameter-state');
+      if (state) state.textContent = text('Preview') + '\n' + (PROTO[host.dataset.nativePage]?.props || []).map(function (p) { return label(p.resource) + ' = ' + p.value; }).join('\n');
+    };
+    return item;
+  }
+  function set(id, properties) { if (PROTO[id]) PROTO[id].props = properties; }
+  entries.forEach(function (entry) {
+    if (/^(HelperDemoPage|TransportDemoPage|DataTableDemoPage)/.test(entry.page)) {
+      set(entry.prototypeId, [prop('Input', 'Input', 'multiline', entry.page.startsWith('TransportDemoPage') ? 'Hello CodeWF' : (entry.input || ''))]);
+    } else if (entry.page.startsWith('FileSystemDemoPage')) {
+      set(entry.prototypeId, [prop('TransferSize', 'TransferSize', 'num', 4194304, null, 1, 16777216)]);
+    }
+  });
+  set('image-icon', [
+    prop('ic.sizes','ImageIcon.IncludedSizes','ro','16,24,32,48,64,128,256'),
+    prop('ic.compress','ImageIcon.PNGCompression','sw',true), prop('ic.quality','ImageIcon.Quality','num',92,null,1,100),
+    prop('ic.source','ImageIcon.SourceImage','ro','Assets/logo.png'), prop('ic.dest','ImageIcon.OutputDirectory','ro','%TEMP%/CodeWFToolkitDemo/image')
+  ]);
+  set('image-qr', [
+    prop('qr.size','ImageQr.QRCodeSize','ro',label('ImageQr._400400FinalCanvasWidth500')),
+    prop('qr.ecc','ImageQr.ErrorCorrection','ro','H（ErrorCorrectionLevel.H）'),
+    prop('qr.charset','ImageQr.CharacterSet','ro','UTF-8（DisableECI = true）'),
+    prop('img.quality','ImageQr.OutputQuality','num',92,null,1,100), prop('img.preview','ImageQr.GeneratePreview','sw',true)
+  ]);
+  set('bus', [prop('bus.name','EventBus.BusInstance','ro','EventBus'), prop('bus.async','EventBus.PublishAsynchronously','sw',false),
+    prop('bus.scan','EventBus.AssemblyScanning','sw',false), prop('bus.order','EventBus.HandlerOrder','num',1,null,0,100)]);
+  set('log-core', [prop('lg.level','LoggingCore.MinimumLevel','sel','Information',['Trace','Debug','Information','Warning','Error']),
+    prop('lg.console','LoggingCore.ConsoleOutput','sw',true), prop('lg.rotate','LoggingCore.FileRotation','sw',true),
+    prop('lg.maxmb','LoggingCore.PerFileLimitMB','num',32,null,1,1024), prop('lg.days','LoggingCore.RetentionDays','num',30,null,1,365),
+    prop('lg.folder','LoggingCore.LogDirectory','ro','%LOCALAPPDATA%/CodeWFToolkitDemo/logs'), prop('lg.feed','LoggingCore.EventCapacity','ro','300')]);
+  set('log-microsoft', [prop('mel.level','LoggingMicrosoft.MinimumLevel','sel','Information',['Trace','Debug','Information','Warning','Error']),
+    prop('mel.scope','LoggingMicrosoft.IncludeScopes','sw',true), prop('mel.user','LoggingMicrosoft.UserMessageMarker','sw',false),
+    prop('mel.queue','LoggingMicrosoft.QueueOverflowPolicy','sel','DropOldest',['DropOldest','DropNewest','Block']),
+    prop('mel.provider','LoggingMicrosoft.Provider','ro','CodeWFLoggerProvider'), prop('mel.feed','LoggingMicrosoft.EventFlow','ro',label('LoggingMicrosoft.SharedWithStaticLogger'))]);
+  set('net-packet', [prop('pkt.systemid','systemId','num',1,null,0,255), prop('pkt.version','version','num',1,null,0,255),
+    prop('pkt.bigendian','NetPacket.LittleEndianInt32','sw',true), prop('pkt.offset','NetPacket.BitFieldLayout','sw',false)]);
+  set('scene-format', [prop('files.format','FilesFormat.DefaultFormat','sel','Yaml',['Json','Yaml','Csv','Excel']),
+    prop('files.retry','FilesFormat.WriteRetries','num',3,null,0,10), prop('files.bom','UTF-8 BOM','sw',false)]);
+  set('scene-archive', [prop('sz.algorithm','FilesArchive.CompressionAlgorithm','ro','LZMA（ZipWriterOptions）'),
+    prop('sz.utf8','FilesArchive.UTF8EntryNames','sw',true), prop('sz.samples','FilesArchive.SampleFileCount','num',3,null,1,20),
+    prop('cfg.path','FilesArchive.FileLocation','ro','%TEMP%/CodeWFToolkitDemo/archive/App.config'), prop('cfg.bom','UTF-8 BOM','sw',false)]);
+  set('bus-integrations', [prop('busint.mode','EventBusIntegrations.HostIntegration','sel','Socket',[label('EventBusIntegrations.InProcess'),'Prism','ASP.NET Core','Socket']),
+    prop('busint.port','EventBusIntegrations.Port','num',39561,null,1024,65535),
+    prop('busint.heartbeat','EventBusIntegrations.HeartbeatSeconds','num',10,null,1,120), prop('busint.resend','EventBusIntegrations.ReplayOfflineMessages','sw',true)]);
+
+  function scene(id, routes, captions) {
+    var index = sceneSteps[id] || 0;
+    PROTO[id].props = PROTO[routes[index]].props;
+    PROTO[id].render = function (el) {
+      var names = captions();
+      el.innerHTML = '<div class="demo"><p>' + esc(text('Preview')) + '</p><div class="row">' + routes.map(function (route, i) {
+        return '<button class="btn' + (i === index ? ' pri' : '') + '" data-native-step="' + i + '">' + (i + 1) + ' · ' + esc(names[i]) + '</button>';
+      }).join('') + '</div></div><div class="native-scene-page"></div>';
+      function show(next) {
+        index = next; sceneSteps[id] = next; PROTO[id].props = PROTO[routes[next]].props;
+        el.querySelectorAll('[data-native-step]').forEach(function (button) { button.classList.toggle('pri', Number(button.dataset.nativeStep) === next); });
+        renderInto(routes[next], el.querySelector('.native-scene-page'));
+        if (PROTO[routes[next]].after) PROTO[routes[next]].after();
+        renderPGrid(id);
+      }
+      el.querySelectorAll('[data-native-step]').forEach(function (button) { button.onclick = function () { show(Number(button.dataset.nativeStep)); }; });
+      show(index);
+    };
+  }
+  scene('flow-runtime',['bus','bus-integrations','bus','bus-integrations','log-core'],function () { return text('RuntimeTourSteps').split('|'); });
+  // 复用已有场景资源，按原生顺序组合四类页面。
+  function labCaptions() { return LANG === 'en-US' ? ['Formats','Archive and configuration','Icons','QR and images'] : ['格式转换','归档与配置','图标','二维码与图像']; }
+  scene('flow-lab',['scene-format','scene-archive','image-icon','image-qr'],labCaptions);
+  var previousRender = renderInto;
+  renderInto = function (id, el) {
+    previousRender(id, el);
+    if (!el || id === 'welcome' || id.startsWith('flow-')) return;
+    el.dataset.nativePage = id;
+    var properties = PROTO[id]?.props || [];
+    if (id === 'image-qr') { var qrSize = el.querySelector('#qrSize'); if (qrSize) { qrSize.value = 400; qrSize.readOnly = true; } }
+    var input = el.querySelector('.catalog-input');
+    if (properties[0]?.id === 'Input' && input) {
+      if (input.tagName === 'INPUT') { var multiline = document.createElement('textarea'); multiline.className = input.className; multiline.value = input.value; input.replaceWith(multiline); input = multiline; }
+      input.value = properties[0].value;
+      input.addEventListener('input', function () {
+        properties[0].value = input.value;
+        var editor = document.querySelector('#pGrid [data-id="Input"]'); if (editor) editor.value = input.value;
+      });
+    }
+    var selectors = {'pkt.systemid':'#pktSys','pkt.version':'#pktVer','busint.port':'#esPort','busint.heartbeat':'#esHb'};
+    properties.forEach(function (p) {
+      hosts[p.id] = el;
+      var target = selectors[p.id] && el.querySelector(selectors[p.id]);
+      if (target) { target.dataset.nativeProperty = p.id; target.value = p.value; target.addEventListener('input',function () { p.value = Number(target.value); var editor = document.querySelector('#pGrid [data-id="'+p.id+'"]'); if (editor) editor.value = p.value; }); }
+    });
+    if (properties[0]?.id === 'TransferSize') el.dataset.transferSize = String(properties[0].value);
+    if (properties.length && !properties.some(function (p) { return p.id === 'Input'; })) {
+      var state = document.createElement('pre'); state.className = 'catalog-result native-parameter-state'; el.appendChild(state);
+      properties[0].apply(properties[0].value);
+    }
+    if (!el.querySelector('.native-preview-note')) { var note=document.createElement('p'); note.className='native-preview-note'; note.textContent=text('Preview'); el.prepend(note); }
+  };
+  var previousGrid = renderPGrid;
+  renderPGrid = function (id) {
+    if (PROTO[id]?.props?.some(function (p) { return p.id === 'qr.size'; })) PROTO[id].props.find(function (p) { return p.id === 'qr.size'; }).value = label('ImageQr._400400FinalCanvasWidth500');
+    if (PROTO[id]?.props?.some(function (p) { return p.id === 'mel.feed'; })) PROTO[id].props.find(function (p) { return p.id === 'mel.feed'; }).value = label('LoggingMicrosoft.SharedWithStaticLogger');
+    (PROTO[id]?.props || []).forEach(function (p) { if (p.resource) p.label = label(p.resource); });
+    previousGrid(id);
+    (PROTO[id]?.props || []).forEach(function (p) {
+      var editor = document.querySelector('#pGrid [data-id="' + p.id + '"]');
+      if (editor && p.kind === 'num') { if (p.min != null) editor.min=p.min; if (p.max != null) editor.max=p.max; editor.step=p.id==='TransferSize'?'1024':'1'; }
+    });
+  };
+  if (ACTIVE_DOC) renderDoc(ACTIVE_DOC);
 })();
 
 </script>

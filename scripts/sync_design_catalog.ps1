@@ -19,11 +19,16 @@ $catalog = Get-Content -LiteralPath $catalogPath -Raw -Encoding utf8 | ConvertFr
 $translations = [ordered]@{}
 $descriptions = [ordered]@{}
 $settings = [ordered]@{}
+$propertyText = [ordered]@{}
 foreach ($culture in @('zh-CN','en-US')) {
     $path = Join-Path $repoRoot ('demo/CodeWF.Toolkit.Demo.Avalonia/I18n/CodeWF.Toolkit.Demo.' + $culture + '.json')
     $resources = (Get-Content -LiteralPath $path -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable).Demo
     $translations[$culture] = $resources.Catalog
     $descriptions[$culture] = $resources.Api
+    $propertyText[$culture] = [ordered]@{}
+    foreach ($page in @($resources.Content.Keys | Sort-Object)) {
+        if ($resources.Content[$page].Properties) { $propertyText[$culture][$page] = $resources.Content[$page].Properties }
+    }
     $settings[$culture] = [ordered]@{
         shell = $resources.Shell
         palettes = $resources.Palette
@@ -34,6 +39,7 @@ foreach ($culture in @('zh-CN','en-US')) {
 $content = '"use strict";' + "`nwindow.CodeWFDemoCatalog = " + (ConvertTo-Json -InputObject $catalog -Depth 20) + ";`nwindow.CodeWFCatalogText = " + (ConvertTo-Json -InputObject $translations -Depth 10) + ";`n"
 $content += "window.CodeWFCatalogDescriptions = " + (ConvertTo-Json -InputObject $descriptions -Depth 10) + ";`n"
 $content += "window.CodeWFPrototypeSettings = " + (ConvertTo-Json -InputObject $settings -Depth 10) + ";`n"
+$content += "window.CodeWFPropertyText = " + (ConvertTo-Json -InputObject $propertyText -Depth 10) + ";`n"
 Write-GeneratedFile (Join-Path $repoRoot 'scripts/prototype/assets/catalog-data.js') $content
 
 $items = @($catalog | ForEach-Object { $_.items })

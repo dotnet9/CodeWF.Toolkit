@@ -65,16 +65,12 @@
           : settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[value]];
       });
     });
-    var modeSelect = $("themeModeSel");
-    if (modeSelect) {
-      modeSelect.setAttribute("aria-label", settings.shell.GlobalSettings.ModeLabel);
-      Array.from(modeSelect.options).forEach(function(option) {
-        option.textContent = settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[option.value]];
-      });
-    }
-    var paletteSelect = $("palSel");
-    Array.from(paletteSelect.options).forEach(function(option, index) { option.textContent = settings.palettes[paletteKeys[index]]; });
-    paletteSelect.setAttribute("aria-label", settings.shell.Palette);
+    var modeButton = $("darkBtn"), mode = document.documentElement.dataset.themeMode || "system";
+    modeButton.title = settings.shell.GlobalSettings.ModeLabel + ": " + settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[mode]];
+    modeButton.setAttribute("aria-label", modeButton.title);
+    $("langBtn").title = settings.language;
+    $("langBtn").setAttribute("aria-label", settings.language);
+    $("languageMenu").querySelectorAll('button').forEach(function(button) { button.setAttribute('aria-checked', String(button.dataset.language === LANG)); });
     $("palDots").querySelectorAll("button").forEach(function(button, index) {
       button.title = settings.palettes[paletteKeys[index]]; button.setAttribute("aria-label", button.title);
     });
@@ -103,7 +99,7 @@
         else if (entry.api === "DateTimeExtension") result = "seconds = "+Math.floor(Date.parse(input)/1000)+"\nmilliseconds = "+Date.parse(input);
         else if (entry.api === "IpHelper") { var parts = input.split(":"); result = "IP = "+parts[0]+"\nPort = "+parts[1]; }
         else result = entry.api+"\n"+input+"\n"+text("Preview");
-        el.querySelector(".catalog-result").textContent = result;
+        el.querySelector(".catalog-result").textContent = result + "\n" + text("Preview");
         log2both(entry.api+": "+text("Run"),"info");
       };
     }};
@@ -133,6 +129,7 @@
       el.querySelector('button').onclick=function(){notify('warn','LogNotifications',text('Notification'));};
     }});
   }
+  if (toolkit) { PROTO['scene-format'] = PROTO['files-json']; PROTO['scene-archive'] = PROTO['files-archive']; }
   Object.keys(entries).forEach(function(id) { if (!PROTO[id] || entries[id].page.indexOf("HelperDemoPage") === 0) REG(id,generic(entries[id])); });
   REG('about',{zh:apiMeta(entries.about),props:[],render:function(el){
     el.innerHTML='<div class="demo"><h4>'+esc(text('About'))+'</h4><p>'+esc(text('AboutDesc'))+'</p><pre>dotnet add package CodeWF.'+(toolkit?'Toolkit.Core':'Avalonia.Controls')+'</pre><p>MIT · .NET 10 · Avalonia 12</p></div>';
@@ -209,6 +206,25 @@
     return renderWithProperties(id);
   };
   curTab='home';
+  // 浏览器中模拟桌面窗体按钮，不影响浏览器自身窗口。
+  var frame=document.querySelector('.win');
+  function windowLabels(){
+    var labels=LANG==='en-US'?{minimize:'Minimize',maximize:'Maximize / restore',close:'Close'}:{minimize:'最小化',maximize:'最大化 / 还原',close:'关闭'};
+    document.querySelectorAll('[data-window-action]').forEach(function(button){button.title=labels[button.dataset.windowAction];button.setAttribute('aria-label',button.title);});
+  }
+  function windowAction(action){
+    if(action==='maximize'){document.body.classList.toggle('prototype-maximized');return;}
+    frame.style.display='none';
+    var restore=document.createElement('button');restore.className='prototype-window-restore';
+    restore.textContent=LANG==='en-US'?'Reopen demo window':'重新打开演示窗口';
+    restore.onclick=function(){frame.style.display='';restore.remove();};
+    document.body.appendChild(restore);restore.focus();
+  }
+  document.querySelectorAll('[data-window-action]').forEach(function(button){button.onclick=function(){windowAction(button.dataset.windowAction);};});
+  document.querySelector('.cap').ondblclick=function(event){if(!event.target.closest('button,select'))windowAction('maximize');};
+  var localizeWindow=setLang;
+  setLang=function(language){localizeWindow(language);windowLabels();};
+  windowLabels();
   renderRTabs();renderTree();renderDocTabs();
   if(ACTIVE_DOC&&entries[ACTIVE_DOC])renderDoc(ACTIVE_DOC);else openDoc('welcome');
 })();

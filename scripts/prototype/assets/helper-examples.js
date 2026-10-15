@@ -10,7 +10,7 @@
     var input=api==='JsonLocalizer'?'zh-CN':'Demo.Item.Welcome';
     el.innerHTML='<div class="demo"><p>'+esc(text('LocalizationHint'))+'</p><input class="catalog-input" value="'+esc(input)+'"><button class="btn pri">'+esc(text('Run'))+'</button></div><div class="demo"><h4>'+esc(text('Output'))+'</h4><pre class="catalog-result">'+esc(text('Ready'))+'</pre></div>';
     el.querySelector('button').onclick=function(){
-      var value=el.querySelector('input').value.trim(),result;
+      var value=el.querySelector('.catalog-input').value.trim(),result;
       if(api==='I18nManager')result='Culture = '+LANG+'\nLanguages = zh-CN, en-US\n'+value+' = '+(value==='Demo.Item.Welcome'?(LANG==='zh-CN'?'介绍':'Introduction'):value);
       else result='Culture = '+value+'\n'+(value.toLowerCase()==='zh-cn'?'必须指定 GitHub 仓库名（UpdateServiceOptions.Repository）。':'Specify a GitHub repository (UpdateServiceOptions.Repository).');
       el.querySelector('.catalog-result').textContent=result+'\n'+text('Preview');
@@ -35,7 +35,7 @@
   });
   register('ActionHelper',function(el){
     el.innerHTML='<div class="demo"><p>'+esc(text('ActionFormat'))+'</p><input class="catalog-input" value="20,100"><button class="btn pri">'+esc(text('Run'))+'</button><p class="catalog-result"></p></div>';
-    el.querySelector('button').onclick=function(){var values=el.querySelector('input').value.split(',').map(Number),valid=values.length===2&&values.every(function(n){return Number.isInteger(n)&&n>=0&&n<=5000;});el.querySelector('.catalog-result').textContent=valid?'CheckOvertime = '+(values[0]<=values[1])+'\n'+text(values[0]<=values[1]?'ActionCompleted':'ActionTimedOut'):text('ActionFormat');};
+    el.querySelector('button').onclick=function(){var values=el.querySelector('.catalog-input').value.split(',').map(Number),valid=values.length===2&&values.every(function(n){return Number.isInteger(n)&&n>=0&&n<=5000;});el.querySelector('.catalog-result').textContent=valid?'CheckOvertime = '+(values[0]<=values[1])+'\n'+text(values[0]<=values[1]?'ActionCompleted':'ActionTimedOut'):text('ActionFormat');};
   });
   ['TcpSocketClientFileSystemFeature','TcpSocketServerFileSystemFeature'].forEach(function(api){register(api,function(el){
     var running=false,folder=false,uploaded=false,busy=false,timer=null;
@@ -56,7 +56,7 @@
       if(op==='upload'||op==='download'){
         if(op==='download'&&!uploaded){append('payload.bin: '+text('Ready'));return;}
         busy=true;var progress=el.querySelector('progress');progress.value=0;
-        timer=setInterval(function(){if(!el.isConnected){clearInterval(timer);return;}progress.value+=10;if(progress.value>=100){clearInterval(timer);busy=false;if(op==='upload')uploaded=true;append((op==='upload'?'UploadFileAsync':'DownloadFileAsync')+' · '+text('Preview'));paint();}},80);
+        timer=setInterval(function(){if(!el.isConnected){clearInterval(timer);return;}progress.value+=10;if(progress.value>=100){clearInterval(timer);busy=false;if(op==='upload')uploaded=true;append((op==='upload'?'UploadFileAsync':'DownloadFileAsync')+' · Bytes = '+el.dataset.transferSize+' · '+text('Preview'));paint();}},80);
       }
       paint();
     };});paint();

@@ -22,7 +22,7 @@
 
 ## 配色与交互
 
-默认 .NET 品牌紫 `#512BD4`，常规配色共八套：.NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空。浅色、深色、跟随系统独立选择；色圈、下拉和文档属性共用状态，系统模式响应系统主题变化，布局保存模式选择。AI 配色是视觉设计名称。
+默认 .NET 品牌紫 `#512BD4`，常规配色共八套：.NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空。浅色、深色、跟随系统独立选择；平铺色圈和文档属性共用状态，系统模式响应系统主题变化，布局保存模式选择。AI 配色是视觉设计名称。
 
 保留主题、语言、密度、命令搜索、布局存档、Dock 面板显隐与引导。页面进入和按钮悬停有动画，并遵循浏览器“减少动态效果”设置。主导航菜单与首页目录点击后同步当前 Ribbon 分类。
 
@@ -33,6 +33,8 @@
 3. 实现原生页面，并为原型注册交互演示。执行 `pwsh scripts/sync_design_catalog.ps1`，同步浏览器数据与 `DemoCatalog.g.cs`。页面标识 `DemoPages` 和显式工厂由脚本生成，无需手工维护 switch 或图标字典。
 4. 执行 `pwsh scripts/sync_design_catalog.ps1 -Check`、目录一致性测试和原生 Demo 冒烟。生成文件需要提交，正常 `dotnet build` 不依赖 PowerShell 或 Node.js。
 5. 执行 `npm ci --prefix design/tests`，在 `design/tests` 运行 `npx playwright install chromium` 和 `npm test`。浏览器门禁遍历全部路由 × 中英文 × 1440/1120 两种宽度，检查实际 Ribbon/导航点击、页面内容、源码面板和脚本错误。失败截图保存在 `design/tests/artifacts/`；CI 使用同一脚本。
+
+`node design/tests/audit-native-parameters.cjs` 另行核对 52 页的原生属性标识、编辑类型与双语标签，验证输入双向同步、传输尺寸变化和综合示例逐步切换的参数效果。原型参数以原生 `BuildProperties` 为准，无参数页面沿用原生的全局设置回退。
 
 `design/catalog.json` 是 Demo 的嵌入式构建输入，属于仓库源码，不能当草稿删除。`scripts/prototype/assets/catalog-data.js` 与 `DemoCatalog.g.cs` 是生成文件；`catalog-gallery.js/css` 负责浏览器布局。每个仓库独立携带全部资源。资源文件采用 UTF-8，允许有或无 BOM；测试检查无效字节和替换字符，但不能识别所有已经被错误转码的合法文字。
 
@@ -55,7 +57,7 @@
 | TCP / UDP | 启动、保持连接、重复发送与接收校验、断开 / 停止 |
 | EventServer / EventClient | 会话生命周期、发布 / 订阅 / 退订与再次订阅 |
 
-`assets/helper-examples.js` 展示以上浏览器交互预览，不发送 Socket 请求或生成 Excel。实际结果来自原生 Demo，浏览器结果标记为预览。文件操作限于本次会话的临时目录，关闭文档、重置布局或关闭窗口会停止相关会话。
+`scripts/prototype/assets/helper-examples.js` 展示以上浏览器交互预览，不发送 Socket 请求或生成 Excel。实际结果来自原生 Demo，浏览器结果标记为预览。文件操作限于本次会话的临时目录，关闭文档、重置布局或关闭窗口会停止相关会话。
 
 “事件与日志导览”组织独立示例，各步骤拥有自己的状态与连接，不宣称共享同一运行会话。Ribbon、导航与 Dock 当前文档保持选中状态一致；无页面参数时右侧显示全局设置。
 
@@ -87,3 +89,5 @@ Ribbon 命令图标统一为 32×32 Semi 矢量图标，快捷图标 18×18、�
 `design/` 中的主 HTML 已内嵌样式、脚本、图标和图片。只复制这一个 HTML 到空目录即可离线查看并操作，无需旁边的资源文件或本地服务。
 
 维护源码放在 `scripts/prototype/`；执行 `pwsh scripts/build_standalone_prototype.ps1` 重新生成，`-Check` 校验生成文件。不要直接修改交付 HTML。交互审计会复制 HTML 到空目录，阻止其他文件和网络资源请求，并检查脚本错误与图片完整性。
+
+标题栏交互采用单排八色点、Ursa 风格三态模式按钮、语言图标弹出列表；不再重复显示模式或配色下拉。窗口外框与三个窗口按钮属于桌面模拟，可最小化、最大化、关闭并恢复。
