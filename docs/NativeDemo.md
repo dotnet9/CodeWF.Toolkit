@@ -56,7 +56,7 @@ Start-Process $demo -ArgumentList '--capture E:/github/temp/CodeWF.Toolkit.Nativ
 
 ## 独立构建与真实 API
 
-Demo 通过正式版本 NuGet 引用 `CodeWF.Avalonia.Controls/TreeDataGrid/Dock/Lang/Log 12.1.4.14`，没有跨仓库工程引用。12 个生产库保持无 UI 依赖，Demo 通过同仓 ProjectReference 展示当前 Toolkit 实现。
+Demo 通过正式版本 NuGet 引用 `CodeWF.Avalonia.Controls/TreeDataGrid/Dock/Lang/Log 12.1.4.18`，没有跨仓库工程引用。12 个生产库保持无 UI 依赖，Demo 通过同仓 ProjectReference 展示当前 Toolkit 实现。
 
 本机联调可将 nupkg 打到 `temp_nugets` 环境变量指定目录，使用仓外 NuGet 配置还原；临时源、缓存和绝对路径不提交。CI 仍使用 nuget.org。
 
