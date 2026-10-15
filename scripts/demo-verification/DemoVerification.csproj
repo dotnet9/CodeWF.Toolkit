@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Headless" />
+    <ProjectReference Include="../../demo/CodeWF.Toolkit.Demo.Avalonia/CodeWF.Toolkit.Demo.Avalonia.csproj" />
+    <TrimmerRootDescriptor Include="../../demo/CodeWF.Toolkit.Demo.Avalonia/Properties/Trimming/TrimmerRoots.xml" />
+  </ItemGroup>
+</Project>
