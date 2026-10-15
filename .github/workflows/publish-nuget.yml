@@ -79,7 +79,7 @@ jobs:
       - name: Push to nuget.org
         shell: pwsh
         run: |
-          # Prevent automatic symbol upload from changing a successful package result.
+          # 主包与符号包分开上传，避免符号上传失败改变主包已发布的结果。
           Get-ChildItem artifacts/packages -Filter *.nupkg | ForEach-Object {
             dotnet nuget push $_.FullName `
               --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" `

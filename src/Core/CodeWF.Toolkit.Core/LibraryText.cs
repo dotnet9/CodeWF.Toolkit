@@ -8,6 +8,6 @@ internal static class LibraryText
     private static readonly JsonLocalizer AlgorithmResources = new(typeof(LibraryText).Assembly, allowApplicationOverrides: false);
     internal static string Get(string key) => Resources.GetResource(key);
     internal static string Format(string key, params object?[] arguments) => Resources.Format(key, arguments);
-    // Chinese numeral alphabets are algorithm data and must not change with the UI culture.
+    // 中文数字字符表属于算法数据，不应随界面语言变化。
     internal static string Invariant(string key) => AlgorithmResources.GetResource(key, "zh-CN");
 }
