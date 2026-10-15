@@ -3,6 +3,9 @@
   "description": "CodeWF.Toolkit Demo 简体中文资源。",
   "cultureName": "zh-CN",
   "Demo": {
+    "DataTable": {
+      "InputHint": "每行输入 Name,Value；选择 CSV 或 Excel 后导出，并回读校验。"
+    },
     "Tool": {
       "Navigation": "导航树",
       "Properties": "属性",

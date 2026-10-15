@@ -1,4 +1,4 @@
-# CodeWF.Toolkit
+﻿# CodeWF.Toolkit
 
 [![CI](https://github.com/dotnet9/CodeWF.Toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/dotnet9/CodeWF.Toolkit/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/CodeWF.Toolkit.Core?label=nuget)](https://www.nuget.org/packages/CodeWF.Toolkit.Core)
@@ -241,7 +241,7 @@ Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像�
 
 标题栏提供浅色、深色、跟随系统三态，搭配 .NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空八套配色。颜色与模式独立选择，通过 NuGet 中的 StudioThemeController 跟随系统并同步文档属性面板。
 
-快捷入口采用 16×16 图标与 30×30 点击热区，Ribbon 主命令使用 32×32 图标。每个文档内的演示和属性面板通过 GridSplitter 调整宽度，属性默认行高 31px、名称列宽 118px；下列图片来自 `1.0.0.17` 的 Windows x64 NativeAOT 程序。
+快捷入口采用 16×16 图标与 30×30 点击热区，Ribbon 主命令使用 32×32 图标。每个文档内的演示和属性面板通过 GridSplitter 调整宽度，属性默认行高 31px、名称列宽 118px；下列图片来自 `1.0.0.18` 的 Windows x64 NativeAOT 程序。
 
 ![Ribbon 帮助类分组与原生 Dock 工作区](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-ribbon.png)
 

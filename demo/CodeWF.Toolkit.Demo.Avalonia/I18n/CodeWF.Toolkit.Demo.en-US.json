@@ -3,6 +3,9 @@
   "description": "CodeWF.Toolkit Demo English resources.",
   "cultureName": "en-US",
   "Demo": {
+    "DataTable": {
+      "InputHint": "Enter Name,Value per line; export to CSV or Excel, then read back to verify."
+    },
     "Tool": {
       "Navigation": "Explorer",
       "Properties": "Properties",

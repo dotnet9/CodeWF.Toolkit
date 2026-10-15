@@ -1378,6 +1378,10 @@ public static class ResourceKeys
             }
         }
     }
+    public static class @DataTable
+    {
+        public const string @InputHint = "Demo.DataTable.InputHint";
+    }
     public static class @Group
     {
         public const string @Bus = "Demo.Group.Bus";
