@@ -1,0 +1,15 @@
+{
+  "id": "com.codewf.codewf.toolkit.demo",
+  "package": "codewf-toolkit-demo",
+  "command": "codewf-toolkit-demo",
+  "name": "CodeWF.Toolkit Demo",
+  "chineseName": "CodeWF.Toolkit 帮助类演示",
+  "summary": "Explore .NET utilities through interactive examples",
+  "chineseSummary": "通过交互示例体验 .NET 帮助类",
+  "description": "Interactive demonstrations of CodeWF.Toolkit helper classes and their input and output.",
+  "chineseDescription": "通过交互示例检查 CodeWF.Toolkit 帮助类的输入、结果和参数。",
+  "categories": [
+    "Development"
+  ],
+  "homepage": "https://github.com/dotnet9/CodeWF.Toolkit"
+}
