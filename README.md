@@ -243,13 +243,13 @@ Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像�
 
 标题栏提供浅色、深色、跟随系统三态，搭配 .NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空八套配色。颜色与模式独立选择，通过 NuGet 中的 StudioThemeController 跟随系统并同步文档属性面板。
 
-当前 `1.0.0.22` 的 Dock 文档分屏、浮动与重新停靠效果（真实 Windows NativeAOT + Skia 离屏渲染）：
+当前 `1.0.0.25` 的 Dock 文档分屏、浮动与重新停靠效果（真实 Windows NativeAOT 验证器 + Skia 离屏渲染）：
 
 ![文档与属性面板同步停靠](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dock-redocked.png)
 
 ![浮动文档保留属性面板](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-dock-floating.png)
 
-快捷入口采用 16×16 图标与 30×30 点击热区，Ribbon 主命令使用 32×32 图标。每个文档内的演示和属性面板通过 GridSplitter 调整宽度，属性默认行高 31px、名称列宽 118px。下列截图来自 `1.0.0.24` 的真实控件，普通页面通过 Skia 离屏采集，浮动与回停状态来自 NativeAOT 验证器。
+快捷入口采用 16×16 图标与 30×30 点击热区，Ribbon 主命令使用 32×32 图标。每个文档内的演示和属性面板通过 GridSplitter 调整宽度，属性默认行高 31px、名称列宽 118px。上方停靠、浮动两张 PNG 来自 `1.0.0.25` 的 NativeAOT 验证器；下方普通页面 PNG 和巡览 GIF 保留 `1.0.0.24` 的真实控件截图，普通页面通过 Skia 离屏采集。[截图来源与边界](docs/recheck25-native-media.md)。
 
 ![Ribbon 帮助类分组与原生 Dock 工作区](https://raw.githubusercontent.com/dotnet9/CodeWF.Toolkit/main/docs/images/studio-ribbon.png)
 
