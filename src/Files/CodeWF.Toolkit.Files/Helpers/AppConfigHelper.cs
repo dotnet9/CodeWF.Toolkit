@@ -1,6 +1,7 @@
 namespace CodeWF.Toolkit.Files.Helpers;
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -104,6 +105,47 @@ public static class AppConfigHelper
         }
     }
 
+    /// <summary>
+    /// 一次读取全部配置项。文件不存在或无法读取时返回空快照，后续读取快照不会访问磁盘。
+    /// </summary>
+    public static IReadOnlyDictionary<string, string> ReadAll(string filePath)
+    {
+        var values = new Dictionary<string, string>(StringComparer.Ordinal);
+        try
+        {
+            if (File.Exists(filePath))
+            {
+                var seenKeys = new HashSet<string>(StringComparer.Ordinal);
+                foreach (var setting in GetAppSettings(XDocument.Load(filePath)).Elements(AddElementName))
+                {
+                    var key = setting.Attribute(KeyAttributeName)?.Value;
+                    var value = setting.Attribute(ValueAttributeName)?.Value;
+                    if (key is not null && seenKeys.Add(key) && value is not null)
+                    {
+                        values.Add(key, value);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // 与单项读取保持一致：损坏、不可读的配置交由调用方使用默认值。
+            values.Clear();
+        }
+
+        return values;
+    }
+
+    /// <summary>一次读取默认配置文件的全部配置项。</summary>
+    public static IReadOnlyDictionary<string, string> ReadAll() => ReadAll(GetDefaultConfigPath());
+
+    /// <summary>从已读取的快照获取类型化配置值，不重复解析配置文件。</summary>
+    public static bool TryGet<T>(this IReadOnlyDictionary<string, string> settings, string name, out T? value)
+    {
+        value = default;
+        return settings.TryGetValue(name, out var rawValue) && TryConvert(rawValue, out value);
+    }
+
     [RequiresUnreferencedCode("System.Configuration.Configuration is not trim-safe. Prefer TryGetOrSet<T>(string filePath, string name, out T? value, T? defaultValue).")]
     public static bool TryGetOrSet<T>(this Configuration config, string name, out T? value, T? defaultValue = default)
     {
@@ -167,6 +209,35 @@ public static class AppConfigHelper
     {
         var document = LoadOrCreateConfig(filePath);
         var appSettings = GetAppSettings(document);
+        SetSetting(appSettings, name, value);
+        SaveDocument(document, filePath);
+    }
+
+    /// <summary>
+    /// 批量更新配置项，只加载和保存文件各一次；保留未更新的键及其他配置节。
+    /// </summary>
+    public static void SetMany(string filePath, IReadOnlyDictionary<string, object?> values)
+    {
+        if (values.Count == 0)
+        {
+            return;
+        }
+
+        var document = LoadOrCreateConfig(filePath);
+        var appSettings = GetAppSettings(document);
+        foreach (var entry in values)
+        {
+            SetSetting(appSettings, entry.Key, entry.Value);
+        }
+
+        SaveDocument(document, filePath);
+    }
+
+    /// <summary>在默认配置文件中批量更新配置项。</summary>
+    public static void SetMany(IReadOnlyDictionary<string, object?> values) => SetMany(GetDefaultConfigPath(), values);
+
+    private static void SetSetting<T>(XElement appSettings, string name, T value)
+    {
         var setting = FindSetting(appSettings, name);
         if (setting is null)
         {
@@ -179,7 +250,10 @@ public static class AppConfigHelper
         {
             setting.SetAttributeValue(ValueAttributeName, ConvertToString(value));
         }
+    }
 
+    private static void SaveDocument(XDocument document, string filePath)
+    {
         var directory = Path.GetDirectoryName(filePath);
         if (!string.IsNullOrWhiteSpace(directory))
         {
