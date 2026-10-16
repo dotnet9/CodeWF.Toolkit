@@ -27,7 +27,14 @@ body{font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}
 .grp{flex:none;padding-right:12px;margin-right:0}.grp .cmds{display:grid;grid-auto-flow:column;grid-template-rows:80px;gap:0 4px}
 .cbtn{min-width:95px;max-width:none;padding:3px 8px;height:80px}.cbtn .lb{max-width:none;white-space:nowrap;overflow-wrap:normal}
 .ribbon-small .cmds{grid-template-rows:repeat(2,40px)}.ribbon-small .cbtn{height:40px;flex-direction:row;justify-content:flex-start}.cbtn .ic{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex:none}.cbtn .ic svg{width:32px;height:32px}
-.qk button{width:30px;height:30px;color:var(--tx2)}.qk button svg{width:18px;height:18px}.qk button:hover{color:var(--pri)}.qk button:active{background:var(--pri-lt)}
+.qk button{width:30px;height:30px;color:var(--tx2)}.qk button svg{width:16px;height:16px}.qk button:hover{color:var(--pri)}.qk button:active{background:var(--pri-lt)}
+
+/* 实心操作沿用原生 Primary，强调文字仍使用 Accent。 */
+.smt button.on,button.b.pri,.flow .st.cur .n{background:var(--button-bg);border-color:var(--button-bg);color:var(--on-primary)}
+button.b.pri:hover{background:var(--button-hover);border-color:var(--button-hover)}
+button.b.pri:active{background:var(--button-pressed);border-color:var(--button-pressed)}
+.flow .st.done .n{color:var(--badge-text)}
+.cpm .it.on{background:var(--sel);color:var(--tx)}.cpm .it.on .g,.cpm .it.on .k{color:var(--tx2)}
 .grp .gname{height:18px;padding-top:2px;font-size:10px;letter-spacing:0}
 .p-nav{width:16%;min-width:164px}.p-props{width:17%;min-width:220px}.p-log{height:14%;min-height:60px}
 .tree .lf{font-size:11.5px;height:30px}.tree .nd .hd{height:31px;font-size:11px}

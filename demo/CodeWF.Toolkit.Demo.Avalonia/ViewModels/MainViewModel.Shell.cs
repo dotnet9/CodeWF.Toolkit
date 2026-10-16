@@ -42,13 +42,10 @@ public sealed class DemoNotification
 
     public DateTimeOffset CreatedAt { get; }
 
-    public string Accent => Kind switch
-    {
-        DemoNotificationKind.Success => "#26a346",
-        DemoNotificationKind.Warning => "#e8a103",
-        DemoNotificationKind.Error => "#e34d4d",
-        _ => "#0064fa",
-    };
+    /// <summary>通知颜色由视图中的动态资源按语义映射。</summary>
+    public bool IsSuccess => Kind == DemoNotificationKind.Success;
+    public bool IsWarning => Kind == DemoNotificationKind.Warning;
+    public bool IsError => Kind == DemoNotificationKind.Error;
 
     public string Glyph => Kind switch
     {
@@ -509,10 +506,10 @@ public partial class MainViewModel
 
     // ───────────────────────── 布局记忆 ─────────────────────────
 
-    /// <summary>布局存档路径（`%LOCALAPPDATA%\CodeWF.Toolkit.Demo\layout.json`）。</summary>
+    /// <summary>布局存档路径，独立验证可通过环境变量指定数据目录。</summary>
     public static string LayoutPath { get; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "CodeWF.Toolkit.Demo",
+        Path.GetFullPath(Environment.GetEnvironmentVariable("CODEWF_TOOLKIT_DEMO_DATA_DIRECTORY") ?? Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CodeWF.Toolkit.Demo")),
         "layout.json");
 
     public void SaveLayout()

@@ -156,22 +156,23 @@ public sealed class ImageIconPage : DemoPageBase
         foreach (var size in _sizes)
         {
             var px = Math.Clamp(size, 14u, 64u);
-            _preview.Children.Add(new Border
+            var preview = new Border
             {
                 Width = px,
                 Height = px,
                 Margin = new Thickness(0, 0, 8, 8),
                 CornerRadius = new CornerRadius(6),
-                Background = Brushes.SteelBlue,
                 Child = new TextBlock
                 {
                     Text = size.ToString(),
-                    Foreground = Brushes.White,
                     FontSize = Math.Max(9, px / 3.0),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                 },
-            });
+            };
+            preview.Bind(Border.BackgroundProperty, preview.GetResourceObservable("StudioPrimary"));
+            ((TextBlock)preview.Child!).Bind(TextBlock.ForegroundProperty, preview.GetResourceObservable("StudioOnPrimary"));
+            _preview.Children.Add(preview);
         }
     }
 

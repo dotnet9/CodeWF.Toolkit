@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace CodeWF.Toolkit.Tests.Lang;
@@ -56,10 +57,15 @@ public sealed class LibraryResourceTests
     private static IEnumerable<string> SourceFiles(string root) => Directory.EnumerateFiles(Path.Combine(root, "src"), "*.cs", SearchOption.AllDirectories)
         .Where(file => !file.Split(Path.DirectorySeparatorChar).Any(part => part is "obj" or "bin"));
 
-    private static string FindRepository()
+    private static string FindRepository([CallerFilePath] string sourceFile = "")
     {
-        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory != null; directory = directory.Parent)
-            if (File.Exists(Path.Combine(directory.FullName, "CodeWF.Toolkit.slnx"))) return directory.FullName;
+        // 支持仓库外的构建产物，仍以本次编译的源码为资源检查依据。
+        foreach (var origin in new[] { AppContext.BaseDirectory, Path.GetDirectoryName(sourceFile) })
+        {
+            if (string.IsNullOrEmpty(origin)) continue;
+            for (var directory = new DirectoryInfo(origin); directory != null; directory = directory.Parent)
+                if (File.Exists(Path.Combine(directory.FullName, "CodeWF.Toolkit.slnx"))) return directory.FullName;
+        }
         throw new DirectoryNotFoundException("CodeWF.Toolkit.slnx was not found.");
     }
 }

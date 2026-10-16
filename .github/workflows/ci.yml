@@ -77,6 +77,9 @@ jobs:
       - name: 验证目录渲染、帮助类运行与库语言切换
         run: artifacts\aot-demo-verification\DemoVerification.exe
 
+      - name: 验证原生演示台与通知计数配色
+        run: artifacts\aot-demo-verification\DemoVerification.exe --palette-audit artifacts/native-palette
+
   prototype-audit:
     name: 原型路由与语言审计
     runs-on: ubuntu-latest

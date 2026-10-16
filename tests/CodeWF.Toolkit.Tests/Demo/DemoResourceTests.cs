@@ -1,20 +1,25 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace CodeWF.Toolkit.Tests.Demo;
 
 public sealed class DemoResourceTests
 {
-    private static string DemoDirectory
+    private static string DemoDirectory => FindDemoDirectory();
+
+    private static string FindDemoDirectory([CallerFilePath] string sourceFile = "")
     {
-        get
+        // 允许将构建产物放在仓库外，资源审计仍然读取对应源码目录。
+        foreach (var origin in new[] { AppContext.BaseDirectory, Path.GetDirectoryName(sourceFile) })
         {
-            for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
+            if (string.IsNullOrEmpty(origin)) continue;
+            for (var directory = new DirectoryInfo(origin); directory is not null; directory = directory.Parent)
                 if (File.Exists(Path.Combine(directory.FullName, "CodeWF.Toolkit.slnx")))
                     return Path.Combine(directory.FullName, "demo", "CodeWF.Toolkit.Demo.Avalonia");
-            throw new DirectoryNotFoundException("Repository root not found");
         }
+        throw new DirectoryNotFoundException("Repository root not found");
     }
 
     [Fact]

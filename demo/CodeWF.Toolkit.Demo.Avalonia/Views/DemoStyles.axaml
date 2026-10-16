@@ -1,4 +1,4 @@
-<Styles xmlns="https://github.com/avaloniaui"
+﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <!-- 外壳按钮集中在同一层定义，避免窗口局部样式覆盖 Ribbon 尺寸。 -->
   <Style Selector="Button.qk-btn,ToggleButton.qk-btn">
@@ -33,17 +33,17 @@
   </Style>
   <Style Selector="TextBlock.sub">
     <Setter Property="FontSize" Value="12" />
-    <Setter Property="Opacity" Value="0.72" />
+    <Setter Property="Foreground" Value="{DynamicResource StudioMuted}" />
     <Setter Property="TextWrapping" Value="Wrap" />
   </Style>
   <Style Selector="TextBlock.k">
     <Setter Property="FontSize" Value="11.5" />
-    <Setter Property="Opacity" Value="0.65" />
+    <Setter Property="Foreground" Value="{DynamicResource StudioMuted}" />
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
   <Style Selector="TextBlock.hint">
     <Setter Property="FontSize" Value="11" />
-    <Setter Property="Opacity" Value="0.55" />
+    <Setter Property="Foreground" Value="{DynamicResource StudioMuted}" />
     <Setter Property="TextWrapping" Value="Wrap" />
   </Style>
   <Style Selector="SelectableTextBlock.code">
@@ -112,11 +112,17 @@
   </Style>
   <Style Selector="Button.rbn-cmd.selected /template/ ContentPresenter#PART_ContentPresenter, Button.nav-leaf.selected /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource SemiColorPrimaryLight}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
-    <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource StudioAccent}" />
+    <Setter Property="Foreground" Value="{DynamicResource StudioAccent}" />
   </Style>
   <Style Selector="Button.rbn-cmd:pressed /template/ ContentPresenter#PART_ContentPresenter, Button.nav-leaf:pressed /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource SemiColorPrimaryLightActive}" />
+    <Setter Property="Foreground" Value="{DynamicResource StudioText}" />
+  </Style>
+  <Style Selector="Button.rbn-cmd:disabled /template/ ContentPresenter#PART_ContentPresenter, Button.nav-leaf:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SemiColorDisabledFill}" />
+    <Setter Property="Foreground" Value="{DynamicResource SemiColorDisabledText}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
   </Style>
   <!-- 分类页签使用 Semi 线形模板，避免模板与内容重复留白。 -->
   <Style Selector="TabStrip#RibbonTabStrip TabStripItem">
@@ -129,7 +135,7 @@
   </Style>
   <Style Selector="TabStrip#RibbonTabStrip TabStripItem:selected /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource SemiColorPrimaryLight}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource StudioAccent}" />
     <Setter Property="BorderThickness" Value="0,0,0,2" />
   </Style>
 
@@ -206,5 +212,45 @@
   <!-- Ribbon 使用整块选中底色；左侧强调线只用于导航行。 -->
   <Style Selector="Button.rbn-cmd"><Setter Property="BorderThickness" Value="0" /></Style>
   <Style Selector="PathIcon.ribbon-icon"><Setter Property="Foreground" Value="{DynamicResource StudioAccent}" /></Style>
+  <Style Selector="PathIcon.ribbon-icon:disabled"><Setter Property="Foreground" Value="{DynamicResource SemiColorDisabledText}" /></Style>
   <Style Selector="Border.catalog-group"><Setter Property="BorderThickness" Value="0" /></Style>
+  <!--  场景页步骤条：轨道式步骤，当前高亮、已完成打勾  -->
+  <Style Selector="Button.scene-step">
+    <Setter Property="Padding" Value="10,4" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource StudioBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource StudioText}" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.scene-step:pointerover">
+    <Setter Property="BorderBrush" Value="{DynamicResource StudioAccent}" />
+  </Style>
+  <Style Selector="Button.scene-step.active">
+    <Setter Property="BorderBrush" Value="{DynamicResource StudioAccent}" />
+    <Setter Property="Background" Value="{DynamicResource StudioRaised}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="Button.scene-step Border.step-no">
+    <Setter Property="Width" Value="16" />
+    <Setter Property="Height" Value="16" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Background" Value="{DynamicResource StudioBorder}" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.scene-step Border.step-no.done">
+    <Setter Property="Background" Value="{DynamicResource StudioSurface}" />
+  </Style>
+  <Style Selector="Button.scene-step Border.step-no.done > TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource SemiColorSuccess}" />
+  </Style>
+  <Style Selector="Button.scene-step Border.step-no > TextBlock">
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Opacity" Value="0.75" />
+  </Style>
+
 </Styles>

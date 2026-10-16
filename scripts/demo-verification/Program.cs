@@ -12,7 +12,15 @@ using CodeWF.Toolkit.Demo.Avalonia.Infrastructure;
 using CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 using CodeWF.Toolkit.Demo.Avalonia.Views.Pages;
 using CodeWF.Toolkit.Lang;
+using CodeWF.Toolkit.Files.Helpers;
 using ReactiveUI.Avalonia;
+
+// 在任何应用或视图模型初始化前隔离布局与偏好，验证不能读取或修改用户配置。
+var outputArgument = args.FirstOrDefault() == "--palette-audit" ? args.Skip(1).FirstOrDefault() : args.FirstOrDefault();
+var verificationDirectory = Path.GetFullPath(outputArgument ?? Path.Combine(Path.GetTempPath(), "CodeWF.Toolkit.Verification", Guid.NewGuid().ToString("N")));
+Directory.CreateDirectory(verificationDirectory);
+Environment.SetEnvironmentVariable("CODEWF_TOOLKIT_DEMO_DATA_DIRECTORY", verificationDirectory);
+AppContext.SetData("APP_CONFIG_FILE", Path.Combine(verificationDirectory, "application.config"));
 
 // 使用真实 Demo 主题、页面与帮助类在 Skia 离屏环境验证，锁屏时不创建桌面窗口。
 AppBuilder.Configure<CodeWF.Toolkit.Demo.Avalonia.App>().UseSkia().WithInterFont().UseReactiveUI(_ => { })
@@ -23,13 +31,17 @@ AppBuilder.Configure<CodeWF.Toolkit.Demo.Avalonia.App>().UseSkia().WithInterFont
     ] })
     .UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false }).SetupWithoutStarting();
 DemoBootstrapper.Initialize();
+if (args.FirstOrDefault() == "--palette-audit")
+    return DemoPaletteVerification.Run(verificationDirectory);
+VerifyAppConfigBatch(verificationDirectory);
 VerifyThirdPartyLocales();
 VerifyHiddenPropertyRows();
 var sharedItem = new PropertyItem { Kind = PropertyItemKind.Text, Value = "Before" };
 var sharedEditor = new PropertyCellEditor { DataContext = new PropertyLeafRow(sharedItem, 0, false) };
 sharedItem.Value = "After";
 Require(((TextBox)sharedEditor.Content!).Text == "After", "NuGet property editor follows programmatic values.");
-VerifyDockDocumentTransfer(Path.Combine(Path.GetFullPath(args.FirstOrDefault() ?? Path.GetTempPath()), "dock-captures"));
+Require(MainViewModel.LayoutPath == Path.Combine(verificationDirectory, "layout.json"), "Layout storage stays inside the isolated verification directory.");
+VerifyDockDocumentTransfer(Path.Combine(verificationDirectory, "dock-captures"));
 var manager = I18nManager.Instance;
 var window = new Window { Width = 1120, Height = 760 };
 window.Show();
@@ -98,6 +110,41 @@ try
     return 0;
 }
 finally { window.Close(); }
+static void VerifyAppConfigBatch(string output)
+{
+    // 验证新的批量 API 在原生程序中的真实文件读写，不接触默认配置路径。
+    var directory = Path.Combine(output, "app-config-batch");
+    Directory.CreateDirectory(directory);
+    var path = Path.Combine(directory, "verification.config");
+    File.WriteAllText(path, "<configuration><!-- retained --><appSettings><add key=\"external\" value=\"keep\" /></appSettings><custom value=\"keep\" /></configuration>");
+    AppConfigHelper.SetMany(path, new Dictionary<string, object?>
+    {
+        ["enabled"] = true, ["ratio"] = 123.5, ["count"] = 7,
+        ["day"] = DayOfWeek.Friday, ["text"] = "A & B", ["empty"] = null
+    });
+    AppConfigHelper.SetMany(path, new Dictionary<string, object?> { ["count"] = 9 });
+    var document = System.Xml.Linq.XDocument.Load(path);
+    Require(document.Root!.Element("custom")!.Attribute("value")!.Value == "keep" &&
+            document.Root.Nodes().OfType<System.Xml.Linq.XComment>().Any(comment => comment.Value == " retained "),
+        "Batch save preserves unrelated sections and comments.");
+    var snapshot = AppConfigHelper.ReadAll(path);
+    File.Delete(path);
+    var previousCulture = CultureInfo.CurrentCulture;
+    try
+    {
+        CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+        Require(snapshot.TryGet<bool?>("enabled", out var enabled) && enabled == true, "Detached nullable boolean snapshot.");
+        Require(snapshot.TryGet<double?>("ratio", out var ratio) && ratio == 123.5, "Snapshot numeric conversion uses invariant culture.");
+        Require(snapshot.TryGet<int>("count", out var count) && count == 9, "Batch update preserves final integer value.");
+        Require(snapshot.TryGet<DayOfWeek?>("day", out var day) && day == DayOfWeek.Friday, "Snapshot nullable enum conversion.");
+        Require(snapshot["external"] == "keep" && snapshot["text"] == "A & B" && snapshot["empty"] == string.Empty,
+            "Batch save preserves unrelated keys and XML values.");
+        Require(!snapshot.TryGet<int>("text", out _) && !snapshot.TryGet<string>("missing", out _), "Invalid snapshot conversion reports failure.");
+    }
+    finally { CultureInfo.CurrentCulture = previousCulture; }
+    Console.WriteLine("PASS app-config batch read/write and detached typed snapshot.");
+}
+
 static void VerifyHiddenPropertyRows()
 {
     var visible = false;

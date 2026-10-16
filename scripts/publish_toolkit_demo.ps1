@@ -5,7 +5,8 @@ param(
     [string] $RuntimeIdentifier,
 
     [string] $Version = "",
-    [string] $BuildArtifactsPath = ""
+    [string] $BuildArtifactsPath = "",
+    [string] $OutputDirectory = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -20,16 +21,25 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
     if ([string]::IsNullOrWhiteSpace($Version)) { $Version = "0.0.0" }
 }
 
-# 输出目录固定为 artifacts/publish/<rid>/CodeWF.Toolkit.Demo.Avalonia，保证本地与 CI 各处路径一致。
+# 默认输出保持与 CI 一致；本机可显式指定仓库外的空目录。
 # 全平台 NativeAOT：完整反射元数据保全 Prism/DryIoc，单线程 ILC 更稳。
-$outputPath = Join-Path $repositoryRoot "artifacts/publish/$RuntimeIdentifier/CodeWF.Toolkit.Demo.Avalonia"
-$outputPath = [IO.Path]::GetFullPath($outputPath)
-$allowedOutputRoot = [IO.Path]::GetFullPath((Join-Path $repositoryRoot 'artifacts/publish')) + [IO.Path]::DirectorySeparatorChar
-if (-not $outputPath.StartsWith($allowedOutputRoot, [StringComparison]::OrdinalIgnoreCase)) {
-    throw "发布输出目录超出仓库产物范围：$outputPath"
-}
-if (Test-Path -LiteralPath $outputPath) {
-    Remove-Item -LiteralPath $outputPath -Recurse -Force
+if ($OutputDirectory) {
+    $outputPath = [IO.Path]::GetFullPath($OutputDirectory)
+    # 外部目录不自动清理，防止覆盖调用方已有文件，同时避免旧产物混入验证。
+    if ((Test-Path -LiteralPath $outputPath) -and
+        (-not (Test-Path -LiteralPath $outputPath -PathType Container) -or
+         (Get-ChildItem -LiteralPath $outputPath -Force | Select-Object -First 1))) {
+        throw "自定义发布输出目录必须为空：$outputPath"
+    }
+} else {
+    $outputPath = [IO.Path]::GetFullPath((Join-Path $repositoryRoot "artifacts/publish/$RuntimeIdentifier/CodeWF.Toolkit.Demo.Avalonia"))
+    $allowedOutputRoot = [IO.Path]::GetFullPath((Join-Path $repositoryRoot 'artifacts/publish')) + [IO.Path]::DirectorySeparatorChar
+    if (-not $outputPath.StartsWith($allowedOutputRoot, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "发布输出目录超出仓库产物范围：$outputPath"
+    }
+    if (Test-Path -LiteralPath $outputPath) {
+        Remove-Item -LiteralPath $outputPath -Recurse -Force
+    }
 }
 
 $ilcArgs = @(
