@@ -9,6 +9,8 @@
 
 A collection of UI-independent .NET infrastructure libraries: tool extensions, file/image processing, logging, event bus and network communication, published with the `CodeWF.Toolkit.*` prefix. Runtime messages use embedded English and Simplified Chinese JSON resources from CodeWF.Toolkit.Lang.
 
+当前版本：`1.0.0.26`，统一维护在根目录 `Directory.Build.props`。本版更新 Demo 安装器的动画刷新与 CodeWF 品牌。
+
 ## 适用场景 / Typical scenarios
 
 | 场景 | 用到的包 |
