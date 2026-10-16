@@ -14,6 +14,7 @@
 #endif
 
 [Setup]
+LicenseFile=..\LICENSE
 AppId={{2A5F7E14-9C0B-4D3A-8E62-51B7C9D0A4F8}
 AppName=CodeWF.Toolkit Demo
 AppVersion={#AppVersion}
@@ -39,10 +40,11 @@ UninstallDisplayIcon={app}\CodeWF.Toolkit.Demo.Avalonia.exe
 WizardStyle=modern
 
 [Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "chinesesimplified"; MessagesFile: "Languages\ChineseSimplified.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Excludes: "*.pdb"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -52,4 +54,6 @@ Name: "{autoprograms}\CodeWF.Toolkit Demo"; Filename: "{app}\CodeWF.Toolkit.Demo
 Name: "{autodesktop}\CodeWF.Toolkit Demo"; Filename: "{app}\CodeWF.Toolkit.Demo.Avalonia.exe"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\CodeWF.Toolkit.Demo.Avalonia.exe"; Description: "Launch CodeWF.Toolkit Demo"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\CodeWF.Toolkit.Demo.Avalonia.exe"; Description: "{cm:LaunchProgram,CodeWF.Toolkit Demo}"; Flags: nowait postinstall skipifsilent
+
+#include "installer\CodeWF.Setup.iss"
