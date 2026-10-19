@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Description>零第三方依赖的 HTML → Markdown（GFM）转换器：容错解析常见网页结构（标题/段落/列表/表格/代码块/引用/链接/图片），AOT 友好，供剪贴板导入与网页净化场景使用。Zero-dependency, AOT-friendly HTML to GFM Markdown converter for clipboard import and web content sanitizing.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
