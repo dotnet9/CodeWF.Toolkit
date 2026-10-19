@@ -29,7 +29,6 @@
     <ProjectReference Include="..\..\src\Image\CodeWF.Toolkit.Image\CodeWF.Toolkit.Image.csproj" />
     <ProjectReference Include="..\..\src\Logging\CodeWF.Toolkit.Logging\CodeWF.Toolkit.Logging.csproj" />
     <ProjectReference Include="..\..\src\Logging\CodeWF.Toolkit.Logging.Microsoft\CodeWF.Toolkit.Logging.Microsoft.csproj" />
-    <ProjectReference Include="..\..\src\HtmlToMarkdown\CodeWF.Toolkit.HtmlToMarkdown\CodeWF.Toolkit.HtmlToMarkdown.csproj" />
   </ItemGroup>
 
   <ItemGroup>

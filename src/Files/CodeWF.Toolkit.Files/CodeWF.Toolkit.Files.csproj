@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <Description>文件操作类集合：Json/Yaml/Csv/Excel 读写、7z 压缩解压、App.config 读写。File operations: Json/Yaml/Csv/Excel reading &amp; writing, 7z compression and App.config helpers.</Description>
+    <Description>文件操作类集合：Json/Yaml/Csv/Excel 读写、7z 压缩解压、App.config 读写、HTML 转 Markdown。File operations: Json/Yaml/Csv/Excel reading &amp; writing, 7z compression, App.config helpers and HTML to Markdown conversion.</Description>
   </PropertyGroup>
 
   <ItemGroup>

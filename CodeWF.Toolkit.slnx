@@ -12,7 +12,6 @@
     <Project Path="src/EventBus/CodeWF.Toolkit.EventBus.Socket/CodeWF.Toolkit.EventBus.Socket.csproj" />
     <Project Path="src/Net/CodeWF.Toolkit.NetWeaver/CodeWF.Toolkit.NetWeaver.csproj" />
     <Project Path="src/Net/CodeWF.Toolkit.NetWrapper/CodeWF.Toolkit.NetWrapper.csproj" />
-    <Project Path="src/HtmlToMarkdown/CodeWF.Toolkit.HtmlToMarkdown/CodeWF.Toolkit.HtmlToMarkdown.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/CodeWF.Toolkit.Tests/CodeWF.Toolkit.Tests.csproj" />

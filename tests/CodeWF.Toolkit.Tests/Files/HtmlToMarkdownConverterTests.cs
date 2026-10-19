@@ -1,6 +1,6 @@
-using CodeWF.Toolkit.HtmlToMarkdown;
+using CodeWF.Toolkit.Files.Conversions;
 
-namespace CodeWF.Toolkit.Tests.HtmlToMarkdown;
+namespace CodeWF.Toolkit.Tests.Files;
 
 public sealed class HtmlToMarkdownConverterTests
 {

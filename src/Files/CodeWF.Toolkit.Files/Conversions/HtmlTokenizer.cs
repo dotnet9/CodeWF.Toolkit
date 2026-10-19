@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace CodeWF.Toolkit.HtmlToMarkdown;
+namespace CodeWF.Toolkit.Files.Conversions;
 
 /// <summary>解析后的最小节点模型：文本或元素。</summary>
 public abstract class HtmlNode
