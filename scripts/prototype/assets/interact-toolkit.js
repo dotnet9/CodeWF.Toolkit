@@ -211,17 +211,23 @@ function toWindow(names) {
  names.forEach(function (n) { try { window[n] = eval(n); } catch (e) { } });
 }
 
+/* ═══ 配色数据：9 套高对比配色（规则附录 A），来自生成物 assets/palette-data.js ═══
+ * 配色与明暗的唯一切换入口是标题栏外观菜单（studio.js，与 Vex 原型同构）。 */
+var PAL_DATA = window.CodeWFPalettes || { defaultKey: "indigo", list: [{ key: "indigo", label: "靛蓝", en: "Indigo", swatch: ["#FDFDFE", "#F1F2F8", "#1B1D2E", "#4338CA", "#DC2626", "#15803D", "#B45309", "#4338CA"] }], alias: {} };
+function paletteEntry(v) {
+ var key = PAL_DATA.alias[v] || v;
+ for (var i = 0; i < PAL_DATA.list.length; i++) {
+  var p = PAL_DATA.list[i];
+  if (p.key === key || p.label === v || p.en === v) return p;
+ }
+ return PAL_DATA.list.filter(function (p) { return p.key === PAL_DATA.defaultKey; })[0] || PAL_DATA.list[0];
+}
+function paletteName(p) { return LANG === "en-US" ? p.en : p.label; }
+
 /* ═══ 属性面板：全局项（各处共用） ═══ */
 var SELF_PROPS = [
  { id: "appearance.density", label: "密度", type: "combo", options: ["舒适", "紧凑"], value: "舒适", global: true,
   apply: function (v) { setDensity(v === "紧凑" ? "compact" : "cozy"); } },
- { id: "appearance.palette", label: "色板", type: "combo", options: ["默认", "水生", "沙漠", "黄昏", "夜空", "高对比"], value: "默认", global: true,
-  apply: function (v) {
-   var m = { "默认": "default", "水生": "aqua", "沙漠": "desert", "黄昏": "dusk", "夜空": "night", "高对比": "contrast" };
-   setPalette(m[v] || "default");
-  } },
- { id: "appearance.dark", label: "深色模式", type: "bool", value: true, global: true,
-  apply: function (v) { setTheme(v ? "dark" : "light"); } },
  { id: "appearance.lang", label: "语言", type: "combo", options: ["简体中文", "English"], value: "简体中文", global: true,
   apply: function (v) { setLang(v === "English" ? "en-US" : "zh-CN"); } }
 ];
@@ -500,28 +506,15 @@ function applyProp(pageId, p, v, light) {
 }
 
 /* ═══ 外观 / 语言 / 面板 / 布局 ═══ */
-var PAL_LIST = ["default", "aqua", "desert", "dusk", "night", "contrast"];
-var PAL_COLOR = { default: "#0064fa", aqua: "#0091a8", desert: "#c26a1d", dusk: "#7a5cc4", night: "#2b6cb0", contrast: "#888" };
 function setPalette(v) {
- document.documentElement.dataset.palette = v;
- var sel = $("palSel"); if (sel) sel.value = v;
- SELF_PROPS[1].value = { default: "默认", aqua: "水生", desert: "沙漠", dusk: "黄昏", night: "夜空", contrast: "高对比" }[v] || "默认";
- renderPalDots();
- log2both(tt("toast.palette") + SELF_PROPS[1].value);
-}
-function renderPalDots() {
- var cur = document.documentElement.dataset.palette;
- $("palDots").innerHTML = PAL_LIST.map(function (p) {
-  return '<i style="background:' + PAL_COLOR[p] + '" data-p="' + p + '" title="' + p + '"' + (p === cur ? ' class="on"' : "") + "></i>";
- }).join("");
- document.querySelectorAll(".pal i").forEach(function (i) { i.onclick = function () { setPalette(i.getAttribute("data-p")); }; });
+ var entry = paletteEntry(v);
+ document.documentElement.dataset.palette = entry.key;
+ log2both(tt("toast.palette") + paletteName(entry));
 }
 function setTheme(v) {
  document.documentElement.dataset.theme = v;
- SELF_PROPS[2].value = (v === "dark");
  log2both(tt("toast.theme") + (v === "dark" ? tt("theme.dark") : tt("theme.light")));
 }
-function toggleDark() { setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"); }
 function setDensity(v) {
  document.documentElement.dataset.density = v;
  SELF_PROPS[0].value = (v === "compact" ? "紧凑" : "舒适");
@@ -531,7 +524,7 @@ function setLang(l) {
  LANG = l;
  document.documentElement.lang = l;
  $("notificationDemo").title = l === "en-US" ? "Notification demo" : "通知演示";
- SELF_PROPS[3].value = (l === "en-US" ? "English" : "简体中文");
+ SELF_PROPS[1].value = (l === "en-US" ? "English" : "简体中文");
  document.querySelectorAll("[data-i18n]").forEach(function (n) { n.textContent = tt(n.dataset.i18n); });
  var cp = $("cpmQ"); if (cp) cp.placeholder = tt("cmd.ph");
  renderRTabs(); renderTree(); renderDocTabs();
@@ -582,7 +575,7 @@ function loadLayout() {
 function layoutResetAsk() {
  confirmDlg(tt("dlg.reset.t"), tt("dlg.reset.d"), function () {
   document.body.classList.remove("hideL", "hideR", "hideLog", "rmn");
-  setDensity("cozy"); setPalette("dotnet"); setTheme("system");
+  setDensity("cozy"); setPalette(PAL_DATA.defaultKey); setTheme("system");
   try { localStorage.removeItem(LAYOUT_KEY); } catch (e) { }
   notify("warn", tt("nc.warn"), tt("toast.reset"));
   log2both(tt("toast.reset"), "warn");
@@ -639,7 +632,6 @@ function cmdList() {
   };
  });
  var C = [
-  { label: "切换深色 / 浅色", icon: "◐", run: toggleDark },
   { label: "切换语言 中 / EN", icon: "文A", run: function () { setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); } },
   { label: "切换密度 舒适 / 紧凑", icon: "▤", run: function () { setDensity(document.documentElement.dataset.density === "compact" ? "cozy" : "compact"); } },
   { label: "保存布局", icon: "💾", run: saveLayout },
@@ -653,10 +645,6 @@ function cmdList() {
   { label: "能力实验室：一键全流程", icon: "🧪", run: function () { openDoc("flow-lab"); guard(function () { labRunAll(); }, "cmd:lab"); } }
  ];
  C.forEach(function (c) { c.group = tt("cmd.cmds"); list.push(c); });
- var palLabels = SELF_PROPS[1].options;
- PAL_LIST.forEach(function (p, i) {
-  list.push({ label: tt("toast.palette") + palLabels[i], group: tt("cmd.cmds"), icon: "🎨", run: function () { setPalette(p); } });
- });
  return list;
 }
 function cpmOpen() { $("cpm").classList.add("on"); $("cpmQ").value = ""; cpmIdx = 0; cpmDraw(); $("cpmQ").focus(); }
@@ -684,8 +672,6 @@ function cpmRun() { var c = cpmAll[cpmIdx]; if (!c) return; cpmClose(); log2both
 function bindShell() {
  $("rTabsBar").ondblclick = function (e) { if (e.target.classList.contains("t2")) toggleRibbon(); };
 
- $("darkBtn").onclick = toggleDark;
- $("darkBtn2").onclick = toggleDark;
  $("langBtn").onclick = function () { setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); };
  $("langBtn2").onclick = $("langBtn").onclick;
  $("notificationDemo").onclick = function () { notify("ok", tt("nc.ok"), LANG === "en-US" ? "Notification demo" : "通知演示"); };
@@ -694,10 +680,6 @@ function bindShell() {
  $("qkDensity").onclick = function () { setDensity(document.documentElement.dataset.density === "compact" ? "cozy" : "compact"); };
  $("qkSave").onclick = saveLayout;
  $("qkReset").onclick = layoutResetAsk;
- $("qkPalette").onclick = function () {
-  var i = PAL_LIST.indexOf(document.documentElement.dataset.palette);
-  setPalette(PAL_LIST[(i + 1) % PAL_LIST.length]);
- };
  $("hideNav").onclick = function () { togglePanel("L"); };
  $("hideProp2").onclick = function () { togglePanel("R"); };
  $("hideLogBtn").onclick = function () { togglePanel("Log"); };
@@ -735,7 +717,6 @@ function bindShell() {
   var k = (e.key || "").toLowerCase();
   var mod = e.ctrlKey || e.metaKey;
   if (mod && k === "k") { e.preventDefault(); $("cpm").classList.contains("on") ? cpmClose() : cpmOpen(); return; }
-  if (mod && k === "d") { e.preventDefault(); toggleDark(); return; }
   if (mod && k === "l") { e.preventDefault(); setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); return; }
   if (mod && k === "s") { e.preventDefault(); saveLayout(); return; }
   if (e.key === "F1") { e.preventDefault(); guideOpen(); return; }
@@ -751,13 +732,12 @@ function bindShell() {
 function boot() {
  bindShell();
  toWindow(["openDoc", "closeDoc", "markDirty", "clearRenames", "startRename", "closeAllDocsAsk", "layoutResetAsk",
-  "saveLayout", "loadLayout", "togglePanel", "setLang", "setPalette", "setTheme", "setDensity", "toggleDark",
+  "saveLayout", "loadLayout", "togglePanel", "setLang", "setPalette", "setTheme", "setDensity",
   "guideOpen", "guideGo", "gCloseGuide", "notify", "confirmDlg", "closeDlg", "cpmOpen", "cpmClose", "toggleRibbon",
   "dlog", "log2both", "renderTree", "renderRBody", "renderDoc", "renderPGrid", "switchTab", "setStatus"]);
  var restored = false;
  guard(function () { restored = loadLayout(); }, "loadLayout");
- if (!restored) renderPalDots();
- renderRTabs(); renderTree(); renderPalDots();
+ renderRTabs(); renderTree();
  if (OPEN_DOCS.length) { renderDocTabs(); renderDoc(ACTIVE_DOC); }
  else openDoc("welcome");
  renderPGrid(ACTIVE_DOC);

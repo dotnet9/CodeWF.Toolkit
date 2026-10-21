@@ -32,7 +32,7 @@ window.icMerge = function () {
  if (p) {
   p.innerHTML = sizes.map(function (s) {
    var px = Math.max(14, Math.min(s, 64));
-   return "<div style='width:" + px + "px;height:" + px + "px;border-radius:6px;background:linear-gradient(135deg,var(--pri),var(--pri-h));display:flex;align-items:center;justify-content:center;color:#fff;font-size:" + Math.max(9, px / 3) + "px;font-weight:700'>" + s + "</div>";
+   return "<div style='width:" + px + "px;height:" + px + "px;border-radius:6px;background:var(--pri-lt);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;color:var(--pri);font-size:" + Math.max(9, px / 3) + "px;font-weight:700'>" + s + "</div>";
   }).join("");
  }
  var o = $("icOut");

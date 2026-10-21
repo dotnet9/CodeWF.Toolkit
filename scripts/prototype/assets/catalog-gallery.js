@@ -36,8 +36,6 @@
   // Reuse the native language resources and show either page parameters or global settings.
   var originalPropertyGrid = renderPGrid;
   var densityValues = SELF_PROPS[0].options.slice();
-  var paletteValues = SELF_PROPS[1].options.slice();
-  var paletteKeys = ["DotNet", "Aurora", "Ember", "Default", "Aquatic", "Desert", "Dusk", "NightSky"];
   renderPGrid = function(id) {
     originalPropertyGrid(id);
     var settings = window.CodeWFPrototypeSettings[LANG], panel = $("pGrid");
@@ -51,29 +49,20 @@
     else removeSection(categories[1], categories[2]);
     removeSection(categories[2], null);
     if (!pageProps.length && id === 'welcome' && categories[0]) categories[0].textContent = settings.group;
-    var labels = [settings.shell.Density, settings.shell.Palette, settings.shell.GlobalSettings.ModeLabel, settings.language];
+    var labels = [settings.shell.Density, settings.language];
     SELF_PROPS.forEach(function(property, index) {
       var control = panel.querySelector('[data-id="' + property.id + '"]');
       if (!control) return;
       var label = control.closest(".rw").querySelector("label,.nm");
       label.textContent = labels[index]; label.title = labels[index];
-      if (index === 0 || index === 1 || index === 2) Array.from(control.options).forEach(function(option) {
-        var value = option.value; option.value = value;
-        option.textContent = index === 0
-          ? (value === densityValues[1] ? settings.shell.DensityCompact : settings.shell.DensityComfort)
-          : index === 1 ? settings.palettes[paletteKeys[paletteValues.indexOf(value)]]
-          : settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[value]];
+      if (index === 0) Array.from(control.options).forEach(function(option) {
+        var value = option.value;
+        option.textContent = value === densityValues[1] ? settings.shell.DensityCompact : settings.shell.DensityComfort;
       });
     });
-    var modeButton = $("darkBtn"), mode = document.documentElement.dataset.themeMode || "system";
-    modeButton.title = settings.shell.GlobalSettings.ModeLabel + ": " + settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[mode]];
-    modeButton.setAttribute("aria-label", modeButton.title);
     $("langBtn").title = settings.language;
     $("langBtn").setAttribute("aria-label", settings.language);
     $("languageMenu").querySelectorAll('button').forEach(function(button) { button.setAttribute('aria-checked', String(button.dataset.language === LANG)); });
-    $("palDots").querySelectorAll("button").forEach(function(button, index) {
-      button.title = settings.palettes[paletteKeys[index]]; button.setAttribute("aria-label", button.title);
-    });
     if ($("pgCnt")) $("pgCnt").textContent = "(" + (id === 'welcome' ? SELF_PROPS.length : pageProps.length) + ")";
   };
   var originalOpenDoc = openDoc;
