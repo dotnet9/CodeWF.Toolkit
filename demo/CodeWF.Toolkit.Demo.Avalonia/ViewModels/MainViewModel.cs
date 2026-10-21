@@ -62,17 +62,8 @@ public partial class MainViewModel : ReactiveObject, IDisposable
         QuickSettingsCommand = ReactiveCommand.Create(() => OpenItem(Groups[0].Items[0]));
         WriteLogsCommand = ReactiveCommand.Create(WriteSampleLogs);
 
-        Palettes = new ObservableCollection<AppearanceOption>
-        {
-            AppearanceOption.DotNet(),
-            AppearanceOption.Aurora(),
-            AppearanceOption.Ember(),
-            AppearanceOption.Default(),
-            AppearanceOption.Aquatic(),
-            AppearanceOption.Desert(),
-            AppearanceOption.Dusk(),
-            AppearanceOption.NightSky(),
-        };
+        _themeController ??= new StudioThemeController(global::Avalonia.Application.Current);
+        Palettes = new ObservableCollection<AppearanceOption>(AppearanceOption.CreateAll(_themeController));
         _selectedPalette = Palettes[0];
         CyclePaletteCommand = ReactiveCommand.Create(() => { SelectedPalette = Palettes[(Palettes.IndexOf(SelectedPalette) + 1) % Palettes.Count]; });
 
@@ -653,7 +644,7 @@ public partial class MainViewModel : ReactiveObject, IDisposable
             _themeController = new StudioThemeController(Application.Current);
             Application.Current.PropertyChanged += OnApplicationPropertyChanged;
         }
-        _themeController.Palette = SelectedPalette.Palette;
+        _themeController.PaletteKey = SelectedPalette.Key;
         _themeController.Mode = _themeMode;
         this.RaisePropertyChanged(nameof(IsDarkMode));
         SyncGlobalItems();
@@ -680,7 +671,7 @@ public partial class MainViewModel : ReactiveObject, IDisposable
             Options = Palettes.Select(p => p.Title).ToArray(),
             Value = Palettes[0].Title,
             DefaultValue = Palettes[0].Title,
-            SummaryProvider = () => I18nManager.Instance.GetResource(SelectedPalette.TitleKey),
+            SummaryProvider = () => I18nManager.Instance.GetResource(SelectedPalette.Title),
             Description = L.Instance.GetResource(DemoResources.Shell.GlobalSettings.PaletteDescription),
         };
         _modeItem = new PropertyItem
@@ -793,7 +784,7 @@ public partial class MainViewModel : ReactiveObject, IDisposable
             this.RaiseAndSetIfChanged(ref _selectedCulture, culture, nameof(SelectedCulture));
         this.RaisePropertyChanged(nameof(RibbonSections));
         SyncToolTitles();
-        foreach (var palette in Palettes) palette.RefreshTitle();
+        
         foreach (var mode in ThemeModeOptions) mode.RefreshTitle();
         this.RaisePropertyChanged(nameof(ThemeModes));
         this.RaisePropertyChanged(nameof(ThemeModeIndex));

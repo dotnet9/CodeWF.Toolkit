@@ -532,7 +532,7 @@ public partial class MainViewModel
     {
         var state = new LayoutState
         {
-            Palette = SelectedPalette.TitleKey,
+            Palette = SelectedPalette.Title,
             Dark = IsDarkMode,
             ThemeMode = _themeMode.ToString(),
             Density = Density.ToString(),
@@ -582,7 +582,7 @@ public partial class MainViewModel
             }
 
             if (state.Palette is not null
-                && Palettes.FirstOrDefault(p => p.TitleKey == state.Palette) is { } palette)
+                && Palettes.FirstOrDefault(p => p.Key == state.Palette) is { } palette)
             {
                 _selectedPalette = palette;
                 this.RaisePropertyChanged(nameof(SelectedPalette));

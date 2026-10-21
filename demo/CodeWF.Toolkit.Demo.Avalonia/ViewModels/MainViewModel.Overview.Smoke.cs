@@ -34,7 +34,7 @@ public partial class MainViewModel
                 overview.Overview.LabIndex = 0;
                 await Task.Delay(350);
                 window.UpdateLayout();
-                Save("" + palette.TitleKey.Split('.').Last() + (dark ? "-dark" : "-light"));
+                Save("" + palette.Title.Split('.').Last() + (dark ? "-dark" : "-light"));
             }
         }
         SelectedPalette = Palettes[0];

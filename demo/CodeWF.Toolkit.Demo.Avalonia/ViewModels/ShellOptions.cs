@@ -7,35 +7,23 @@ using CodeWF.Toolkit.Lang;
 
 namespace CodeWF.Toolkit.Demo.Avalonia.ViewModels;
 
-/// <summary>八套配色与明暗模式独立，颜色令牌由 StudioTheme 维护。</summary>
-public sealed class AppearanceOption(string titleKey, StudioPalette palette) : global::ReactiveUI.ReactiveObject
+/// <summary>界面配色选项（规则 §13 注册表驱动：内置九套 + 用户配色）。</summary>
+public sealed class AppearanceOption(string key, string title, string note, IBrush swatch) : global::ReactiveUI.ReactiveObject
 {
-    public string TitleKey { get; } = titleKey;
-    public StudioPalette Palette { get; } = palette;
-    public ThemeVariant ResolveVariant(bool dark) => StudioTheme.GetVariant(Palette, dark);
-    public string SwatchKey => $"StudioSwatch{Palette}";
-    public IBrush Swatch => global::Avalonia.Application.Current is { } app
-        && app.TryFindResource(SwatchKey, out var resource) && resource is IBrush brush
-            ? brush : Brushes.Transparent;
-    public string Title => I18nManager.Instance.GetResource(TitleKey);
-    public void RefreshTitle() => global::ReactiveUI.IReactiveObjectExtensions.RaisePropertyChanged(this, nameof(Title));
+    public string Key { get; } = key;
+    public string Title { get; } = title;
+    public string Note { get; } = note;
+    public IBrush Swatch { get; } = swatch;
+    public ThemeVariant ResolveVariant(bool dark) => StudioTheme.GetVariant(Key, dark);
     public override string ToString() => Title;
 
-    public static AppearanceOption DotNet() => new(DemoResources.Palette.DotNet, StudioPalette.DotNet);
-
-    public static AppearanceOption Aurora() => new(DemoResources.Palette.Aurora, StudioPalette.Aurora);
-
-    public static AppearanceOption Ember() => new(DemoResources.Palette.Ember, StudioPalette.Ember);
-
-    public static AppearanceOption Default() => new(DemoResources.Palette.Default, StudioPalette.Default);
-
-    public static AppearanceOption Aquatic() => new(DemoResources.Palette.Aquatic, StudioPalette.Aquatic);
-
-    public static AppearanceOption Desert() => new(DemoResources.Palette.Desert, StudioPalette.Desert);
-
-    public static AppearanceOption Dusk() => new(DemoResources.Palette.Dusk, StudioPalette.Dusk);
-
-    public static AppearanceOption NightSky() => new(DemoResources.Palette.NightSky, StudioPalette.NightSky);
+    public static System.Collections.Generic.IReadOnlyList<AppearanceOption> CreateAll(StudioThemeController controller)
+    {
+        var list = new System.Collections.Generic.List<AppearanceOption>();
+        foreach (var entry in controller.Registry.List())
+            list.Add(new AppearanceOption(entry.Key, entry.Name, entry.Note, controller.GetSwatch(entry.Key)));
+        return list;
+    }
 }
 
 /// <summary>保留对象身份的主题模式选项，切换语言只刷新显示标题。</summary>
