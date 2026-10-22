@@ -13,6 +13,7 @@ public partial class MainWindow : CodeWFWindow
     {
         InitializeComponent();
         DataContext = _viewModel;
+        _viewModel.PaletteDialogHandler = draft => new PaletteEditDialog(draft).ShowDialog<bool>(this).GetAwaiter().GetResult();
         Closed += (_, _) => _viewModel.Dispose();
         var version = typeof(MainWindow).Assembly.GetName().Version;
         if (version is not null)
@@ -22,6 +23,15 @@ public partial class MainWindow : CodeWFWindow
 
         Loaded += OnLoaded;
         Closing += OnClosing;
+    }
+
+    /// <summary>配色卡片点击 = 选中并应用（用户卡 ✎/× 走各自命令）。</summary>
+    private void OnPaletteCardClick(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is global::Avalonia.Controls.Button { Tag: AppearanceOption option } && !Equals(_viewModel.SelectedPalette, option))
+        {
+            _viewModel.SelectedPalette = option;
+        }
     }
 
     private bool _shutdownComplete;
