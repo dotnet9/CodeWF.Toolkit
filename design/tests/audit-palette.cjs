@@ -20,16 +20,20 @@ const standaloneFixture = require('./standalone-fixture.cjs');
     await standalone.attach(page);
     await page.goto(standalone.url);
     await page.waitForFunction(() => typeof openDoc === 'function' && window.CodeWFDemoCatalog);
-    for (const icon of ['#darkBtn svg', '#langBtn svg', '#notificationDemo svg'])
+    const palettes = await page.evaluate(() => window.CodeWFPalettes.list.map(palette => palette.key));
+    assert.equal(palettes.length, 9, `palette registry: ${palettes.join(', ')}`);
+    assert.equal(await page.locator('#appearanceMenu > summary svg').evaluate(element => element.getBoundingClientRect().width), 14, '#appearanceMenu svg');
+    for (const icon of ['#langBtn svg', '#notificationDemo svg'])
       assert.equal(await page.locator(icon).evaluate(element => element.getBoundingClientRect().width), 16, icon);
     for (const culture of ['zh-CN', 'en-US'])
-    for (const palette of ['dotnet', 'aurora', 'ember', 'default', 'aqua', 'desert', 'dusk', 'night'])
+    for (const palette of palettes)
     for (const mode of ['light', 'dark'])
     for (const route of ['welcome', 'stringextensions']) {
       await page.evaluate(({ culture, palette, mode, route }) => {
         setLang(culture); setPalette(palette); setTheme(mode); openDoc(route);
         notify('err', 'Palette', 'Count');
       }, { culture, palette, mode, route });
+      assert.equal(await page.evaluate(() => document.documentElement.dataset.palette), palette, `palette ${palette} must apply without falling back`);
       assert.equal(await page.locator('#notificationDemo').getAttribute('title'), culture === 'en-US' ? 'Notification demo' : '通知演示');
       const readings = await page.locator('#dBody .catalog-header :is(h1,p), #dBody .catalog-index :is(h2,h3,button), #dBody button.b, #dBody .catalog-input + button, #notificationCount').evaluateAll(elements => {
         const color = value => value.match(/[\d.]+/g).map(Number);
@@ -71,7 +75,7 @@ const standaloneFixture = require('./standalone-fixture.cjs');
     await standalone.verify(page);
     assert.deepEqual(errors, []);
     fs.writeFileSync(path.join(output, 'palette-contrast.json'), JSON.stringify(measurements, null, 2));
-    console.log(`PASS: 16 palette/mode combinations × 2 languages × 2 API/overview routes; ${measurements.length} rendered text comparisons`);
+    console.log(`PASS: ${palettes.length * 2} palette/mode combinations × 2 languages × 2 API/overview routes; ${measurements.length} rendered text comparisons`);
   } catch (error) {
     await page.screenshot({ path: path.join(output, 'palette-failure.png') });
     throw error;

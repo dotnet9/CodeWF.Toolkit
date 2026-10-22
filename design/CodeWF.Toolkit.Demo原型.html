@@ -1,35 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark" data-palette="dotnet" data-density="cozy">
+<html lang="zh-CN" data-theme="dark" data-palette="indigo" data-density="cozy">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CodeWF.Toolkit.Demo — 原型</title>
 <style>
-/* ═══════════ 色板（6 色板 × 浅深，与 CodeWF.Avalonia 原型一致） ═══════════ */
+/* ═══════════ 色板：8 套高对比配色（graphite/indigo/teal/pine/amber/crimson/violet/terracotta）═══════════
+   全部配色变量（--bg/--bg2/--tx/--pri/--ok…）由 assets/palette-tokens.css 生成注入（规则附录 A，禁止手写）；
+   这里只保留与配色无关的静态变量（间距、代码底）。旧 key 由 assets/palette-data.js 的别名映射到新 8 套。 */
 :root{
-  --pri:#0064fa;--pri-h:#0057d4;--pri-lt:rgba(0,100,250,.09);
-  --bg:#fff;--bg2:#f5f6f8;--bg3:#eef0f3;--tx:#1c1f23;--tx2:#5c626b;--tx3:#757c85;
-  --bd:#d9dce1;--bd2:#e6e8ec;--hov:#eef0f3;--sel:#e3edff;--workbg:#e4e7ec;
-  --ok:#1f8a3b;--warn:#e8a103;--err:#c62828;--code:#f6f8fa;
+  --code:#f6f8fa;
   --sp1:4px;--sp2:8px;--sp3:12px;--sp4:16px;
 }
-[data-palette=aqua]{--pri:#0091a8;--pri-h:#007a8e;--pri-lt:rgba(0,145,168,.10);--sel:#dff5f8}
-[data-palette=desert]{--pri:#c26a1d;--pri-h:#a85a15;--pri-lt:rgba(194,106,29,.10);--sel:#faf0e2}
-[data-palette=dusk]{--pri:#7a5cc4;--pri-h:#654aa8;--pri-lt:rgba(122,92,196,.10);--sel:#efe9fb}
-[data-palette=night]{--pri:#2b6cb0;--pri-h:#245a96;--pri-lt:rgba(43,108,176,.10);--sel:#e2edf9}
-[data-palette=contrast]{--pri:#000;--pri-h:#000;--pri-lt:rgba(0,0,0,.08);--sel:#eee}
-[data-theme=dark]{
-  --bg:#1b1b1f;--bg2:#232327;--bg3:#2a2a30;--tx:#e6e6e8;--tx2:#b3b8c0;--tx3:#8d939c;
-  --bd:#3a3a40;--bd2:#2b2b30;--hov:#2a2a30;--sel:#1d2c44;--workbg:#111114;--code:#16161a;
-}
-[data-theme=dark][data-palette=default]{--pri:#4d9aff;--pri-h:#6cadff;--pri-lt:rgba(77,154,255,.14);--sel:#1d2c44}
-[data-theme=dark][data-palette=aqua]{--pri:#2ec3dd;--pri-h:#4fd0e8;--sel:#123c44}
-[data-theme=dark][data-palette=desert]{--pri:#e8a355;--pri-h:#efb56f;--sel:#443318}
-[data-theme=dark][data-palette=dusk]{--pri:#a98ae0;--pri-h:#bca0e8;--sel:#322a4a}
-[data-theme=dark][data-palette=night]{--pri:#5b93cf;--pri-h:#74a8db;--sel:#1a2a3e}
-[data-theme=dark][data-palette=contrast]{--pri:#fff;--pri-h:#fff;--pri-lt:rgba(255,255,255,.12);--sel:#333}
-[data-palette=contrast] .cap .lg,[data-palette=contrast] .cap .ver{color:#fff}
-[data-palette=contrast] .bd h1{color:var(--tx)}
+[data-theme=dark]{--code:#16161a}
 
 /* ═══════════ 桌面背景 + 窗口卡片 ═══════════ */
 *{box-sizing:border-box;margin:0;padding:0}
@@ -63,15 +46,15 @@ button,input,select,textarea{font:inherit;color:inherit}
 .svgic.s20{width:20px;height:20px}
 .svgic.s22{width:22px;height:22px}
 
-/* ═══ 1. 标题栏 34px ═══ */
+/* ═══ 1. 标题栏 34px（§15 强调色唯一律：大面积表面中性，主色只留小元素） ═══ */
 .cap{display:flex;align-items:center;height:34px;padding-left:10px;gap:8px;
-  background:linear-gradient(90deg,var(--pri) 0%,var(--pri-h) 26%,rgba(0,0,0,0) 58%),var(--bg2);
+  background:var(--bg2);
   border-bottom:1px solid var(--bd)}
 .cap .logo{width:20px;height:20px;border-radius:5px;display:block;flex:none;
-  box-shadow:0 1px 5px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.22)}
-.cap .lg{font-weight:700;color:#fff;letter-spacing:.4px;font-size:13px;text-shadow:0 1px 2px rgba(0,0,0,.35)}
-.cap .vbadge{font-size:10px;padding:0 7px;line-height:16px;border-radius:999px;color:#fff;
-  background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.34)}
+  box-shadow:0 1px 5px rgba(0,0,0,.3),0 0 0 1px rgba(128,128,128,.28)}
+.cap .lg{font-weight:700;color:var(--tx);letter-spacing:.4px;font-size:13px}
+.cap .vbadge{font-size:10px;padding:0 7px;line-height:16px;border-radius:999px;color:var(--tx3);
+  background:var(--bg3);border:1px solid var(--bd2)}
 .cap .sp{flex:1}
 .cap select{height:22px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--tx)}
 .cap .wb{width:40px;height:34px;display:flex;align-items:center;justify-content:center;
@@ -80,10 +63,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cap .wb:hover{background:var(--hov);color:var(--tx)}
 .cap .wb:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
 .cap .wb.cls:hover{background:var(--err);color:#fff}
-.cap .pal{display:inline-flex;gap:5px;align-items:center;margin:0 2px}
-.cap .pal i{width:12px;height:12px;border-radius:50%;cursor:pointer;border:1px solid rgba(128,128,128,.55);display:block;transition:transform .12s,box-shadow .12s}
-.cap .pal i:hover{transform:scale(1.25)}
-.cap .pal i.on{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--pri)}
 
 /* ═══ 2. Ribbon 页签行 32px ═══ */
 .rtabs{display:flex;align-items:center;height:32px;padding:0 10px;gap:2px;background:var(--bg);border-bottom:1px solid var(--bd)}
@@ -125,7 +104,8 @@ body.rmn .rbn{padding-top:0;padding-bottom:0;height:0;opacity:0;border-bottom:no
 .cbtn:active{background:var(--pri-lt);transform:scale(.97)}
 .cbtn:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
 .cbtn[aria-pressed=true]{background:var(--sel);color:var(--pri)}
-.cbtn .ic{height:22px;display:flex;align-items:center;justify-content:center;color:var(--pri)}
+.cbtn .ic{height:22px;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.cbtn:hover .ic,.cbtn[aria-pressed=true] .ic{color:var(--pri)}
 .cbtn .lb{font-size:11px;line-height:1.3;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68px}
 .cbtn:disabled,.cbtn[disabled]{opacity:.45;cursor:not-allowed;background:transparent}
 
@@ -136,7 +116,7 @@ body.rmn .rbn{padding-top:0;padding-bottom:0;height:0;opacity:0;border-bottom:no
   overflow:hidden;min-height:0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .phd{display:flex;align-items:center;height:30px;flex:none;padding:0 10px;background:var(--bg2);
   border-bottom:1px solid var(--bd);font-size:11px;font-weight:700;color:var(--tx2);gap:7px;letter-spacing:.5px}
-.phd .hdic{color:var(--pri);display:flex;align-items:center}
+.phd .hdic{color:var(--tx3);display:flex;align-items:center}
 .phd .cnt{margin-left:auto;font-weight:600;color:var(--tx3);font-size:10px;background:var(--bg3);border-radius:999px;padding:0 7px;line-height:16px}
 .phd .tb{display:flex;gap:2px;margin-left:6px}
 .phd .tb button{min-width:24px;height:20px;display:inline-flex;align-items:center;justify-content:center;
@@ -198,7 +178,7 @@ body.hideLog .p-log{display:none}
 .ftg span{font-size:10.5px;padding:1px 9px;border-radius:10px;background:var(--pri-lt);color:var(--pri);font-weight:600}
 .smt{display:inline-flex;border:1px solid var(--bd);border-radius:6px;overflow:hidden;margin-bottom:14px}
 .smt button{border:none;background:var(--bg2);padding:4px 18px;cursor:pointer;font-size:11px;color:var(--tx2)}
-.smt button.on{background:var(--pri);color:#fff;font-weight:600}
+.smt button.on{background:var(--pri-lt);color:var(--pri);font-weight:600}
 .smcode{background:var(--bg3);border:1px solid var(--bd2);border-radius:6px;padding:12px 14px;
   font-family:Consolas,monospace;font-size:11.5px;line-height:1.65;white-space:pre;overflow:auto;
   max-height:300px;margin-bottom:14px;color:var(--tx)}
@@ -428,12 +408,12 @@ window.addEventListener("error",function(e){
 :root[data-palette=desert] { --brand:#b57532; --glow:#e8a355; --secondary:#f4d197; }
 :root[data-palette=dusk] { --brand:#7a5cc4; --glow:#a98ae0; --secondary:#db9dbb; }
 :root[data-palette=night] { --brand:#2b6cb0; --glow:#5b93cf; --secondary:#829cff; }
-:root[data-palette=contrast] { --brand:#555; --glow:#aaa; --secondary:#aaa; }
 body {
-  padding:18px; background:radial-gradient(ellipse at 10% 0%,color-mix(in srgb,var(--brand) 26%,transparent),transparent 55%),radial-gradient(ellipse at 95% 95%,color-mix(in srgb,var(--secondary) 14%,transparent),transparent 55%),#080810;
+  /* §15 强调色唯一律：桌面舞台为中性暗渐变，不用主色光晕（主色只留小元素）。 */
+  padding:18px; background:radial-gradient(ellipse at 10% 0%,#151a24,transparent 55%),radial-gradient(ellipse at 95% 95%,#10141d,transparent 55%),#0a0c11;
   font-family:"Segoe UI Variable","Segoe UI","Microsoft YaHei",sans-serif;
 }
-.win { width:min(1680px,100%); min-height:0; border-radius:15px; border-color:color-mix(in srgb,var(--glow) 24%,var(--bd)); grid-template-columns:minmax(0,1fr); grid-template-rows:52px 42px auto 1fr 30px; box-shadow:0 30px 100px #0007; }
+.win { width:min(1680px,100%); min-height:0; border-radius:15px; border-color:var(--bd); grid-template-columns:minmax(0,1fr); grid-template-rows:52px 42px auto 1fr 30px; box-shadow:0 30px 100px #0007; }
 .win > * { min-width:0; }
 .cap { height:52px; padding-left:17px; gap:11px; background:var(--bg); border-color:var(--bd2); }
 .cap .logo { width:28px; height:28px; border-radius:8px; box-shadow:none; }
@@ -442,13 +422,9 @@ body {
 .cap select { height:29px; font-size:11px; padding:0 7px; border-radius:6px; }
 .cap .wb { height:50px; width:34px; }
 .cap .notification-entry { position:relative; width:30px; height:30px; overflow:visible; }
-.cap :is(#darkBtn,#langBtn,.notification-entry) svg { width:16px; height:16px; }
+.cap :is(#langBtn,.notification-entry) svg { width:16px; height:16px; }
 .notification-count { position:absolute; right:-4px; top:-3px; min-width:16px; height:16px; padding:0 3px; box-sizing:border-box; border-radius:8px; display:flex; align-items:center; justify-content:center; font:10px "Segoe UI",sans-serif; color:var(--card-error); background:var(--card-error-bg); }
 .notification-count[hidden] { display:none; }
-.cap .pal { gap:6px; }
-.cap .pal button { display:block; width:13px; height:13px; border-radius:50%; border:1px solid #8885; padding:0; cursor:pointer; transition:transform .2s,box-shadow .2s; }
-.cap .pal button:hover { transform:scale(1.25); }
-.cap .pal button.on { box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--pri); }
 .studio-wordmark { font:10px Consolas,monospace; color:var(--tx3); letter-spacing:2px; padding-left:10px; border-left:1px solid var(--bd); }
 .rtabs { height:42px; padding:0 15px; background:var(--bg2); border-color:var(--bd2); }
 .rt2 { min-width:0; flex:1; }
@@ -483,7 +459,7 @@ body {
 .dbody { padding:25px 27px; }
 .doc h1 { color:var(--tx); font-size:25px; letter-spacing:-.6px; }
 .doc .crumb { font:10px Consolas,monospace; color:var(--tx3); margin-bottom:7px; }
-.doc .alias { font:11px Consolas,monospace; color:var(--pri); }
+.doc .alias { font:11px Consolas,monospace; color:var(--tx3); }
 .doc .dsc { max-width:850px; margin:12px 0; line-height:1.8; }
 .ftg span { background:var(--pri-lt); color:var(--pri); border-color:transparent; border-radius:4px; }
 .smt { margin-top:19px; }
@@ -514,22 +490,22 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .dbody[data-page=welcome] { padding:24px 28px; }
 .dbody[data-page=welcome] > :is(.crumb,h1,.alias,.dsc,.ftg,.smt) { display:none; }
 .studio-overview { max-width:1180px; margin:auto; }
-.studio-eyebrow { display:flex; align-items:center; gap:8px; color:var(--pri); font:10px Consolas,monospace; letter-spacing:1.7px; }
+.studio-eyebrow { display:flex; align-items:center; gap:8px; color:var(--tx3); font:10px Consolas,monospace; letter-spacing:1.7px; }
 .studio-eyebrow::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--pri); box-shadow:0 0 14px var(--glow); }
 .studio-hero { display:flex; justify-content:space-between; align-items:center; gap:20px; margin:16px 0 22px; }
 .studio-hero h2 { font-size:clamp(27px,2.8vw,43px); line-height:1.22; letter-spacing:-1.5px; font-weight:650; color:var(--tx); }
 .studio-hero h2 em { display:block; font-style:normal; background:linear-gradient(105deg,var(--pri),var(--text-gradient-end)); background-clip:text; -webkit-background-clip:text; color:transparent; }
 .studio-hero p { color:var(--tx2); font-size:12px; line-height:1.8; margin-top:13px; max-width:490px; }
 .studio-sigil { position:relative; flex:none; width:124px; height:124px; display:grid; place-items:center; }
-.studio-sigil::before,.studio-sigil::after { content:""; position:absolute; inset:5px; border:1px solid color-mix(in srgb,var(--glow) 38%,transparent); border-radius:30%; transform:rotate(25deg); }
-.studio-sigil::after { inset:17px; transform:rotate(-15deg); border-color:color-mix(in srgb,var(--secondary) 35%,transparent); }
+.studio-sigil::before,.studio-sigil::after { content:""; position:absolute; inset:5px; border:1px solid var(--bd2); border-radius:30%; transform:rotate(25deg); }
+.studio-sigil::after { inset:17px; transform:rotate(-15deg); border-color:var(--bd2); }
 .studio-sigil::before { animation:studio-orbit 24s linear infinite; }
 .studio-sigil::after { animation:studio-orbit 30s linear infinite reverse; }
-.studio-sigil span { font:600 24px Consolas,monospace; color:var(--pri); background:var(--pri-lt); width:76px; height:76px; display:grid; place-items:center; border-radius:21px; box-shadow:0 0 45px color-mix(in srgb,var(--glow) 16%,transparent); }
+.studio-sigil span { font:600 24px Consolas,monospace; color:var(--tx); background:var(--pri-lt); width:76px; height:76px; display:grid; place-items:center; border-radius:21px; }
 .studio-meta { display:flex; flex-wrap:wrap; gap:18px; padding:12px 0 19px; border-top:1px solid var(--bd2); font:10px Consolas,monospace; color:var(--tx3); }
 .studio-meta b { color:var(--tx); font-weight:600; }
-.studio-stage { overflow:hidden; border:1px solid color-mix(in srgb,var(--glow) 32%,var(--bd2)); border-radius:13px; background:var(--bg2); position:relative; }
-.studio-stage::before { content:""; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--glow),var(--secondary),transparent); }
+.studio-stage { overflow:hidden; border:1px solid var(--bd2); border-radius:13px; background:var(--bg2); position:relative; }
+.studio-stage::before { content:""; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--bd),transparent); }
 .studio-stage-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:13px 17px; border-bottom:1px solid var(--bd2); }
 .studio-stage-head strong { font-size:12px; font-weight:600; }
 .studio-stage-head small { font:10px Consolas,monospace; color:var(--tx3); }
@@ -560,12 +536,11 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .studio-section-label small { font:10px Consolas,monospace; color:var(--tx3); font-weight:400; }
 .studio-capabilities { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
 .studio-capability { border:1px solid var(--bd2); padding:16px; border-radius:10px; background:var(--bg2); text-align:left; cursor:pointer; position:relative; overflow:hidden; min-width:0; transition:transform .2s,border-color .2s,background .2s; }
-.studio-capability:hover { transform:translateY(-3px); border-color:var(--glow); background:var(--hov); }
-.studio-capability { background:radial-gradient(ellipse at 0 0,var(--pri-lt),transparent 65%),var(--bg2); }
+.studio-capability:hover { transform:translateY(-3px); border-color:var(--pri); background:var(--hov); }
 .studio-capability .studio-icon { width:30px; height:30px; display:grid; place-items:center; color:var(--pri); background:var(--pri-lt); border-radius:8px; margin-bottom:13px; }
 .studio-capability h3 { font-size:12px; font-weight:600; color:var(--tx); margin-bottom:5px; }
 .studio-capability p { font-size:11px; line-height:1.7; color:var(--tx2); margin-bottom:13px; }
-.studio-capability small { font:9px Consolas,monospace; color:var(--pri); word-break:break-word; }
+.studio-capability small { font:9px Consolas,monospace; color:var(--tx3); word-break:break-word; }
 .studio-capability .studio-arrow { position:absolute; right:15px; top:19px; color:var(--tx3); transition:transform .2s; }
 .studio-capability:hover .studio-arrow { transform:translate(2px,-2px); color:var(--pri); }
 .studio-install { display:flex; align-items:center; flex-wrap:wrap; gap:12px; border:1px solid var(--bd2); border-radius:8px; background:var(--workbg); padding:12px 15px; margin-top:18px; }
@@ -576,7 +551,7 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .studio-table th { color:var(--tx3); font-weight:500; text-align:left; padding:9px; border-bottom:1px solid var(--bd); }
 .studio-table th button { border:0; background:transparent; color:inherit; cursor:pointer; font:inherit; }
 .studio-table td { padding:9px; border-bottom:1px solid var(--bd2); }
-.studio-table td:first-child { font-family:Consolas,monospace; color:var(--pri); }
+.studio-table td:first-child { font-family:Consolas,monospace; color:var(--tx2); }
 .studio-pill { color:var(--ok); background:color-mix(in srgb,var(--ok) 10%,transparent); border-radius:4px; padding:3px 7px; font-size:10px; }
 .studio-dock { display:grid; grid-template-columns:110px 1fr; grid-template-rows:1fr auto; gap:7px; min-height:158px; }
 .studio-dock-nav { background:var(--workbg); padding:12px; border:1px solid var(--bd2); border-radius:6px; font-size:11px; color:var(--tx2); }
@@ -586,7 +561,7 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .studio-dock-log { grid-column:1/-1; padding:9px 12px; background:var(--workbg); border-radius:6px; font:10px Consolas,monospace; color:var(--ok); }
 .studio-flow { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:15px 0 22px; }
 .studio-node { position:relative; text-align:center; flex:1; border:1px solid var(--bd); border-radius:9px; background:var(--bg); padding:13px 7px; font-size:11px; transition:border-color .2s,box-shadow .2s; }
-.studio-node code { display:block; color:var(--pri); font:10px Consolas,monospace; margin-top:7px; }
+.studio-node code { display:block; color:var(--tx3); font:10px Consolas,monospace; margin-top:7px; }
 .doc .studio-node code { padding:0; border:0; background:transparent; }
 .studio-node.active { border-color:var(--glow); box-shadow:0 0 20px color-mix(in srgb,var(--glow) 18%,transparent); }
 .studio-wire { height:2px; width:22px; background:var(--bd); position:relative; flex:none; }
@@ -595,7 +570,7 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .studio-tools { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
 .studio-tools input { flex:1; min-width:80px; background:var(--workbg); border:1px solid var(--bd); border-radius:6px; font-size:11px; height:31px; padding:0 10px; }
 .studio-bytes { display:flex; gap:6px; flex-wrap:wrap; padding:18px 0; }
-.studio-bytes span { background:var(--pri-lt); color:var(--pri); font:12px Consolas,monospace; border-radius:5px; padding:8px; animation:studio-enter .25s both; }
+.studio-bytes span { background:var(--bg3); color:var(--tx2); border:1px solid var(--bd2); font:12px Consolas,monospace; border-radius:5px; padding:8px; animation:studio-enter .25s both; }
 .studio-pipeline { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:10px 0 17px; }
 .studio-pipeline .studio-node { padding:16px 4px; }
 .studio-pipeline .studio-node.done { border-color:var(--ok); }
@@ -605,14 +580,14 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 @keyframes studio-orbit { from { transform:rotate(25deg); } to { transform:rotate(385deg); } }
 @media(min-width:1700px) { .p-nav { width:230px; } .p-props { width:260px; } .dbody { padding:32px 40px; } }
 @media(max-width:1200px) { .studio-wordmark { display:none; } .p-props { width:210px; } .p-nav { width:180px; } .dts .dkb button { padding:2px 4px; } .dbody,.dbody[data-page=welcome] { padding:20px; } .studio-hero h2 { font-size:30px; } .studio-sigil { width:95px; height:95px; } .studio-capabilities { grid-template-columns:repeat(2,minmax(0,1fr)); } .qk2 .kbd { display:none; } }
-@media(max-width:1000px) { .p-props { display:none; } .cap .pal { display:none; } .qk2 button:not(#qkCmd) { display:none; } .studio-sigil { display:none; } }
-@media(max-width:700px) { body { padding:0; } .win { border-radius:0; border:0; grid-template-rows:48px 42px auto 1fr 30px; } .cap { height:48px; padding-left:10px; gap:7px; } .cap .lg { font-size:12px; } .cap .vbadge,.cap .wb:not(#darkBtn):not(#langBtn) { display:none; } .cap select { max-width:125px; } .p-nav { display:none; } .main { padding:5px; } .qk { display:none; } .rtabs { padding:0 7px; } .rbn { height:76px; } .dts .dkb { display:none; } .dbody,.dbody[data-page=welcome] { padding:16px; } .studio-hero h2 { font-size:29px; } .studio-meta { gap:10px; } .studio-split { grid-template-columns:1fr; } .studio-capabilities { grid-template-columns:1fr 1fr; } .studio-capability { padding:12px; } .studio-stage-head { padding:12px; } .studio-tabs { margin-left:0; } .studio-stage-head small { display:none; } .studio-sandbox { padding:12px; } .studio-flow { gap:3px; } .studio-wire { width:9px; } .studio-node { font-size:10px; padding:12px 3px; } .studio-node code { font-size:9px; } .studio-pipeline { grid-template-columns:repeat(2,1fr); } .p-log { height:96px; } .tbar .latest,.tbar .sep,.tbar #stSync,.tbar [data-i18n="st.sync"],.tbar [data-i18n="st.level"],.tbar #stLogLv { display:none; } .tbar { gap:5px; } }
+@media(max-width:1000px) { .p-props { display:none; } .qk2 button:not(#qkCmd) { display:none; } .studio-sigil { display:none; } }
+@media(max-width:700px) { body { padding:0; } .win { border-radius:0; border:0; grid-template-rows:48px 42px auto 1fr 30px; } .cap { height:48px; padding-left:10px; gap:7px; } .cap .lg { font-size:12px; } .cap .vbadge,.cap .wb:not(#langBtn) { display:none; } .cap select { max-width:125px; } .p-nav { display:none; } .main { padding:5px; } .qk { display:none; } .rtabs { padding:0 7px; } .rbn { height:76px; } .dts .dkb { display:none; } .dbody,.dbody[data-page=welcome] { padding:16px; } .studio-hero h2 { font-size:29px; } .studio-meta { gap:10px; } .studio-split { grid-template-columns:1fr; } .studio-capabilities { grid-template-columns:1fr 1fr; } .studio-capability { padding:12px; } .studio-stage-head { padding:12px; } .studio-tabs { margin-left:0; } .studio-stage-head small { display:none; } .studio-sandbox { padding:12px; } .studio-flow { gap:3px; } .studio-wire { width:9px; } .studio-node { font-size:10px; padding:12px 3px; } .studio-node code { font-size:9px; } .studio-pipeline { grid-template-columns:repeat(2,1fr); } .p-log { height:96px; } .tbar .latest,.tbar .sep,.tbar #stSync,.tbar [data-i18n="st.sync"],.tbar [data-i18n="st.level"],.tbar #stLogLv { display:none; } .tbar { gap:5px; } }
 @media(max-width:380px) { .studio-capabilities { grid-template-columns:1fr; } .studio-hero h2 { font-size:25px; } .cap .logo { width:23px; height:23px; } .cap select { max-width:111px; } .cap .wb { width:28px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
 @media(max-width:700px) { .tbar #stFlush,.tbar > span:last-child { display:none; } .tbar #stWhere { max-width:90px; overflow:hidden; text-overflow:ellipsis; } }
 
 .studio-ribbon-note { margin-left:auto; display:flex; flex-direction:column; justify-content:center; gap:4px; padding:0 20px; color:var(--tx3); text-align:right; }
-.studio-ribbon-note span { font:10px Consolas,monospace; letter-spacing:1.5px; color:var(--pri); }
+.studio-ribbon-note span { font:10px Consolas,monospace; letter-spacing:1.5px; color:var(--tx3); }
 .studio-ribbon-note small { font-size:10px; }
 @media(max-width:850px) { .studio-ribbon-note { display:none; } }
 
@@ -632,826 +607,1082 @@ body.prototype-maximized { padding:0; }
 #languageMenu button { display:block; width:100%; padding:8px 12px 8px 28px; border:0; border-radius:4px; background:transparent; color:var(--tx); text-align:left; cursor:pointer; position:relative; }
 #languageMenu button:hover, #languageMenu button:focus-visible { background:var(--hov); }
 #languageMenu button[aria-checked=true]::before { content:"✓"; position:absolute; left:9px; color:var(--pri); }
-#darkBtn svg { fill:none; stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+
+/* ═══ 外观菜单（与 Vex 原型同构：明暗模式 fieldset + 界面配色网格；数据 assets/palette-data.js） ═══
+ * 卡片纵向：上方 .swatch-dots 4×2 圆点阵（8 个 16px 圆，padding-right 预留"推荐"角标），下方名称 + note；✓ 右下。 */
+.titlebar-appearance { position:relative; display:flex; align-items:center; }
+#appearanceMenu > summary { list-style:none; display:flex; align-items:center; gap:5px; height:26px; padding:0 9px; border-radius:6px; font-size:11.5px; font-weight:600; color:var(--tx); cursor:pointer; }
+#appearanceMenu > summary::-webkit-details-marker { display:none; }
+#appearanceMenu > summary svg { width:14px; height:14px; stroke:currentColor; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+#appearanceMenu > summary:hover { background:var(--hov); }
+#appearanceMenu[open] > summary { background:var(--pri-lt); color:var(--pri); }
+.appearance-choices { position:absolute; right:0; top:calc(100% + 8px); z-index:1200; width:430px; padding:12px; background:var(--bg2); border:1px solid var(--bd); border-radius:10px; box-shadow:0 18px 50px rgba(0,0,0,.28); }
+.appearance-choices .studio-modes { display:block; border:0; background:transparent; margin:0 0 10px; padding:0; min-width:0; }
+.studio-modes legend { font-size:12px; font-weight:600; margin-bottom:7px; padding:0; color:var(--tx); }
+.theme-mode-options { display:flex; flex-wrap:wrap; gap:6px; }
+.theme-mode-options label { display:flex; align-items:center; gap:5px; min-height:28px; padding:3px 8px; border-radius:5px; font-size:12px; color:var(--tx2); cursor:pointer; white-space:nowrap; }
+.theme-mode-options label:hover { background:var(--hov); color:var(--tx); }
+.theme-mode-options label:has(input:checked) { color:var(--pri); background:var(--pri-lt); }
+.theme-mode-options input { accent-color:var(--pri); width:14px; height:14px; margin:0; cursor:pointer; }
+.appearance-choices > strong { display:block; font-size:12px; font-weight:600; color:var(--tx); }
+.studio-palettes { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-top:7px; }
+.studio-palettes button { position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; gap:6px; width:auto; height:auto; padding:7px 8px; font-size:11px; text-align:left; border:1px solid var(--bd2); border-radius:8px; background:var(--bg); color:var(--tx); cursor:pointer; }
+.studio-palettes button:hover { border-color:var(--pri); background:var(--hov); }
+.studio-palettes button.on { border-color:var(--pri); box-shadow:0 0 0 1px var(--pri); }
+.swatch-dots { display:grid; grid-template-columns:repeat(4,auto); gap:4px; padding-right:24px; }
+.swatch-dots i { width:16px; height:16px; border-radius:50%; border:1px solid var(--bd); flex:none; }
+.studio-palettes .palette-label { display:flex; min-width:0; flex:1; flex-direction:column; gap:1px; padding-right:12px; }
+.studio-palettes .palette-label b { font-size:12px; white-space:nowrap; }
+.studio-palettes .palette-label small { font-size:10.5px; line-height:1.4; color:var(--tx3); white-space:normal; }
+.studio-palettes button::after { content:'✓'; position:absolute; right:6px; bottom:4px; margin:0; font-size:12px; color:var(--pri); visibility:hidden; }
+.studio-palettes button[aria-pressed=true]::after { visibility:visible; }
+.palette-badge { position:absolute; top:4px; right:4px; z-index:1; font-size:10px; font-weight:600; font-style:normal; line-height:1; padding:2px 4px; border-radius:4px; background:var(--pri); color:var(--on-primary); pointer-events:none; }
+@media(max-width:700px) { #appearanceMenu > summary span { display:none; } .appearance-choices { width:min(340px,calc(100vw - 24px)); } }
 
 </style>
 <style>
-/* 上游快照：CodeWF.Avalonia.Controls 12.1.4.25 的 Studio 令牌；本仓独立携带，不在构建时读取其他仓库。 */
-:root[data-theme=light][data-palette=dotnet] {
-  --bg:#ffffff;
-  --bg2:#f7f6fc;
-  --bg3:#efedf7;
-  --tx:#242036;
-  --tx2:#6e6684;
-  --tx3:#6e6684;
-  --bd:#ddd8ec;
-  --bd2:#ddd8ec;
-  --line:#ddd8ec;
-  --hov:#efedf7;
-  --sel:#efedf7;
-  --workbg:#efedf7;
-  --pri:#512bd4;
-  --pri-h:#512bd4;
-  --brand:#512bd4;
-  --glow:#512bd4;
-  --secondary:#7355de;
-  --text-gradient-end:#7051da;
-  --button-bg:#512bd4;
-  --button-hover:#4927bf;
-  --button-pressed:#4122aa;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#512bd4;
-  --badge-debug-bg:#efedf7;
-  --card-debug:#242036;
-  --card-debug-bg:#efedf7;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#7355de);
-  --pri-lt:var(--bg3);
+/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.0-alpha.1 docs/配色与排版令牌规则.md（ruleVersion 5）。 */
+/* 默认回退块 = indigo（规则附录 A default）；8 套配色块以更高优先级覆盖。旧 key 别名映射见 assets/palette-data.js。 */
+/* 变量语义映射表见 scripts/prototype/generate-palette-tokens.cjs。非配色变量（--sp* / --code 等）仍由 index.template.html 静态提供。 */
+:root[data-theme=light] {
+color-scheme:light;
+  --bg:#FDFDFE;
+  --bg2:#F2F2F5;
+  --bg3:#f2f2f4;
+  --tx:#1B1D2E;
+  --tx2:#666773;
+  --tx3:#666773;
+  --bd:#d0d0d4;
+  --bd2:#e2e2e5;
+  --line:#e2e2e5;
+  --hov:#f2f2f4;
+  --sel:#e7e5f8;
+  --workbg:#f2f2f4;
+  --pri:#4338CA;
+  --pri-h:#5248ce;
+  --brand:#4338CA;
+  --glow:#4338CA;
+  --secondary:#7068d7;
+  --text-gradient-end:#7068d7;
+  --button-bg:#4338CA;
+  --button-hover:#5248ce;
+  --button-pressed:#3f35ba;
+  --on-primary:#FFFFFF;
+  --ok:#157f3d;
+  --warn:#b25209;
+  --err:#d62626;
+  --badge-text:#FFFFFF;
+  --card-top:#1B1D2E;
+  --badge-debug:#4338CA;
+  --badge-debug-bg:#eae9f9;
+  --card-debug:#1B1D2E;
+  --card-debug-bg:#eae9f9;
+  --badge-info:#157f3d;
+  --badge-info-bg:#edf4f0;
+  --card-info:#157f3d;
+  --card-info-bg:#edf4f0;
+  --badge-warn:#b25209;
+  --badge-warn-bg:#f7efea;
+  --card-warn:#b25209;
+  --card-warn-bg:#f7efea;
+  --badge-error:#d62626;
+  --badge-error-bg:#fbf0f1;
+  --card-error:#d62626;
+  --card-error-bg:#fbf0f1;
+  --badge-fatal:#c92527;
+  --badge-fatal-bg:#fbf0f1;
+  --card-fatal:#c92527;
+  --card-fatal-bg:#fbf0f1;
+  --action-gradient:linear-gradient(135deg,#4338CA,#7068d7);
+  --pri-lt:#eae9f9;
 }
-:root[data-theme=dark][data-palette=dotnet] {
-  --bg:#12111c;
-  --bg2:#191724;
-  --bg3:#211e30;
-  --tx:#f3f0fc;
-  --tx2:#aaa5c0;
-  --tx3:#aaa5c0;
-  --bd:#343044;
-  --bd2:#343044;
-  --line:#343044;
-  --hov:#211e30;
-  --sel:#211e30;
-  --workbg:#211e30;
-  --pri:#a78bfa;
-  --pri-h:#a78bfa;
-  --brand:#512bd4;
-  --glow:#a78bfa;
-  --secondary:#7654ea;
-  --text-gradient-end:#baa3ff;
-  --button-bg:#512bd4;
-  --button-hover:#4927bf;
-  --button-pressed:#4122aa;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#aaa5c0;
-  --badge-debug:#a78bfa;
-  --badge-debug-bg:#211e30;
-  --card-debug:#f3f0fc;
-  --card-debug-bg:#211e30;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#7355de);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark] {
+color-scheme:dark;
+  --bg:#12131F;
+  --bg2:#1B1C24;
+  --bg3:#21222e;
+  --tx:#E6E7F2;
+  --tx2:#9a9ba6;
+  --tx3:#9a9ba6;
+  --bd:#494a56;
+  --bd2:#343541;
+  --line:#343541;
+  --hov:#21222e;
+  --sel:#2c3047;
+  --workbg:#21222e;
+  --pri:#A5B4FC;
+  --pri-h:#acbafc;
+  --brand:#A5B4FC;
+  --glow:#A5B4FC;
+  --secondary:#8894d0;
+  --text-gradient-end:#8894d0;
+  --button-bg:#A5B4FC;
+  --button-hover:#acbafc;
+  --button-pressed:#919ede;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#E6E7F2;
+  --badge-debug:#A5B4FC;
+  --badge-debug-bg:#2a2d42;
+  --card-debug:#E6E7F2;
+  --card-debug-bg:#2a2d42;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#1c3830;
+  --card-info:#4ADE80;
+  --card-info-bg:#1c3830;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#3c3220;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#3c3220;
+  --badge-error:#F87171;
+  --badge-error-bg:#3b242e;
+  --card-error:#F87171;
+  --card-error-bg:#3b242e;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#452831;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#452831;
+  --action-gradient:linear-gradient(135deg,#A5B4FC,#8894d0);
+  --pri-lt:#2a2d42;
 }
-:root[data-theme=light][data-palette=aurora] {
-  --bg:#ffffff;
-  --bg2:#f7f6fc;
-  --bg3:#efedf7;
-  --tx:#242036;
-  --tx2:#6e6684;
-  --tx3:#6e6684;
-  --bd:#ddd8ec;
-  --bd2:#ddd8ec;
-  --line:#ddd8ec;
-  --hov:#efedf7;
-  --sel:#efedf7;
-  --workbg:#efedf7;
-  --pri:#6745d6;
-  --pri-h:#6745d6;
-  --brand:#512bd4;
-  --glow:#6745d6;
-  --secondary:#1aafa9;
-  --text-gradient-end:#007773;
-  --button-bg:#512bd4;
-  --button-hover:#4927bf;
-  --button-pressed:#4122aa;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#512bd4;
-  --badge-debug-bg:#efedf7;
-  --card-debug:#242036;
-  --card-debug-bg:#efedf7;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#007773);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=graphite] {
+color-scheme:light;
+  --bg:#FFFFFF;
+  --bg2:#F4F4F5;
+  --bg3:#f3f3f4;
+  --tx:#18181B;
+  --tx2:#69696b;
+  --tx3:#69696b;
+  --bd:#d1d1d1;
+  --bd2:#e3e3e4;
+  --line:#e3e3e4;
+  --hov:#f3f3f4;
+  --sel:#e8e8e9;
+  --workbg:#f3f3f4;
+  --pri:#3F3F46;
+  --pri-h:#4e4e55;
+  --brand:#3F3F46;
+  --glow:#3F3F46;
+  --secondary:#6f6f74;
+  --text-gradient-end:#6f6f74;
+  --button-bg:#3F3F46;
+  --button-hover:#4e4e55;
+  --button-pressed:#3b3b42;
+  --on-primary:#FFFFFF;
+  --ok:#15803D;
+  --warn:#B45309;
+  --err:#d82626;
+  --badge-text:#FFFFFF;
+  --card-top:#18181B;
+  --badge-debug:#3F3F46;
+  --badge-debug-bg:#ececed;
+  --card-debug:#18181B;
+  --card-debug-bg:#ececed;
+  --badge-info:#15803D;
+  --badge-info-bg:#ecf5ef;
+  --card-info:#15803D;
+  --card-info-bg:#ecf5ef;
+  --badge-warn:#B45309;
+  --badge-warn-bg:#faf3ee;
+  --card-warn:#B45309;
+  --card-warn-bg:#faf3ee;
+  --badge-error:#d82626;
+  --badge-error-bg:#fdf2f2;
+  --card-error:#d82626;
+  --card-error-bg:#fdf2f2;
+  --badge-fatal:#c82525;
+  --badge-fatal-bg:#fdf2f2;
+  --card-fatal:#c82525;
+  --card-fatal-bg:#fdf2f2;
+  --action-gradient:linear-gradient(135deg,#3F3F46,#6f6f74);
+  --pri-lt:#ececed;
 }
-:root[data-theme=dark][data-palette=aurora] {
-  --bg:#101820;
-  --bg2:#16212a;
-  --bg3:#20303a;
-  --tx:#f3f0fc;
-  --tx2:#aaa5c0;
-  --tx3:#aaa5c0;
-  --bd:#2c3b48;
-  --bd2:#2c3b48;
-  --line:#2c3b48;
-  --hov:#20303a;
-  --sel:#20303a;
-  --workbg:#20303a;
-  --pri:#ae96ff;
-  --pri-h:#ae96ff;
-  --brand:#512bd4;
-  --glow:#ae96ff;
-  --secondary:#26d4cc;
-  --text-gradient-end:#26d4cc;
-  --button-bg:#512bd4;
-  --button-hover:#4927bf;
-  --button-pressed:#4122aa;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#aaa5c0;
-  --badge-debug:#ae96ff;
-  --badge-debug-bg:#20303a;
-  --card-debug:#f3f0fc;
-  --card-debug-bg:#20303a;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#007773);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=graphite] {
+color-scheme:dark;
+  --bg:#101012;
+  --bg2:#1C1C1F;
+  --bg3:#202022;
+  --tx:#F4F4F5;
+  --tx2:#a2a2a3;
+  --tx3:#a2a2a3;
+  --bd:#4b4b4d;
+  --bd2:#343436;
+  --line:#343436;
+  --hov:#202022;
+  --sel:#333336;
+  --workbg:#202022;
+  --pri:#D4D4D8;
+  --pri-h:#d7d7db;
+  --brand:#D4D4D8;
+  --glow:#D4D4D8;
+  --secondary:#adadb0;
+  --text-gradient-end:#adadb0;
+  --button-bg:#D4D4D8;
+  --button-hover:#d7d7db;
+  --button-pressed:#bbbbbe;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#F4F4F5;
+  --badge-debug:#D4D4D8;
+  --badge-debug-bg:#2f2f32;
+  --card-debug:#F4F4F5;
+  --card-debug-bg:#2f2f32;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#1a3526;
+  --card-info:#4ADE80;
+  --card-info-bg:#1a3526;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#3a3015;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#3a3015;
+  --badge-error:#F87171;
+  --badge-error-bg:#3a2123;
+  --card-error:#F87171;
+  --card-error-bg:#3a2123;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#432527;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#432527;
+  --action-gradient:linear-gradient(135deg,#D4D4D8,#adadb0);
+  --pri-lt:#2f2f32;
 }
-:root[data-theme=light][data-palette=ember] {
-  --bg:#ffffff;
-  --bg2:#fcf7f3;
-  --bg3:#f4ece5;
-  --tx:#242036;
-  --tx2:#6e6684;
-  --tx3:#6e6684;
-  --bd:#ddcabc;
-  --bd2:#ddcabc;
-  --line:#ddcabc;
-  --hov:#f4ece5;
-  --sel:#f4ece5;
-  --workbg:#f4ece5;
-  --pri:#a94f36;
-  --pri-h:#a94f36;
-  --brand:#a94f36;
-  --glow:#a94f36;
-  --secondary:#d09566;
-  --text-gradient-end:#a34c34;
-  --button-bg:#a94f36;
-  --button-hover:#984731;
-  --button-pressed:#873f2b;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#a94f36;
-  --badge-debug-bg:#f4ece5;
-  --card-debug:#242036;
-  --card-debug-bg:#f4ece5;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#a34c34);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=indigo] {
+color-scheme:light;
+  --bg:#FDFDFE;
+  --bg2:#F2F2F5;
+  --bg3:#f2f2f4;
+  --tx:#1B1D2E;
+  --tx2:#666773;
+  --tx3:#666773;
+  --bd:#d0d0d4;
+  --bd2:#e2e2e5;
+  --line:#e2e2e5;
+  --hov:#f2f2f4;
+  --sel:#e7e5f8;
+  --workbg:#f2f2f4;
+  --pri:#4338CA;
+  --pri-h:#5248ce;
+  --brand:#4338CA;
+  --glow:#4338CA;
+  --secondary:#7068d7;
+  --text-gradient-end:#7068d7;
+  --button-bg:#4338CA;
+  --button-hover:#5248ce;
+  --button-pressed:#3f35ba;
+  --on-primary:#FFFFFF;
+  --ok:#157f3d;
+  --warn:#b25209;
+  --err:#d62626;
+  --badge-text:#FFFFFF;
+  --card-top:#1B1D2E;
+  --badge-debug:#4338CA;
+  --badge-debug-bg:#eae9f9;
+  --card-debug:#1B1D2E;
+  --card-debug-bg:#eae9f9;
+  --badge-info:#157f3d;
+  --badge-info-bg:#edf4f0;
+  --card-info:#157f3d;
+  --card-info-bg:#edf4f0;
+  --badge-warn:#b25209;
+  --badge-warn-bg:#f7efea;
+  --card-warn:#b25209;
+  --card-warn-bg:#f7efea;
+  --badge-error:#d62626;
+  --badge-error-bg:#fbf0f1;
+  --card-error:#d62626;
+  --card-error-bg:#fbf0f1;
+  --badge-fatal:#c92527;
+  --badge-fatal-bg:#fbf0f1;
+  --card-fatal:#c92527;
+  --card-fatal-bg:#fbf0f1;
+  --action-gradient:linear-gradient(135deg,#4338CA,#7068d7);
+  --pri-lt:#eae9f9;
 }
-:root[data-theme=dark][data-palette=ember] {
-  --bg:#1b1616;
-  --bg2:#241d1b;
-  --bg3:#302522;
-  --tx:#f3f0fc;
-  --tx2:#aaa5c0;
-  --tx3:#aaa5c0;
-  --bd:#443631;
-  --bd2:#443631;
-  --line:#443631;
-  --hov:#302522;
-  --sel:#302522;
-  --workbg:#302522;
-  --pri:#e6a58f;
-  --pri-h:#e6a58f;
-  --brand:#a94f36;
-  --glow:#e6a58f;
-  --secondary:#e9bd87;
-  --text-gradient-end:#e9bd87;
-  --button-bg:#a94f36;
-  --button-hover:#984731;
-  --button-pressed:#873f2b;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#aaa5c0;
-  --badge-debug:#e6a58f;
-  --badge-debug-bg:#302522;
-  --card-debug:#f3f0fc;
-  --card-debug-bg:#302522;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#a34c34);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=indigo] {
+color-scheme:dark;
+  --bg:#12131F;
+  --bg2:#1B1C24;
+  --bg3:#21222e;
+  --tx:#E6E7F2;
+  --tx2:#9a9ba6;
+  --tx3:#9a9ba6;
+  --bd:#494a56;
+  --bd2:#343541;
+  --line:#343541;
+  --hov:#21222e;
+  --sel:#2c3047;
+  --workbg:#21222e;
+  --pri:#A5B4FC;
+  --pri-h:#acbafc;
+  --brand:#A5B4FC;
+  --glow:#A5B4FC;
+  --secondary:#8894d0;
+  --text-gradient-end:#8894d0;
+  --button-bg:#A5B4FC;
+  --button-hover:#acbafc;
+  --button-pressed:#919ede;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#E6E7F2;
+  --badge-debug:#A5B4FC;
+  --badge-debug-bg:#2a2d42;
+  --card-debug:#E6E7F2;
+  --card-debug-bg:#2a2d42;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#1c3830;
+  --card-info:#4ADE80;
+  --card-info-bg:#1c3830;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#3c3220;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#3c3220;
+  --badge-error:#F87171;
+  --badge-error-bg:#3b242e;
+  --card-error:#F87171;
+  --card-error-bg:#3b242e;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#452831;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#452831;
+  --action-gradient:linear-gradient(135deg,#A5B4FC,#8894d0);
+  --pri-lt:#2a2d42;
 }
-:root[data-theme=light][data-palette=default] {
-  --bg:#ffffff;
-  --bg2:#f8f9fb;
-  --bg3:#eef1f6;
-  --tx:#202736;
-  --tx2:#606d82;
-  --tx3:#606d82;
-  --bd:#dde2eb;
-  --bd2:#dde2eb;
-  --line:#dde2eb;
-  --hov:#eef1f6;
-  --sel:#eef1f6;
-  --workbg:#eef1f6;
-  --pri:#005de8;
-  --pri-h:#005de8;
-  --brand:#0064fa;
-  --glow:#005de8;
-  --secondary:#4d8eff;
-  --text-gradient-end:#2366c2;
-  --button-bg:#0064fa;
-  --button-hover:#005ae1;
-  --button-pressed:#0050c8;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#0064fa;
-  --badge-debug-bg:#eef1f6;
-  --card-debug:#202736;
-  --card-debug-bg:#eef1f6;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#235fad);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=teal] {
+color-scheme:light;
+  --bg:#FBFEFD;
+  --bg2:#EDF7F5;
+  --bg3:#eff3f2;
+  --tx:#102722;
+  --tx2:#5b6c68;
+  --tx3:#5b6c68;
+  --bd:#ccd3d1;
+  --bd2:#dfe4e3;
+  --line:#dfe4e3;
+  --hov:#eff3f2;
+  --sel:#dfeeec;
+  --workbg:#eff3f2;
+  --pri:#0F766E;
+  --pri-h:#228179;
+  --brand:#0F766E;
+  --glow:#0F766E;
+  --secondary:#26837c;
+  --text-gradient-end:#26837c;
+  --button-bg:#0F766E;
+  --button-hover:#228179;
+  --button-pressed:#0f6e66;
+  --on-primary:#FFFFFF;
+  --ok:#15803D;
+  --warn:#B45309;
+  --err:#d82626;
+  --badge-text:#FFFFFF;
+  --card-top:#102722;
+  --badge-debug:#0F766E;
+  --badge-debug-bg:#e3f0ef;
+  --card-debug:#102722;
+  --card-debug-bg:#e3f0ef;
+  --badge-info:#15803D;
+  --badge-info-bg:#ebf5f0;
+  --card-info:#15803D;
+  --card-info-bg:#ebf5f0;
+  --badge-warn:#B45309;
+  --badge-warn-bg:#f6f2ec;
+  --card-warn:#B45309;
+  --card-warn-bg:#f6f2ec;
+  --badge-error:#d82626;
+  --badge-error-bg:#f9f3f2;
+  --card-error:#d82626;
+  --card-error-bg:#f9f3f2;
+  --badge-fatal:#c82626;
+  --badge-fatal-bg:#f9f3f2;
+  --card-fatal:#c82626;
+  --card-fatal-bg:#f9f3f2;
+  --action-gradient:linear-gradient(135deg,#0F766E,#26837c);
+  --pri-lt:#e3f0ef;
 }
-:root[data-theme=dark][data-palette=default] {
-  --bg:#13161c;
-  --bg2:#1a1e26;
-  --bg3:#242a35;
-  --tx:#edf1f8;
-  --tx2:#a6b2c6;
-  --tx3:#a6b2c6;
-  --bd:#354051;
-  --bd2:#354051;
-  --line:#354051;
-  --hov:#242a35;
-  --sel:#242a35;
-  --workbg:#242a35;
-  --pri:#6aa8ff;
-  --pri-h:#6aa8ff;
-  --brand:#0064fa;
-  --glow:#6aa8ff;
-  --secondary:#4d8eff;
-  --text-gradient-end:#8cbbff;
-  --button-bg:#0064fa;
-  --button-hover:#005ae1;
-  --button-pressed:#0050c8;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#a6b2c6;
-  --badge-debug:#6aa8ff;
-  --badge-debug-bg:#242a35;
-  --card-debug:#edf1f8;
-  --card-debug-bg:#242a35;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#235fad);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=teal] {
+color-scheme:dark;
+  --bg:#0E1614;
+  --bg2:#16211E;
+  --bg3:#1d2523;
+  --tx:#DFF2EE;
+  --tx2:#94a3a0;
+  --tx3:#94a3a0;
+  --bd:#444f4d;
+  --bd2:#2f3937;
+  --line:#2f3937;
+  --hov:#1d2523;
+  --sel:#1c3c37;
+  --workbg:#1d2523;
+  --pri:#5EEAD4;
+  --pri-h:#6becd7;
+  --brand:#5EEAD4;
+  --glow:#5EEAD4;
+  --secondary:#4ec0ae;
+  --text-gradient-end:#4ec0ae;
+  --button-bg:#5EEAD4;
+  --button-hover:#6becd7;
+  --button-pressed:#53cebb;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#DFF2EE;
+  --badge-debug:#5EEAD4;
+  --badge-debug-bg:#1b3833;
+  --card-debug:#DFF2EE;
+  --card-debug-bg:#1b3833;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#193a27;
+  --card-info:#4ADE80;
+  --card-info-bg:#193a27;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#393417;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#393417;
+  --badge-error:#F87171;
+  --badge-error-bg:#382625;
+  --card-error:#F87171;
+  --card-error-bg:#382625;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#412a28;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#412a28;
+  --action-gradient:linear-gradient(135deg,#5EEAD4,#4ec0ae);
+  --pri-lt:#1b3833;
 }
-:root[data-theme=light][data-palette=aqua] {
-  --bg:#f4fcfc;
-  --bg2:#ebf7f8;
-  --bg3:#dceff1;
-  --tx:#183b42;
-  --tx2:#526f77;
-  --tx3:#526f77;
-  --bd:#bfdce0;
-  --bd2:#bfdce0;
-  --line:#bfdce0;
-  --hov:#dceff1;
-  --sel:#dceff1;
-  --workbg:#dceff1;
-  --pri:#007184;
-  --pri-h:#007184;
-  --brand:#007d8f;
-  --glow:#007184;
-  --secondary:#159ba5;
-  --text-gradient-end:#007184;
-  --button-bg:#007d8f;
-  --button-hover:#007081;
-  --button-pressed:#006472;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#007d8f;
-  --badge-debug-bg:#dceff1;
-  --card-debug:#183b42;
-  --card-debug-bg:#dceff1;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#006f80);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=pine] {
+color-scheme:light;
+  --bg:#FBFDF9;
+  --bg2:#F0F6EF;
+  --bg3:#f0f2ee;
+  --tx:#16241A;
+  --tx2:#626c64;
+  --tx3:#626c64;
+  --bd:#cdd2cc;
+  --bd2:#e0e3de;
+  --line:#e0e3de;
+  --hov:#f0f2ee;
+  --sel:#e0ebe1;
+  --workbg:#f0f2ee;
+  --pri:#166534;
+  --pri-h:#287144;
+  --brand:#166534;
+  --glow:#166534;
+  --secondary:#43835c;
+  --text-gradient-end:#43835c;
+  --button-bg:#166534;
+  --button-hover:#287144;
+  --button-pressed:#165f31;
+  --on-primary:#FFFFFF;
+  --ok:#15803D;
+  --warn:#B45309;
+  --err:#d82626;
+  --badge-text:#FFFFFF;
+  --card-top:#16241A;
+  --badge-debug:#166534;
+  --badge-debug-bg:#e4eee5;
+  --card-debug:#16241A;
+  --card-debug-bg:#e4eee5;
+  --badge-info:#15803D;
+  --badge-info-bg:#edf6ee;
+  --card-info:#15803D;
+  --card-info-bg:#edf6ee;
+  --badge-warn:#B45309;
+  --badge-warn-bg:#f7f3eb;
+  --card-warn:#B45309;
+  --card-warn-bg:#f7f3eb;
+  --badge-error:#d82626;
+  --badge-error-bg:#faf4f1;
+  --card-error:#d82626;
+  --card-error-bg:#faf4f1;
+  --badge-fatal:#c82625;
+  --badge-fatal-bg:#faf4f1;
+  --card-fatal:#c82625;
+  --card-fatal-bg:#faf4f1;
+  --action-gradient:linear-gradient(135deg,#166534,#43835c);
+  --pri-lt:#e4eee5;
 }
-:root[data-theme=dark][data-palette=aqua] {
-  --bg:#101b20;
-  --bg2:#17262d;
-  --bg3:#20343d;
-  --tx:#e6f6f7;
-  --tx2:#a4c2c8;
-  --tx3:#a4c2c8;
-  --bd:#35505b;
-  --bd2:#35505b;
-  --line:#35505b;
-  --hov:#20343d;
-  --sel:#20343d;
-  --workbg:#20343d;
-  --pri:#62d7dc;
-  --pri-h:#62d7dc;
-  --brand:#007d8f;
-  --glow:#62d7dc;
-  --secondary:#239da9;
-  --text-gradient-end:#9be9ec;
-  --button-bg:#007d8f;
-  --button-hover:#007081;
-  --button-pressed:#006472;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#a4c2c8;
-  --badge-debug:#62d7dc;
-  --badge-debug-bg:#20343d;
-  --card-debug:#e6f6f7;
-  --card-debug-bg:#20343d;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#006f80);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=pine] {
+color-scheme:dark;
+  --bg:#0F1511;
+  --bg2:#17211B;
+  --bg3:#1e2420;
+  --tx:#E2EFE6;
+  --tx2:#96a199;
+  --tx3:#96a199;
+  --bd:#464e48;
+  --bd2:#313833;
+  --line:#313833;
+  --hov:#1e2420;
+  --sel:#243c2d;
+  --workbg:#1e2420;
+  --pri:#86EFAC;
+  --pri-h:#90f0b3;
+  --brand:#86EFAC;
+  --glow:#86EFAC;
+  --secondary:#6ec38d;
+  --text-gradient-end:#6ec38d;
+  --button-bg:#86EFAC;
+  --button-hover:#90f0b3;
+  --button-pressed:#76d297;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#E2EFE6;
+  --badge-debug:#86EFAC;
+  --badge-debug-bg:#22382a;
+  --card-debug:#E2EFE6;
+  --card-debug-bg:#22382a;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#1a3925;
+  --card-info:#4ADE80;
+  --card-info-bg:#1a3925;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#393414;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#393414;
+  --badge-error:#F87171;
+  --badge-error-bg:#392622;
+  --card-error:#F87171;
+  --card-error-bg:#392622;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#422926;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#422926;
+  --action-gradient:linear-gradient(135deg,#86EFAC,#6ec38d);
+  --pri-lt:#22382a;
 }
-:root[data-theme=light][data-palette=desert] {
-  --bg:#fffcf5;
-  --bg2:#fbf4e7;
-  --bg3:#f3e8d5;
-  --tx:#3c3022;
-  --tx2:#73644f;
-  --tx3:#73644f;
-  --bd:#decdb0;
-  --bd2:#decdb0;
-  --line:#decdb0;
-  --hov:#f3e8d5;
-  --sel:#f3e8d5;
-  --workbg:#f3e8d5;
-  --pri:#8a591a;
-  --pri-h:#8a591a;
-  --brand:#9b651e;
-  --glow:#8a591a;
-  --secondary:#bd8437;
-  --text-gradient-end:#8a591a;
-  --button-bg:#9b651e;
-  --button-hover:#8c5b1b;
-  --button-pressed:#7c5118;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#9b651e;
-  --badge-debug-bg:#f3e8d5;
-  --card-debug:#3c3022;
-  --card-debug-bg:#f3e8d5;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#895712);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=sky] {
+color-scheme:light;
+  --bg:#FBFDFF;
+  --bg2:#EDF4FA;
+  --bg3:#eff2f5;
+  --tx:#0F2233;
+  --tx2:#5d6a76;
+  --tx3:#5d6a76;
+  --bd:#ccd1d6;
+  --bd2:#dfe3e7;
+  --line:#dfe3e7;
+  --hov:#eff2f5;
+  --sel:#ddebf4;
+  --workbg:#eff2f5;
+  --pri:#0369A1;
+  --pri-h:#1775a9;
+  --brand:#0369A1;
+  --glow:#0369A1;
+  --secondary:#257dae;
+  --text-gradient-end:#257dae;
+  --button-bg:#0369A1;
+  --button-hover:#1775a9;
+  --button-pressed:#046296;
+  --on-primary:#FFFFFF;
+  --ok:#15803D;
+  --warn:#B45309;
+  --err:#d62626;
+  --badge-text:#FFFFFF;
+  --card-top:#0F2233;
+  --badge-debug:#0369A1;
+  --badge-debug-bg:#e2eef6;
+  --card-debug:#0F2233;
+  --card-debug-bg:#e2eef6;
+  --badge-info:#15803D;
+  --badge-info-bg:#edf6f3;
+  --card-info:#15803D;
+  --card-info-bg:#edf6f3;
+  --badge-warn:#B45309;
+  --badge-warn-bg:#f7f3f0;
+  --card-warn:#B45309;
+  --card-warn-bg:#f7f3f0;
+  --badge-error:#d62626;
+  --badge-error-bg:#f9f0f2;
+  --card-error:#d62626;
+  --card-error-bg:#f9f0f2;
+  --badge-fatal:#c82627;
+  --badge-fatal-bg:#f9f0f2;
+  --card-fatal:#c82627;
+  --card-fatal-bg:#f9f0f2;
+  --action-gradient:linear-gradient(135deg,#0369A1,#257dae);
+  --pri-lt:#e2eef6;
 }
-:root[data-theme=dark][data-palette=desert] {
-  --bg:#211c16;
-  --bg2:#2c251c;
-  --bg3:#3a3023;
-  --tx:#f7eddb;
-  --tx2:#c8b799;
-  --tx3:#c8b799;
-  --bd:#544630;
-  --bd2:#544630;
-  --line:#544630;
-  --hov:#3a3023;
-  --sel:#3a3023;
-  --workbg:#3a3023;
-  --pri:#e6b96d;
-  --pri-h:#e6b96d;
-  --brand:#9b651e;
-  --glow:#e6b96d;
-  --secondary:#bd8437;
-  --text-gradient-end:#f1d39e;
-  --button-bg:#9b651e;
-  --button-hover:#8c5b1b;
-  --button-pressed:#7c5118;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#c8b799;
-  --badge-debug:#e6b96d;
-  --badge-debug-bg:#3a3023;
-  --card-debug:#f7eddb;
-  --card-debug-bg:#3a3023;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#895712);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=sky] {
+color-scheme:dark;
+  --bg:#0D1420;
+  --bg2:#16202E;
+  --bg3:#1c232f;
+  --tx:#DDEBF7;
+  --tx2:#929eaa;
+  --tx3:#929eaa;
+  --bd:#434c58;
+  --bd2:#2e3642;
+  --line:#2e3642;
+  --hov:#1c232f;
+  --sel:#213648;
+  --workbg:#1c232f;
+  --pri:#7DD3FC;
+  --pri-h:#87d7fc;
+  --brand:#7DD3FC;
+  --glow:#7DD3FC;
+  --secondary:#67add0;
+  --text-gradient-end:#67add0;
+  --button-bg:#7DD3FC;
+  --button-hover:#87d7fc;
+  --button-pressed:#6ebade;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#DDEBF7;
+  --badge-debug:#7DD3FC;
+  --badge-debug-bg:#1f3343;
+  --card-debug:#DDEBF7;
+  --card-debug-bg:#1f3343;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#183831;
+  --card-info:#4ADE80;
+  --card-info-bg:#183831;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#383321;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#383321;
+  --badge-error:#F87171;
+  --badge-error-bg:#37252f;
+  --card-error:#F87171;
+  --card-error-bg:#37252f;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#412832;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#412832;
+  --action-gradient:linear-gradient(135deg,#7DD3FC,#67add0);
+  --pri-lt:#1f3343;
 }
-:root[data-theme=light][data-palette=dusk] {
-  --bg:#faf8fe;
-  --bg2:#f1edf9;
-  --bg3:#e7e0f3;
-  --tx:#332841;
-  --tx2:#6d5e7c;
-  --tx3:#6d5e7c;
-  --bd:#d3c7e6;
-  --bd2:#d3c7e6;
-  --line:#d3c7e6;
-  --hov:#e7e0f3;
-  --sel:#e7e0f3;
-  --workbg:#e7e0f3;
-  --pri:#7052b5;
-  --pri-h:#7052b5;
-  --brand:#7052b5;
-  --glow:#7052b5;
-  --secondary:#9676cc;
-  --text-gradient-end:#7052b5;
-  --button-bg:#7052b5;
-  --button-hover:#654aa3;
-  --button-pressed:#5a4291;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#7052b5;
-  --badge-debug-bg:#e7e0f3;
-  --card-debug:#332841;
-  --card-debug-bg:#e7e0f3;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#63429f);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=amber] {
+color-scheme:light;
+  --bg:#FEFDF9;
+  --bg2:#F8F3E8;
+  --bg3:#f3f2ed;
+  --tx:#241E10;
+  --tx2:#6c685d;
+  --tx3:#6c685d;
+  --bd:#d2d0ca;
+  --bd2:#e4e2dd;
+  --line:#e4e2dd;
+  --hov:#f3f2ed;
+  --sel:#f5e9dc;
+  --workbg:#f3f2ed;
+  --pri:#B45309;
+  --pri-h:#b85d17;
+  --brand:#B45309;
+  --glow:#B45309;
+  --secondary:#b85d18;
+  --text-gradient-end:#b85d18;
+  --button-bg:#B45309;
+  --button-hover:#b85d17;
+  --button-pressed:#a64e0a;
+  --on-primary:#FFFFFF;
+  --ok:#15803D;
+  --warn:#B45309;
+  --err:#d62625;
+  --badge-text:#FFFFFF;
+  --card-top:#241E10;
+  --badge-debug:#B45309;
+  --badge-debug-bg:#faf3eb;
+  --card-debug:#241E10;
+  --card-debug-bg:#faf3eb;
+  --badge-info:#15803D;
+  --badge-info-bg:#f0f6ee;
+  --card-info:#15803D;
+  --card-info-bg:#f0f6ee;
+  --badge-warn:#B45309;
+  --badge-warn-bg:#faf3eb;
+  --card-warn:#B45309;
+  --card-warn-bg:#faf3eb;
+  --badge-error:#d62625;
+  --badge-error-bg:#fcf0ec;
+  --card-error:#d62625;
+  --card-error-bg:#fcf0ec;
+  --badge-fatal:#ca2524;
+  --badge-fatal-bg:#fcf0ec;
+  --card-fatal:#ca2524;
+  --card-fatal-bg:#fcf0ec;
+  --action-gradient:linear-gradient(135deg,#B45309,#b85d18);
+  --pri-lt:#faf3eb;
 }
-:root[data-theme=dark][data-palette=dusk] {
-  --bg:#1c1725;
-  --bg2:#272033;
-  --bg3:#342b43;
-  --tx:#f2eafb;
-  --tx2:#beb0d0;
-  --tx3:#beb0d0;
-  --bd:#4b3e5d;
-  --bd2:#4b3e5d;
-  --line:#4b3e5d;
-  --hov:#342b43;
-  --sel:#342b43;
-  --workbg:#342b43;
-  --pri:#bba0eb;
-  --pri-h:#bba0eb;
-  --brand:#7052b5;
-  --glow:#bba0eb;
-  --secondary:#9676cc;
-  --text-gradient-end:#d6c3f4;
-  --button-bg:#7052b5;
-  --button-hover:#654aa3;
-  --button-pressed:#5a4291;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#beb0d0;
-  --badge-debug:#bba0eb;
-  --badge-debug-bg:#342b43;
-  --card-debug:#f2eafb;
-  --card-debug-bg:#342b43;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#63429f);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=amber] {
+color-scheme:dark;
+  --bg:#171310;
+  --bg2:#221C15;
+  --bg3:#26221e;
+  --tx:#F3EDDF;
+  --tx2:#a49f94;
+  --tx3:#a49f94;
+  --bd:#504c46;
+  --bd2:#3a3631;
+  --line:#3a3631;
+  --hov:#26221e;
+  --sel:#40361b;
+  --workbg:#26221e;
+  --pri:#FCD34D;
+  --pri-h:#fcd75b;
+  --brand:#FCD34D;
+  --glow:#FCD34D;
+  --secondary:#cead41;
+  --text-gradient-end:#cead41;
+  --button-bg:#FCD34D;
+  --button-hover:#fcd75b;
+  --button-pressed:#deba44;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#F3EDDF;
+  --badge-debug:#FCD34D;
+  --badge-debug-bg:#3c321a;
+  --card-debug:#F3EDDF;
+  --card-debug-bg:#3c321a;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#203824;
+  --card-info:#4ADE80;
+  --card-info-bg:#203824;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#403214;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#403214;
+  --badge-error:#F87171;
+  --badge-error-bg:#402421;
+  --card-error:#F87171;
+  --card-error-bg:#402421;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#492825;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#492825;
+  --action-gradient:linear-gradient(135deg,#FCD34D,#cead41);
+  --pri-lt:#3c321a;
 }
-:root[data-theme=light][data-palette=night] {
-  --bg:#f6f9ff;
-  --bg2:#edf3fc;
-  --bg3:#dde9f8;
-  --tx:#20314a;
-  --tx2:#566780;
-  --tx3:#566780;
-  --bd:#bed0e8;
-  --bd2:#bed0e8;
-  --line:#bed0e8;
-  --hov:#dde9f8;
-  --sel:#dde9f8;
-  --workbg:#dde9f8;
-  --pri:#235fad;
-  --pri-h:#235fad;
-  --brand:#235fad;
-  --glow:#235fad;
-  --secondary:#4b84c6;
-  --text-gradient-end:#235fad;
-  --button-bg:#235fad;
-  --button-hover:#20569c;
-  --button-pressed:#1c4c8a;
-  --on-primary:white;
-  --ok:#147537;
-  --warn:#925c00;
-  --err:#b42318;
-  --badge-text:white;
-  --card-top:#5c6370;
-  --badge-debug:#235fad;
-  --badge-debug-bg:#dde9f8;
-  --card-debug:#20314a;
-  --card-debug-bg:#dde9f8;
-  --badge-info:#147537;
-  --badge-info-bg:#e4f5e8;
-  --card-info:#147537;
-  --card-info-bg:#e4f5e8;
-  --badge-warn:#925c00;
-  --badge-warn-bg:#fdf3dc;
-  --card-warn:#925c00;
-  --card-warn-bg:#fdf3dc;
-  --badge-error:#b42318;
-  --badge-error-bg:#fdecec;
-  --card-error:#b42318;
-  --card-error-bg:#fdecec;
-  --badge-fatal:#912018;
-  --badge-fatal-bg:#f9dcdc;
-  --card-fatal:#912018;
-  --card-fatal-bg:#f9dcdc;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#194c94);
-  --pri-lt:var(--bg3);
+:root[data-theme=light][data-palette=crimson] {
+color-scheme:light;
+  --bg:#FEFCFC;
+  --bg2:#F6F1F0;
+  --bg3:#f3f0f1;
+  --tx:#2A1517;
+  --tx2:#726465;
+  --tx3:#726465;
+  --bd:#d4cece;
+  --bd2:#e5e0e1;
+  --line:#e5e0e1;
+  --hov:#f3f0f1;
+  --sel:#f6e0e5;
+  --workbg:#f3f0f1;
+  --pri:#BE123C;
+  --pri-h:#c3254b;
+  --brand:#BE123C;
+  --glow:#BE123C;
+  --secondary:#cc4667;
+  --text-gradient-end:#cc4667;
+  --button-bg:#BE123C;
+  --button-hover:#c3254b;
+  --button-pressed:#af1238;
+  --on-primary:#FFFFFF;
+  --ok:#157f3d;
+  --warn:#b35209;
+  --err:#d52525;
+  --badge-text:#FFFFFF;
+  --card-top:#2A1517;
+  --badge-debug:#BE123C;
+  --badge-debug-bg:#f8e5e9;
+  --card-debug:#2A1517;
+  --card-debug-bg:#f8e5e9;
+  --badge-info:#157f3d;
+  --badge-info-bg:#eef3ef;
+  --card-info:#157f3d;
+  --card-info-bg:#eef3ef;
+  --badge-warn:#b35209;
+  --badge-warn-bg:#f9f0eb;
+  --card-warn:#b35209;
+  --card-warn-bg:#f9f0eb;
+  --badge-error:#d52525;
+  --badge-error-bg:#fcefef;
+  --card-error:#d52525;
+  --card-error-bg:#fcefef;
+  --badge-fatal:#ca2425;
+  --badge-fatal-bg:#fcefef;
+  --card-fatal:#ca2425;
+  --card-fatal-bg:#fcefef;
+  --action-gradient:linear-gradient(135deg,#BE123C,#cc4667);
+  --pri-lt:#f8e5e9;
 }
-:root[data-theme=dark][data-palette=night] {
-  --bg:#101724;
-  --bg2:#172235;
-  --bg3:#203047;
-  --tx:#e8f0ff;
-  --tx2:#a8bcd8;
-  --tx3:#a8bcd8;
-  --bd:#344965;
-  --bd2:#344965;
-  --line:#344965;
-  --hov:#203047;
-  --sel:#203047;
-  --workbg:#203047;
-  --pri:#79adff;
-  --pri-h:#79adff;
-  --brand:#235fad;
-  --glow:#79adff;
-  --secondary:#4b84c6;
-  --text-gradient-end:#b0ceff;
-  --button-bg:#235fad;
-  --button-hover:#20569c;
-  --button-pressed:#1c4c8a;
-  --on-primary:white;
-  --ok:#75d496;
-  --warn:#f5cc80;
-  --err:#ff9aae;
-  --badge-text:#13161c;
-  --card-top:#a8bcd8;
-  --badge-debug:#79adff;
-  --badge-debug-bg:#203047;
-  --card-debug:#e8f0ff;
-  --card-debug-bg:#203047;
-  --badge-info:#75d496;
-  --badge-info-bg:#17291d;
-  --card-info:#75d496;
-  --card-info-bg:#17291d;
-  --badge-warn:#f5cc80;
-  --badge-warn-bg:#2e2717;
-  --card-warn:#f5cc80;
-  --card-warn-bg:#2e2717;
-  --badge-error:#ff9aae;
-  --badge-error-bg:#2e1d21;
-  --card-error:#ff9aae;
-  --card-error-bg:#2e1d21;
-  --badge-fatal:#ffb5c2;
-  --badge-fatal-bg:#3a2429;
-  --card-fatal:#ffb5c2;
-  --card-fatal-bg:#3a2429;
-  --action-gradient:linear-gradient(135deg,var(--button-bg),#194c94);
-  --pri-lt:var(--bg3);
+:root[data-theme=dark][data-palette=crimson] {
+color-scheme:dark;
+  --bg:#170F11;
+  --bg2:#211A1C;
+  --bg3:#271e20;
+  --tx:#F6E7E9;
+  --tx2:#a6999b;
+  --tx3:#a6999b;
+  --bd:#514749;
+  --bd2:#3b3234;
+  --line:#3b3234;
+  --hov:#271e20;
+  --sel:#402a2d;
+  --workbg:#271e20;
+  --pri:#FDA4AF;
+  --pri-h:#fdabb5;
+  --brand:#FDA4AF;
+  --glow:#FDA4AF;
+  --secondary:#cf868f;
+  --text-gradient-end:#cf868f;
+  --button-bg:#FDA4AF;
+  --button-hover:#fdabb5;
+  --button-pressed:#df909a;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#F6E7E9;
+  --badge-debug:#FDA4AF;
+  --badge-debug-bg:#3c272a;
+  --card-debug:#F6E7E9;
+  --card-debug-bg:#3c272a;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#203425;
+  --card-info:#4ADE80;
+  --card-info-bg:#203425;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#402f14;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#402f14;
+  --badge-error:#F87171;
+  --badge-error-bg:#402122;
+  --card-error:#F87171;
+  --card-error-bg:#402122;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#492526;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#492526;
+  --action-gradient:linear-gradient(135deg,#FDA4AF,#cf868f);
+  --pri-lt:#3c272a;
+}
+:root[data-theme=light][data-palette=violet] {
+color-scheme:light;
+  --bg:#FDFCFE;
+  --bg2:#F3F1F5;
+  --bg3:#f2f1f3;
+  --tx:#1F1729;
+  --tx2:#6a6571;
+  --tx3:#6a6571;
+  --bd:#d1ced3;
+  --bd2:#e2e1e4;
+  --line:#e2e1e4;
+  --hov:#f2f1f3;
+  --sel:#ece3fa;
+  --workbg:#f2f1f3;
+  --pri:#6D28D9;
+  --pri-h:#7939dc;
+  --brand:#6D28D9;
+  --glow:#6D28D9;
+  --secondary:#8e58e2;
+  --text-gradient-end:#8e58e2;
+  --button-bg:#6D28D9;
+  --button-hover:#7939dc;
+  --button-pressed:#6526c7;
+  --on-primary:#FFFFFF;
+  --ok:#157f3d;
+  --warn:#b35209;
+  --err:#d42526;
+  --badge-text:#FFFFFF;
+  --card-top:#1F1729;
+  --badge-debug:#6D28D9;
+  --badge-debug-bg:#efe7fa;
+  --card-debug:#1F1729;
+  --card-debug-bg:#efe7fa;
+  --badge-info:#157f3d;
+  --badge-info-bg:#edf3f0;
+  --card-info:#157f3d;
+  --card-info-bg:#edf3f0;
+  --badge-warn:#b35209;
+  --badge-warn-bg:#f8f0ed;
+  --card-warn:#b35209;
+  --card-warn-bg:#f8f0ed;
+  --badge-error:#d42526;
+  --badge-error-bg:#faedef;
+  --card-error:#d42526;
+  --card-error-bg:#faedef;
+  --badge-fatal:#c92526;
+  --badge-fatal-bg:#faedef;
+  --card-fatal:#c92526;
+  --card-fatal-bg:#faedef;
+  --action-gradient:linear-gradient(135deg,#6D28D9,#8e58e2);
+  --pri-lt:#efe7fa;
+}
+:root[data-theme=dark][data-palette=violet] {
+color-scheme:dark;
+  --bg:#131019;
+  --bg2:#1C1A24;
+  --bg3:#221f28;
+  --tx:#ECE7F5;
+  --tx2:#9e9aa6;
+  --tx3:#9e9aa6;
+  --bd:#4b4852;
+  --bd2:#36323c;
+  --line:#36323c;
+  --hov:#221f28;
+  --sel:#332e42;
+  --workbg:#221f28;
+  --pri:#C4B5FD;
+  --pri-h:#c9bbfd;
+  --brand:#C4B5FD;
+  --glow:#C4B5FD;
+  --secondary:#a194cf;
+  --text-gradient-end:#a194cf;
+  --button-bg:#C4B5FD;
+  --button-hover:#c9bbfd;
+  --button-pressed:#ac9fdf;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#ECE7F5;
+  --badge-debug:#C4B5FD;
+  --badge-debug-bg:#2f2a3d;
+  --card-debug:#ECE7F5;
+  --card-debug-bg:#2f2a3d;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#1d352c;
+  --card-info:#4ADE80;
+  --card-info-bg:#1d352c;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#3d301b;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#3d301b;
+  --badge-error:#F87171;
+  --badge-error-bg:#3c2129;
+  --card-error:#F87171;
+  --card-error-bg:#3c2129;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#45252c;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#45252c;
+  --action-gradient:linear-gradient(135deg,#C4B5FD,#a194cf);
+  --pri-lt:#2f2a3d;
+}
+:root[data-theme=light][data-palette=terracotta] {
+color-scheme:light;
+  --bg:#FEFCFA;
+  --bg2:#F8F0E9;
+  --bg3:#f3f1ef;
+  --tx:#2B1E14;
+  --tx2:#6f655e;
+  --tx3:#6f655e;
+  --bd:#d4d0cc;
+  --bd2:#e5e1de;
+  --line:#e5e1de;
+  --hov:#f3f1ef;
+  --sel:#f7e6dd;
+  --workbg:#f3f1ef;
+  --pri:#C2410C;
+  --pri-h:#c7501f;
+  --brand:#C2410C;
+  --glow:#C2410C;
+  --secondary:#c75222;
+  --text-gradient-end:#c75222;
+  --button-bg:#C2410C;
+  --button-hover:#c7501f;
+  --button-pressed:#b33e0d;
+  --on-primary:#FFFFFF;
+  --ok:#157f3d;
+  --warn:#b35209;
+  --err:#d52625;
+  --badge-text:#FFFFFF;
+  --card-top:#2B1E14;
+  --badge-debug:#C2410C;
+  --badge-debug-bg:#f9ede7;
+  --card-debug:#2B1E14;
+  --card-debug-bg:#f9ede7;
+  --badge-info:#157f3d;
+  --badge-info-bg:#eef3ed;
+  --card-info:#157f3d;
+  --card-info-bg:#eef3ed;
+  --badge-warn:#b35209;
+  --badge-warn-bg:#f9f0e9;
+  --card-warn:#b35209;
+  --card-warn-bg:#f9f0e9;
+  --badge-error:#d52625;
+  --badge-error-bg:#fcefed;
+  --card-error:#d52625;
+  --card-error-bg:#fcefed;
+  --badge-fatal:#ca2524;
+  --badge-fatal-bg:#fcefed;
+  --card-fatal:#ca2524;
+  --card-fatal-bg:#fcefed;
+  --action-gradient:linear-gradient(135deg,#C2410C,#c75222);
+  --pri-lt:#f9ede7;
+}
+:root[data-theme=dark][data-palette=terracotta] {
+color-scheme:dark;
+  --bg:#171210;
+  --bg2:#231A15;
+  --bg3:#26211f;
+  --tx:#F4EAE2;
+  --tx2:#a49c96;
+  --tx3:#a49c96;
+  --bd:#504a47;
+  --bd2:#3a3532;
+  --line:#3a3532;
+  --hov:#26211f;
+  --sel:#403022;
+  --workbg:#26211f;
+  --pri:#FDBA74;
+  --pri-h:#fdc07f;
+  --brand:#FDBA74;
+  --glow:#FDBA74;
+  --secondary:#cf9860;
+  --text-gradient-end:#cf9860;
+  --button-bg:#FDBA74;
+  --button-hover:#fdc07f;
+  --button-pressed:#dfa466;
+  --on-primary:#000000;
+  --ok:#4ADE80;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --badge-text:#000000;
+  --card-top:#F4EAE2;
+  --badge-debug:#FDBA74;
+  --badge-debug-bg:#3c2d20;
+  --card-debug:#F4EAE2;
+  --card-debug-bg:#3c2d20;
+  --badge-info:#4ADE80;
+  --badge-info-bg:#203724;
+  --card-info:#4ADE80;
+  --card-info-bg:#203724;
+  --badge-warn:#FBBF24;
+  --badge-warn-bg:#403114;
+  --card-warn:#FBBF24;
+  --card-warn-bg:#403114;
+  --badge-error:#F87171;
+  --badge-error-bg:#402321;
+  --card-error:#F87171;
+  --card-error-bg:#402321;
+  --badge-fatal:#da6363;
+  --badge-fatal-bg:#492725;
+  --card-fatal:#da6363;
+  --card-fatal-bg:#492725;
+  --action-gradient:linear-gradient(135deg,#FDBA74,#cf9860);
+  --pri-lt:#3c2d20;
 }
 
 </style>
@@ -1521,12 +1752,21 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
   <!-- ═══ 1. 标题栏 ═══ -->
   <div class="cap">
     <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPCEtLSBDb2RlV0YuVG9vbGtpdCDCtyDlt6XlhbflsYLlj6DvvJrlm5vlsYLog73lipvloIblj6DvvIhDb3JlL0ZpbGVzL0xvZ2dpbmcvTmV077yJ77yM6aG25bGC5Luj56CB5ous5Y+3IC0tPgogIDwhLS0g5Yeg5L2V77ya5Zub5Liq6I+x5b2i5Lit5b+DIHkgPSAxNjYvMjI2LzI4Ni8zNDbvvIjnrYnot50gNjDvvInvvIzlhoXlrrnnurXlkJHot6ggMTEy4oCTNDAw77yM5Lit5b+D5oGw5Li6IDI1NiAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idGtiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNjIzM0IiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEUxNTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJhbWJlciIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGQ0QzNEQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDk3NzA2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9InVybCgjdGtiZykiLz4KCiAgPCEtLSDlm5vlsYLloIblj6DvvJrmsLTlubMgNzbigJM0MzYg5bGF5Lit77yM5Z6C55u0IDExMuKAkzQwMCDlsYXkuK0gLS0+CiAgPHBhdGggZD0iTTI1NiAyOTIgTDQzNiAzNDYgTDI1NiA0MDAgTDc2IDM0NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjM1Ii8+CiAgPHBhdGggZD0iTTI1NiAyMzIgTDQzNiAyODYgTDI1NiAzNDAgTDc2IDI4NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTTI1NiAxNzIgTDQzNiAyMjYgTDI1NiAyODAgTDc2IDIyNiBaIiBmaWxsPSIjRjU5RTBCIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTI1NiAxMTIgTDQzNiAxNjYgTDI1NiAyMjAgTDc2IDE2NiBaIiBmaWxsPSJ1cmwoI2FtYmVyKSIvPgoKICA8IS0tIOmhtuWxguS7o+eggeaLrOWPt++8iOmhtumdouS4reW/gyAyNTYsMTY277yJIC0tPgogIDxnIHN0cm9rZT0iIzE2MjMzQiIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIj4KICAgIDxwYXRoIGQ9Ik0yMDYgMTQ4IEwxODAgMTY2IEwyMDYgMTg0Ii8+CiAgICA8cGF0aCBkPSJNMzA2IDE0OCBMMzMyIDE2NiBMMzA2IDE4NCIvPgogICAgPGxpbmUgeDE9IjI2OCIgeTE9IjE0MCIgeDI9IjI0NCIgeTI9IjE5MiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="CodeWF.Toolkit logo" title="CodeWF.Toolkit">
-    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.0.0.27</span>
+    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.0-alpha.1</span>
     <span class="sp"></span>
-    <span class="pal" id="palDots"></span>
-    <button class="wb" id="darkBtn" title="深色 / 浅色（Ctrl+D）">
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 9.6A5.6 5.6 0 0 1 6.4 3a5.6 5.6 0 1 0 6.6 6.6z"/></svg>
-    </button>
+    <details id="appearanceMenu" class="titlebar-appearance">
+      <summary title="外观：主题与配色" aria-label="外观：主题与配色">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0 0 17c1.3 0 2-.9 2-1.9 0-1.6 1.1-2.1 2.4-2.1H18a3.5 3.5 0 0 0 3.5-3.5c0-3.9-4.3-7-9.5-7z"/><circle cx="8.5" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="8" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.1" fill="currentColor" stroke="none"/></svg><span>外观</span>
+      </summary>
+      <div class="appearance-choices">
+        <fieldset class="studio-modes">
+          <legend>明暗模式</legend>
+          <div class="theme-mode-options" id="themeModeOptions"></div>
+        </fieldset>
+        <strong class="appearance-palettes-title">界面配色</strong>
+        <div class="studio-palettes" id="paletteGrid" role="group" aria-label="界面配色"></div>
+      </div>
+    </details>
     <div class="titlebar-language">
       <button class="wb" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu" title="Language"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18z"/></svg></button>
       <div id="languageMenu" role="menu" hidden></div>
@@ -1545,9 +1785,6 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
       </button>
       <button id="qkReset" title="重置工作区">
         <svg class="svgic s16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg>
-      </button>
-      <button id="qkPalette" title="循环切换色板">
-        <svg class="svgic s16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0 0 17c1.3 0 2-.9 2-1.9 0-1.6 1.1-2.1 2.4-2.1H18a3.5 3.5 0 0 0 3.5-3.5c0-3.9-4.3-7-9.5-7z"/><circle cx="8.5" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="8" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.1" fill="currentColor" stroke="none"/></svg>
       </button>
     </div>
     <div class="rt2" id="rTabs"></div>
@@ -1640,9 +1877,8 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
     <span class="latest" id="stTx" data-i18n="ready">就绪</span>
     <span class="sep">|</span>
     <button id="logToggleBtn" data-i18n="status.logpanel">日志面板</button>
-    <button id="darkBtn2">深浅</button>
     <button id="langBtn2">中英</button>
-    <span>net10.0 · Toolkit 1.0.0.27</span>
+    <span>net10.0 · Toolkit 1.1.0-alpha.1</span>
   </div>
 
 </div><!-- /.win -->
@@ -1678,6 +1914,193 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
 
 <div id="DBG"></div>
 
+<script>
+// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.0-alpha.1 docs/配色与排版令牌规则.md（ruleVersion 5）。
+"use strict";
+window.CodeWFPalettes = {
+  "defaultKey": "indigo",
+  "ruleVersion": 5,
+  "source": "CodeWF.Avalonia 12.2.0-alpha.1",
+  "list": [
+    {
+      "key": "graphite",
+      "label": "石墨",
+      "en": "Graphite",
+      "note": "无彩色 · 明度对比",
+      "recommended": true,
+      "swatch": [
+        "#FFFFFF",
+        "#F4F4F5",
+        "#18181B",
+        "#3F3F46",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "indigo",
+      "label": "靛蓝",
+      "en": "Indigo",
+      "note": "经典蓝 · 日常默认",
+      "recommended": true,
+      "swatch": [
+        "#FDFDFE",
+        "#F2F2F5",
+        "#1B1D2E",
+        "#4338CA",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "teal",
+      "label": "青碧",
+      "en": "Teal",
+      "note": "冷青 · 清爽记录",
+      "recommended": true,
+      "swatch": [
+        "#FBFEFD",
+        "#EDF7F5",
+        "#102722",
+        "#0F766E",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "pine",
+      "label": "松绿",
+      "en": "Pine",
+      "note": "松绿 · 沉稳专注",
+      "recommended": true,
+      "swatch": [
+        "#FBFDF9",
+        "#F0F6EF",
+        "#16241A",
+        "#166534",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "sky",
+      "label": "天青",
+      "en": "Sky",
+      "note": "天青 · 清朗开阔",
+      "recommended": false,
+      "swatch": [
+        "#FBFDFF",
+        "#EDF4FA",
+        "#0F2233",
+        "#0369A1",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "amber",
+      "label": "琥珀",
+      "en": "Amber",
+      "note": "暖金 · 长时阅读",
+      "recommended": false,
+      "swatch": [
+        "#FEFDF9",
+        "#F8F3E8",
+        "#241E10",
+        "#B45309",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "crimson",
+      "label": "绯红",
+      "en": "Crimson",
+      "note": "绯红 · 鲜明活力",
+      "recommended": false,
+      "swatch": [
+        "#FEFCFC",
+        "#F6F1F0",
+        "#2A1517",
+        "#BE123C",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "violet",
+      "label": "紫晶",
+      "en": "Violet",
+      "note": "紫晶 · 创意整理",
+      "recommended": false,
+      "swatch": [
+        "#FDFCFE",
+        "#F3F1F5",
+        "#1F1729",
+        "#6D28D9",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    },
+    {
+      "key": "terracotta",
+      "label": "陶土",
+      "en": "Terracotta",
+      "note": "暖陶 · 灵感手记",
+      "recommended": false,
+      "swatch": [
+        "#FEFCFA",
+        "#F8F0E9",
+        "#2B1E14",
+        "#C2410C",
+        "#DC2626",
+        "#15803D",
+        "#B45309",
+        "#4338CA"
+      ]
+    }
+  ],
+  "alias": {
+    "weft": "teal",
+    "aquatic": "teal",
+    "aqua": "teal",
+    "ocean": "indigo",
+    "blue": "indigo",
+    "dusk": "indigo",
+    "dotnet": "indigo",
+    "night-sky": "indigo",
+    "night": "indigo",
+    "default": "indigo",
+    "sand": "amber",
+    "ochre": "amber",
+    "desert": "amber",
+    "rose": "crimson",
+    "iris": "violet",
+    "plum": "violet",
+    "aurora": "violet",
+    "olive": "pine",
+    "ember": "terracotta",
+    "contrast": "graphite"
+  }
+};
+
+</script>
 <script>
 "use strict";
 window.CodeWFDemoCatalog = [
@@ -3051,7 +3474,7 @@ window.CodeWFPrototypeSettings = {
       "NavEmpty": "没有匹配的页面",
       "GlobalSettings": {
         "PaletteLabel": "色板",
-        "PaletteDescription": "八套配色：.NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏与夜空。",
+        "PaletteDescription": "九套配色：石墨、靛蓝、青碧、松绿、天青、琥珀、绯红、紫晶与陶土。",
         "ModeLabel": "界面模式",
         "LightMode": "浅色",
         "DarkMode": "深色",
@@ -3074,18 +3497,37 @@ window.CodeWFPrototypeSettings = {
       "SampleInformationLog": "演示：一条信息日志",
       "SampleWarningLog": "演示：一条警告日志",
       "SampleErrorLog": "演示：一条错误日志",
-      "SampleException": "示例异常"
+      "SampleException": "示例异常",
+      "AppearanceMenu": "外观",
+      "AddPalette": "＋ 新增配色",
+      "PalettesTitle": "界面配色",
+      "PaletteName": "配色名称",
+      "PaletteNameRequired": "请先输入配色名称",
+      "PaletteInvalidColor": "色值需为 #RRGGBB",
+      "Pick": "推荐",
+      "EditPalette": "编辑配色",
+      "RemovePalette": "删除配色",
+      "PaletteSavedFormat": "配色「{0}」已保存并应用",
+      "PaletteRemovedFormat": "配色「{0}」已删除",
+      "ColorLightPaper": "浅 · 纸面",
+      "ColorLightSurface": "浅 · 面板",
+      "ColorLightInk": "浅 · 墨色",
+      "ColorLightAccent": "浅 · 强调",
+      "ColorDarkPaper": "深 · 纸面",
+      "ColorDarkSurface": "深 · 面板",
+      "ColorDarkInk": "深 · 墨色",
+      "ColorDarkAccent": "深 · 强调"
     },
     "palettes": {
-      "Default": "默认",
-      "Aquatic": "水生",
-      "Desert": "沙漠",
-      "Dusk": "黄昏",
-      "NightSky": "夜空",
-      "HighContrast": "高对比",
-      "DotNet": ".NET 紫",
-      "Aurora": "AI 极光",
-      "Ember": "AI 暖陶"
+      "Graphite": "石墨",
+      "Indigo": "靛蓝",
+      "Teal": "青碧",
+      "Pine": "松绿",
+      "Sky": "天青",
+      "Amber": "琥珀",
+      "Crimson": "绯红",
+      "Violet": "紫晶",
+      "Terracotta": "陶土"
     },
     "language": "语言",
     "group": "外观"
@@ -3122,7 +3564,7 @@ window.CodeWFPrototypeSettings = {
       "NavEmpty": "No matching page",
       "GlobalSettings": {
         "PaletteLabel": "Palette",
-        "PaletteDescription": "Eight palettes: .NET Purple, AI Aurora, AI Ember, Default, Aquatic, Desert, Dusk, and Night Sky.",
+        "PaletteDescription": "Nine palettes: Graphite, Indigo, Teal, Pine, Sky, Amber, Crimson, Violet, and Terracotta.",
         "ModeLabel": "Mode",
         "LightMode": "Light",
         "DarkMode": "Dark",
@@ -3145,18 +3587,37 @@ window.CodeWFPrototypeSettings = {
       "SampleInformationLog": "Demo: information log",
       "SampleWarningLog": "Demo: warning log",
       "SampleErrorLog": "Demo: error log",
-      "SampleException": "Sample exception"
+      "SampleException": "Sample exception",
+      "AppearanceMenu": "Appearance",
+      "AddPalette": "＋ Add palette",
+      "PalettesTitle": "Palettes",
+      "PaletteName": "Palette name",
+      "PaletteNameRequired": "Enter a palette name first",
+      "PaletteInvalidColor": "Colors must be #RRGGBB",
+      "Pick": "Pick",
+      "EditPalette": "Edit palette",
+      "RemovePalette": "Remove palette",
+      "PaletteSavedFormat": "Palette \"{0}\" saved and applied",
+      "PaletteRemovedFormat": "Palette \"{0}\" removed",
+      "ColorLightPaper": "Light paper",
+      "ColorLightSurface": "Light surface",
+      "ColorLightInk": "Light ink",
+      "ColorLightAccent": "Light accent",
+      "ColorDarkPaper": "Dark paper",
+      "ColorDarkSurface": "Dark surface",
+      "ColorDarkInk": "Dark ink",
+      "ColorDarkAccent": "Dark accent"
     },
     "palettes": {
-      "Default": "Default",
-      "Aquatic": "Aquatic",
-      "Desert": "Desert",
-      "Dusk": "Dusk",
-      "NightSky": "Night Sky",
-      "HighContrast": "High Contrast",
-      "DotNet": ".NET Purple",
-      "Aurora": "AI Aurora",
-      "Ember": "AI Ember"
+      "Graphite": "Graphite",
+      "Indigo": "Indigo",
+      "Teal": "Teal",
+      "Pine": "Pine",
+      "Sky": "Sky",
+      "Amber": "Amber",
+      "Crimson": "Crimson",
+      "Violet": "Violet",
+      "Terracotta": "Terracotta"
     },
     "language": "Language",
     "group": "Appearance"
@@ -3694,17 +4155,23 @@ function toWindow(names) {
  names.forEach(function (n) { try { window[n] = eval(n); } catch (e) { } });
 }
 
+/* ═══ 配色数据：9 套高对比配色（规则附录 A），来自生成物 assets/palette-data.js ═══
+ * 配色与明暗的唯一切换入口是标题栏外观菜单（studio.js，与 Vex 原型同构）。 */
+var PAL_DATA = window.CodeWFPalettes || { defaultKey: "indigo", list: [{ key: "indigo", label: "靛蓝", en: "Indigo", swatch: ["#FDFDFE", "#F1F2F8", "#1B1D2E", "#4338CA", "#DC2626", "#15803D", "#B45309", "#4338CA"] }], alias: {} };
+function paletteEntry(v) {
+ var key = PAL_DATA.alias[v] || v;
+ for (var i = 0; i < PAL_DATA.list.length; i++) {
+  var p = PAL_DATA.list[i];
+  if (p.key === key || p.label === v || p.en === v) return p;
+ }
+ return PAL_DATA.list.filter(function (p) { return p.key === PAL_DATA.defaultKey; })[0] || PAL_DATA.list[0];
+}
+function paletteName(p) { return LANG === "en-US" ? p.en : p.label; }
+
 /* ═══ 属性面板：全局项（各处共用） ═══ */
 var SELF_PROPS = [
  { id: "appearance.density", label: "密度", type: "combo", options: ["舒适", "紧凑"], value: "舒适", global: true,
   apply: function (v) { setDensity(v === "紧凑" ? "compact" : "cozy"); } },
- { id: "appearance.palette", label: "色板", type: "combo", options: ["默认", "水生", "沙漠", "黄昏", "夜空", "高对比"], value: "默认", global: true,
-  apply: function (v) {
-   var m = { "默认": "default", "水生": "aqua", "沙漠": "desert", "黄昏": "dusk", "夜空": "night", "高对比": "contrast" };
-   setPalette(m[v] || "default");
-  } },
- { id: "appearance.dark", label: "深色模式", type: "bool", value: true, global: true,
-  apply: function (v) { setTheme(v ? "dark" : "light"); } },
  { id: "appearance.lang", label: "语言", type: "combo", options: ["简体中文", "English"], value: "简体中文", global: true,
   apply: function (v) { setLang(v === "English" ? "en-US" : "zh-CN"); } }
 ];
@@ -3983,28 +4450,15 @@ function applyProp(pageId, p, v, light) {
 }
 
 /* ═══ 外观 / 语言 / 面板 / 布局 ═══ */
-var PAL_LIST = ["default", "aqua", "desert", "dusk", "night", "contrast"];
-var PAL_COLOR = { default: "#0064fa", aqua: "#0091a8", desert: "#c26a1d", dusk: "#7a5cc4", night: "#2b6cb0", contrast: "#888" };
 function setPalette(v) {
- document.documentElement.dataset.palette = v;
- var sel = $("palSel"); if (sel) sel.value = v;
- SELF_PROPS[1].value = { default: "默认", aqua: "水生", desert: "沙漠", dusk: "黄昏", night: "夜空", contrast: "高对比" }[v] || "默认";
- renderPalDots();
- log2both(tt("toast.palette") + SELF_PROPS[1].value);
-}
-function renderPalDots() {
- var cur = document.documentElement.dataset.palette;
- $("palDots").innerHTML = PAL_LIST.map(function (p) {
-  return '<i style="background:' + PAL_COLOR[p] + '" data-p="' + p + '" title="' + p + '"' + (p === cur ? ' class="on"' : "") + "></i>";
- }).join("");
- document.querySelectorAll(".pal i").forEach(function (i) { i.onclick = function () { setPalette(i.getAttribute("data-p")); }; });
+ var entry = paletteEntry(v);
+ document.documentElement.dataset.palette = entry.key;
+ log2both(tt("toast.palette") + paletteName(entry));
 }
 function setTheme(v) {
  document.documentElement.dataset.theme = v;
- SELF_PROPS[2].value = (v === "dark");
  log2both(tt("toast.theme") + (v === "dark" ? tt("theme.dark") : tt("theme.light")));
 }
-function toggleDark() { setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"); }
 function setDensity(v) {
  document.documentElement.dataset.density = v;
  SELF_PROPS[0].value = (v === "compact" ? "紧凑" : "舒适");
@@ -4014,7 +4468,7 @@ function setLang(l) {
  LANG = l;
  document.documentElement.lang = l;
  $("notificationDemo").title = l === "en-US" ? "Notification demo" : "通知演示";
- SELF_PROPS[3].value = (l === "en-US" ? "English" : "简体中文");
+ SELF_PROPS[1].value = (l === "en-US" ? "English" : "简体中文");
  document.querySelectorAll("[data-i18n]").forEach(function (n) { n.textContent = tt(n.dataset.i18n); });
  var cp = $("cpmQ"); if (cp) cp.placeholder = tt("cmd.ph");
  renderRTabs(); renderTree(); renderDocTabs();
@@ -4065,7 +4519,7 @@ function loadLayout() {
 function layoutResetAsk() {
  confirmDlg(tt("dlg.reset.t"), tt("dlg.reset.d"), function () {
   document.body.classList.remove("hideL", "hideR", "hideLog", "rmn");
-  setDensity("cozy"); setPalette("dotnet"); setTheme("system");
+  setDensity("cozy"); setPalette(PAL_DATA.defaultKey); setTheme("system");
   try { localStorage.removeItem(LAYOUT_KEY); } catch (e) { }
   notify("warn", tt("nc.warn"), tt("toast.reset"));
   log2both(tt("toast.reset"), "warn");
@@ -4122,7 +4576,6 @@ function cmdList() {
   };
  });
  var C = [
-  { label: "切换深色 / 浅色", icon: "◐", run: toggleDark },
   { label: "切换语言 中 / EN", icon: "文A", run: function () { setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); } },
   { label: "切换密度 舒适 / 紧凑", icon: "▤", run: function () { setDensity(document.documentElement.dataset.density === "compact" ? "cozy" : "compact"); } },
   { label: "保存布局", icon: "💾", run: saveLayout },
@@ -4136,10 +4589,6 @@ function cmdList() {
   { label: "能力实验室：一键全流程", icon: "🧪", run: function () { openDoc("flow-lab"); guard(function () { labRunAll(); }, "cmd:lab"); } }
  ];
  C.forEach(function (c) { c.group = tt("cmd.cmds"); list.push(c); });
- var palLabels = SELF_PROPS[1].options;
- PAL_LIST.forEach(function (p, i) {
-  list.push({ label: tt("toast.palette") + palLabels[i], group: tt("cmd.cmds"), icon: "🎨", run: function () { setPalette(p); } });
- });
  return list;
 }
 function cpmOpen() { $("cpm").classList.add("on"); $("cpmQ").value = ""; cpmIdx = 0; cpmDraw(); $("cpmQ").focus(); }
@@ -4167,8 +4616,6 @@ function cpmRun() { var c = cpmAll[cpmIdx]; if (!c) return; cpmClose(); log2both
 function bindShell() {
  $("rTabsBar").ondblclick = function (e) { if (e.target.classList.contains("t2")) toggleRibbon(); };
 
- $("darkBtn").onclick = toggleDark;
- $("darkBtn2").onclick = toggleDark;
  $("langBtn").onclick = function () { setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); };
  $("langBtn2").onclick = $("langBtn").onclick;
  $("notificationDemo").onclick = function () { notify("ok", tt("nc.ok"), LANG === "en-US" ? "Notification demo" : "通知演示"); };
@@ -4177,10 +4624,6 @@ function bindShell() {
  $("qkDensity").onclick = function () { setDensity(document.documentElement.dataset.density === "compact" ? "cozy" : "compact"); };
  $("qkSave").onclick = saveLayout;
  $("qkReset").onclick = layoutResetAsk;
- $("qkPalette").onclick = function () {
-  var i = PAL_LIST.indexOf(document.documentElement.dataset.palette);
-  setPalette(PAL_LIST[(i + 1) % PAL_LIST.length]);
- };
  $("hideNav").onclick = function () { togglePanel("L"); };
  $("hideProp2").onclick = function () { togglePanel("R"); };
  $("hideLogBtn").onclick = function () { togglePanel("Log"); };
@@ -4218,7 +4661,6 @@ function bindShell() {
   var k = (e.key || "").toLowerCase();
   var mod = e.ctrlKey || e.metaKey;
   if (mod && k === "k") { e.preventDefault(); $("cpm").classList.contains("on") ? cpmClose() : cpmOpen(); return; }
-  if (mod && k === "d") { e.preventDefault(); toggleDark(); return; }
   if (mod && k === "l") { e.preventDefault(); setLang(LANG === "zh-CN" ? "en-US" : "zh-CN"); return; }
   if (mod && k === "s") { e.preventDefault(); saveLayout(); return; }
   if (e.key === "F1") { e.preventDefault(); guideOpen(); return; }
@@ -4234,13 +4676,12 @@ function bindShell() {
 function boot() {
  bindShell();
  toWindow(["openDoc", "closeDoc", "markDirty", "clearRenames", "startRename", "closeAllDocsAsk", "layoutResetAsk",
-  "saveLayout", "loadLayout", "togglePanel", "setLang", "setPalette", "setTheme", "setDensity", "toggleDark",
+  "saveLayout", "loadLayout", "togglePanel", "setLang", "setPalette", "setTheme", "setDensity",
   "guideOpen", "guideGo", "gCloseGuide", "notify", "confirmDlg", "closeDlg", "cpmOpen", "cpmClose", "toggleRibbon",
   "dlog", "log2both", "renderTree", "renderRBody", "renderDoc", "renderPGrid", "switchTab", "setStatus"]);
  var restored = false;
  guard(function () { restored = loadLayout(); }, "loadLayout");
- if (!restored) renderPalDots();
- renderRTabs(); renderTree(); renderPalDots();
+ renderRTabs(); renderTree();
  if (OPEN_DOCS.length) { renderDocTabs(); renderDoc(ACTIVE_DOC); }
  else openDoc("welcome");
  renderPGrid(ACTIVE_DOC);
@@ -4785,7 +5226,7 @@ window.icMerge = function () {
  if (p) {
   p.innerHTML = sizes.map(function (s) {
    var px = Math.max(14, Math.min(s, 64));
-   return "<div style='width:" + px + "px;height:" + px + "px;border-radius:6px;background:linear-gradient(135deg,var(--pri),var(--pri-h));display:flex;align-items:center;justify-content:center;color:#fff;font-size:" + Math.max(9, px / 3) + "px;font-weight:700'>" + s + "</div>";
+   return "<div style='width:" + px + "px;height:" + px + "px;border-radius:6px;background:var(--pri-lt);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;color:var(--pri);font-size:" + Math.max(9, px / 3) + "px;font-weight:700'>" + s + "</div>";
   }).join("");
  }
  var o = $("icOut");
@@ -5155,47 +5596,96 @@ if (typeof TK_BOOT === "function") TK_BOOT();
 "use strict";
 (function () {
   var toolkit = document.body.dataset.product === "toolkit";
-  var paletteNames = { dotnet:".NET Purple", aurora:"AI Aurora", ember:"AI Ember", default:"默认蓝", aqua:"水生", desert:"沙漠", dusk:"黄昏", night:"夜空" };
-  PAL_LIST = ["dotnet", "aurora", "ember", "default", "aqua", "desert", "dusk", "night"];
-  Object.assign(PAL_COLOR, { dotnet:"#512bd4", aurora:"linear-gradient(135deg,#8968ff,#26d4cc)", ember:"#bd674d" });
-  SELF_PROPS[1].options = PAL_LIST.map(function (p) { return paletteNames[p]; });
-  SELF_PROPS[1].apply = function (name) { setPalette(PAL_LIST.find(function (p) { return paletteNames[p] === name; }) || "dotnet"); };
-  renderPalDots = function () {
-    var current = document.documentElement.dataset.palette;
-    $("palDots").innerHTML = PAL_LIST.map(function (p) {
-      return '<button type="button" style="background:' + PAL_COLOR[p] + '" data-p="' + p + '" title="' + paletteNames[p] + '" aria-label="' + paletteNames[p] + '" aria-pressed="' + (p === current) + '" class="' + (p === current ? "on" : "") + '"></button>';
-    }).join("");
-    $("palDots").querySelectorAll("button").forEach(function (b) { b.onclick = function () { setPalette(b.dataset.p); }; });
-  };
+  /* 切换即持久化（与 Vex 一致）：每次配色/明暗变更把这两项写回 LAYOUT_KEY，
+   * boot 时 loadLayout 统一恢复；"保存布局"仍保存全量状态，两者互不冲突。 */
+  function persistAppearance() {
+    try {
+      var st = JSON.parse(localStorage.getItem(LAYOUT_KEY) || "null") || {};
+      st.palette = document.documentElement.dataset.palette;
+      st.theme = themeMode;
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify(st));
+    } catch (_) {}
+  }
   setPalette = function (p) {
-    if (PAL_LIST.indexOf(p) < 0) p = "dotnet";
-    document.documentElement.dataset.palette = p;
-    SELF_PROPS[1].value = paletteNames[p];
-    renderPalDots();
-    renderPGrid(ACTIVE_DOC);
-    log2both(tt("toast.palette") + paletteNames[p]);
+    var entry = paletteEntry(p);
+    document.documentElement.dataset.palette = entry.key;
+    syncAppearanceMenu();
+    persistAppearance();
+    log2both(tt("toast.palette") + paletteName(entry));
   };
+
+  /* 外观菜单（与 Vex 原型 assets/desktop/theme.js 同构：明暗模式 fieldset + 界面配色网格）——
+   * 配色与明暗的唯一切换入口。数据来自生成物 assets/palette-data.js；
+   * 卡片纵向：上方 4×2 圆点阵（8 个 16px 圆 = paper/surface/ink/accent/danger/success/warning/info 浅色态，
+   * padding-right 预留"推荐"角标不遮挡第一行末位圆点），下方名称 + note 两行；选中 ✓ 在右下角。 */
+  var appearanceMenu = $("appearanceMenu");
+  var MODE_ITEMS = [["light", "浅色", "Light"], ["dark", "深色", "Dark"], ["system", "跟随系统", "System"]];
+  function orderedPalettes() {
+    var list = (PAL_DATA && PAL_DATA.list) || [];
+    return list.filter(function (p) { return p.recommended; }).concat(list.filter(function (p) { return !p.recommended; }));
+  }
+  function renderAppearanceMenu() {
+    if (!appearanceMenu) return;
+    var summary = appearanceMenu.querySelector("summary");
+    summary.title = label("外观：主题与配色", "Appearance: theme and palette");
+    summary.setAttribute("aria-label", summary.title);
+    summary.querySelector("span").textContent = label("外观", "Appearance");
+    appearanceMenu.querySelector("legend").textContent = label("明暗模式", "Appearance mode");
+    appearanceMenu.querySelector(".appearance-palettes-title").textContent = label("界面配色", "Interface palette");
+    $("themeModeOptions").innerHTML = MODE_ITEMS.map(function (m) {
+      return '<label><input type="radio" name="tk-theme-mode" value="' + m[0] + '" data-mode="' + m[0] + '"><span>' + label(m[1], m[2]) + "</span></label>";
+    }).join("");
+    $("paletteGrid").setAttribute("aria-label", label("界面配色", "Interface palette"));
+    $("paletteGrid").innerHTML = orderedPalettes().map(function (p) {
+      var name = paletteName(p);
+      return '<button type="button" data-palette="' + p.key + '" aria-label="' + esc(name) + '">' +
+        (p.recommended ? '<em class="palette-badge">推荐</em>' : "") +
+        '<span class="swatch-dots">' + (p.swatch || []).map(function (c) { return '<i style="background:' + c + '"></i>'; }).join("") + '</span>' +
+        '<span class="palette-label"><b>' + esc(name) + "</b><small>" + esc(p.note || "") + "</small></span></button>";
+    }).join("");
+    syncAppearanceMenu();
+    appearanceMenu.querySelectorAll("#themeModeOptions input").forEach(function (input) {
+      input.onchange = function () { setTheme(input.value); };
+    });
+    $("paletteGrid").querySelectorAll("button").forEach(function (button) {
+      button.onclick = function () { setPalette(button.dataset.palette); };
+    });
+  }
+  function syncAppearanceMenu() {
+    if (!appearanceMenu) return;
+    appearanceMenu.querySelectorAll("#themeModeOptions input").forEach(function (input) {
+      input.checked = input.value === themeMode;
+    });
+    var current = document.documentElement.dataset.palette;
+    appearanceMenu.querySelectorAll("#paletteGrid button").forEach(function (button) {
+      var active = button.dataset.palette === current;
+      button.classList.toggle("on", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+  }
+  document.addEventListener("click", function (event) {
+    if (appearanceMenu && !event.target.closest("#appearanceMenu")) appearanceMenu.open = false;
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && appearanceMenu && appearanceMenu.open) {
+      appearanceMenu.open = false;
+      appearanceMenu.querySelector("summary").focus();
+    }
+  });
+  var originalSetLang = setLang;
+  setLang = function (l) { originalSetLang(l); renderAppearanceMenu(); };
   var originalTheme = setTheme;
   var systemTheme = matchMedia("(prefers-color-scheme: dark)");
   var themeMode = "system";
   try { themeMode = JSON.parse(localStorage.getItem(LAYOUT_KEY) || "null")?.theme || "system"; } catch (_) {}
-  var modeButton = $("darkBtn");
-  SELF_PROPS[2].type = "combo";
-  SELF_PROPS[2].options = ["system", "light", "dark"];
-  SELF_PROPS[2].apply = function(mode) { setTheme(mode); };
   setTheme = function (mode) {
     themeMode = ["system", "light", "dark"].includes(mode) ? mode : "system";
     document.documentElement.dataset.themeMode = themeMode;
     originalTheme(themeMode === "system" ? (systemTheme.matches ? "dark" : "light") : themeMode);
-    SELF_PROPS[2].value = themeMode;
-    var paths = {system:'<rect x="2" y="2" width="12" height="9" rx="1.5"/><path d="M6 14h4M8 11v3"/>',light:'<circle cx="8" cy="8" r="3"/><path d="M8 0v2M8 14v2M0 8h2M14 8h2M2 2l1.5 1.5M12.5 12.5 14 14M2 14l1.5-1.5M12.5 3.5 14 2"/>',dark:'<path d="M13 9.6A5.6 5.6 0 0 1 6.4 3a5.6 5.6 0 1 0 6.6 6.6z"/>'};
-    modeButton.dataset.mode = themeMode;
-    modeButton.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true">' + paths[themeMode] + '</svg>';
+    syncAppearanceMenu();
+    persistAppearance();
     renderPGrid(ACTIVE_DOC);
   };
-  toggleDark = function() { setTheme({system:"light", light:"dark", dark:"system"}[themeMode]); };
-  modeButton.onclick = toggleDark;
-  $("darkBtn2").onclick = toggleDark;
   var languageButton = $("langBtn"), languageMenu = $("languageMenu");
   var languageNames = {"zh-CN":"简体中文", "en-US":"English"};
   languageMenu.innerHTML = Object.keys(I18N).map(function(culture) { return '<button type="button" role="menuitemradio" data-language="' + culture + '">' + esc(languageNames[culture] || culture) + '</button>'; }).join('');
@@ -5276,7 +5766,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
       '<div class="studio-section-label"><span>' + label('从能力出发','Explore the capabilities') + '</span><small>EXPLORE THE LIBRARIES ↙</small></div>' +
       '<div class="studio-capabilities">' + capabilities.map(function (c,i) { var titles = toolkit ? ['Event-driven apps','Distributed messaging','Binary protocols','Files & data','Image toolchain','Runtime observability'] : ['Markdown workspace','Data interaction','Document workspace','Input & selection','Guides & status','Logging & localization']; return '<button type="button" class="studio-capability" data-open="' + c[0] + '"><span class="studio-icon">' + iconSvg(c[0],'s18') + '</span><span class="studio-arrow">↗</span><h3>' + label(c[1],titles[i]) + '</h3><p>' + label(c[2],c[3]) + '</p><small>' + c[3] + '</small></button>'; }).join('') + '</div>' +
       '<div class="studio-install"><code id="studio-install-command">dotnet add package CodeWF.' + (toolkit ? 'Toolkit.EventBus' : 'Avalonia.Controls') + '</code><button type="button" class="studio-link" id="studio-copy">' + label('复制安装命令','Copy install command') + ' ⧉</button></div>' +
-      '<p class="studio-note">' + label('浏览器交互示意 · 完整页面展示对应 .NET API；AI Aurora / Ember 为视觉配色。','Browser interaction previews · Full demos show the .NET APIs. AI Aurora / Ember are visual palettes.') + '</p></div>';
+      '<p class="studio-note">' + label('浏览器交互示意 · 完整页面展示对应 .NET API；配色遵循 CodeWF.Avalonia 令牌规则。','Browser interaction previews · Full demos show the .NET APIs. Palettes follow the CodeWF.Avalonia token rules.') + '</p></div>';
   }
   function bindOverview(el) {
     el.querySelectorAll('[data-stage]').forEach(function (b) { b.onclick = function () { selected = b.dataset.stage; drawStage(); }; });
@@ -5377,10 +5867,10 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   var originalRenderInto = renderInto;
   renderInto = function (id,el) { originalRenderInto(id,el); if (id === 'welcome' && el) bindOverview(el); };
   var current = document.documentElement.dataset.palette;
-  if (PAL_LIST.indexOf(current) < 0) current='dotnet';
-  SELF_PROPS[1].value=paletteNames[current];
+  var entry = paletteEntry(current);           // 旧 key（localStorage 布局 / 模板残留）经别名映射归一到新 9 套
+  if (entry.key !== current) document.documentElement.dataset.palette = entry.key;
   setTheme(themeMode);
-  renderPalDots();
+  renderAppearanceMenu();
   renderRBody();
   renderPGrid(ACTIVE_DOC);
   if (ACTIVE_DOC) renderDoc(ACTIVE_DOC);
@@ -5426,8 +5916,6 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   // Reuse the native language resources and show either page parameters or global settings.
   var originalPropertyGrid = renderPGrid;
   var densityValues = SELF_PROPS[0].options.slice();
-  var paletteValues = SELF_PROPS[1].options.slice();
-  var paletteKeys = ["DotNet", "Aurora", "Ember", "Default", "Aquatic", "Desert", "Dusk", "NightSky"];
   renderPGrid = function(id) {
     originalPropertyGrid(id);
     var settings = window.CodeWFPrototypeSettings[LANG], panel = $("pGrid");
@@ -5441,29 +5929,20 @@ if (typeof TK_BOOT === "function") TK_BOOT();
     else removeSection(categories[1], categories[2]);
     removeSection(categories[2], null);
     if (!pageProps.length && id === 'welcome' && categories[0]) categories[0].textContent = settings.group;
-    var labels = [settings.shell.Density, settings.shell.Palette, settings.shell.GlobalSettings.ModeLabel, settings.language];
+    var labels = [settings.shell.Density, settings.language];
     SELF_PROPS.forEach(function(property, index) {
       var control = panel.querySelector('[data-id="' + property.id + '"]');
       if (!control) return;
       var label = control.closest(".rw").querySelector("label,.nm");
       label.textContent = labels[index]; label.title = labels[index];
-      if (index === 0 || index === 1 || index === 2) Array.from(control.options).forEach(function(option) {
-        var value = option.value; option.value = value;
-        option.textContent = index === 0
-          ? (value === densityValues[1] ? settings.shell.DensityCompact : settings.shell.DensityComfort)
-          : index === 1 ? settings.palettes[paletteKeys[paletteValues.indexOf(value)]]
-          : settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[value]];
+      if (index === 0) Array.from(control.options).forEach(function(option) {
+        var value = option.value;
+        option.textContent = value === densityValues[1] ? settings.shell.DensityCompact : settings.shell.DensityComfort;
       });
     });
-    var modeButton = $("darkBtn"), mode = document.documentElement.dataset.themeMode || "system";
-    modeButton.title = settings.shell.GlobalSettings.ModeLabel + ": " + settings.shell.GlobalSettings[{system:"SystemMode",light:"LightMode",dark:"DarkMode"}[mode]];
-    modeButton.setAttribute("aria-label", modeButton.title);
     $("langBtn").title = settings.language;
     $("langBtn").setAttribute("aria-label", settings.language);
     $("languageMenu").querySelectorAll('button').forEach(function(button) { button.setAttribute('aria-checked', String(button.dataset.language === LANG)); });
-    $("palDots").querySelectorAll("button").forEach(function(button, index) {
-      button.title = settings.palettes[paletteKeys[index]]; button.setAttribute("aria-label", button.title);
-    });
     if ($("pgCnt")) $("pgCnt").textContent = "(" + (id === 'welcome' ? SELF_PROPS.length : pageProps.length) + ")";
   };
   var originalOpenDoc = openDoc;
@@ -5840,7 +6319,9 @@ if (typeof TK_BOOT === "function") TK_BOOT();
 
 </script>
 <style>
-/* 文档内属性表格：统一分隔线、无边框编辑器、可调整列宽与行高。 */
+/* 文档内属性表格：统一分隔线、无边框编辑器、可调整列宽与行高。
+ * 表单项（搜索框 / 聚焦编辑器）底色用 --bg（paper 档，规则 field 语义），不用 --bg2（surface 面板底）——
+ * 嵌入式面板底就是 --bg2，表单项再涂 --bg2 会呈现"整块面板底色"；行悬浮才用 --hov。 */
 .p-props .pbd{display:flex;flex-direction:column;overflow:hidden;padding:0}
 .property-toolbar{flex:none;padding:6px;border-bottom:1px solid var(--bd);background:var(--bg)}
 .property-modes{display:flex;gap:3px}
@@ -5848,9 +6329,9 @@ if (typeof TK_BOOT === "function") TK_BOOT();
 .property-modes button:hover{background:var(--hov)}
 .property-modes button[aria-pressed="true"]{background:var(--bg3);color:var(--pri);border-color:var(--pri)}
 .property-modes svg{width:16px;height:16px;fill:currentColor}
-.property-search{display:block;box-sizing:border-box;width:100%;height:28px;margin-top:5px;padding:0 8px;font-size:11px;color:var(--tx);background:var(--bg2);border:1px solid var(--bd);border-radius:4px}
+.property-search{display:block;box-sizing:border-box;width:100%;height:28px;margin-top:5px;padding:0 8px;font-size:11px;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:4px}
 #pGrid{flex:1;overflow:auto;padding:0;min-height:0;--property-name-width:118px}
-#pGrid .cat{box-sizing:border-box;margin:0;padding:7px 8px;background:var(--bg2);border-bottom:1px solid var(--bd)}
+#pGrid .cat{box-sizing:border-box;margin:0;padding:7px 8px;border-bottom:1px solid var(--bd)}
 #pGrid .rw{box-sizing:border-box;display:grid;grid-template-columns:var(--property-name-width) minmax(0,1fr);gap:0;padding:0;height:31px;min-height:31px;border-radius:0;border-bottom:1px solid var(--bd);align-items:stretch}
 #pGrid .rw[hidden],#pGrid .cat[hidden]{display:none}
 #pGrid .rw>label,#pGrid .rw>.nm{display:flex;align-items:center;padding:0 8px;border-right:1px solid var(--bd);min-width:0}
@@ -5858,7 +6339,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
 #pGrid .rw input[type=text],#pGrid .rw input[type=number],#pGrid .rw select,#pGrid .rw textarea{box-sizing:border-box;display:block;width:100%;height:100%;min-width:0;max-width:none;margin:0;padding:0 6px;border:0;border-radius:0;background:transparent;color:var(--tx);text-align:left;text-align-last:left;outline:none}
 #pGrid .rw textarea{padding:6px;resize:none;min-height:0}
 #pGrid .rw:has(textarea){height:74px}
-#pGrid .rw :is(input,select,textarea):focus{background:var(--bg2);box-shadow:inset 2px 0 var(--pri)}
+#pGrid .rw :is(input,select,textarea):focus{background:var(--bg);box-shadow:inset 2px 0 var(--pri)}
 #pGrid .rw .switch,#pGrid .rw input[type=checkbox],#pGrid .rw input[type=radio]{margin-left:6px}
 .property-column-handle{position:absolute;z-index:4;top:0;bottom:0;left:calc(var(--property-name-width) - 3px);width:7px;cursor:col-resize;touch-action:none}
 .property-row-handle{position:absolute;z-index:5;left:0;right:0;bottom:-3px;height:7px;cursor:row-resize;touch-action:none}

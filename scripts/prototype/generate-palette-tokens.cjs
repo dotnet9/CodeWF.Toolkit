@@ -1,8 +1,8 @@
 /* 从 CodeWF.Avalonia《配色与排版令牌规则.md》附录 A 生成原型配色令牌（规则 §14：禁止手写快照）。
  * 单一事实源：规则文档附录 A JSON 块。本脚本产出（均带上游版本戳）：
- *   assets/palette-tokens.css   8 套配色 × 明暗 + indigo 默认回退块（原型短变量词汇表）
- *   assets/palette-data.js      配色选择器数据：8 套 label/en/note/8 色条 + 旧 key 别名 + 默认 key
- * 共享派生引擎：assets/palette-rules.js（与 Vex 设计仓同源，UMD，禁改公式）。
+ *   assets/palette-tokens.css   9 套配色 × 明暗 + indigo 默认回退块（原型短变量词汇表）
+ *   assets/palette-data.js      配色选择器数据：9 套 label/en/note/8 色条 + 旧 key 别名 + 默认 key
+ * 共享派生引擎：assets/palette-rules.js（与 Vex 设计仓、CodeWF.Avalonia 原型逐字节同源，UMD，禁改公式）。
  * 用法：node scripts/prototype/generate-palette-tokens.cjs [--rules <规则文档路径>] [--check] [--force]
  *   --check 只校验不落盘；校验失败（规则 §5）默认退出码 1 且不落盘，--force 可强制。 */
 const fs = require('node:fs');
@@ -12,8 +12,9 @@ const Rules = require('./assets/palette-rules.js');
 const root = __dirname;
 const args = process.argv.slice(2);
 const flag = name => args.indexOf(name);
+/* 规则文档由 CodeWF.Avalonia 维护，本仓原型只消费；默认取同级 Libs 仓库，避免手填绝对路径。 */
 const rulesPath = flag('--rules') >= 0 ? path.resolve(args[flag('--rules') + 1])
-  : (process.env.CODEWF_RULES_DOC || 'D:/github/libs/CodeWF.Avalonia/docs/配色与排版令牌规则.md');
+  : (process.env.CODEWF_RULES_DOC || path.resolve(root, '../../../CodeWF.Avalonia/docs/配色与排版令牌规则.md'));
 const upstreamRoot = path.dirname(path.dirname(rulesPath));
 
 const doc = fs.readFileSync(rulesPath, 'utf8');
@@ -94,7 +95,7 @@ function toolkitVars(base, mode, derivation) {
     warn: v.warning,
     err: v.danger,
     'badge-text': v['on-accent'],      /* 徽标文字 = onAccent */
-    'card-top': v.muted,               /* 卡片顶栏文字 = muted */
+    'card-top': base.ink,              /* 状态卡顶栏文字 = ink（与 Studio 令牌 StatusCardTopTextForeground 对齐） */
     /* 状态徽标/卡片（debug=accent 软底；info/warn/error=status + statusSoft；fatal 见上） */
     'badge-debug': base.accent, 'badge-debug-bg': v['accent-soft'], 'card-debug': base.ink, 'card-debug-bg': v['accent-soft'],
     'badge-info': v.success, 'badge-info-bg': v['success-soft'], 'card-info': v.success, 'card-info-bg': v['success-soft'],
@@ -136,7 +137,7 @@ for (const [key, palette] of Object.entries(data.palettes)) {
   const entry = { key, label: palette.label, en: palette.en, note: palette.note, recommended: !!palette.recommended };
   for (const mode of ['light', 'dark']) {
     const base = baseOf(palette, mode);
-    Rules.validate(base, mode, data.statusDefaults)
+    Rules.validate(base, mode, data.statusDefaults, data.derivation[mode])
       .forEach(message => issues.push(key + '/' + mode + ': ' + message));
     paletteCss.push(cssBlock(mode, key, toolkitVars(base, mode, data.derivation[mode])));
     if (mode === 'light') entry.swatch = swatchColors(base);

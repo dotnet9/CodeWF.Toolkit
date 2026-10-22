@@ -1,9 +1,9 @@
-// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.1.4.38 docs/配色与排版令牌规则.md（ruleVersion 2）。
+// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.0-alpha.1 docs/配色与排版令牌规则.md（ruleVersion 5）。
 "use strict";
 window.CodeWFPalettes = {
   "defaultKey": "indigo",
-  "ruleVersion": 2,
-  "source": "CodeWF.Avalonia 12.1.4.38",
+  "ruleVersion": 5,
+  "source": "CodeWF.Avalonia 12.2.0-alpha.1",
   "list": [
     {
       "key": "graphite",

@@ -45,12 +45,26 @@ const { chromium } = require('playwright');
             catch (error) { window.auditGuardErrors.push(tag + ': ' + error.message); }
           };
         });
-        // 验证八套配色与三态模式独立，以及系统主题动态变化。
+        // 验证九套配色与三态模式独立，以及系统主题动态变化。
         assert.equal(await page.locator('#palSel, #themeModeSel').count(), 0);
-        assert.equal(await page.locator('#palDots button').count(), 8);
-        async function chooseMode(mode) { for(let count=0;count<3 && await page.locator('#darkBtn').getAttribute('data-mode') !== mode;count++) await page.locator('#darkBtn').click(); assert.equal(await page.locator('#darkBtn').getAttribute('data-mode'), mode); }
-        for (const palette of await page.locator('#palDots button').evaluateAll(items => items.map(item => item.dataset.p))) {
-          await page.locator('#palDots button[data-p="'+palette+'"]').click();
+        assert.equal(await page.locator('#paletteGrid button').count(), 9);
+        async function openAppearance() {
+          if (!(await page.locator('#appearanceMenu').evaluate(element => element.open)))
+            await page.locator('#appearanceMenu > summary').click();
+        }
+        async function closeAppearance() {
+          if (await page.locator('#appearanceMenu').evaluate(element => element.open)) await page.keyboard.press('Escape');
+        }
+        async function chooseMode(mode) {
+          await openAppearance();
+          await page.locator('#themeModeOptions input[data-mode="' + mode + '"]').check();
+          assert.equal(await page.locator('html').getAttribute('data-theme-mode'), mode);
+          await closeAppearance();
+        }
+        for (const palette of await page.locator('#paletteGrid button').evaluateAll(items => items.map(item => item.dataset.palette))) {
+          await openAppearance();
+          await page.locator('#paletteGrid button[data-palette="' + palette + '"]').click();
+          await closeAppearance();
           for (const mode of ['light', 'dark']) {
             await chooseMode(mode);
             assert.equal(await page.locator('html').getAttribute('data-theme'), mode);
@@ -62,12 +76,16 @@ const { chromium } = require('playwright');
         for (const mode of ['light', 'dark']) {
           await page.emulateMedia({ colorScheme: mode });
           await page.waitForFunction(expected => document.documentElement.dataset.theme === expected, mode);
-          assert.equal(await page.locator('#darkBtn').getAttribute('data-mode'), 'system');
+          await openAppearance();
+          assert.equal(await page.locator('#themeModeOptions input[data-mode="system"]').isChecked(), true);
+          await closeAppearance();
         }
         await chooseMode('light');
         await page.emulateMedia({ colorScheme: 'dark' });
         assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
-        await page.locator('#palDots button[data-p="dotnet"]').click();
+        await openAppearance();
+        await page.locator('#paletteGrid button[data-palette="indigo"]').click();
+        await closeAppearance();
         for (const culture of ['zh-CN', 'en-US']) {
           await page.locator('#langBtn').click();
           assert.equal(await page.locator('#languageMenu').isVisible(), true);
