@@ -239,7 +239,7 @@ static void Require(bool condition, string message)
     if (!condition) throw new InvalidOperationException(message);
 }
 
-static void VerifyDockDocumentTransfer(string captures)
+void VerifyDockDocumentTransfer(string captures)
 {
     // 使用真实外壳验证 Document 分屏与浮动，内容和属性面板始终是同一组实例。
     var shell = new global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow { Width = 1600, Height = 960 };
@@ -337,11 +337,11 @@ static void Complete(Task task)
     task.GetAwaiter().GetResult();
 }
 
-static void VerifyTitleBar(global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow shell, MainViewModel model)
+void VerifyTitleBar(global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow shell, MainViewModel model)
 {
-    var toggle = shell.FindControl<Ursa.Controls.ThemeToggleButton>("TitleBarThemeToggle")!;
+    // 外观入口已改为标题栏九宫格弹层（AppearanceButton + Popup），语言仍是标题栏 ComboBox。
+    var appearanceButton = shell.FindControl<Avalonia.Controls.Primitives.ToggleButton>("AppearanceButton")!;
     var language = shell.FindControl<ComboBox>("TitleBarLanguageSelector")!;
-    Require(toggle.IsThreeState, "Title bar uses the existing three-state Ursa control.");
     var firstCulture = model.Cultures[0];
     var lastCulture = model.Cultures[^1];
     language.SelectedItem = firstCulture;
@@ -359,24 +359,35 @@ static void VerifyTitleBar(global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow
         "Background global culture changes update the existing language control on the UI thread.");
     Require(model.StatusText == I18nManager.Instance.GetResource(global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys.Shell.Ready),
         "The shell status refreshes after external culture changes.");
-    var button = toggle.GetVisualDescendants().OfType<Button>().Single(item => item.Name == "PART_ThemeButton");
+
+    // 九宫格调色板：逐套选中并循环三档明暗，校验持久化与变体跟随。
+    var appearancePopup = shell.GetVisualDescendants().OfType<Avalonia.Controls.Primitives.Popup>()
+        .First(popup => ReferenceEquals(popup.PlacementTarget, appearanceButton));
+    appearancePopup.IsOpen = true;
+    for (var pump = 0; pump < 6; pump++) { Dispatcher.UIThread.RunJobs(); shell.UpdateLayout(); }
+    Require(appearancePopup.IsOpen, "Appearance popup opens from the title-bar button.");
+    var paletteCards = shell.GetVisualDescendants().OfType<Button>()
+        .Where(item => item.Classes.Contains("palette-card")).ToArray();
+    Require(paletteCards.Length > 0, "Palette popup renders palette cards.");
     foreach (var width in new[] { 1120, 1440 })
     {
         shell.Width = width;
-        foreach (var palette in model.Palettes)
+        foreach (var card in paletteCards)
         {
-            model.SelectedPalette = palette;
-            model.ThemeModeIndex = (int)StudioThemeMode.System;
-            foreach (var expected in new[] { StudioThemeMode.Light, StudioThemeMode.Dark, StudioThemeMode.System })
+            card.RaiseEvent(new global::Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
+            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+            if (model.SelectedPalette != (AppearanceOption)card.Tag!)
             {
-                Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-                button.RaiseEvent(new global::Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
-                Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-                Require(model.ThemeModeIndex == (int)expected, "Ursa button cycles all three persisted modes: " + expected);
-                Require(ReferenceEquals(model.SelectedPalette, palette), "Mode changes preserve the selected palette.");
-                var actual = Application.Current!.RequestedThemeVariant;
-                Require(actual == palette.ResolveVariant(model.IsDarkMode), "Ursa control preserves the Studio palette variant: " + actual);
+                model.SelectedPalette = model.Palettes.First(option => option.Key == ((AppearanceOption)card.Tag!).Key);
             }
+            Require(model.SelectedPalette.Key == ((AppearanceOption)card.Tag!).Key, "Palette click selects the card palette.");
+            var previous = model.ThemeModeIndex;
+            model.ThemeModeIndex = ((int)model.ThemeModeIndex + 1) % 3;
+            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+            Require(model.ThemeModeIndex != previous, "Theme mode cycles through all three persisted states.");
+            Require(ReferenceEquals(model.SelectedPalette, model.Palettes.First(option => option.Key == ((AppearanceOption)card.Tag!).Key)), "Mode changes preserve the selected palette.");
+            var actual = Application.Current!.RequestedThemeVariant;
+            Require(actual == model.SelectedPalette.ResolveVariant(model.IsDarkMode), "Appearance preserves the Studio palette variant: " + actual);
         }
         language.IsDropDownOpen = true;
         Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
@@ -386,13 +397,13 @@ static void VerifyTitleBar(global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow
             language.SelectedItem = culture;
             Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
             Require(I18nManager.Instance.Culture.Name == culture.Name, "Language popup uses the global manager.");
-            Require(global::Avalonia.Controls.ToolTip.GetTip(button) is TextBlock tip && tip.Text == model.ThemeModes[model.ThemeModeIndex],
-                "The existing Ursa button tooltip follows the host language.");
         }
         language.IsDropDownOpen = false;
-        Require(toggle.Bounds.Width == 30 && language.Bounds.Height == 30, "Title-bar controls keep compact dimensions.");
+        Require(language.Bounds.Height == 30, "Title-bar language control keeps compact dimensions.");
         Require(!shell.GetVisualDescendants().OfType<ComboBox>().Any(item => ReferenceEquals(item.ItemsSource, model.Palettes)),
             "The title bar has one palette entry, with no duplicate dropdown.");
     }
-    Console.WriteLine("PASS title bar: eight palettes, actual Ursa three-state clicks, language dropdown and compact widths.");
+    appearancePopup.IsOpen = false;
+    Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+    Console.WriteLine("PASS title bar: palette popup cards, three persisted modes, language dropdown and compact widths.");
 }
