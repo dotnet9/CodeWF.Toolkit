@@ -42,7 +42,7 @@
       "NavEmpty": "没有匹配的页面",
       "GlobalSettings": {
         "PaletteLabel": "色板",
-        "PaletteDescription": "八套配色：.NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏与夜空。",
+        "PaletteDescription": "九套配色：石墨、靛蓝、青碧、松绿、天青、琥珀、绯红、紫晶与陶土。",
         "ModeLabel": "界面模式",
         "LightMode": "浅色",
         "DarkMode": "深色",
@@ -92,15 +92,15 @@
       "CSharp": "C#"
     },
     "Palette": {
-      "Default": "默认",
-      "Aquatic": "水生",
-      "Desert": "沙漠",
-      "Dusk": "黄昏",
-      "NightSky": "夜空",
-      "HighContrast": "高对比",
-      "DotNet": ".NET 紫",
-      "Aurora": "AI 极光",
-      "Ember": "AI 暖陶"
+      "Graphite": "石墨",
+      "Indigo": "靛蓝",
+      "Teal": "青碧",
+      "Pine": "松绿",
+      "Sky": "天青",
+      "Amber": "琥珀",
+      "Crimson": "绯红",
+      "Violet": "紫晶",
+      "Terracotta": "陶土"
     },
     "Group": {
       "Home": "首页",

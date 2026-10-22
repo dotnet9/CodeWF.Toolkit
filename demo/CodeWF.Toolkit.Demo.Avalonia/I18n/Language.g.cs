@@ -1530,15 +1530,15 @@ public static class ResourceKeys
     }
     public static class @Palette
     {
-        public const string @Aquatic = "Demo.Palette.Aquatic";
-        public const string @Aurora = "Demo.Palette.Aurora";
-        public const string @Default = "Demo.Palette.Default";
-        public const string @Desert = "Demo.Palette.Desert";
-        public const string @DotNet = "Demo.Palette.DotNet";
-        public const string @Dusk = "Demo.Palette.Dusk";
-        public const string @Ember = "Demo.Palette.Ember";
-        public const string @HighContrast = "Demo.Palette.HighContrast";
-        public const string @NightSky = "Demo.Palette.NightSky";
+        public const string @Amber = "Demo.Palette.Amber";
+        public const string @Crimson = "Demo.Palette.Crimson";
+        public const string @Graphite = "Demo.Palette.Graphite";
+        public const string @Indigo = "Demo.Palette.Indigo";
+        public const string @Pine = "Demo.Palette.Pine";
+        public const string @Sky = "Demo.Palette.Sky";
+        public const string @Teal = "Demo.Palette.Teal";
+        public const string @Terracotta = "Demo.Palette.Terracotta";
+        public const string @Violet = "Demo.Palette.Violet";
     }
     public static class @Scene
     {
@@ -1568,6 +1568,16 @@ public static class ResourceKeys
     }
     public static class @Shell
     {
+        public const string @AddPalette = "Demo.Shell.AddPalette";
+        public const string @AppearanceMenu = "Demo.Shell.AppearanceMenu";
+        public const string @ColorDarkAccent = "Demo.Shell.ColorDarkAccent";
+        public const string @ColorDarkInk = "Demo.Shell.ColorDarkInk";
+        public const string @ColorDarkPaper = "Demo.Shell.ColorDarkPaper";
+        public const string @ColorDarkSurface = "Demo.Shell.ColorDarkSurface";
+        public const string @ColorLightAccent = "Demo.Shell.ColorLightAccent";
+        public const string @ColorLightInk = "Demo.Shell.ColorLightInk";
+        public const string @ColorLightPaper = "Demo.Shell.ColorLightPaper";
+        public const string @ColorLightSurface = "Demo.Shell.ColorLightSurface";
         public const string @Command = "Demo.Shell.Command";
         public const string @CommandHint = "Demo.Shell.CommandHint";
         public const string @CommandPlaceholder = "Demo.Shell.CommandPlaceholder";
@@ -1578,6 +1588,7 @@ public static class ResourceKeys
         public const string @DensityCompact = "Demo.Shell.DensityCompact";
         public const string @DocumentClosed = "Demo.Shell.DocumentClosed";
         public const string @DocumentOpened = "Demo.Shell.DocumentOpened";
+        public const string @EditPalette = "Demo.Shell.EditPalette";
         public static class @GlobalSettings
         {
             public const string @AppearanceDescription = "Demo.Shell.GlobalSettings.AppearanceDescription";
@@ -1607,12 +1618,20 @@ public static class ResourceKeys
         public const string @NotifyDemo = "Demo.Shell.NotifyDemo";
         public const string @NotifyDemoHint = "Demo.Shell.NotifyDemoHint";
         public const string @Palette = "Demo.Shell.Palette";
+        public const string @PaletteInvalidColor = "Demo.Shell.PaletteInvalidColor";
+        public const string @PaletteName = "Demo.Shell.PaletteName";
+        public const string @PaletteNameRequired = "Demo.Shell.PaletteNameRequired";
+        public const string @PaletteRemovedFormat = "Demo.Shell.PaletteRemovedFormat";
+        public const string @PaletteSavedFormat = "Demo.Shell.PaletteSavedFormat";
+        public const string @PalettesTitle = "Demo.Shell.PalettesTitle";
         public const string @PanelHidden = "Demo.Shell.PanelHidden";
         public const string @PanelShown = "Demo.Shell.PanelShown";
+        public const string @Pick = "Demo.Shell.Pick";
         public const string @QuickGuide = "Demo.Shell.QuickGuide";
         public const string @QuickSave = "Demo.Shell.QuickSave";
         public const string @QuickSettings = "Demo.Shell.QuickSettings";
         public const string @Ready = "Demo.Shell.Ready";
+        public const string @RemovePalette = "Demo.Shell.RemovePalette";
         public const string @RenameHint = "Demo.Shell.RenameHint";
         public const string @Reset = "Demo.Shell.Reset";
         public const string @ResetRenames = "Demo.Shell.ResetRenames";

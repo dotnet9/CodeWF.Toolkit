@@ -22,8 +22,8 @@ internal static class DemoPaletteVerification
         Directory.CreateDirectory(output);
         var failures = new List<string>();
         var measurements = new List<string> { "mode\tstate\tforeground\tbackground\tcontrast" };
-        var modes = Enum.GetValues<StudioPalette>().SelectMany(palette => new[] { false, true }
-            .Select(dark => (Palette: palette, Dark: dark, Name: palette + (dark ? "-dark" : "-light")))).ToArray();
+        var modes = StudioPalettes.All.SelectMany(palette => new[] { false, true }
+            .Select(dark => (Key: palette.Key, Dark: dark, Name: palette.Key + (dark ? "-dark" : "-light")))).ToArray();
         var shell = new MainWindow();
         var model = (MainViewModel)shell.DataContext!;
         var scene = new RuntimeFlowPage();
@@ -41,10 +41,10 @@ internal static class DemoPaletteVerification
             foreach (var mode in modes)
             {
                 var previousFailures = failures.Count;
-                model.SelectedPalette = model.Palettes.Single(palette => palette.Palette == mode.Palette);
+                model.SelectedPalette = model.Palettes.Single(palette => palette.Key == mode.Key);
                 model.IsDarkMode = mode.Dark;
                 foreach (var window in new[] { shell, sceneWindow, iconWindow })
-                    window.RequestedThemeVariant = StudioTheme.GetVariant(mode.Palette, mode.Dark);
+                    window.RequestedThemeVariant = StudioTheme.GetVariant(mode.Key, mode.Dark);
                 Pump(shell, sceneWindow, iconWindow);
                 var canvas = Resource(shell, "StudioBackground");
                 var raised = Resource(shell, "StudioRaised");

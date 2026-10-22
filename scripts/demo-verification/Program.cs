@@ -73,10 +73,10 @@ try
         foreach (var culture in new[] { "zh-CN", "en-US" })
         {
             manager.Culture = CultureInfo.GetCultureInfo(culture);
-            foreach (var palette in Enum.GetValues<StudioPalette>())
+            foreach (var palette in StudioPalettes.All)
             foreach (var dark in new[] { false, true })
             {
-                window.RequestedThemeVariant = StudioTheme.GetVariant(palette, dark);
+                window.RequestedThemeVariant = StudioTheme.GetVariant(palette.Key, dark);
                 Dispatcher.UIThread.RunJobs();
                 window.UpdateLayout();
                 bitmap.Render(window);
@@ -90,7 +90,7 @@ try
     var slider = new Slider { Value = 50, Maximum = 100, Width = 240 };
     var propertyGrid = new PropertyGrid();
     window.Content = new StackPanel { Children = { slider, propertyGrid } };
-    foreach (var variant in new[] { StudioTheme.DotNetLight, StudioTheme.AuroraDark, StudioTheme.EmberLight, StudioTheme.DotNetDark })
+    foreach (var variant in new[] { StudioTheme.GetVariant("graphite", false), StudioTheme.GetVariant("teal", true), StudioTheme.GetVariant("terracotta", false), StudioTheme.GetVariant("indigo", true) })
     {
         window.RequestedThemeVariant = variant;
         Dispatcher.UIThread.RunJobs();

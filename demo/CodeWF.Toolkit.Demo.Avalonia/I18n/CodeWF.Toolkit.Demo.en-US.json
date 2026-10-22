@@ -42,7 +42,7 @@
       "NavEmpty": "No matching page",
       "GlobalSettings": {
         "PaletteLabel": "Palette",
-        "PaletteDescription": "Eight palettes: .NET Purple, AI Aurora, AI Ember, Default, Aquatic, Desert, Dusk, and Night Sky.",
+        "PaletteDescription": "Nine palettes: Graphite, Indigo, Teal, Pine, Sky, Amber, Crimson, Violet, and Terracotta.",
         "ModeLabel": "Mode",
         "LightMode": "Light",
         "DarkMode": "Dark",
@@ -92,15 +92,15 @@
       "CSharp": "C#"
     },
     "Palette": {
-      "Default": "Default",
-      "Aquatic": "Aquatic",
-      "Desert": "Desert",
-      "Dusk": "Dusk",
-      "NightSky": "Night Sky",
-      "HighContrast": "High Contrast",
-      "DotNet": ".NET Purple",
-      "Aurora": "AI Aurora",
-      "Ember": "AI Ember"
+      "Graphite": "Graphite",
+      "Indigo": "Indigo",
+      "Teal": "Teal",
+      "Pine": "Pine",
+      "Sky": "Sky",
+      "Amber": "Amber",
+      "Crimson": "Crimson",
+      "Violet": "Violet",
+      "Terracotta": "Terracotta"
     },
     "Group": {
       "Home": "Home",
