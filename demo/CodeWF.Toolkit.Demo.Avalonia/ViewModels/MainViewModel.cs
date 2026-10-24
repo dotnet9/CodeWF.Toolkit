@@ -339,6 +339,10 @@ public partial class MainViewModel : ReactiveObject, IDisposable
             }
 
             this.RaiseAndSetIfChanged(ref _selectedPalette, value);
+            foreach (var option in Palettes)
+            {
+                option.IsSelected = option == value;
+            }
             ApplyAppearance();
         }
     }

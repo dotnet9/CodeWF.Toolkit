@@ -188,6 +188,13 @@ public partial class MainViewModel
 
     public bool IsCompactDensity => Density == DemoDensity.Compact;
 
+    /// <summary>外观面板的密度两档 pill（Vex appearance-pill 行）。</summary>
+    public int DensityIndex
+    {
+        get => Density == DemoDensity.Compact ? 1 : 0;
+        set => Density = value == 1 ? DemoDensity.Compact : DemoDensity.Comfort;
+    }
+
     public string DensityLabel => T(Density == DemoDensity.Compact
         ? DemoKeys.ShellDensityCompact
         : DemoKeys.ShellDensityComfort);
