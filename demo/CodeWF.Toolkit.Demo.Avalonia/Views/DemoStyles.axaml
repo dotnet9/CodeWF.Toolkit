@@ -212,6 +212,9 @@
   <!-- Ribbon 使用整块选中底色；左侧强调线只用于导航行。 -->
   <Style Selector="Button.rbn-cmd"><Setter Property="BorderThickness" Value="0" /></Style>
   <Style Selector="PathIcon.ribbon-icon"><Setter Property="Foreground" Value="{DynamicResource StudioMuted}" /></Style>
+  <!--  「视图」外壳命令的勾选态：对勾常驻占位（Opacity 槽位），面板可见时点亮  -->
+  <Style Selector="PathIcon.shell-check"><Setter Property="Foreground" Value="{DynamicResource StudioMuted}" /></Style>
+  <Style Selector="Button.rbn-cmd.shell.selected PathIcon.shell-check"><Setter Property="Opacity" Value="1" /><Setter Property="Foreground" Value="{DynamicResource StudioAccent}" /></Style>
   <Style Selector="Button.rbn-cmd:pointerover PathIcon.ribbon-icon, Button.rbn-cmd.selected PathIcon.ribbon-icon">
     <Setter Property="Foreground" Value="{DynamicResource StudioAccent}" />
   </Style>
