@@ -1622,6 +1622,7 @@ public static class ResourceKeys
         public const string @PaletteName = "Demo.Shell.PaletteName";
         public const string @PaletteNameRequired = "Demo.Shell.PaletteNameRequired";
         public const string @PaletteRemovedFormat = "Demo.Shell.PaletteRemovedFormat";
+        public const string @Maximize = "Demo.Shell.Maximize";
         public const string @PaletteSavedFormat = "Demo.Shell.PaletteSavedFormat";
         public const string @PalettesTitle = "Demo.Shell.PalettesTitle";
         public const string @PanelHidden = "Demo.Shell.PanelHidden";
@@ -1641,6 +1642,7 @@ public static class ResourceKeys
         public const string @SampleInformationLog = "Demo.Shell.SampleInformationLog";
         public const string @SampleWarningLog = "Demo.Shell.SampleWarningLog";
         public const string @StatusReady = "Demo.Shell.StatusReady";
+        public const string @ViewGroup = "Demo.Shell.ViewGroup";
         public const string @WriteLogs = "Demo.Shell.WriteLogs";
     }
     public static class @Studio

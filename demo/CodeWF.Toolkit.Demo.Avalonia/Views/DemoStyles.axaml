@@ -140,15 +140,15 @@
   </Style>
 
   <Style Selector="Button.rbn-cmd">
-    <Setter Property="MinWidth" Value="95" />
+    <Setter Property="MinWidth" Value="0" />
     <Setter Property="MinHeight" Value="0" />
-    <Setter Property="Padding" Value="8,3" />
+    <Setter Property="Padding" Value="0,9" />
   </Style>
-  <Style Selector="Button.rbn-cmd.compact"><Setter Property="MinWidth" Value="80" /><Setter Property="Padding" Value="4,3" /></Style>
-  <Style Selector="Button.rbn-cmd StackPanel.ribbon-content"><Setter Property="Orientation" Value="Vertical" /></Style>
+  <Style Selector="Button.rbn-cmd.compact"><Setter Property="Padding" Value="0,9,2,9" /></Style>
+  <Style Selector="Button.rbn-cmd StackPanel.ribbon-content"><Setter Property="Orientation" Value="Horizontal" /></Style>
   <Style Selector="Button.rbn-cmd.small"><Setter Property="HorizontalContentAlignment" Value="Left" /></Style>
   <Style Selector="Button.rbn-cmd.small StackPanel.ribbon-content"><Setter Property="Orientation" Value="Horizontal" /></Style>
-  <Style Selector="Button.nav-leaf"><Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="FontSize" Value="11.5" /><Setter Property="MinHeight" Value="30" /></Style>
+  <Style Selector="Button.nav-leaf"><Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="FontSize" Value="12.5" /><Setter Property="MinHeight" Value="30" /></Style>
   <Style Selector="ToggleButton.nav-group"><Setter Property="FontSize" Value="11" /><Setter Property="MinHeight" Value="31" /></Style>
   <Style Selector="Button.demo-action"><Setter Property="FontSize" Value="12" /><Setter Property="FontWeight" Value="Normal" /></Style>
   <Style Selector="Border.studio-card"><Setter Property="CornerRadius" Value="10" /></Style>
@@ -211,7 +211,10 @@
   </Style>
   <!-- Ribbon 使用整块选中底色；左侧强调线只用于导航行。 -->
   <Style Selector="Button.rbn-cmd"><Setter Property="BorderThickness" Value="0" /></Style>
-  <Style Selector="PathIcon.ribbon-icon"><Setter Property="Foreground" Value="{DynamicResource StudioAccent}" /></Style>
+  <Style Selector="PathIcon.ribbon-icon"><Setter Property="Foreground" Value="{DynamicResource StudioMuted}" /></Style>
+  <Style Selector="Button.rbn-cmd:pointerover PathIcon.ribbon-icon, Button.rbn-cmd.selected PathIcon.ribbon-icon">
+    <Setter Property="Foreground" Value="{DynamicResource StudioAccent}" />
+  </Style>
   <Style Selector="PathIcon.ribbon-icon:disabled"><Setter Property="Foreground" Value="{DynamicResource SemiColorDisabledText}" /></Style>
   <Style Selector="Border.catalog-group"><Setter Property="BorderThickness" Value="0" /></Style>
   <!--  场景页步骤条：轨道式步骤，当前高亮、已完成打勾  -->

@@ -470,7 +470,7 @@ public partial class MainViewModel
 
     public bool IsNavEmpty => Groups.All(g => g.IsFilteredOut);
 
-    public IReadOnlyList<DemoGroupViewModel> FilteredGroups => Groups;
+    public IEnumerable<DemoGroupViewModel> FilteredGroups => Groups.Where(g => !g.IsShellGroup);
 
     public ReactiveCommand<DemoItemViewModel, RxVoid> SelectNavItemCommand { get; private set; } = null!;
 

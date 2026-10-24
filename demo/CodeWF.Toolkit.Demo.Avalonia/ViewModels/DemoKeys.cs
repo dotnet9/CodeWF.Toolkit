@@ -53,6 +53,8 @@ public static class DemoKeys
     public const string ShellDark = DemoResources.Shell.Dark;
     public const string ShellReady = DemoResources.Shell.Ready;
     public const string ShellReset = DemoResources.Shell.Reset;
+    public const string ShellViewGroup = DemoResources.Shell.ViewGroup;
+    public const string ShellMaximize = DemoResources.Shell.Maximize;
     public const string ShellQuickSave = DemoResources.Shell.QuickSave;
 
     // 外壳实体化件：通知中心 / 命令面板 / 密度 / 布局记忆 / 就地重命名

@@ -17,6 +17,8 @@
       "DemoShell": "Demo Shell",
       "Ready": "Ready",
       "Reset": "Reset layout",
+      "ViewGroup": "View",
+      "Maximize": "Maximize",
       "WriteLogs": "Write sample logs",
       "QuickSave": "Save layout",
       "QuickSettings": "Settings",
