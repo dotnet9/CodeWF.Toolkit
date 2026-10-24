@@ -21,8 +21,12 @@
     <codewf:CodeWFLogTheme />
     <codewf:StudioTheme />
     <StyleInclude Source="avares://CodeWF.Toolkit.Demo.Avalonia/Views/DemoStyles.axaml" />
-    <Style Selector="codewf|PropertyGrid">
-      <Setter Property="ThemeOverrides" Value="{DynamicResource StudioPropertyGridTheme}" />
-    </Style>
+    <!--  StudioPropertyGridTheme 自 v12.2.0-alpha.1 起改为 "Dark"/"Light" 字符串键，
+          该协议需要 Avalonia 12.2 的属性存储语义；本仓库钉在 Avalonia 12.1.4，
+          直接绑定会让 PropertyGrid.ThemeOverrides(ResourceDictionary)收到字符串而崩溃。
+          待 Avalonia 升级至 12.2 后恢复：
+          <Style Selector="codewf|PropertyGrid">
+            <Setter Property="ThemeOverrides" Value="{DynamicResource StudioPropertyGridTheme}" />
+          </Style>  -->
   </Application.Styles>
 </prism:PrismApplication>
