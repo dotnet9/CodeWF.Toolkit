@@ -11,6 +11,11 @@
 :root{
   --code:#f6f8fa;
   --sp1:4px;--sp2:8px;--sp3:12px;--sp4:16px;
+  /* 圆角三档与海拔阴影：小控件 6 / 卡片面板 10 / 窗口浮层 14 */
+  --r1:6px;--r2:10px;--r3:14px;
+  --e1:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.07);
+  --e2:0 4px 16px rgba(0,0,0,.10),0 1px 4px rgba(0,0,0,.07);
+  --e3:0 24px 70px rgba(0,0,0,.42),0 2px 10px rgba(0,0,0,.28);
 }
 [data-theme=dark]{--code:#16161a}
 
@@ -19,18 +24,18 @@
 html,body{height:100%}
 body{
   background:
-    radial-gradient(1200px 600px at 20% 0%,#1d2b53 0%,transparent 60%),
-    radial-gradient(1000px 700px at 85% 100%,#0f3460 0%,transparent 55%),
-    linear-gradient(135deg,#0b1322 0%,#101b30 100%);
+    radial-gradient(1200px 600px at 20% 0%,#16162a 0%,transparent 60%),
+    radial-gradient(1000px 700px at 85% 100%,#101726 0%,transparent 55%),
+    linear-gradient(135deg,#0a0a12 0%,#0d101c 100%);
   display:flex;align-items:center;justify-content:center;
-  padding:14px;font:13px/1.6 "Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--tx);
+  padding:14px;font:14px/1.65 "Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--tx);
   overflow:hidden;user-select:none;
 }
 .win{
   width:min(1480px,100%);height:100%;min-height:640px;
-  background:var(--bg);border-radius:10px;overflow:hidden;
+  background:var(--bg);border-radius:var(--r3);overflow:hidden;
   border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 24px 70px rgba(0,0,0,.55),0 4px 14px rgba(0,0,0,.35);
+  box-shadow:var(--e3);
   display:grid;grid-template-rows:34px 32px auto 1fr 28px;
 }
 button,input,select,textarea{font:inherit;color:inherit}
@@ -87,35 +92,35 @@ button,input,select,textarea{font:inherit;color:inherit}
 .qk2 button .kbd{color:var(--tx3);font-size:10px;letter-spacing:.2px}
 .qk2 button:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
 
-/* ═══ 3. Ribbon 命令区：104px 展开 / 0 收起（高度够放下「图标 + 文字 + 分组名」） ═══ */
-.rbn{background:var(--bg);border-bottom:1px solid var(--bd);padding:var(--sp2) var(--sp4) 0;
-  height:104px;display:flex;align-items:stretch;overflow-x:auto;overflow-y:hidden;
+/* ═══ 3. Ribbon 命令区：46px 紧凑单行命令条（小图标 + 完整 API 名），0 收起 ═══ */
+.rbn{background:var(--bg);border-bottom:1px solid var(--bd);padding:0 var(--sp3);
+  height:46px;display:flex;align-items:stretch;overflow-x:auto;overflow-y:hidden;
   transition:height .16s ease,padding .16s ease,opacity .12s ease}
 body.rmn .rbn{padding-top:0;padding-bottom:0;height:0;opacity:0;border-bottom:none;overflow:hidden}
-.grp{display:flex;flex-direction:column;gap:2px;padding:0 var(--sp3) 6px;border-right:1px solid var(--bd2);flex:none}
+.grp{display:flex;flex-direction:row;align-items:center;gap:2px;padding:0 var(--sp3);border-right:1px solid var(--bd2);flex:none}
 .grp:last-child{border-right:none}
-.grp .cmds{display:flex;gap:2px;flex:1;align-items:flex-start;flex-wrap:wrap;align-content:flex-start}
-.grp .gname{text-align:center;font-size:10.5px;color:var(--tx2);font-weight:700;letter-spacing:1.5px;padding:4px 0 2px}
-.cbtn{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;
-  width:74px;height:68px;padding:8px 4px 4px;border:none;background:transparent;cursor:pointer;
-  border-radius:7px;color:var(--tx);transition:background .13s ease,transform .13s ease}
+.grp .cmds{display:flex;gap:2px;flex:1;align-items:center;flex-wrap:nowrap}
+.grp .gname{display:none}
+.cbtn{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:7px;
+  width:auto;height:32px;padding:0 9px;border:none;background:transparent;cursor:pointer;
+  border-radius:var(--r1);color:var(--tx);transition:background .13s ease}
 .cbtn:hover{background:var(--hov)}
-.cbtn:hover .svgic{transform:translateY(-1px) scale(1.06)}
-.cbtn:active{background:var(--pri-lt);transform:scale(.97)}
+.cbtn:hover .svgic{transform:none}
+.cbtn:active{background:var(--pri-lt)}
 .cbtn:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
 .cbtn[aria-pressed=true]{background:var(--sel);color:var(--pri)}
-.cbtn .ic{height:22px;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.cbtn .ic{height:16px;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
 .cbtn:hover .ic,.cbtn[aria-pressed=true] .ic{color:var(--pri)}
-.cbtn .lb{font-size:11px;line-height:1.3;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68px}
+.cbtn .lb{font-size:12px;line-height:1.3;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
 .cbtn:disabled,.cbtn[disabled]{opacity:.45;cursor:not-allowed;background:transparent}
 
 /* ═══ 4. 主内容 = Dock 工作区 ═══ */
 .main{flex:1;min-height:0;display:flex;flex-direction:column;gap:var(--sp2);padding:var(--sp2) 10px;background:var(--workbg);overflow:hidden}
 .dockrow{flex:1;min-height:0;display:flex;gap:var(--sp2)}
-.panel{background:var(--bg);border:1px solid var(--bd);border-radius:8px;display:flex;flex-direction:column;
-  overflow:hidden;min-height:0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.phd{display:flex;align-items:center;height:30px;flex:none;padding:0 10px;background:var(--bg2);
-  border-bottom:1px solid var(--bd);font-size:11px;font-weight:700;color:var(--tx2);gap:7px;letter-spacing:.5px}
+.panel{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r2);display:flex;flex-direction:column;
+  overflow:hidden;min-height:0;box-shadow:none}
+.phd{display:flex;align-items:center;height:34px;flex:none;padding:0 12px;background:transparent;
+  border-bottom:1px solid var(--bd2);font-size:11px;font-weight:600;color:var(--tx3);gap:7px;letter-spacing:.6px}
 .phd .hdic{color:var(--tx3);display:flex;align-items:center}
 .phd .cnt{margin-left:auto;font-weight:600;color:var(--tx3);font-size:10px;background:var(--bg3);border-radius:999px;padding:0 7px;line-height:16px}
 .phd .tb{display:flex;gap:2px;margin-left:6px}
@@ -124,6 +129,23 @@ body.rmn .rbn{padding-top:0;padding-bottom:0;height:0;opacity:0;border-bottom:no
   color:var(--tx2);font-size:11px;white-space:nowrap;padding:0 5px;transition:background .12s,color .12s}
 .phd .tb button:hover{background:var(--pri-lt);color:var(--pri)}
 .phd .tb button:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
+/* 日志面板右上角关闭（Dock Tool 语义，可经 Ribbon「视图」重新打开） */
+.phd .phd-x{margin-left:auto;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;border-radius:5px;color:var(--tx3);cursor:pointer;padding:0}
+.phd .phd-x:hover{background:var(--hov);color:var(--tx)}
+.phd .phd-x:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
+.phd .phd-x svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round}
+/* 属性面板折叠按钮：位于属性面板左边框外侧最下方，由属性区自管显隐 */
+.props-collapse{position:absolute;bottom:10px;right:calc(var(--document-properties-width,260px) + 10px);transform:translateX(50%);width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--bd2);border-radius:999px;background:var(--bg);color:var(--tx3);cursor:pointer;z-index:6;padding:0;transition:color .15s,border-color .15s}
+.props-collapse:hover{color:var(--pri);border-color:var(--pri)}
+.props-collapse:focus-visible{outline:2px solid var(--pri);outline-offset:1px}
+.props-collapse svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .18s}
+body.hideR .props-collapse{right:0}
+body.hideR .props-collapse svg{transform:rotate(180deg)}
+/* 日志面板右键菜单（镜像原生 LogView 上下文菜单） */
+.ctx-menu{position:fixed;z-index:120;min-width:150px;padding:5px;background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r1);box-shadow:var(--e2)}
+.ctx-menu button{display:block;width:100%;padding:7px 12px;border:none;background:transparent;border-radius:5px;text-align:left;font-size:12.5px;color:var(--tx);cursor:pointer}
+.ctx-menu button:hover{background:var(--hov);color:var(--pri)}
 .pbd{flex:1;min-height:0;overflow:auto}
 .p-nav{width:228px;flex:none}
 body.hideL .p-nav{display:none}
@@ -154,26 +176,26 @@ body.hideLog .p-log{display:none}
 .tree .empty{padding:14px 10px;color:var(--tx3);font-size:11px;text-align:center}
 
 /* 中：文档面板 */
-.dts{display:flex;align-items:flex-end;height:32px;flex:none;padding:5px 8px 0;gap:4px;background:var(--bg2);
+.dts{display:flex;align-items:flex-end;height:34px;flex:none;padding:4px 10px 0;gap:2px;background:var(--bg2);
   border-bottom:1px solid var(--bd);overflow-x:auto}
-.dts .dkb{display:flex;gap:3px;margin-right:8px;align-self:center}
-.dts .dkb button{border:1px solid var(--bd);background:var(--bg);border-radius:4px;padding:2px 8px;
-  cursor:pointer;font-size:10px;color:var(--tx2)}
-.dts .dkb button:hover{border-color:var(--pri);color:var(--pri)}
+.dts .dkb{display:flex;gap:2px;margin-right:6px;align-self:center}
+.dts .dkb button{border:none;background:transparent;border-radius:var(--r1);padding:3px 7px;
+  cursor:pointer;font-size:11px;color:var(--tx3)}
+.dts .dkb button:hover{background:var(--hov);color:var(--pri)}
 .dts .dkb button:focus-visible{outline:2px solid var(--pri);outline-offset:1px}
-.dt{display:flex;align-items:center;gap:8px;padding:5px 8px 5px 16px;cursor:pointer;font-size:12px;color:var(--tx2);
-  background:var(--bg3);border:1px solid var(--bd2);border-bottom:none;
-  clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);user-select:none;white-space:nowrap}
+.dt{display:flex;align-items:center;gap:8px;padding:0 9px 0 12px;height:30px;cursor:pointer;font-size:12.5px;color:var(--tx2);
+  background:transparent;border:1px solid transparent;border-bottom:none;
+  border-radius:var(--r1) var(--r1) 0 0;user-select:none;white-space:nowrap}
 .dt:hover{color:var(--tx)}
-.dt.on{background:var(--bg);color:var(--tx);font-weight:600;border-bottom:2px solid var(--pri)}
+.dt.on{background:var(--bg);border-color:var(--bd2);color:var(--tx);font-weight:600;box-shadow:inset 0 2px 0 var(--pri)}
 .dt .x{width:14px;height:14px;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:10px;color:var(--tx3)}
 .dt .x:hover{background:var(--err);color:#fff}
 .dbody{flex:1;min-height:0;overflow:auto;padding:var(--sp3) var(--sp4) 26px}
 .doc .crumb{font-size:11.5px;color:var(--tx3);margin-bottom:5px;display:flex;align-items:center;gap:6px}
 .doc .crumb svg{color:var(--tx3)}
-.doc h1{font-size:19px;margin-bottom:4px}
+.doc h1{font-size:var(--fs-h1,22px);margin-bottom:4px}
 .doc .alias{font-size:11.5px;color:var(--tx3);font-family:Consolas,monospace;margin:-2px 0 6px;letter-spacing:.2px}
-.doc .dsc{color:var(--tx2);font-size:12.5px;margin-bottom:var(--sp3);line-height:1.7}
+.doc .dsc{color:var(--tx2);font-size:13px;margin-bottom:var(--sp3);line-height:1.7}
 .ftg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .ftg span{font-size:10.5px;padding:1px 9px;border-radius:10px;background:var(--pri-lt);color:var(--pri);font-weight:600}
 .smt{display:inline-flex;border:1px solid var(--bd);border-radius:6px;overflow:hidden;margin-bottom:14px}
@@ -182,10 +204,10 @@ body.hideLog .p-log{display:none}
 .smcode{background:var(--bg3);border:1px solid var(--bd2);border-radius:6px;padding:12px 14px;
   font-family:Consolas,monospace;font-size:11.5px;line-height:1.65;white-space:pre;overflow:auto;
   max-height:300px;margin-bottom:14px;color:var(--tx)}
-.demo{border:1px solid var(--bd2);border-radius:8px;padding:var(--sp4);background:var(--bg);margin-bottom:var(--sp3)}
+.demo{border:1px solid var(--bd2);border-radius:var(--r2);padding:var(--sp4);background:var(--bg);margin-bottom:var(--sp3)}
 .demo h4{font-size:12px;color:var(--tx3);font-weight:600;margin-bottom:10px;letter-spacing:.5px}
 .hint{font-size:11px;color:var(--tx3);margin-top:8px;line-height:1.6}
-.btn{border:1px solid var(--bd);background:var(--bg);border-radius:5px;padding:5px 16px;cursor:pointer;font-size:12px}
+.btn{border:1px solid var(--bd);background:var(--bg);border-radius:var(--r1);padding:6px 14px;cursor:pointer;font-size:12.5px}
 .btn:hover{border-color:var(--pri);color:var(--pri)}
 .btn:focus-visible{outline:2px solid var(--pri);outline-offset:1px}
 .btn.pri{border-color:var(--pri);color:var(--pri);background:var(--pri-lt)}
@@ -199,12 +221,12 @@ p.dsub{color:var(--tx2);font-size:12px;margin-bottom:12px}
 .card{border:1px solid var(--bd);border-radius:8px;padding:12px 14px;margin-bottom:12px;background:var(--bg)}
 .card h4{font-size:12.5px;margin-bottom:8px;color:var(--tx)}
 .card .hint{font-size:11px;color:var(--tx3);margin-top:6px}
-table.tb{width:100%;border-collapse:collapse;font-size:11.5px}
+table.tb{width:100%;border-collapse:collapse;font-size:12.5px}
 table.tb th,table.tb td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--bd2)}
 table.tb th{color:var(--tx3);font-weight:600;font-size:11px}
-code{font:11.5px Consolas,"Cascadia Mono",monospace;background:var(--code);border:1px solid var(--bd2);border-radius:3px;padding:0 4px}
+code{font:12px Consolas,"Cascadia Mono",monospace;background:var(--code);border:1px solid var(--bd2);border-radius:3px;padding:0 4px}
 pre.code{background:var(--code);border:1px solid var(--bd2);border-radius:6px;padding:10px 12px;overflow:auto;
-  font:11.5px/1.65 Consolas,"Cascadia Mono",monospace;color:var(--tx);margin:8px 0;white-space:pre}
+  font:12px/1.65 Consolas,"Cascadia Mono",monospace;color:var(--tx);margin:8px 0;white-space:pre}
 .row1{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
 input.tin,select.tin{height:26px;border:1px solid var(--bd);border-radius:5px;background:var(--bg);padding:0 8px;font-size:12px}
 input.tin:focus,select.tin:focus{outline:none;border-color:var(--pri)}
@@ -316,8 +338,8 @@ button.b:disabled{opacity:.45;cursor:not-allowed}
 .cpm{position:fixed;inset:0;z-index:95;display:none;justify-content:center;align-items:flex-start;
   background:rgba(0,0,0,.45);padding-top:9vh}
 .cpm.on{display:flex}
-.cpm .box{width:min(620px,92vw);background:var(--bg);border:1px solid var(--bd);border-radius:10px;
-  box-shadow:0 22px 60px rgba(0,0,0,.45);overflow:hidden}
+.cpm .box{width:min(620px,92vw);background:var(--bg);border:1px solid var(--bd);border-radius:var(--r3);
+  box-shadow:0 16px 48px rgba(0,0,0,.32);overflow:hidden}
 .cpm .box input{width:100%;height:42px;border:none;border-bottom:1px solid var(--bd);background:var(--bg);
   color:var(--tx);font-size:14px;padding:0 14px;outline:none}
 .cpm .ls{max-height:52vh;overflow:auto}
@@ -327,8 +349,8 @@ button.b:disabled{opacity:.45;cursor:not-allowed}
 .cpm .ft{padding:6px 14px;border-top:1px solid var(--bd);font-size:10.5px;color:var(--tx3);display:flex;gap:12px}
 .dlgm{position:fixed;inset:0;z-index:96;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45)}
 .dlgm.on{display:flex}
-.dlg{width:min(400px,92vw);background:var(--bg);border:1px solid var(--bd);border-radius:10px;
-  box-shadow:0 22px 60px rgba(0,0,0,.45);padding:18px 20px}
+.dlg{width:min(400px,92vw);background:var(--bg);border:1px solid var(--bd);border-radius:var(--r3);
+  box-shadow:0 16px 48px rgba(0,0,0,.32);padding:18px 20px}
 .dlg .dt2{font-weight:700;font-size:14px;margin-bottom:6px}
 .dlg .dd{font-size:12px;color:var(--tx2);line-height:1.7;margin-bottom:16px}
 .dlg .db{display:flex;justify-content:flex-end;gap:8px}
@@ -389,7 +411,7 @@ window.addEventListener("error",function(e){
   --pri:#512bd4; --pri-h:#6842ed; --pri-lt:rgba(81,43,212,.10); --sel:#eee8ff;
   --bg:#fff; --bg2:#f7f6fc; --bg3:#efedf7; --workbg:#efedf7;
   --tx:#211c35; --tx2:#625d76; --tx3:#716b83; --bd:#ddd8ec; --bd2:#e9e5f1; --hov:#f1edf9;
-  --fs-body:13px; --fs-h1:25px; --fs-dsc:13px; --fs-tag:11px; --fs-code:12px;
+  --fs-body:14px; --fs-h1:22px; --fs-dsc:13px; --fs-tag:11px; --fs-code:12.5px;
   color-scheme:light;
 }
 :root[data-theme=dark] {
@@ -413,7 +435,7 @@ body {
   padding:18px; background:radial-gradient(ellipse at 10% 0%,#151a24,transparent 55%),radial-gradient(ellipse at 95% 95%,#10141d,transparent 55%),#0a0c11;
   font-family:"Segoe UI Variable","Segoe UI","Microsoft YaHei",sans-serif;
 }
-.win { width:min(1680px,100%); min-height:0; border-radius:15px; border-color:var(--bd); grid-template-columns:minmax(0,1fr); grid-template-rows:52px 42px auto 1fr 30px; box-shadow:0 30px 100px #0007; }
+.win { width:min(1680px,100%); min-height:0; border-radius:var(--r3,14px); border-color:var(--bd); grid-template-columns:minmax(0,1fr); grid-template-rows:52px 42px auto 1fr 30px; box-shadow:var(--e3,0 24px 70px rgba(0,0,0,.42)),0 2px 10px rgba(0,0,0,.28); }
 .win > * { min-width:0; }
 .cap { height:52px; padding-left:17px; gap:11px; background:var(--bg); border-color:var(--bd2); }
 .cap .logo { width:28px; height:28px; border-radius:8px; box-shadow:none; }
@@ -430,11 +452,11 @@ body {
 .rt2 { min-width:0; flex:1; }
 .rt2 .t2 { font-size:12px; letter-spacing:0; padding:0 13px; }
 .rt2 .t2.on { background:var(--pri-lt); }
-.rt2 .t2.on::after { left:12px; right:12px; box-shadow:0 -2px 12px var(--glow); }
+.rt2 .t2.on::after { left:12px; right:12px; }
 .qk2 button { font-size:11px; }
-.rbn { height:82px; padding:5px 10px 0; background:var(--bg); border-color:var(--bd2); }
-.cbtn { width:70px; height:55px; padding:5px 3px; gap:5px; }
-.grp .gname { font-size:10px; padding:1px 0; font-weight:500; letter-spacing:.7px; }
+.rbn { height:46px; padding:0 12px; background:var(--bg); border-color:var(--bd2); }
+.cbtn { width:auto; height:32px; padding:0 9px; gap:7px; flex-direction:row; align-items:center; justify-content:flex-start; }
+.grp .gname { display:none; }
 .main { padding:10px; gap:10px; }
 .dockrow { gap:10px; }
 .panel { border-color:var(--bd2); border-radius:10px; box-shadow:none; }
@@ -442,22 +464,22 @@ body {
 .p-doc { flex:1; min-width:0; }
 .p-props { width:236px; background:var(--bg2); }
 .p-log { height:112px; }
-.phd { height:34px; background:transparent; border-color:var(--bd2); font-size:10px; text-transform:uppercase; letter-spacing:1px; }
+.phd { height:34px; background:transparent; border-color:var(--bd2); font-size:11px; text-transform:uppercase; letter-spacing:.6px; }
 .phd .tb button { font-size:10px; }
 .tree { padding:8px; }
 .tree .fnd { padding:0 0 10px; }
 .tree .fnd input { height:30px; background:var(--bg); }
 .tree .nd .hd { height:31px; font-size:11px; font-weight:600; }
-.tree .lf { height:30px; font-size:11.5px; border-radius:6px; transition:background .18s,color .18s; }
+.tree .lf { height:30px; font-size:12.5px; border-radius:6px; transition:background .18s,color .18s; }
 .tree .lf.on { background:var(--pri-lt); box-shadow:inset 2px 0 var(--pri); }
 .tree .nd .kids { margin-left:10px; }
 .dts { height:36px; background:var(--bg2); border-color:var(--bd2); overflow-x:auto; overflow-y:hidden; }
 .dts .dkb,.dt { flex:none; }
 .dts .dkb button { white-space:nowrap; }
 .dts .dkb button { font-size:10px; background:transparent; border-color:var(--bd2); padding:3px 6px; }
-.dt { font-size:11px; }
+.dt { font-size:12.5px; }
 .dbody { padding:25px 27px; }
-.doc h1 { color:var(--tx); font-size:25px; letter-spacing:-.6px; }
+.doc h1 { color:var(--tx); font-size:var(--fs-h1,22px); letter-spacing:-.5px; }
 .doc .crumb { font:10px Consolas,monospace; color:var(--tx3); margin-bottom:7px; }
 .doc .alias { font:11px Consolas,monospace; color:var(--tx3); }
 .doc .dsc { max-width:850px; margin:12px 0; line-height:1.8; }
@@ -465,7 +487,7 @@ body {
 .smt { margin-top:19px; }
 .demo,.card { background:var(--bg2); border-color:var(--bd2); border-radius:10px; }
 .demo h4,.card h4 { color:var(--tx2); font-size:12px; }
-.smcode,.code { background:var(--workbg); border-color:var(--bd2); color:var(--tx2); border-radius:8px; font:12px/1.8 Consolas,monospace; }
+.smcode,.code { background:var(--bg3); border-color:var(--bd2); color:var(--tx2); border-radius:8px; font:12px/1.8 Consolas,monospace; }
 .pgp { padding:6px 10px; }
 .pgp .cat { font-size:10px; letter-spacing:.5px; padding:12px 3px 7px; }
 .pgp .rw { min-height:31px; grid-template-columns:82px minmax(0,1fr); gap:4px; }
@@ -482,7 +504,7 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .tbar > * { flex:none; white-space:nowrap; }
 .tbar .sp { flex:1; }
 .tbar .badge { color:var(--pri); background:var(--pri-lt); font-size:10px; }
-.tbar .badge::before { background:var(--ok); box-shadow:0 0 8px color-mix(in srgb,var(--ok) 50%,transparent); }
+.tbar .badge::before { background:var(--ok); }
 .nc .ncard { border-radius:10px; }
 .cpm .box,.dlg { border-radius:14px; background:var(--bg2); }
 .cpm.on .box,.dlgm.on .dlg { animation:studio-enter .22s ease both; }
@@ -1688,7 +1710,7 @@ color-scheme:dark;
 </style>
 <style>
 .catalog-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.catalog-header h1{font-size:19px;margin:0 0 4px}.catalog-header p{font-size:11px;color:var(--pri);margin:0}.cbtn .lb{max-width:160px}
+.catalog-header h1{font-size:20px;margin:0 0 4px}.catalog-header p{font-size:11.5px;color:var(--pri);margin:0}.cbtn .lb{max-width:none}
 .catalog-category{padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--bg2)}
 .catalog-category h3{font-size:13px;color:var(--pri);margin:0 0 8px}.catalog-category .btn{margin:0 6px 6px 0}
 .catalog-index h2{font-size:18px;margin:0 0 10px}.catalog-index>p{color:var(--tx2);font-size:12px;margin:0 0 10px}
@@ -1698,25 +1720,27 @@ color-scheme:dark;
 .catalog-result{white-space:pre-wrap;font:12px/1.7 Consolas,monospace}.catalog-titlebar{display:flex;justify-content:space-between;padding:12px;margin-top:12px;background:var(--bg2);border-radius:6px}
 .catalog-line{display:block;width:280px;height:180px;color:var(--pri);margin-top:16px}.catalog-status{display:flex;gap:12px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg2)}
 .catalog-status strong{background:var(--pri);color:#fff;padding:5px 10px}.catalog-status span{padding:5px 10px}.catalog-status.card{flex-direction:column;padding:12px;min-width:80px}
-.rt2{overflow-x:auto;white-space:nowrap}.cmds{flex-wrap:wrap}.rbn{max-height:180px;overflow:auto}.cbtn{min-width:95px;max-width:170px}.cbtn .lb{white-space:normal;overflow-wrap:anywhere;font-size:11px}.lb{max-width:none}
+.rt2{overflow-x:auto;white-space:nowrap}.rbn{overflow-x:auto;overflow-y:hidden}.lb{max-width:none}
 .studio-title{font-size:28px!important}.studio-hero{padding-top:0!important;padding-bottom:4px!important}.catalog-index .btn:hover{transform:translateY(-2px)}
 @media(prefers-reduced-motion:reduce){.catalog-index .btn:hover{transform:none}}
 
 .studio-hero h2{font-size:26px!important;letter-spacing:-.5px}.studio-hero{margin:8px 0 14px!important}.studio-sigil{width:90px;height:90px}.studio-meta{padding-bottom:12px;margin-bottom:10px}
 
-.cmds{flex-wrap:nowrap}.cbtn{flex:0 0 auto;width:auto;height:62px}.rbn{overflow-x:auto;overflow-y:hidden}.catalog-header .catalog-description{color:var(--tx2);font-size:12px;margin-top:6px;line-height:1.7}
+.cmds{flex-wrap:nowrap}.catalog-header .catalog-description{color:var(--tx2);font-size:12.5px;margin-top:6px;line-height:1.7}
 
 .catalog-status[data-level="Debug"]{--status-color:#54a9ff}.catalog-status[data-level="Info"]{--status-color:var(--ok)}.catalog-status[data-level="Warn"]{--status-color:var(--warn)}.catalog-status[data-level="Error"],.catalog-status[data-level="Fatal"]{--status-color:var(--err)}.catalog-status{border-color:var(--status-color);background:color-mix(in srgb,var(--status-color) 12%,var(--bg2))}.catalog-status strong{background:var(--status-color)}.catalog-status.card strong{background:transparent;color:var(--status-color)}
 
 .catalog-grid{width:100%;border-collapse:collapse;table-layout:fixed}.catalog-grid th,.catalog-grid td{padding:9px;text-align:left;border-bottom:1px solid var(--line);overflow:hidden;text-overflow:ellipsis}.demo progress{width:100%;height:6px;margin:14px 0;accent-color:var(--pri)}.catalog-connected{color:var(--pri);font:12px Consolas,monospace}
 
-/* 与原生外壳共用 Ribbon 尺寸，命令保留完整 API 名。 */
+/* 紧凑命令条：单行 16px 图标 + 完整 API 名，替代大磁贴 Ribbon。 */
 body{font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}
-.rbn{height:104px;padding:4px 12px 2px;display:flex;gap:12px;align-items:flex-start}
-.grp{flex:none;padding-right:12px;margin-right:0}.grp .cmds{display:grid;grid-auto-flow:column;grid-template-rows:80px;gap:0 4px}
-.cbtn{min-width:95px;max-width:none;padding:3px 8px;height:80px}.cbtn .lb{max-width:none;white-space:nowrap;overflow-wrap:normal}
-.ribbon-small .cmds{grid-template-rows:repeat(2,40px)}.ribbon-small .cbtn{height:40px;flex-direction:row;justify-content:flex-start}.cbtn .ic{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex:none}.cbtn .ic svg{width:32px;height:32px}
-.qk button{width:30px;height:30px;color:var(--tx2)}.qk button svg{width:16px;height:16px}.qk button:hover{color:var(--pri)}.qk button:active{background:var(--pri-lt)}
+.rbn{height:46px;padding:0 12px;display:flex;gap:0;align-items:stretch}
+.grp{flex:none;display:flex;flex-direction:row;align-items:center;padding:0 10px;margin-right:0}
+.grp .cmds{display:flex;flex-wrap:nowrap;gap:2px;align-items:center}
+.cbtn{min-width:0;max-width:none;flex:0 0 auto;width:auto;height:32px;padding:0 9px}
+.cbtn .ic{display:flex;align-items:center;justify-content:center;width:16px;height:16px;flex:none}.cbtn .ic svg{width:16px;height:16px}
+.cbtn .lb{max-width:none;white-space:nowrap;overflow-wrap:normal;font-size:12px}
+.qk button{width:28px;height:28px;color:var(--tx2)}.qk button svg{width:16px;height:16px}.qk button:hover{color:var(--pri)}.qk button:active{background:var(--pri-lt)}
 
 /* 实心操作沿用原生 Primary，强调文字仍使用 Accent。 */
 .smt button.on,button.b.pri,.flow .st.cur .n{background:var(--button-bg);border-color:var(--button-bg);color:var(--on-primary)}
@@ -1724,25 +1748,36 @@ button.b.pri:hover{background:var(--button-hover);border-color:var(--button-hove
 button.b.pri:active{background:var(--button-pressed);border-color:var(--button-pressed)}
 .flow .st.done .n{color:var(--badge-text)}
 .cpm .it.on{background:var(--sel);color:var(--tx)}.cpm .it.on .g,.cpm .it.on .k{color:var(--tx2)}
-.grp .gname{height:18px;padding-top:2px;font-size:10px;letter-spacing:0}
+.grp .gname{display:none}
 .p-nav{width:16%;min-width:164px}.p-props{width:17%;min-width:220px}.p-log{height:14%;min-height:60px}
-.tree .lf{font-size:11.5px;height:30px}.tree .nd .hd{height:31px;font-size:11px}
+.tree .lf{font-size:12.5px;height:30px}.tree .nd .hd{height:31px;font-size:11.5px}
 .dbody:not([data-page="welcome"]){padding:0}.catalog-header{padding:10px 16px;gap:12px}.catalog-header h1{line-height:1.35}.catalog-header .catalog-description{margin-top:3px;line-height:1.5}
-.dbody:not([data-page="welcome"])>[id^="seg-"]{padding:14px 16px}.demo{border-radius:10px}
-[data-density="compact"] .cbtn{min-width:80px;padding:3px 4px}
+.dbody:not([data-page="welcome"])>[id^="seg-"]{padding:14px 16px}.demo{border-radius:var(--r2,10px)}
+[data-density="compact"] .cbtn{padding:0 6px}
 
 .dbody[data-page="welcome"]{padding:16px 20px}
 
 .qk2 button svg{width:18px;height:18px}.rw textarea{width:100%;min-height:64px;resize:vertical;box-sizing:border-box;background:var(--bg2);color:var(--tx);border:1px solid var(--line);border-radius:4px}.rw:has(textarea){height:auto;min-height:74px}
 
-/* 文档与参数一起布局，拖出文档时共同移动。 */
-.document-workspace{display:grid;grid-template-columns:minmax(160px,1fr) 5px minmax(180px,var(--document-properties-width,260px));flex:1;min-height:0;min-width:0;overflow:hidden}
-.document-workspace>.dbody{min-width:0;min-height:0;overflow:auto}
-.document-workspace>.p-props{width:auto;min-width:0;min-height:0;border-left:0}
-.document-splitter{background:var(--line);cursor:col-resize;touch-action:none}
-.document-splitter:hover,.document-splitter:focus-visible{background:var(--pri);outline:none}
-body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
+/* 文档区（页签+内容）与属性面板是平级圆角块，间隙与导航一致；分隔条隐形，悬停显示拖拽柄。 */
+.p-doc{display:grid;grid-template-columns:minmax(0,1fr) 10px minmax(180px,var(--document-properties-width,260px));grid-template-rows:auto minmax(0,1fr);border:none;background:transparent;box-shadow:none;overflow:visible;position:relative}
+.document-workspace{display:contents}
+.p-doc>.dts{grid-column:1;grid-row:1;border:1px solid var(--bd2);border-radius:var(--r2,10px) var(--r2,10px) 0 0;background:var(--bg)}
+.p-doc>.document-workspace>.dbody{grid-column:1;grid-row:2;min-width:0;min-height:0;overflow:auto;border:1px solid var(--bd2);border-top:none;border-radius:0 0 var(--r2,10px) var(--r2,10px);background:var(--bg)}
+.p-doc>.document-workspace>.document-splitter{grid-column:2;grid-row:1/3;position:relative;background:transparent;cursor:col-resize;touch-action:none}
+.document-splitter:focus-visible{outline:none}
+.document-splitter::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:3px;height:36px;border-radius:999px;background:transparent;transition:background .15s}
+.document-splitter:hover::before,.document-splitter:focus-visible::before{background:var(--pri)}
+.p-doc>.document-workspace>.p-props{grid-column:3;grid-row:1/3;width:auto;min-width:0;min-height:0}
+body.hideR .p-doc{grid-template-columns:minmax(0,1fr)}
+body.hideR .document-splitter,body.hideR .p-props{display:none}
 
+</style>
+<style id="flat-surfaces">
+/* 平面化表面层（评审反馈）：全部表面一律中性——浅色纯白、深色纯黑（含 Ribbon）；
+ * 配色只保留给强调色与交互态（--pri/--hov/--sel 不受影响）。必须位于 palette-tokens.css 之后。 */
+:root[data-theme=light][data-palette]{--bg:#ffffff;--bg2:#ffffff;--bg3:#f6f6f8;--workbg:#ffffff;--bd:#d9d9de;--bd2:#ebebef;--line:#ebebef}
+:root[data-theme=dark][data-palette]{--bg:#0a0a0b;--bg2:#0a0a0b;--bg3:#17171a;--workbg:#060607;--bd:#333338;--bd2:#232327;--line:#232327}
 </style>
 </head>
 <body data-product="toolkit">
@@ -1752,7 +1787,7 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
   <!-- ═══ 1. 标题栏 ═══ -->
   <div class="cap">
     <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPCEtLSBDb2RlV0YuVG9vbGtpdCDCtyDlt6XlhbflsYLlj6DvvJrlm5vlsYLog73lipvloIblj6DvvIhDb3JlL0ZpbGVzL0xvZ2dpbmcvTmV077yJ77yM6aG25bGC5Luj56CB5ous5Y+3IC0tPgogIDwhLS0g5Yeg5L2V77ya5Zub5Liq6I+x5b2i5Lit5b+DIHkgPSAxNjYvMjI2LzI4Ni8zNDbvvIjnrYnot50gNjDvvInvvIzlhoXlrrnnurXlkJHot6ggMTEy4oCTNDAw77yM5Lit5b+D5oGw5Li6IDI1NiAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idGtiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNjIzM0IiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEUxNTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJhbWJlciIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGQ0QzNEQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDk3NzA2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9InVybCgjdGtiZykiLz4KCiAgPCEtLSDlm5vlsYLloIblj6DvvJrmsLTlubMgNzbigJM0MzYg5bGF5Lit77yM5Z6C55u0IDExMuKAkzQwMCDlsYXkuK0gLS0+CiAgPHBhdGggZD0iTTI1NiAyOTIgTDQzNiAzNDYgTDI1NiA0MDAgTDc2IDM0NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjM1Ii8+CiAgPHBhdGggZD0iTTI1NiAyMzIgTDQzNiAyODYgTDI1NiAzNDAgTDc2IDI4NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTTI1NiAxNzIgTDQzNiAyMjYgTDI1NiAyODAgTDc2IDIyNiBaIiBmaWxsPSIjRjU5RTBCIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTI1NiAxMTIgTDQzNiAxNjYgTDI1NiAyMjAgTDc2IDE2NiBaIiBmaWxsPSJ1cmwoI2FtYmVyKSIvPgoKICA8IS0tIOmhtuWxguS7o+eggeaLrOWPt++8iOmhtumdouS4reW/gyAyNTYsMTY277yJIC0tPgogIDxnIHN0cm9rZT0iIzE2MjMzQiIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIj4KICAgIDxwYXRoIGQ9Ik0yMDYgMTQ4IEwxODAgMTY2IEwyMDYgMTg0Ii8+CiAgICA8cGF0aCBkPSJNMzA2IDE0OCBMMzMyIDE2NiBMMzA2IDE4NCIvPgogICAgPGxpbmUgeDE9IjI2OCIgeTE9IjE0MCIgeDI9IjI0NCIgeTI9IjE5MiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="CodeWF.Toolkit logo" title="CodeWF.Toolkit">
-    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.0-alpha.2</span>
+    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.0</span>
     <span class="sp"></span>
     <details id="appearanceMenu" class="titlebar-appearance">
       <summary title="外观：主题与配色" aria-label="外观：主题与配色">
@@ -1815,20 +1850,12 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
         <div class="phd">
           <span class="hdic"><svg class="svgic s14" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6"/><path d="M5 12v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-6"/></svg></span>
           <span data-i18n="nav">导航树</span><span class="cnt" id="navCnt"></span>
-          <span class="tb"><button id="hideNav" title="隐藏面板" data-i18n="dock.hide">隐藏</button></span>
         </div>
         <div class="pbd tree" id="lTree"></div>
       </div>
 
       <div class="panel p-doc">
         <div class="dts">
-          <span class="dkb">
-            <button id="dkNav" title="显示/隐藏导航树" data-i18n="dock.nav">导航树</button>
-            <button id="dkProps" title="显示/隐藏属性面板" data-i18n="dock.props">属性</button>
-            <button id="dkLog" title="显示/隐藏日志面板" data-i18n="dock.log">日志</button>
-            <button id="dkMax" title="文档区最大化" data-i18n="dock.max">最大化</button>
-            <button id="dkReset" title="重置布局" data-i18n="dock.reset">重置</button>
-          </span>
           <span id="dT" style="display:flex;gap:4px"></span>
         </div>
         <div class="document-workspace">
@@ -1838,11 +1865,11 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
         <div class="phd">
 
           <span data-i18n="props">属性</span><span class="cnt" id="pgCnt"></span>
-          <span class="tb"><button id="hideProp2" title="隐藏面板" data-i18n="dock.hide">隐藏</button></span>
         </div>
         <div class="pbd pgp" id="pGrid"></div>
       </div>
         </div>
+        <button class="props-collapse" id="propsCollapse" title="折叠属性面板" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
 
 
@@ -1853,11 +1880,7 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
       <div class="phd">
         <span class="hdic"><svg class="svgic s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 4.5h13v15h-13z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/></svg></span>
         <span data-i18n="log">日志</span>
-        <span class="tb">
-          <button id="openLogDir" data-i18n="log.opendir">打开目录</button>
-          <button id="clrLogBtn" data-i18n="log.clear">清空</button>
-          <button id="hideLogBtn" title="折叠日志面板" data-i18n="dock.hide">隐藏</button>
-        </span>
+        <button class="phd-x" id="hideLogBtn" title="关闭日志面板"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
       <div class="pbd" id="logP"></div>
     </div>
@@ -1878,7 +1901,7 @@ body.hideR .document-workspace{grid-template-columns:minmax(0,1fr) 0 0}
     <span class="sep">|</span>
     <button id="logToggleBtn" data-i18n="status.logpanel">日志面板</button>
     <button id="langBtn2">中英</button>
-    <span>net10.0 · Toolkit 1.1.0-alpha.2</span>
+    <span>net10.0 · Toolkit 1.1.0</span>
   </div>
 
 </div><!-- /.win -->
@@ -4482,6 +4505,51 @@ function togglePanel(which) {
  var hidden = document.body.classList.contains(key);
  log2both((which === "L" ? "导航树" : which === "R" ? "属性" : "日志") + "面板：" + (hidden ? "隐藏" : "显示"));
  if (ACTIVE_DOC === "flow-runtime" || ACTIVE_DOC === "flow-lab") renderDoc(ACTIVE_DOC);
+ syncPropsCollapse();
+}
+function syncPropsCollapse() {
+ var pc = $("propsCollapse");
+ if (!pc) return;
+ var hidden = document.body.classList.contains("hideR");
+ pc.setAttribute("aria-pressed", String(!hidden));
+ pc.title = hidden ? (LANG === "en-US" ? "Expand properties panel" : "展开属性面板")
+                   : (LANG === "en-US" ? "Collapse properties panel" : "折叠属性面板");
+}
+function openLogDirectory() {
+ log2both("打开日志目录（跨平台内联：Explorer / xdg-open / open）", "warn");
+}
+/* 日志面板右键菜单：镜像原生 LogView 的上下文菜单（打开目录 / 清空）。 */
+function bindLogContextMenu() {
+ var menu = document.createElement("div");
+ menu.className = "ctx-menu"; menu.id = "logCtxMenu"; menu.hidden = true;
+ document.body.appendChild(menu);
+ var label = function (key) { return (I18N[LANG] || I18N["zh-CN"] || {})[key] || key; };
+ $("logP").addEventListener("contextmenu", function (event) {
+  event.preventDefault();
+  menu.innerHTML = '<button type="button" data-act="dir">' + esc(label("log.opendir")) +
+   '</button><button type="button" data-act="clear">' + esc(label("log.clear")) + "</button>";
+  menu.style.left = Math.min(event.clientX, window.innerWidth - 170) + "px";
+  menu.style.top = Math.min(event.clientY, window.innerHeight - 100) + "px";
+  menu.hidden = false;
+ });
+ menu.addEventListener("click", function (event) {
+  var act = event.target instanceof Element ? event.target.getAttribute("data-act") : null;
+  if (!act) return;
+  menu.hidden = true;
+  if (act === "dir") openLogDirectory();
+  else if (act === "clear") confirmDlg(tt("dlg.del.t"), "清空底部日志面板？该操作不影响日志文件。", function () {
+   $("logP").innerHTML = "";
+   notify("warn", tt("nc.warn"), "日志面板已清空");
+   log2both("日志面板已清空", "warn");
+  });
+ });
+ document.addEventListener("click", function (event) {
+  if (menu.hidden) return;
+  if (event.target instanceof Element && event.target.closest("#logCtxMenu")) return;
+  menu.hidden = true;
+ });
+ document.addEventListener("keydown", function (event) { if (event.key === "Escape") menu.hidden = true; });
+ window.addEventListener("blur", function () { menu.hidden = true; });
 }
 var LAYOUT_KEY = "codewf-toolkit-demo-layout";
 function saveLayout() {
@@ -4624,23 +4692,10 @@ function bindShell() {
  $("qkDensity").onclick = function () { setDensity(document.documentElement.dataset.density === "compact" ? "cozy" : "compact"); };
  $("qkSave").onclick = saveLayout;
  $("qkReset").onclick = layoutResetAsk;
- $("hideNav").onclick = function () { togglePanel("L"); };
- $("hideProp2").onclick = function () { togglePanel("R"); };
  $("hideLogBtn").onclick = function () { togglePanel("Log"); };
  $("logToggleBtn").onclick = function () { togglePanel("Log"); };
- $("dkNav").onclick = $("hideNav").onclick;
- $("dkProps").onclick = $("hideProp2").onclick;
- $("dkLog").onclick = $("hideLogBtn").onclick;
- $("dkMax").onclick = function () { document.body.classList.add("hideL", "hideR"); log2both("文档区最大化"); };
- $("dkReset").onclick = layoutResetAsk;
- $("openLogDir").onclick = function () { log2both("打开日志目录（跨平台内联：Explorer / xdg-open / open）", "warn"); };
- $("clrLogBtn").onclick = function () {
-  confirmDlg(tt("dlg.del.t"), "清空底部日志面板？该操作不影响日志文件。", function () {
-   $("logP").innerHTML = "";
-   notify("warn", tt("nc.warn"), "日志面板已清空");
-   log2both("日志面板已清空", "warn");
-  });
- };
+ $("propsCollapse").onclick = function () { togglePanel("R"); };
+ bindLogContextMenu();
  $("cpmQ").oninput = cpmDraw;
  $("cpmQ").onkeydown = function (e) {
   if (e.key === "ArrowDown") { e.preventDefault(); cpmMove(1); }
@@ -5952,6 +6007,55 @@ if (typeof TK_BOOT === "function") TK_BOOT();
     originalOpenDoc(id);
   };
   window.openDoc = openDoc;
+  /* ── Ribbon「视图」命令组：Dock 面板显隐（原型外壳命令，不属于 API 目录，导航树不渲染） ── */
+  var VIEW_ID = "view";
+  var originalTabName = tabName;
+  tabName = function (id) { return id === VIEW_ID ? (LANG === "en-US" ? "View" : "视图") : originalTabName(id); };
+  var originalRenderRTabs = renderRTabs;
+  renderRTabs = function () {
+    originalRenderRTabs();
+    var tab = document.createElement("div");
+    tab.className = "t2" + (curTab === VIEW_ID ? " on" : "");
+    tab.dataset.t = VIEW_ID;
+    tab.setAttribute("role", "tab"); tab.tabIndex = 0;
+    tab.title = (LANG === "en-US" ? "View" : "视图") + (LANG === "en-US" ? " (double-click to collapse the ribbon)" : "（双击折叠命令区）");
+    tab.innerHTML = "<span>" + (LANG === "en-US" ? "View" : "视图") + "</span>";
+    tab.onclick = function () { switchTab(VIEW_ID); };
+    tab.ondblclick = function () { toggleRibbon(); };
+    tab.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); switchTab(VIEW_ID); } };
+    $("rTabs").appendChild(tab);
+  };
+  var shellIcon = {
+    nav: '<svg class="svgic s16" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>',
+    log: '<svg class="svgic s16" viewBox="0 0 24 24"><path d="M5 4h14M5 9h14M5 14h9M5 19h6"/></svg>',
+    max: '<svg class="svgic s16" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>',
+    reset: '<svg class="svgic s16" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>'
+  };
+  var galleryRenderRBody = renderRBody;
+  renderRBody = function () {
+    if (curTab !== VIEW_ID) { galleryRenderRBody(); return; }
+    var zh = LANG !== "en-US";
+    var items = [
+      { act: "nav",   label: zh ? "导航树" : "Nav Tree",   title: zh ? "显示 / 隐藏导航树" : "Toggle navigation tree", on: !document.body.classList.contains("hideL") },
+      { act: "log",   label: zh ? "日志" : "Log Panel",    title: zh ? "显示 / 隐藏日志面板" : "Toggle log panel", on: !document.body.classList.contains("hideLog") },
+      { act: "max",   label: zh ? "最大化" : "Maximize",   title: zh ? "文档区最大化（隐藏导航树与属性面板）" : "Maximize the document area", on: document.body.classList.contains("hideL") && document.body.classList.contains("hideR") },
+      { act: "reset", label: zh ? "重置" : "Reset Layout", title: zh ? "重置布局" : "Reset layout", on: false }
+    ];
+    $("rBody").innerHTML = '<div class="grp"><div class="cmds">' + items.map(function (it) {
+      return '<button class="cbtn" data-shell="' + it.act + '" title="' + esc(it.title) + '" aria-pressed="' + it.on + '">' +
+        '<span class="ic">' + shellIcon[it.act] + '</span><span class="lb">' + esc(it.label) + "</span></button>";
+    }).join("") + '</div><div class="gname">' + (zh ? "视图" : "View") + "</div></div>";
+    $("rBody").querySelectorAll("[data-shell]").forEach(function (button) {
+      button.onclick = function () {
+        var act = button.dataset.shell;
+        if (act === "nav") togglePanel("L");
+        else if (act === "log") togglePanel("Log");
+        else if (act === "max") { document.body.classList.add("hideL", "hideR"); syncPropsCollapse(); log2both("文档区最大化"); }
+        else layoutResetAsk();
+        renderRBody();
+      };
+    });
+  };
   function apiMeta(entry) {
     return { t:title(entry), d:entry.api ? entry.package : text("AboutDesc"), f:[] };
   }
@@ -6053,9 +6157,10 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   var widths = {}, workspace = document.querySelector('.document-workspace');
   var splitter = document.querySelector('.document-splitter');
   function resizeProperties(width) {
-    var bounded = Math.max(180, Math.min(width, workspace.clientWidth - 165));
+    var frame = document.querySelector('.p-doc') || workspace;
+    var bounded = Math.max(180, Math.min(width, frame.clientWidth - 165));
     widths[ACTIVE_DOC] = bounded;
-    workspace.style.setProperty('--document-properties-width', bounded + 'px');
+    document.body.style.setProperty('--document-properties-width', bounded + 'px');
     splitter.setAttribute('aria-valuenow', String(Math.round(bounded)));
   }
   splitter.onpointerdown = function(event) {
@@ -6071,7 +6176,7 @@ if (typeof TK_BOOT === "function") TK_BOOT();
   };
   var renderWithProperties = renderDoc;
   renderDoc = function(id) {
-    workspace.style.setProperty('--document-properties-width', (widths[id] || 260) + 'px');
+    document.body.style.setProperty('--document-properties-width', (widths[id] || 260) + 'px');
     return renderWithProperties(id);
   };
   curTab='home';
