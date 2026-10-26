@@ -1612,6 +1612,7 @@ public static class ResourceKeys
         public const string @LayoutReset = "Demo.Shell.LayoutReset";
         public const string @LayoutSaveFailed = "Demo.Shell.LayoutSaveFailed";
         public const string @LayoutSaved = "Demo.Shell.LayoutSaved";
+        public const string @Maximize = "Demo.Shell.Maximize";
         public const string @NavEmpty = "Demo.Shell.NavEmpty";
         public const string @NavFilter = "Demo.Shell.NavFilter";
         public const string @NotificationDismiss = "Demo.Shell.NotificationDismiss";
@@ -1622,7 +1623,6 @@ public static class ResourceKeys
         public const string @PaletteName = "Demo.Shell.PaletteName";
         public const string @PaletteNameRequired = "Demo.Shell.PaletteNameRequired";
         public const string @PaletteRemovedFormat = "Demo.Shell.PaletteRemovedFormat";
-        public const string @Maximize = "Demo.Shell.Maximize";
         public const string @PaletteSavedFormat = "Demo.Shell.PaletteSavedFormat";
         public const string @PalettesTitle = "Demo.Shell.PalettesTitle";
         public const string @PanelHidden = "Demo.Shell.PanelHidden";
