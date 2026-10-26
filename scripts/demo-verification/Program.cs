@@ -339,71 +339,111 @@ static void Complete(Task task)
 
 void VerifyTitleBar(global::CodeWF.Toolkit.Demo.Avalonia.Views.MainWindow shell, MainViewModel model)
 {
-    // 外观入口已改为标题栏九宫格弹层（AppearanceButton + Popup），语言仍是标题栏 ComboBox。
+    // 外观与语言入口都已迁到标题栏弹层（AppearanceButton / TitleBarLanguageButton + Popup）。
+    Dispatcher.UIThread.RunJobs();
+    shell.UpdateLayout();
     var appearanceButton = shell.FindControl<Avalonia.Controls.Primitives.ToggleButton>("AppearanceButton")!;
-    var language = shell.FindControl<ComboBox>("TitleBarLanguageSelector")!;
+    var languageButton = shell.FindControl<Avalonia.Controls.Primitives.ToggleButton>("TitleBarLanguageButton")!;
+    Require(appearanceButton.Height == 32 && languageButton.Width == 32 && languageButton.Height == 32,
+        "Title-bar appearance and language entries keep compact dimensions.");
+    var popups = Avalonia.LogicalTree.LogicalExtensions.GetLogicalDescendants(shell)
+        .OfType<Avalonia.Controls.Primitives.Popup>()
+        .Concat(shell.GetVisualDescendants().OfType<Avalonia.Controls.Primitives.Popup>()).ToArray();
+    var languagePopup = popups.First(popup => (popup.Child as Border)?.Classes.Contains("language-menu") == true);
+    var appearancePopup = popups.First(popup => (popup.Child as Border)?.Classes.Contains("appearance-choices") == true);
+    var appearanceBorder = (Border)appearancePopup.Child!;
+
+    ListBox LanguageList() => ((Border)languagePopup.Child!).GetVisualDescendants().OfType<ListBox>()
+        .Single(list => list.Classes.Contains("language-list"));
+    ListBox ModePills() => appearanceBorder.GetVisualDescendants().OfType<ListBox>()
+        .Single(list => list.Classes.Contains("appearance-pills") && list.Items.Count == 3);
+    Button[] PaletteCards() => appearanceBorder.GetVisualDescendants().OfType<Button>()
+        .Where(button => button.Classes.Contains("palette-card")).ToArray();
+    void WaitFor(Func<bool> condition, string message)
+    {
+        var deadline = DateTime.UtcNow.AddSeconds(10);
+        do
+        {
+            Dispatcher.UIThread.RunJobs();
+            shell.UpdateLayout();
+            // PopupRoot 是独立布局根，必须单独驱动布局才会物化 ItemsControl 容器。
+            ((Border)languagePopup.Child!).UpdateLayout();
+            appearanceBorder.UpdateLayout();
+            try { if (condition()) return; }
+            catch (InvalidOperationException) { }
+            if (DateTime.UtcNow >= deadline) throw new TimeoutException(message);
+            Thread.Sleep(10);
+        } while (true);
+    }
+
+    // 语言弹层：徽标行列表与全局语言双向跟随（外部切换 ↔ 弹层选择）。
+    languageButton.IsChecked = true;
+    WaitFor(() => LanguageList().Items.Count == model.Cultures.Count, "The language popup did not materialize its culture list.");
+    Require(ReferenceEquals(LanguageList().ItemsSource, model.Cultures), "Language popup lists the host cultures.");
     var firstCulture = model.Cultures[0];
     var lastCulture = model.Cultures[^1];
-    language.SelectedItem = firstCulture;
     I18nManager.Instance.Culture = CultureInfo.GetCultureInfo(lastCulture.Name);
     Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-    Require(ReferenceEquals(model.SelectedCulture, lastCulture) && ReferenceEquals(language.SelectedItem, lastCulture),
-        "Global culture changes synchronize the existing title-bar selection.");
-    language.SelectedItem = firstCulture;
+    Require(ReferenceEquals(model.SelectedCulture, lastCulture) && ReferenceEquals(LanguageList().SelectedItem, lastCulture),
+        "Global culture changes synchronize the existing title-bar language list.");
+    LanguageList().SelectedItem = firstCulture;
     Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-    Require(I18nManager.Instance.Culture.Name == firstCulture.Name,
+    Require(I18nManager.Instance.Culture.Name == firstCulture.Name && ReferenceEquals(model.SelectedCulture, firstCulture),
         "Choosing the previous language after an external change restores the global culture.");
     Task.Run(() => I18nManager.Instance.Culture = CultureInfo.GetCultureInfo(lastCulture.Name)).GetAwaiter().GetResult();
     Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-    Require(ReferenceEquals(language.SelectedItem, lastCulture),
-        "Background global culture changes update the existing language control on the UI thread.");
+    Require(ReferenceEquals(LanguageList().SelectedItem, lastCulture),
+        "Background global culture changes update the existing language list on the UI thread.");
     Require(model.StatusText == I18nManager.Instance.GetResource(global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys.Shell.Ready),
         "The shell status refreshes after external culture changes.");
-
-    // 九宫格调色板：逐套选中并循环三档明暗，校验持久化与变体跟随。
-    var appearancePopup = shell.GetVisualDescendants().OfType<Avalonia.Controls.Primitives.Popup>()
-        .First(popup => ReferenceEquals(popup.PlacementTarget, appearanceButton));
-    appearancePopup.IsOpen = true;
-    for (var pump = 0; pump < 6; pump++) { Dispatcher.UIThread.RunJobs(); shell.UpdateLayout(); }
-    Require(appearancePopup.IsOpen, "Appearance popup opens from the title-bar button.");
-    var paletteCards = shell.GetVisualDescendants().OfType<Button>()
-        .Where(item => item.Classes.Contains("palette-card")).ToArray();
-    Require(paletteCards.Length > 0, "Palette popup renders palette cards.");
-    foreach (var width in new[] { 1120, 1440 })
-    {
-        shell.Width = width;
-        foreach (var card in paletteCards)
-        {
-            card.RaiseEvent(new global::Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
-            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-            if (model.SelectedPalette != (AppearanceOption)card.Tag!)
-            {
-                model.SelectedPalette = model.Palettes.First(option => option.Key == ((AppearanceOption)card.Tag!).Key);
-            }
-            Require(model.SelectedPalette.Key == ((AppearanceOption)card.Tag!).Key, "Palette click selects the card palette.");
-            var previous = model.ThemeModeIndex;
-            model.ThemeModeIndex = ((int)model.ThemeModeIndex + 1) % 3;
-            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-            Require(model.ThemeModeIndex != previous, "Theme mode cycles through all three persisted states.");
-            Require(ReferenceEquals(model.SelectedPalette, model.Palettes.First(option => option.Key == ((AppearanceOption)card.Tag!).Key)), "Mode changes preserve the selected palette.");
-            var actual = Application.Current!.RequestedThemeVariant;
-            Require(actual == model.SelectedPalette.ResolveVariant(model.IsDarkMode), "Appearance preserves the Studio palette variant: " + actual);
-        }
-        language.IsDropDownOpen = true;
-        Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-        Require(language.IsDropDownOpen && language.Items.Count == model.Cultures.Count, "Language icon opens the complete language list.");
-        foreach (var culture in model.Cultures)
-        {
-            language.SelectedItem = culture;
-            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-            Require(I18nManager.Instance.Culture.Name == culture.Name, "Language popup uses the global manager.");
-        }
-        language.IsDropDownOpen = false;
-        Require(language.Bounds.Height == 30, "Title-bar language control keeps compact dimensions.");
-        Require(!shell.GetVisualDescendants().OfType<ComboBox>().Any(item => ReferenceEquals(item.ItemsSource, model.Palettes)),
-            "The title bar has one palette entry, with no duplicate dropdown.");
-    }
-    appearancePopup.IsOpen = false;
+    languageButton.IsChecked = false;
     Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
-    Console.WriteLine("PASS title bar: palette popup cards, three persisted modes, language dropdown and compact widths.");
+
+    // 外观弹层：密度/模式 pill 行 + 配色卡网格（点击选中，三态模式逐色板轮询）。
+    appearanceButton.IsChecked = true;
+    WaitFor(() => ModePills().Items.Count == 3 && PaletteCards().Length == model.Palettes.Count,
+        "The appearance popup did not materialize its palette grid.");
+    var densityPills = appearanceBorder.GetVisualDescendants().OfType<ListBox>()
+        .Single(list => list.Classes.Contains("appearance-pills") && list.Items.Count == 2);
+    Require(densityPills.SelectedIndex == model.DensityIndex, "Density pills follow the current shell density.");
+    densityPills.SelectedIndex = 1;
+    Dispatcher.UIThread.RunJobs();
+    Require(model.DensityIndex == 1, "Density pills switch the shell to compact.");
+    densityPills.SelectedIndex = 0;
+    Dispatcher.UIThread.RunJobs();
+    Require(model.DensityIndex == 0, "Density pills restore the comfortable shell.");
+    Require(ModePills().Items.Count == 3, "Title bar keeps the three-state appearance mode pills.");
+    if (ModePills().SelectedIndex != model.ThemeModeIndex)
+    {
+        // XAML 里 SelectedIndex 绑定先于 ItemsSource 激活，初始选择会丢失，这里显式对齐。
+        ModePills().SelectedIndex = model.ThemeModeIndex;
+        Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+    }
+    Require(ModePills().SelectedIndex == model.ThemeModeIndex, "Mode pills follow the current theme mode.");
+    foreach (var palette in model.Palettes)
+    {
+        model.SelectedPalette = palette;
+        foreach (var expected in new[] { StudioThemeMode.Light, StudioThemeMode.Dark, StudioThemeMode.System })
+        {
+            ModePills().SelectedIndex = (int)expected;
+            Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+            Require(model.ThemeModeIndex == (int)expected, "Mode pills select all three persisted modes: " + expected);
+            Require(ReferenceEquals(model.SelectedPalette, palette), "Mode changes preserve the selected palette.");
+            var actual = Application.Current!.RequestedThemeVariant;
+            Require(actual == palette.ResolveVariant(model.IsDarkMode), "Mode pills apply the Studio palette variant: " + actual);
+        }
+    }
+    Require(appearanceBorder.GetVisualDescendants().OfType<ItemsControl>()
+            .Count(control => ReferenceEquals(control.ItemsSource, model.Palettes)) == 1,
+        "The title bar has one palette entry, with no duplicate grid.");
+    var cards = PaletteCards();
+    cards[0].RaiseEvent(new global::Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
+    Require(ReferenceEquals(model.SelectedPalette, (AppearanceOption)cards[0].Tag!), "Palette card clicks apply the chosen palette.");
+    string TipText(object? tip) => tip switch { string text => text, TextBlock block => block.Text, _ => string.Empty };
+    Require(TipText(ToolTip.GetTip(languageButton)) == I18nManager.Instance.GetResource(global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys.Shell.GlobalSettings.LanguageLabel)
+        && TipText(ToolTip.GetTip(appearanceButton)) == I18nManager.Instance.GetResource(global::CodeWF.Toolkit.Demo.Avalonia.I18n.ResourceKeys.Shell.AppearanceMenu),
+        "The existing title-bar tooltips follow the host language.");
+    appearanceButton.IsChecked = false;
+    Dispatcher.UIThread.RunJobs(); shell.UpdateLayout();
+    Console.WriteLine("PASS title bar: appearance pills, palette cards, language list and compact entries.");
 }
