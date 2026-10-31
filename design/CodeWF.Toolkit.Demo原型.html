@@ -663,112 +663,112 @@ body.prototype-maximized { padding:0; }
 
 </style>
 <style>
-/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.0-alpha.2 docs/配色与排版令牌规则.md（ruleVersion 6）。 */
-/* 默认回退块 = indigo（规则附录 A default）；8 套配色块以更高优先级覆盖。旧 key 别名映射见 assets/palette-data.js。 */
+/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.45 docs/配色与排版令牌规则.md（ruleVersion 6）。 */
+/* 默认回退块 = teal（规则附录 A default）；8 套配色块以更高优先级覆盖。旧 key 别名映射见 assets/palette-data.js。 */
 /* 变量语义映射表见 scripts/prototype/generate-palette-tokens.cjs。非配色变量（--sp* / --code 等）仍由 index.template.html 静态提供。 */
 :root[data-theme=light] {
 color-scheme:light;
-  --bg:#FDFDFE;
-  --bg2:#F2F2F5;
-  --bg3:#f2f2f3;
-  --tx:#1B1D2E;
-  --tx2:#666772;
-  --tx3:#666772;
-  --bd:#d0d0d4;
-  --bd2:#e2e2e4;
-  --line:#e2e2e4;
-  --hov:#f2f2f3;
-  --sel:#e7e5f7;
-  --workbg:#f2f2f3;
-  --pri:#4338CA;
-  --pri-h:#5248ce;
-  --brand:#4338CA;
-  --glow:#4338CA;
-  --secondary:#7068d7;
-  --text-gradient-end:#7068d7;
-  --button-bg:#4338CA;
-  --button-hover:#5248ce;
-  --button-pressed:#3f35ba;
-  --on-primary:#FFFFFF;
-  --ok:#157f3d;
+  --bg:#F5F5F1;
+  --bg2:#F1F4EF;
+  --bg3:#ebeceb;
+  --tx:#303B35;
+  --tx2:#636b67;
+  --tx3:#636b67;
+  --bd:#ced0cf;
+  --bd2:#dddfde;
+  --line:#dddfde;
+  --hov:#ebeceb;
+  --sel:#e5e9e7;
+  --workbg:#ebeceb;
+  --pri:#6F8F7D;
+  --pri-h:#7a9787;
+  --brand:#6F8F7D;
+  --glow:#6F8F7D;
+  --secondary:#93ab9e;
+  --text-gradient-end:#93ab9e;
+  --button-bg:#6F8F7D;
+  --button-hover:#7a9787;
+  --button-pressed:#698776;
+  --on-primary:#000000;
+  --ok:#157e3c;
   --warn:#b25209;
-  --err:#d62626;
-  --badge-text:#FFFFFF;
-  --card-top:#1B1D2E;
-  --badge-debug:#4338CA;
-  --badge-debug-bg:#eae9f8;
-  --card-debug:#1B1D2E;
-  --card-debug-bg:#eae9f8;
-  --badge-info:#157f3d;
-  --badge-info-bg:#edf4f0;
-  --card-info:#157f3d;
-  --card-info-bg:#edf4f0;
+  --err:#d32727;
+  --badge-text:#000000;
+  --card-top:#303B35;
+  --badge-debug:#6F8F7D;
+  --badge-debug-bg:#f2f3f3;
+  --card-debug:#303B35;
+  --card-debug-bg:#f2f3f3;
+  --badge-info:#157e3c;
+  --badge-info-bg:#eef1ef;
+  --card-info:#157e3c;
+  --card-info-bg:#eef1ef;
   --badge-warn:#b25209;
-  --badge-warn-bg:#f7efe9;
+  --badge-warn-bg:#f3f0ee;
   --card-warn:#b25209;
-  --card-warn-bg:#f7efe9;
-  --badge-error:#d62626;
-  --badge-error-bg:#fbf0f0;
-  --card-error:#d62626;
-  --card-error-bg:#fbf0f0;
-  --badge-fatal:#c92527;
-  --badge-fatal-bg:#fbf0f0;
-  --card-fatal:#c92527;
-  --card-fatal-bg:#fbf0f0;
-  --action-gradient:linear-gradient(135deg,#4338CA,#7068d7);
-  --pri-lt:#eae9f8;
+  --card-warn-bg:#f3f0ee;
+  --badge-error:#d32727;
+  --badge-error-bg:#f4efef;
+  --card-error:#d32727;
+  --card-error-bg:#f4efef;
+  --badge-fatal:#cb2828;
+  --badge-fatal-bg:#f4efef;
+  --card-fatal:#cb2828;
+  --card-fatal-bg:#f4efef;
+  --action-gradient:linear-gradient(135deg,#6F8F7D,#93ab9e);
+  --pri-lt:#f2f3f3;
 }
 :root[data-theme=dark] {
 color-scheme:dark;
-  --bg:#12131F;
-  --bg2:#1B1C24;
-  --bg3:#232324;
-  --tx:#E6E7F2;
-  --tx2:#9a9ba2;
-  --tx3:#9a9ba2;
-  --bd:#4b4b4e;
-  --bd2:#363638;
-  --line:#363638;
-  --hov:#232324;
-  --sel:#2e313e;
-  --workbg:#232324;
-  --pri:#A5B4FC;
-  --pri-h:#acbafc;
-  --brand:#A5B4FC;
-  --glow:#A5B4FC;
-  --secondary:#8894ce;
-  --text-gradient-end:#8894ce;
-  --button-bg:#A5B4FC;
-  --button-hover:#acbafc;
-  --button-pressed:#919ede;
+  --bg:#1A1F1D;
+  --bg2:#1E2422;
+  --bg3:#2b2b2b;
+  --tx:#D4DDD7;
+  --tx2:#929894;
+  --tx3:#929894;
+  --bd:#4d504e;
+  --bd2:#3b3d3c;
+  --line:#3b3d3c;
+  --hov:#2b2b2b;
+  --sel:#363b38;
+  --workbg:#2b2b2b;
+  --pri:#A2BEAD;
+  --pri-h:#a9c3b4;
+  --brand:#A2BEAD;
+  --glow:#A2BEAD;
+  --secondary:#889e90;
+  --text-gradient-end:#889e90;
+  --button-bg:#A2BEAD;
+  --button-hover:#a9c3b4;
+  --button-pressed:#8fa798;
   --on-primary:#000000;
   --ok:#4ADE80;
   --warn:#FBBF24;
   --err:#F87171;
   --badge-text:#000000;
-  --card-top:#E6E7F2;
-  --badge-debug:#A5B4FC;
-  --badge-debug-bg:#2b2e39;
-  --card-debug:#E6E7F2;
-  --card-debug-bg:#2b2e39;
+  --card-top:#D4DDD7;
+  --badge-debug:#A2BEAD;
+  --badge-debug-bg:#333835;
+  --card-debug:#D4DDD7;
+  --card-debug-bg:#333835;
   --badge-info:#4ADE80;
-  --badge-info-bg:#1e3827;
+  --badge-info-bg:#264130;
   --card-info:#4ADE80;
-  --card-info-bg:#1e3827;
+  --card-info-bg:#264130;
   --badge-warn:#FBBF24;
-  --badge-warn-bg:#3e3317;
+  --badge-warn-bg:#463b1f;
   --card-warn:#FBBF24;
-  --card-warn-bg:#3e3317;
+  --card-warn-bg:#463b1f;
   --badge-error:#F87171;
-  --badge-error-bg:#3d2525;
+  --badge-error-bg:#452d2d;
   --card-error:#F87171;
-  --card-error-bg:#3d2525;
+  --card-error-bg:#452d2d;
   --badge-fatal:#da6363;
-  --badge-fatal-bg:#462828;
+  --badge-fatal-bg:#452d2d;
   --card-fatal:#da6363;
-  --card-fatal-bg:#462828;
-  --action-gradient:linear-gradient(135deg,#A5B4FC,#8894ce);
-  --pri-lt:#2b2e39;
+  --card-fatal-bg:#452d2d;
+  --action-gradient:linear-gradient(135deg,#A2BEAD,#889e90);
+  --pri-lt:#333835;
 }
 :root[data-theme=light][data-palette=graphite] {
 color-scheme:light;
@@ -980,107 +980,107 @@ color-scheme:dark;
 }
 :root[data-theme=light][data-palette=teal] {
 color-scheme:light;
-  --bg:#FBFEFD;
-  --bg2:#EDF7F5;
-  --bg3:#f1f2f2;
-  --tx:#102722;
-  --tx2:#5c6b68;
-  --tx3:#5c6b68;
-  --bd:#ced2d1;
-  --bd2:#e1e3e3;
-  --line:#e1e3e3;
-  --hov:#f1f2f2;
-  --sel:#e0edec;
-  --workbg:#f1f2f2;
-  --pri:#0F766E;
-  --pri-h:#228179;
-  --brand:#0F766E;
-  --glow:#0F766E;
-  --secondary:#26837c;
-  --text-gradient-end:#26837c;
-  --button-bg:#0F766E;
-  --button-hover:#228179;
-  --button-pressed:#0f6e66;
-  --on-primary:#FFFFFF;
-  --ok:#15803D;
-  --warn:#B45309;
-  --err:#d82626;
-  --badge-text:#FFFFFF;
-  --card-top:#102722;
-  --badge-debug:#0F766E;
-  --badge-debug-bg:#e5f0ef;
-  --card-debug:#102722;
-  --card-debug-bg:#e5f0ef;
-  --badge-info:#15803D;
-  --badge-info-bg:#eff6f1;
-  --card-info:#15803D;
-  --card-info-bg:#eff6f1;
-  --badge-warn:#B45309;
-  --badge-warn-bg:#f9f3ee;
-  --card-warn:#B45309;
-  --card-warn-bg:#f9f3ee;
-  --badge-error:#d82626;
-  --badge-error-bg:#fbf2f2;
-  --card-error:#d82626;
-  --card-error-bg:#fbf2f2;
-  --badge-fatal:#c82626;
-  --badge-fatal-bg:#fbf2f2;
-  --card-fatal:#c82626;
-  --card-fatal-bg:#fbf2f2;
-  --action-gradient:linear-gradient(135deg,#0F766E,#26837c);
-  --pri-lt:#e5f0ef;
+  --bg:#F5F5F1;
+  --bg2:#F1F4EF;
+  --bg3:#ebeceb;
+  --tx:#303B35;
+  --tx2:#636b67;
+  --tx3:#636b67;
+  --bd:#ced0cf;
+  --bd2:#dddfde;
+  --line:#dddfde;
+  --hov:#ebeceb;
+  --sel:#e5e9e7;
+  --workbg:#ebeceb;
+  --pri:#6F8F7D;
+  --pri-h:#7a9787;
+  --brand:#6F8F7D;
+  --glow:#6F8F7D;
+  --secondary:#93ab9e;
+  --text-gradient-end:#93ab9e;
+  --button-bg:#6F8F7D;
+  --button-hover:#7a9787;
+  --button-pressed:#698776;
+  --on-primary:#000000;
+  --ok:#157e3c;
+  --warn:#b25209;
+  --err:#d32727;
+  --badge-text:#000000;
+  --card-top:#303B35;
+  --badge-debug:#6F8F7D;
+  --badge-debug-bg:#f2f3f3;
+  --card-debug:#303B35;
+  --card-debug-bg:#f2f3f3;
+  --badge-info:#157e3c;
+  --badge-info-bg:#eef1ef;
+  --card-info:#157e3c;
+  --card-info-bg:#eef1ef;
+  --badge-warn:#b25209;
+  --badge-warn-bg:#f3f0ee;
+  --card-warn:#b25209;
+  --card-warn-bg:#f3f0ee;
+  --badge-error:#d32727;
+  --badge-error-bg:#f4efef;
+  --card-error:#d32727;
+  --card-error-bg:#f4efef;
+  --badge-fatal:#cb2828;
+  --badge-fatal-bg:#f4efef;
+  --card-fatal:#cb2828;
+  --card-fatal-bg:#f4efef;
+  --action-gradient:linear-gradient(135deg,#6F8F7D,#93ab9e);
+  --pri-lt:#f2f3f3;
 }
 :root[data-theme=dark][data-palette=teal] {
 color-scheme:dark;
-  --bg:#0E1614;
-  --bg2:#16211E;
-  --bg3:#222423;
-  --tx:#DFF2EE;
-  --tx2:#96a2a0;
-  --tx3:#96a2a0;
-  --bd:#494e4d;
-  --bd2:#343837;
-  --line:#343837;
-  --hov:#222423;
-  --sel:#213b37;
-  --workbg:#222423;
-  --pri:#5EEAD4;
-  --pri-h:#6becd7;
-  --brand:#5EEAD4;
-  --glow:#5EEAD4;
-  --secondary:#4fbfae;
-  --text-gradient-end:#4fbfae;
-  --button-bg:#5EEAD4;
-  --button-hover:#6becd7;
-  --button-pressed:#53cebb;
+  --bg:#1A1F1D;
+  --bg2:#1E2422;
+  --bg3:#2b2b2b;
+  --tx:#D4DDD7;
+  --tx2:#929894;
+  --tx3:#929894;
+  --bd:#4d504e;
+  --bd2:#3b3d3c;
+  --line:#3b3d3c;
+  --hov:#2b2b2b;
+  --sel:#363b38;
+  --workbg:#2b2b2b;
+  --pri:#A2BEAD;
+  --pri-h:#a9c3b4;
+  --brand:#A2BEAD;
+  --glow:#A2BEAD;
+  --secondary:#889e90;
+  --text-gradient-end:#889e90;
+  --button-bg:#A2BEAD;
+  --button-hover:#a9c3b4;
+  --button-pressed:#8fa798;
   --on-primary:#000000;
   --ok:#4ADE80;
   --warn:#FBBF24;
   --err:#F87171;
   --badge-text:#000000;
-  --card-top:#DFF2EE;
-  --badge-debug:#5EEAD4;
-  --badge-debug-bg:#203633;
-  --card-debug:#DFF2EE;
-  --card-debug-bg:#203633;
+  --card-top:#D4DDD7;
+  --badge-debug:#A2BEAD;
+  --badge-debug-bg:#333835;
+  --card-debug:#D4DDD7;
+  --card-debug-bg:#333835;
   --badge-info:#4ADE80;
-  --badge-info-bg:#1e3827;
+  --badge-info-bg:#264130;
   --card-info:#4ADE80;
-  --card-info-bg:#1e3827;
+  --card-info-bg:#264130;
   --badge-warn:#FBBF24;
-  --badge-warn-bg:#3e3317;
+  --badge-warn-bg:#463b1f;
   --card-warn:#FBBF24;
-  --card-warn-bg:#3e3317;
+  --card-warn-bg:#463b1f;
   --badge-error:#F87171;
-  --badge-error-bg:#3d2525;
+  --badge-error-bg:#452d2d;
   --card-error:#F87171;
-  --card-error-bg:#3d2525;
+  --card-error-bg:#452d2d;
   --badge-fatal:#da6363;
-  --badge-fatal-bg:#462828;
+  --badge-fatal-bg:#452d2d;
   --card-fatal:#da6363;
-  --card-fatal-bg:#462828;
-  --action-gradient:linear-gradient(135deg,#5EEAD4,#4fbfae);
-  --pri-lt:#203633;
+  --card-fatal-bg:#452d2d;
+  --action-gradient:linear-gradient(135deg,#A2BEAD,#889e90);
+  --pri-lt:#333835;
 }
 :root[data-theme=light][data-palette=pine] {
 color-scheme:light;
@@ -1787,7 +1787,7 @@ body.hideR .document-splitter,body.hideR .p-props{display:none}
   <!-- ═══ 1. 标题栏 ═══ -->
   <div class="cap">
     <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPCEtLSBDb2RlV0YuVG9vbGtpdCDCtyDlt6XlhbflsYLlj6DvvJrlm5vlsYLog73lipvloIblj6DvvIhDb3JlL0ZpbGVzL0xvZ2dpbmcvTmV077yJ77yM6aG25bGC5Luj56CB5ous5Y+3IC0tPgogIDwhLS0g5Yeg5L2V77ya5Zub5Liq6I+x5b2i5Lit5b+DIHkgPSAxNjYvMjI2LzI4Ni8zNDbvvIjnrYnot50gNjDvvInvvIzlhoXlrrnnurXlkJHot6ggMTEy4oCTNDAw77yM5Lit5b+D5oGw5Li6IDI1NiAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idGtiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNjIzM0IiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEUxNTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJhbWJlciIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGQ0QzNEQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDk3NzA2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9InVybCgjdGtiZykiLz4KCiAgPCEtLSDlm5vlsYLloIblj6DvvJrmsLTlubMgNzbigJM0MzYg5bGF5Lit77yM5Z6C55u0IDExMuKAkzQwMCDlsYXkuK0gLS0+CiAgPHBhdGggZD0iTTI1NiAyOTIgTDQzNiAzNDYgTDI1NiA0MDAgTDc2IDM0NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjM1Ii8+CiAgPHBhdGggZD0iTTI1NiAyMzIgTDQzNiAyODYgTDI1NiAzNDAgTDc2IDI4NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTTI1NiAxNzIgTDQzNiAyMjYgTDI1NiAyODAgTDc2IDIyNiBaIiBmaWxsPSIjRjU5RTBCIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTI1NiAxMTIgTDQzNiAxNjYgTDI1NiAyMjAgTDc2IDE2NiBaIiBmaWxsPSJ1cmwoI2FtYmVyKSIvPgoKICA8IS0tIOmhtuWxguS7o+eggeaLrOWPt++8iOmhtumdouS4reW/gyAyNTYsMTY277yJIC0tPgogIDxnIHN0cm9rZT0iIzE2MjMzQiIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIj4KICAgIDxwYXRoIGQ9Ik0yMDYgMTQ4IEwxODAgMTY2IEwyMDYgMTg0Ii8+CiAgICA8cGF0aCBkPSJNMzA2IDE0OCBMMzMyIDE2NiBMMzA2IDE4NCIvPgogICAgPGxpbmUgeDE9IjI2OCIgeTE9IjE0MCIgeDI9IjI0NCIgeTI9IjE5MiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="CodeWF.Toolkit logo" title="CodeWF.Toolkit">
-    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.0</span>
+    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.1</span>
     <span class="sp"></span>
     <details id="appearanceMenu" class="titlebar-appearance">
       <summary title="外观：主题与配色" aria-label="外观：主题与配色">
@@ -1901,7 +1901,7 @@ body.hideR .document-splitter,body.hideR .p-props{display:none}
     <span class="sep">|</span>
     <button id="logToggleBtn" data-i18n="status.logpanel">日志面板</button>
     <button id="langBtn2">中英</button>
-    <span>net10.0 · Toolkit 1.1.0</span>
+    <span>net10.0 · Toolkit 1.1.1</span>
   </div>
 
 </div><!-- /.win -->
@@ -1938,12 +1938,12 @@ body.hideR .document-splitter,body.hideR .p-props{display:none}
 <div id="DBG"></div>
 
 <script>
-// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.0-alpha.2 docs/配色与排版令牌规则.md（ruleVersion 6）。
+// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.45 docs/配色与排版令牌规则.md（ruleVersion 6）。
 "use strict";
 window.CodeWFPalettes = {
-  "defaultKey": "indigo",
+  "defaultKey": "teal",
   "ruleVersion": 6,
-  "source": "CodeWF.Avalonia 12.2.0-alpha.2",
+  "source": "CodeWF.Avalonia 12.2.45",
   "list": [
     {
       "key": "graphite",
@@ -1981,15 +1981,15 @@ window.CodeWFPalettes = {
     },
     {
       "key": "teal",
-      "label": "青碧",
-      "en": "Teal",
-      "note": "冷青 · 清爽记录",
+      "label": "鼠尾草",
+      "en": "Sage",
+      "note": "暖白鼠尾草 · 温润写作",
       "recommended": true,
       "swatch": [
-        "#FBFEFD",
-        "#EDF7F5",
-        "#102722",
-        "#0F766E",
+        "#F5F5F1",
+        "#F1F4EF",
+        "#303B35",
+        "#6F8F7D",
         "#DC2626",
         "#15803D",
         "#B45309",

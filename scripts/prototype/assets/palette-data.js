@@ -1,9 +1,9 @@
-// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.0-alpha.2 docs/配色与排版令牌规则.md（ruleVersion 6）。
+// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.45 docs/配色与排版令牌规则.md（ruleVersion 6）。
 "use strict";
 window.CodeWFPalettes = {
-  "defaultKey": "indigo",
+  "defaultKey": "teal",
   "ruleVersion": 6,
-  "source": "CodeWF.Avalonia 12.2.0-alpha.2",
+  "source": "CodeWF.Avalonia 12.2.45",
   "list": [
     {
       "key": "graphite",
@@ -41,15 +41,15 @@ window.CodeWFPalettes = {
     },
     {
       "key": "teal",
-      "label": "青碧",
-      "en": "Teal",
-      "note": "冷青 · 清爽记录",
+      "label": "鼠尾草",
+      "en": "Sage",
+      "note": "暖白鼠尾草 · 温润写作",
       "recommended": true,
       "swatch": [
-        "#FBFEFD",
-        "#EDF7F5",
-        "#102722",
-        "#0F766E",
+        "#F5F5F1",
+        "#F1F4EF",
+        "#303B35",
+        "#6F8F7D",
         "#DC2626",
         "#15803D",
         "#B45309",
