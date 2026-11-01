@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Xml.Linq;
 using CodeWF.Toolkit.Files.Helpers;
 
@@ -12,6 +12,8 @@ public sealed class AppConfigHelperTests : IDisposable
     [Fact]
     public void SnapshotReadsTypedValuesWithoutReopeningFile()
     {
+        // null 值语义 =「未设置」：不落盘，读取侧回落默认；与 Vex 偏好设置的
+        // 可空字符串往返一致（null 曾被写成空串，破坏 ?? 默认值兜底）。
         AppConfigHelper.SetMany(ConfigPath, new Dictionary<string, object?>
         {
             ["enabled"] = true,
@@ -22,6 +24,7 @@ public sealed class AppConfigHelperTests : IDisposable
             ["empty"] = null
         });
         var snapshot = AppConfigHelper.ReadAll(ConfigPath);
+        Assert.False(snapshot.ContainsKey("empty"));
         File.Delete(ConfigPath);
 
         var previousCulture = CultureInfo.CurrentCulture;
@@ -38,8 +41,7 @@ public sealed class AppConfigHelperTests : IDisposable
             Assert.Equal(DayOfWeek.Friday, mode);
             Assert.True(snapshot.TryGet<string>("text", out var text));
             Assert.Equal("A & B", text);
-            Assert.True(snapshot.TryGet<string>("empty", out var empty));
-            Assert.Equal(string.Empty, empty);
+            Assert.False(snapshot.TryGet<string>("empty", out _));
             Assert.False(snapshot.TryGet<int>("text", out _));
             Assert.False(snapshot.TryGet<string>("missing", out _));
         }
@@ -112,5 +114,20 @@ public sealed class AppConfigHelperTests : IDisposable
     public void Dispose()
     {
         if (Directory.Exists(_directory)) Directory.Delete(_directory, recursive: true);
+    }
+
+    [Fact]
+    public void NullValueRoundTripRemovesTheKeySoDefaultsApply()
+    {
+        AppConfigHelper.Set(ConfigPath, "color", "#24766B");
+        Assert.True(AppConfigHelper.TryGet<string>(ConfigPath, "color", out var first));
+        Assert.Equal("#24766B", first);
+
+        AppConfigHelper.SetMany(ConfigPath, new Dictionary<string, object?> { ["color"] = null });
+
+        Assert.False(AppConfigHelper.TryGet<string>(ConfigPath, "color", out var second));
+        Assert.Null(second);
+        Assert.DoesNotContain("WatermarkColor", File.ReadAllText(ConfigPath));
+        Assert.DoesNotContain("\"color\"", File.ReadAllText(ConfigPath));
     }
 }

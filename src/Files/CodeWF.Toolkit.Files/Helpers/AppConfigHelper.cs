@@ -1,4 +1,4 @@
-namespace CodeWF.Toolkit.Files.Helpers;
+﻿namespace CodeWF.Toolkit.Files.Helpers;
 
 using System;
 using System.Collections.Generic;
@@ -239,16 +239,25 @@ public static class AppConfigHelper
     private static void SetSetting<T>(XElement appSettings, string name, T value)
     {
         var setting = FindSetting(appSettings, name);
+        // null 值语义 =「未设置，回落默认」：不落盘（已存在的键一并移除），
+        // 否则 null 会往返成空字符串，覆盖读取侧的 ?? 默认值兜底。
+        if (value is null)
+        {
+            setting?.Remove();
+            return;
+        }
+
+        var encoded = ConvertToString(value);
         if (setting is null)
         {
             appSettings.Add(new XElement(
                 AddElementName,
                 new XAttribute(KeyAttributeName, name),
-                new XAttribute(ValueAttributeName, ConvertToString(value))));
+                new XAttribute(ValueAttributeName, encoded)));
         }
         else
         {
-            setting.SetAttributeValue(ValueAttributeName, ConvertToString(value));
+            setting.SetAttributeValue(ValueAttributeName, encoded);
         }
     }
 
