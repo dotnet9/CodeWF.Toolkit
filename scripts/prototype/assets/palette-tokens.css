@@ -1,4 +1,4 @@
-/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.45 docs/配色与排版令牌规则.md（ruleVersion 6）。 */
+/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.49 docs/配色与排版令牌规则.md（ruleVersion 7）。 */
 /* 默认回退块 = teal（规则附录 A default）；8 套配色块以更高优先级覆盖。旧 key 别名映射见 assets/palette-data.js。 */
 /* 变量语义映射表见 scripts/prototype/generate-palette-tokens.cjs。非配色变量（--sp* / --code 等）仍由 index.template.html 静态提供。 */
 :root[data-theme=light] {
