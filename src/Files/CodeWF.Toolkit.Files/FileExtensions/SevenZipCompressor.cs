@@ -59,7 +59,7 @@ public class SevenZipCompressor : ISevenZipCompressor
         }
 
         var destinationDirectory = Directory.CreateDirectory(dir).FullName;
-        using var archive = ArchiveFactory.Open(compressedFile);
+        using var archive = ArchiveFactory.OpenArchive(compressedFile);
         var entries = archive.Entries.ToList();
         var extractionPaths = entries
             .Select(entry => (Entry: entry, Path: GetSafeExtractionPath(destinationDirectory, entry.Key)))
@@ -159,9 +159,9 @@ public class SevenZipCompressor : ISevenZipCompressor
     /// <param name="rootdir"></param>
     /// <param name="archiveType"></param>
     /// <returns></returns>
-    private IWritableArchive CreateZipArchive(IEnumerable<string> files, string rootdir)
+    private IWritableArchive<ZipWriterOptions> CreateZipArchive(IEnumerable<string> files, string rootdir)
     {
-        var archive = ArchiveFactory.Create(ArchiveType.Zip);
+        var archive = ZipArchive.CreateArchive();
         var dic = GetFileEntryMaps(files);
         var remoteUrls = files.Distinct().Where(s => s.StartsWith("http", StringComparison.OrdinalIgnoreCase)).Select(s =>
         {

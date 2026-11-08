@@ -5,6 +5,8 @@ using BitFieldDuplicateNameTwo = CodeWF.Toolkit.Network.Tests.NetWeaver.BitField
 
 namespace CodeWF.Toolkit.Network.Tests.NetWeaver
 {
+    // 这组用例临时修改全局编码与集合上限，不能与其他网络序列化用例并行。
+    [Collection("Serialization configuration")]
     public class SerializeHelperRegressionUnitTest
     {
         [Fact]
