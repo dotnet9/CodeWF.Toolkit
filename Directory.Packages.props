@@ -5,63 +5,64 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- 打包基础设施 -->
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.401" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="11.0.100-rc.3.26522.148" />
 
     <!-- Avalonia 演示台（CodeWF.Toolkit.Demo.Avalonia） -->
-    <PackageVersion Include="Avalonia" Version="12.1.4" />
-    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="12.1.4" />
-    <PackageVersion Include="Avalonia.Headless" Version="12.1.4" />
-    <PackageVersion Include="Avalonia.Desktop" Version="12.1.4" />
-    <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.4" />
+    <PackageVersion Include="Avalonia" Version="12.1.5" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="12.1.5" />
+    <PackageVersion Include="Avalonia.Headless" Version="12.1.5" />
+    <PackageVersion Include="Avalonia.Desktop" Version="12.1.5" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.5" />
     <PackageVersion Include="Semi.Avalonia" Version="12.1.0.1" />
-    <PackageVersion Include="Irihi.Ursa" Version="2.2.0" />
-    <PackageVersion Include="Irihi.Ursa.Themes.Semi" Version="2.2.0" />
+    <PackageVersion Include="Irihi.Ursa" Version="2.3.1" />
+    <PackageVersion Include="Irihi.Ursa.Themes.Semi" Version="2.3.1" />
     <PackageVersion Include="Prism.DryIoc.Avalonia" Version="8.1.97.11073" />
-    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.1.2" />
-    <PackageVersion Include="Dock.Avalonia" Version="12.1.0.6" />
-    <PackageVersion Include="Dock.Avalonia.Themes.Simple" Version="12.1.0.6" />
-    <PackageVersion Include="Dock.Model.ReactiveUI" Version="12.1.0.6" />
-    <PackageVersion Include="CodeWF.Avalonia.Controls" Version="12.2.9" />
+    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.1.6" />
+    <PackageVersion Include="Dock.Avalonia" Version="12.1.5" />
+    <PackageVersion Include="Dock.Avalonia.Themes.Simple" Version="12.1.5" />
+    <PackageVersion Include="Dock.Model.ReactiveUI" Version="12.1.5" />
+    <PackageVersion Include="CodeWF.Avalonia.Controls" Version="12.2.49" />
     <!-- PropertyGrid 控件所在包（TreeDataGrid 增强 + 通用属性面板） -->
     <PackageVersion Include="CodeWF.Avalonia.TreeDataGrid" Version="12.2.9" />
-    <PackageVersion Include="CodeWF.Avalonia.Dock" Version="12.2.9" />
-    <PackageVersion Include="CodeWF.Avalonia.Lang" Version="12.2.9" />
-    <PackageVersion Include="CodeWF.Avalonia.Log" Version="12.1.4.25" />
-    <PackageVersion Include="Xaml.Behaviors" Version="12.0.7" />
+    <PackageVersion Include="CodeWF.Avalonia.Dock" Version="12.2.49" />
+    <PackageVersion Include="CodeWF.Avalonia.Lang" Version="12.2.49" />
+    <PackageVersion Include="CodeWF.Avalonia.Log" Version="12.2.49" />
+    <PackageVersion Include="Xaml.Behaviors" Version="12.1.5" />
     <!-- PropertyGrid（CodeWF.Avalonia.Controls）所需的传递依赖：全新还原时需要显式声明版本 -->
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
     <PackageVersion Include="TreeDataGrid.Avalonia" Version="12.0.0" />
-    <PackageVersion Include="Avalonia.Controls.ColorPicker" Version="12.1.4" />
-    <PackageVersion Include="Avalonia.Skia" Version="12.1.4" />
+    <PackageVersion Include="Avalonia.Controls.ColorPicker" Version="12.1.5" />
+    <PackageVersion Include="Avalonia.Skia" Version="12.1.5" />
 
     <!-- CodeWF.Toolkit.Files -->
     <PackageVersion Include="SharpCompress" Version="1.0.0" />
     <PackageVersion Include="YamlDotNet" Version="18.1.0" />
-    <PackageVersion Include="CsvHelper" Version="33.1.0" />
-    <PackageVersion Include="MiniExcel" Version="1.46.0" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.12" />
+    <PackageVersion Include="CsvHelper" Version="34.0.0" />
+    <PackageVersion Include="MiniExcel" Version="2.0.0-preview.5" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="11.0.0-rc.3.26522.148" />
 
     <!-- CodeWF.Toolkit.Image -->
-    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.17.1" />
-    <PackageVersion Include="ZXing.Net.Bindings.Magick" Version="0.16.18" />
+    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="15.1.0" />
+    <PackageVersion Include="ZXing.Net.Bindings.Magick" Version="0.16.19" />
 
     <!-- CodeWF.Toolkit.Logging.Microsoft -->
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="11.0.0-rc.3.26522.148" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="11.0.0-rc.3.26522.148" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="11.0.0-rc.3.26522.148" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="11.0.0-rc.3.26522.148" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="11.0.0-rc.3.26522.148" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="11.0.0-rc.3.26522.148" />
 
     <!-- CodeWF.Toolkit.EventBus.Prism -->
     <PackageVersion Include="Prism.Core" Version="8.1.97" />
+    <!-- 固定的 Prism 8 使用 4.8 的二进制 API，DryIoc 5/6 会导致启动失败。 -->
     <PackageVersion Include="DryIoc.dll" Version="4.8.0" />
 
     <!-- 测试 -->
     <PackageVersion Include="Bogus" Version="35.6.5" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
-    <PackageVersion Include="xunit.v3" Version="4.0.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageVersion Include="xunit.v3" Version="4.0.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
   </ItemGroup>
 </Project>

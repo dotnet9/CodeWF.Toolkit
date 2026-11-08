@@ -241,7 +241,7 @@ CI 的 `aot-smoke` 作业会对控制台演示与 Avalonia 演示台做 `Publish
 
 Demo 保留 Ribbon + Dock，按核心扩展、系统与文件、数据与图像、事件与集成、协议与网络、日志与观测分类；每个主菜单对应一个帮助类，52 个页面按类名查找；CSV / Excel 提供真实表格回读，网络与文件系统提供可保持的会话和传输操作，组合示例集中到“综合示例”。详见 [原生 Demo 文档](docs/NativeDemo.md)。
 
-核心扩展再按文本、数值、日期时间、类型与查询分组，密集命令使用双行排列，保留完整帮助类名。UI 从公开 NuGet 安装 CodeWF.Avalonia 包，单独克隆本仓即可构建；`global.json` 选择稳定版 .NET 10 SDK。
+核心扩展再按文本、数值、日期时间、类型与查询分组，密集命令使用双行排列，保留完整帮助类名。UI 从公开 NuGet 安装 CodeWF.Avalonia 包，单独克隆本仓即可构建；演示台面向 `net11.0`，`global.json` 选择 .NET 11 RC3 SDK，核心库继续面向 `net10.0`。Prism 与 TreeDataGrid 保持固定版本；Prism 8 依赖的 DryIoc 保持 4.8.0，5/6 的二进制 API 不兼容。
 
 标题栏提供浅色、深色、跟随系统三态，搭配 .NET 紫、AI 极光、AI 赤陶、默认蓝、水生、沙漠、黄昏、夜空八套配色。颜色与模式独立选择，通过 NuGet 中的 StudioThemeController 跟随系统并同步文档属性面板。
 

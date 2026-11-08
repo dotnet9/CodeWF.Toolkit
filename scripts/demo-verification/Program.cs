@@ -120,7 +120,7 @@ static void VerifyAppConfigBatch(string output)
     AppConfigHelper.SetMany(path, new Dictionary<string, object?>
     {
         ["enabled"] = true, ["ratio"] = 123.5, ["count"] = 7,
-        ["day"] = DayOfWeek.Friday, ["text"] = "A & B", ["empty"] = null
+        ["day"] = DayOfWeek.Friday, ["text"] = "A & B", ["empty"] = null, ["emptyText"] = string.Empty
     });
     AppConfigHelper.SetMany(path, new Dictionary<string, object?> { ["count"] = 9 });
     var document = System.Xml.Linq.XDocument.Load(path);
@@ -137,7 +137,8 @@ static void VerifyAppConfigBatch(string output)
         Require(snapshot.TryGet<double?>("ratio", out var ratio) && ratio == 123.5, "Snapshot numeric conversion uses invariant culture.");
         Require(snapshot.TryGet<int>("count", out var count) && count == 9, "Batch update preserves final integer value.");
         Require(snapshot.TryGet<DayOfWeek?>("day", out var day) && day == DayOfWeek.Friday, "Snapshot nullable enum conversion.");
-        Require(snapshot["external"] == "keep" && snapshot["text"] == "A & B" && snapshot["empty"] == string.Empty,
+        Require(snapshot["external"] == "keep" && snapshot["text"] == "A & B" &&
+                !snapshot.ContainsKey("empty") && snapshot["emptyText"] == string.Empty,
             "Batch save preserves unrelated keys and XML values.");
         Require(!snapshot.TryGet<int>("text", out _) && !snapshot.TryGet<string>("missing", out _), "Invalid snapshot conversion reports failure.");
     }

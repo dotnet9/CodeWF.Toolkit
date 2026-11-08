@@ -37,7 +37,7 @@ public static class DataTableExtensions
         try
         {
             using var writer = new StreamWriter(saveFilePath, false, encoding);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            using var csv = CsvWriter.Create(writer);
 
             if (containColumnHeader)
             {
@@ -46,7 +46,7 @@ public static class DataTableExtensions
                     csv.WriteField(dc.ColumnName);
                 }
 
-                csv.NextRecord();
+                csv.EndRecord();
             }
 
             foreach (DataRow dr in dataTable.Rows)
@@ -56,7 +56,7 @@ public static class DataTableExtensions
                     csv.WriteField(dr[dc]);
                 }
 
-                csv.NextRecord();
+                csv.EndRecord();
             }
 
             return true;
@@ -110,11 +110,15 @@ public static class DataTableExtensions
         {
             dataTable = new DataTable();
             using var reader = new StreamReader(csvFilePath);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            if (containColumnHeader && csv.Read())
+            using var csv = CsvReader.Create(reader, new CsvReaderOptions
+            {
+                HasHeader = containColumnHeader,
+                Separator = ','
+            });
+            if (containColumnHeader)
             {
                 csv.ReadHeader();
-                var headers = csv.HeaderRecord;
+                var headers = csv.Headers;
                 if (headers is null)
                 {
                     throw new InvalidDataException(global::CodeWF.Toolkit.Files.LibraryText.Get(LibraryResources.CsvExcel.HeadersUnreadable));
@@ -130,16 +134,16 @@ public static class DataTableExtensions
             {
                 if (dataTable.Columns.Count == 0)
                 {
-                    for (var i = 0; i < csv.ColumnCount; i++)
+                    for (var i = 0; i < csv.FieldCount; i++)
                     {
                         dataTable.Columns.Add(i.ToString(CultureInfo.InvariantCulture));
                     }
                 }
 
                 var row = dataTable.NewRow();
-                for (var i = 0; i < csv.ColumnCount; i++)
+                for (var i = 0; i < csv.FieldCount; i++)
                 {
-                    row[i] = csv.GetField(i);
+                    row[i] = csv.GetString(i);
                 }
 
                 dataTable.Rows.Add(row);

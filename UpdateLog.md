@@ -1,5 +1,11 @@
 ﻿# 更新日志
 
+## 1.1.3 (2026-11-08)
+
+- 依赖：升级公开 NuGet 最新可用版本，包含 .NET 11 RC3 库、MiniExcel 2 预览版、CsvHelper 34、Magick.NET 15、Avalonia 12.1.5、Dock 12.1.5 和 Ursa 2.3.1；TreeDataGrid 与 Prism 保持原版本。
+- 兼容：适配 CsvHelper 34 的读写 API，补充带表头/无表头、引号、逗号、换行与空字段往返回归；固定 Prism 8 所需的 DryIoc 4.8.0，避免升级后启动异常。
+- 验证与发布：演示台及其验证项目使用 .NET 11，核心库继续面向 net10.0；CI 统一读取 global.json，修正配置 null/空字符串验证，并同步离线原型与 macOS 构建宿主。
+
 ## 1.1.2 (2026-11-02)
 
 - 配置：`SetSetting` 传 null 时移除该键，null 偏好值不再往返成空字符串。此前 `ConvertToString(null)` 返回空串写入文件，读取侧的 `?? 默认值` 兜底被空串短路，曾致水印颜色等偏好读取异常。

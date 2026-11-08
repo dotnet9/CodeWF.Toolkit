@@ -8,6 +8,32 @@ namespace CodeWF.Toolkit.Tests.Files;
 
 public class ExportTest
 {
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void CsvRoundTrip_PreservesEscapedAndEmptyFields(bool containColumnHeader)
+    {
+        var file = Path.Combine(Path.GetTempPath(), $"codewf-csv-{Guid.NewGuid():N}.csv");
+        try
+        {
+            using var data = new DataTable();
+            data.Columns.Add("内容", typeof(string));
+            data.Columns.Add("Value", typeof(string));
+            data.Rows.Add("逗号,引号\"换行\n下一行", "");
+            data.Rows.Add("second", "12.5");
+
+            Assert.True(data.ExportToCsv(file, Encoding.UTF8, out var error, containColumnHeader), error);
+            Assert.True(file.ImportFromCsv(out error, out var restored, containColumnHeader), error);
+            using var actual = Assert.IsType<DataTable>(restored);
+            if (containColumnHeader) CheckData(data, actual);
+            else CheckDataWithoutHeaders(data, actual);
+        }
+        finally
+        {
+            FileHelper.DeleteFileIfExist(file);
+        }
+    }
+
     [Fact]
     public void Test_ExportCsv_Success()
     {
