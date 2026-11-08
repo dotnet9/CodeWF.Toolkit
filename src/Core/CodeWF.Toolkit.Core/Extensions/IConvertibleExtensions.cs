@@ -11,6 +11,7 @@ public static class IConvertibleExtensions
 {
     public static bool IsNumeric(this Type type)
     {
+        type = Nullable.GetUnderlyingType(type) ?? type;
         switch (Type.GetTypeCode(type))
         {
             case TypeCode.Byte:
@@ -38,11 +39,12 @@ public static class IConvertibleExtensions
     /// <param name="value"></param>
     /// <returns></returns>
     [RequiresUnreferencedCode("TypeDescriptor uses reflection and runtime metadata. Use explicit conversions for trimming and NativeAOT.")]
-    public static T ConvertTo<T>(this IConvertible? value) where T : IConvertible
+    [return: MaybeNull]
+    public static T ConvertTo<T>(this IConvertible? value)
     {
-        if (value != null)
+        if (value != null && value != DBNull.Value)
         {
-            var type = typeof(T);
+            var type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
             if (value.GetType() == type)
             {
                 return (T)value;
@@ -53,22 +55,9 @@ public static class IConvertibleExtensions
                 return (T)Enum.Parse(type, value.ToString(CultureInfo.InvariantCulture)!);
             }
 
-            if (value == DBNull.Value)
-            {
-                return default!;
-            }
-
             if (type.IsNumeric())
             {
                 return (T)value.ToType(type, new NumberFormatInfo());
-            }
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                var underlyingType = Nullable.GetUnderlyingType(type);
-                return (T)(underlyingType!.IsEnum
-                    ? Enum.Parse(underlyingType, value.ToString(CultureInfo.CurrentCulture)!)
-                    : Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture)!);
             }
 
             var converter = TypeDescriptor.GetConverter(value);

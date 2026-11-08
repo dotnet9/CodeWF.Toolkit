@@ -64,7 +64,8 @@ public partial class MainViewModel : ReactiveObject, IDisposable
         QuickSettingsCommand = ReactiveCommand.Create(() => OpenItem(Groups[0].Items[0]));
         WriteLogsCommand = ReactiveCommand.Create(WriteSampleLogs);
 
-        _themeController ??= new StudioThemeController(global::Avalonia.Application.Current);
+        _themeController ??= new StudioThemeController(global::Avalonia.Application.Current
+            ?? throw new InvalidOperationException("The Avalonia application must be initialized before creating the shell."));
         Palettes = new ObservableCollection<AppearanceOption>(AppearanceOption.CreateAll(_themeController));
         _selectedPalette = Palettes[0];
         CyclePaletteCommand = ReactiveCommand.Create(() => { SelectedPalette = Palettes[(Palettes.IndexOf(SelectedPalette) + 1) % Palettes.Count]; });
@@ -689,7 +690,7 @@ public partial class MainViewModel : ReactiveObject, IDisposable
             base.InitLayout(layout);
         }
 
-        public override void CloseDockable(IDockable dockable)
+        public override void CloseDockable(IDockable? dockable)
         {
             base.CloseDockable(dockable);
             if (dockable is Document { Context: Views.DemoDocumentView { DataContext: DemoDocumentViewModel document } })

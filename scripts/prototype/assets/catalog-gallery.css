@@ -1,7 +1,7 @@
 .catalog-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.catalog-header h1{font-size:20px;margin:0 0 4px}.catalog-header p{font-size:11.5px;color:var(--pri);margin:0}.cbtn .lb{max-width:none}
+.catalog-header h1{font-size:20px;margin:0 0 4px}.catalog-header p{font-size:11.5px;color:var(--tx);margin:0}.cbtn .lb{max-width:none}
 .catalog-category{padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--bg2)}
-.catalog-category h3{font-size:13px;color:var(--pri);margin:0 0 8px}.catalog-category .btn{margin:0 6px 6px 0}
+.catalog-category h3{font-size:13px;color:var(--tx);margin:0 0 8px}.catalog-category .btn{margin:0 6px 6px 0}
 .catalog-index h2{font-size:18px;margin:0 0 10px}.catalog-index>p{color:var(--tx2);font-size:12px;margin:0 0 10px}
 .catalog-experiments summary{cursor:pointer;font-size:14px;font-weight:600;padding:14px 0;color:var(--pri)}
 .catalog-source{border-top:1px solid var(--line);margin-top:16px;padding-top:8px}.catalog-source pre{max-height:200px;overflow:auto;font:12px/1.7 Consolas,monospace;padding:12px;background:var(--bg2)}
@@ -32,9 +32,9 @@ body{font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}
 .qk button{width:28px;height:28px;color:var(--tx2)}.qk button svg{width:16px;height:16px}.qk button:hover{color:var(--pri)}.qk button:active{background:var(--pri-lt)}
 
 /* 实心操作沿用原生 Primary，强调文字仍使用 Accent。 */
-.smt button.on,button.b.pri,.flow .st.cur .n{background:var(--button-bg);border-color:var(--button-bg);color:var(--on-primary)}
-button.b.pri:hover{background:var(--button-hover);border-color:var(--button-hover)}
-button.b.pri:active{background:var(--button-pressed);border-color:var(--button-pressed)}
+.smt button.on,.btn.pri,button.b.pri,.flow .st.cur .n{background:var(--button-bg);border-color:var(--button-bg);color:var(--on-primary)}
+.btn.pri:hover,button.b.pri:hover{background:var(--button-hover);border-color:var(--button-hover)}
+.btn.pri:active,button.b.pri:active{background:var(--button-pressed);border-color:var(--button-pressed)}
 .flow .st.done .n{color:var(--badge-text)}
 .cpm .it.on{background:var(--sel);color:var(--tx)}.cpm .it.on .g,.cpm .it.on .k{color:var(--tx2)}
 .grp .gname{display:none}

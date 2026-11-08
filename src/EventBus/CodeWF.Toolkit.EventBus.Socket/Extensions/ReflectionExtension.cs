@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace CodeWF.Toolkit.EventBus.Socket.Extensions;
 
@@ -21,7 +22,9 @@ public static class ReflectionExtension
         try
         {
             var targetType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
-            return (T)Convert.ChangeType(value, targetType);
+            return (T)(targetType.IsEnum
+                ? Enum.Parse(targetType, Convert.ToString(value, CultureInfo.InvariantCulture)!, ignoreCase: true)
+                : Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture));
         }
         catch
         {
