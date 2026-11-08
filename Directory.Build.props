@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
     <!-- 版本：以我们自己的节奏推进，4 段版本，第 4 位为修订；发布前打 v* tag -->
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <Authors>沙漠尽头的狼</Authors>
     <Company>https://codewf.com</Company>
     <Copyright>Copyright © https://codewf.com</Copyright>
@@ -9,6 +9,8 @@
     <!-- 目标框架：全线 net10.0（net11 正式版发布后再评估升级） -->
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>preview</LangVersion>
+    <!-- .NET 11 优化发布会移除 Avalonia 运行时加载的 XAML 资源。 -->
+    <UseOptimizedPublish>false</UseOptimizedPublish>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>
     <Deterministic>true</Deterministic>

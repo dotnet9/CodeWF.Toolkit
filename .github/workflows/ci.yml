@@ -69,10 +69,15 @@ jobs:
 
       # 冒烟现在逐页构建并逐色板渲染，退出码可作门禁（不再 continue-on-error）
       - name: 运行冒烟演示
-        run: artifacts\publish\win-x64\CodeWF.Toolkit.Demo.Avalonia\CodeWF.Toolkit.Demo.Avalonia.exe --smoke
+        shell: pwsh
+        run: |
+          $env:CODEWF_TOOLKIT_DEMO_DATA_DIRECTORY = Join-Path $env:RUNNER_TEMP 'toolkit-demo-smoke'
+          $process = Start-Process -FilePath './artifacts/publish/win-x64/CodeWF.Toolkit.Demo.Avalonia/CodeWF.Toolkit.Demo.Avalonia.exe' -ArgumentList '--smoke' -PassThru
+          if (-not $process.WaitForExit(600000)) { $process.Kill(); throw 'Native demo smoke timed out.' }
+          if ($process.ExitCode -ne 0) { throw "Native demo smoke failed: $($process.ExitCode)" }
 
       - name: AOT 发布离屏目录验证
-        run: dotnet publish scripts/demo-verification/DemoVerification.csproj -c Release -r win-x64 -p:PublishAot=true -p:IlcGenerateCompleteTypeMetadata=true -p:IlcTrimMetadata=false -p:IlcSingleThreaded=true -o artifacts/aot-demo-verification
+        run: dotnet publish scripts/demo-verification/DemoVerification.csproj -c Release -r win-x64 -p:PublishAot=true -p:IlcGenerateCompleteTypeMetadata=true -p:IlcTrimMetadata=false -p:IlcSingleThreaded=true -p:IlcUseServerGc=false -o artifacts/aot-demo-verification
 
       - name: 验证目录渲染、帮助类运行与库语言切换
         run: artifacts\aot-demo-verification\DemoVerification.exe

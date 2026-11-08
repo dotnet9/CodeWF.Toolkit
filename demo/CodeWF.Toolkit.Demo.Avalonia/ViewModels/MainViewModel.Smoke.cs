@@ -32,7 +32,7 @@ public partial class MainViewModel
 
         foreach (var group in Groups)
         {
-            foreach (var item in group.Items)
+            foreach (var item in group.Items.Where(item => !item.IsShellCommand))
             {
                 try
                 {

@@ -32,14 +32,14 @@ public partial class MainViewModel
                     if (global::Avalonia.Application.Current?.ApplicationLifetime is global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop
                         && desktop.MainWindow is { } window)
                     {
-                        var selector = window.FindControl<global::Avalonia.Controls.ComboBox>("ThemeModeSelector")
+                        var selector = window.FindControl<global::Avalonia.Controls.ListBox>("ThemeModePills")
                             ?? throw new InvalidOperationException("Theme mode selector is missing.");
                         for (var mode = 0; mode < ThemeModes.Count; mode++)
                         {
                             ThemeModeIndex = mode;
                             window.UpdateLayout();
                             Expect(selector.SelectedIndex == mode, "Theme mode selection survives language changes");
-                            Expect(selector.SelectedItem is ThemeModeOption option && option.Title == ThemeModes[mode], "Translated theme mode remains visible");
+                            Expect(selector.SelectedItem is string title && title == ThemeModes[mode], "Translated theme mode remains visible");
                         }
                     }
                 }

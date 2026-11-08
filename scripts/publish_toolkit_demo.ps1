@@ -51,6 +51,7 @@ $ilcArgs = @(
     "-p:IlcGenerateCompleteTypeMetadata=true",
     "-p:IlcTrimMetadata=false",
     "-p:IlcSingleThreaded=true",
+    "-p:IlcUseServerGc=false",
     "-p:Version=$Version"
 )
 # macOS 保留符号（ld_classic 不支持压缩调试段）

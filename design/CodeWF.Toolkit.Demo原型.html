@@ -82,7 +82,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   border-radius:4px 4px 0 0;transition:background .12s,color .12s}
 .rt2 .t2:hover{color:var(--pri);background:var(--hov)}
 .rt2 .t2:focus-visible{outline:2px solid var(--pri);outline-offset:-4px}
-.rt2 .t2.on{color:var(--pri);font-weight:600}
+.rt2 .t2.on{color:var(--pri-ink);font-weight:600}
 .rt2 .t2.on::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:2px;background:var(--pri);border-radius:2px 2px 0 0}
 .qk2{margin-left:auto;display:flex;align-items:center;gap:2px;padding-left:10px}
 .qk2 button{height:26px;display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;background:transparent;
@@ -533,7 +533,7 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .studio-stage-head small { font:10px Consolas,monospace; color:var(--tx3); }
 .studio-tabs { display:flex; gap:3px; margin-left:auto; padding:3px; background:var(--workbg); border:1px solid var(--bd2); border-radius:7px; }
 .studio-tabs button { border:0; border-radius:4px; background:transparent; padding:5px 10px; font-size:11px; cursor:pointer; color:var(--tx2); }
-.studio-tabs button[aria-selected=true] { color:var(--pri); background:var(--pri-lt); }
+.studio-tabs button[aria-selected=true] { color:var(--pri-ink); background:var(--pri-lt); }
 .studio-sandbox { min-height:224px; padding:18px; animation:studio-enter .3s ease both; }
 .studio-split { display:grid; grid-template-columns:1fr 1fr; gap:17px; }
 .studio-editor { width:100%; height:149px; resize:vertical; border:1px solid var(--bd); border-radius:7px; padding:12px; font:11px/1.8 Consolas,monospace; background:var(--workbg); color:var(--tx2); user-select:text; }
@@ -663,7 +663,7 @@ body.prototype-maximized { padding:0; }
 
 </style>
 <style>
-/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.49 docs/配色与排版令牌规则.md（ruleVersion 7）。 */
+/* 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.51 docs/配色与排版令牌规则.md（ruleVersion 7）。 */
 /* 默认回退块 = teal（规则附录 A default）；8 套配色块以更高优先级覆盖。旧 key 别名映射见 assets/palette-data.js。 */
 /* 变量语义映射表见 scripts/prototype/generate-palette-tokens.cjs。非配色变量（--sp* / --code 等）仍由 index.template.html 静态提供。 */
 :root[data-theme=light] {
@@ -681,6 +681,7 @@ color-scheme:light;
   --sel:#e5e9e7;
   --workbg:#ebeceb;
   --pri:#6F8F7D;
+  --pri-ink:#495d52;
   --pri-h:#7a9787;
   --brand:#6F8F7D;
   --glow:#6F8F7D;
@@ -733,6 +734,7 @@ color-scheme:dark;
   --sel:#363b38;
   --workbg:#2b2b2b;
   --pri:#A2BEAD;
+  --pri-ink:#c0d1c6;
   --pri-h:#a9c3b4;
   --brand:#A2BEAD;
   --glow:#A2BEAD;
@@ -785,6 +787,7 @@ color-scheme:light;
   --sel:#e8e8e9;
   --workbg:#f3f3f4;
   --pri:#3F3F46;
+  --pri-ink:#28282c;
   --pri-h:#4e4e55;
   --brand:#3F3F46;
   --glow:#3F3F46;
@@ -837,6 +840,7 @@ color-scheme:dark;
   --sel:#333334;
   --workbg:#202020;
   --pri:#D4D4D8;
+  --pri-ink:#e7e7e9;
   --pri-h:#d7d7db;
   --brand:#D4D4D8;
   --glow:#D4D4D8;
@@ -889,6 +893,7 @@ color-scheme:light;
   --sel:#e7e5f7;
   --workbg:#f2f2f3;
   --pri:#4338CA;
+  --pri-ink:#2b286c;
   --pri-h:#5248ce;
   --brand:#4338CA;
   --glow:#4338CA;
@@ -941,6 +946,7 @@ color-scheme:dark;
   --sel:#2e313e;
   --workbg:#232324;
   --pri:#A5B4FC;
+  --pri-ink:#ccd3f6;
   --pri-h:#acbafc;
   --brand:#A5B4FC;
   --glow:#A5B4FC;
@@ -993,6 +999,7 @@ color-scheme:light;
   --sel:#e5e9e7;
   --workbg:#ebeceb;
   --pri:#6F8F7D;
+  --pri-ink:#495d52;
   --pri-h:#7a9787;
   --brand:#6F8F7D;
   --glow:#6F8F7D;
@@ -1045,6 +1052,7 @@ color-scheme:dark;
   --sel:#363b38;
   --workbg:#2b2b2b;
   --pri:#A2BEAD;
+  --pri-ink:#c0d1c6;
   --pri-h:#a9c3b4;
   --brand:#A2BEAD;
   --glow:#A2BEAD;
@@ -1097,6 +1105,7 @@ color-scheme:light;
   --sel:#e0eae4;
   --workbg:#f0f1f1;
   --pri:#166534;
+  --pri-ink:#163e24;
   --pri-h:#287144;
   --brand:#166534;
   --glow:#166534;
@@ -1149,6 +1158,7 @@ color-scheme:dark;
   --sel:#283b2f;
   --workbg:#212222;
   --pri:#86EFAC;
+  --pri-ink:#bdefcf;
   --pri-h:#90f0b3;
   --brand:#86EFAC;
   --glow:#86EFAC;
@@ -1201,6 +1211,7 @@ color-scheme:light;
   --sel:#dfebf2;
   --workbg:#f1f2f3;
   --pri:#0369A1;
+  --pri-ink:#0a3e5f;
   --pri-h:#1775a8;
   --brand:#0369A1;
   --glow:#0369A1;
@@ -1253,6 +1264,7 @@ color-scheme:dark;
   --sel:#26363d;
   --workbg:#212223;
   --pri:#7DD3FC;
+  --pri-ink:#b7e1f9;
   --pri-h:#87d7fc;
   --brand:#7DD3FC;
   --glow:#7DD3FC;
@@ -1305,6 +1317,7 @@ color-scheme:light;
   --sel:#f4e9e0;
   --workbg:#f2f2f1;
   --pri:#B45309;
+  --pri-ink:#5e330d;
   --pri-h:#b85d18;
   --brand:#B45309;
   --glow:#B45309;
@@ -1357,6 +1370,7 @@ color-scheme:dark;
   --sel:#3e361e;
   --workbg:#242322;
   --pri:#FCD34D;
+  --pri-ink:#f7e3a5;
   --pri-h:#fcd75b;
   --brand:#FCD34D;
   --glow:#FCD34D;
@@ -1409,6 +1423,7 @@ color-scheme:light;
   --sel:#f5e0e5;
   --workbg:#f1f0f1;
   --pri:#BE123C;
+  --pri-ink:#651426;
   --pri-h:#c3254b;
   --brand:#BE123C;
   --glow:#BE123C;
@@ -1461,6 +1476,7 @@ color-scheme:dark;
   --sel:#3b2b2d;
   --workbg:#212020;
   --pri:#FDA4AF;
+  --pri-ink:#f9ccd2;
   --pri-h:#fdabb5;
   --brand:#FDA4AF;
   --glow:#FDA4AF;
@@ -1513,6 +1529,7 @@ color-scheme:light;
   --sel:#ebe3f8;
   --workbg:#f1f1f1;
   --pri:#6D28D9;
+  --pri-ink:#3e1e6f;
   --pri-h:#7839dc;
   --brand:#6D28D9;
   --glow:#6D28D9;
@@ -1565,6 +1582,7 @@ color-scheme:dark;
   --sel:#312f3b;
   --workbg:#202021;
   --pri:#C4B5FD;
+  --pri-ink:#dcd3f8;
   --pri-h:#c9bbfd;
   --brand:#C4B5FD;
   --glow:#C4B5FD;
@@ -1617,6 +1635,7 @@ color-scheme:light;
   --sel:#f5e6df;
   --workbg:#f2f1f0;
   --pri:#C2410C;
+  --pri-ink:#672c11;
   --pri-h:#c7501f;
   --brand:#C2410C;
   --glow:#C2410C;
@@ -1669,6 +1688,7 @@ color-scheme:dark;
   --sel:#3d3124;
   --workbg:#232221;
   --pri:#FDBA74;
+  --pri-ink:#f8d7b6;
   --pri-h:#fdc07f;
   --brand:#FDBA74;
   --glow:#FDBA74;
@@ -1787,7 +1807,7 @@ body.hideR .document-splitter,body.hideR .p-props{display:none}
   <!-- ═══ 1. 标题栏 ═══ -->
   <div class="cap">
     <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPCEtLSBDb2RlV0YuVG9vbGtpdCDCtyDlt6XlhbflsYLlj6DvvJrlm5vlsYLog73lipvloIblj6DvvIhDb3JlL0ZpbGVzL0xvZ2dpbmcvTmV077yJ77yM6aG25bGC5Luj56CB5ous5Y+3IC0tPgogIDwhLS0g5Yeg5L2V77ya5Zub5Liq6I+x5b2i5Lit5b+DIHkgPSAxNjYvMjI2LzI4Ni8zNDbvvIjnrYnot50gNjDvvInvvIzlhoXlrrnnurXlkJHot6ggMTEy4oCTNDAw77yM5Lit5b+D5oGw5Li6IDI1NiAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idGtiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNjIzM0IiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEUxNTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJhbWJlciIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGQ0QzNEQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDk3NzA2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9InVybCgjdGtiZykiLz4KCiAgPCEtLSDlm5vlsYLloIblj6DvvJrmsLTlubMgNzbigJM0MzYg5bGF5Lit77yM5Z6C55u0IDExMuKAkzQwMCDlsYXkuK0gLS0+CiAgPHBhdGggZD0iTTI1NiAyOTIgTDQzNiAzNDYgTDI1NiA0MDAgTDc2IDM0NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjM1Ii8+CiAgPHBhdGggZD0iTTI1NiAyMzIgTDQzNiAyODYgTDI1NiAzNDAgTDc2IDI4NiBaIiBmaWxsPSIjRDk3NzA2IiBvcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTTI1NiAxNzIgTDQzNiAyMjYgTDI1NiAyODAgTDc2IDIyNiBaIiBmaWxsPSIjRjU5RTBCIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTI1NiAxMTIgTDQzNiAxNjYgTDI1NiAyMjAgTDc2IDE2NiBaIiBmaWxsPSJ1cmwoI2FtYmVyKSIvPgoKICA8IS0tIOmhtuWxguS7o+eggeaLrOWPt++8iOmhtumdouS4reW/gyAyNTYsMTY277yJIC0tPgogIDxnIHN0cm9rZT0iIzE2MjMzQiIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIj4KICAgIDxwYXRoIGQ9Ik0yMDYgMTQ4IEwxODAgMTY2IEwyMDYgMTg0Ii8+CiAgICA8cGF0aCBkPSJNMzA2IDE0OCBMMzMyIDE2NiBMMzA2IDE4NCIvPgogICAgPGxpbmUgeDE9IjI2OCIgeTE9IjE0MCIgeDI9IjI0NCIgeTI9IjE5MiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="CodeWF.Toolkit logo" title="CodeWF.Toolkit">
-    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.4</span>
+    <span class="lg">CodeWF.Toolkit</span><span class="vbadge">v1.1.5</span>
     <span class="sp"></span>
     <details id="appearanceMenu" class="titlebar-appearance">
       <summary title="外观：主题与配色" aria-label="外观：主题与配色">
@@ -1901,7 +1921,7 @@ body.hideR .document-splitter,body.hideR .p-props{display:none}
     <span class="sep">|</span>
     <button id="logToggleBtn" data-i18n="status.logpanel">日志面板</button>
     <button id="langBtn2">中英</button>
-    <span>net10.0 · Toolkit 1.1.4</span>
+    <span>net10.0 · Toolkit 1.1.5</span>
   </div>
 
 </div><!-- /.win -->
@@ -1938,12 +1958,12 @@ body.hideR .document-splitter,body.hideR .p-props{display:none}
 <div id="DBG"></div>
 
 <script>
-// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.49 docs/配色与排版令牌规则.md（ruleVersion 7）。
+// 生成物：scripts/prototype/generate-palette-tokens.cjs 产出，禁止手写（规则 §14）。 上游事实源：CodeWF.Avalonia 12.2.51 docs/配色与排版令牌规则.md（ruleVersion 7）。
 "use strict";
 window.CodeWFPalettes = {
   "defaultKey": "teal",
   "ruleVersion": 7,
-  "source": "CodeWF.Avalonia 12.2.49",
+  "source": "CodeWF.Avalonia 12.2.51",
   "list": [
     {
       "key": "graphite",

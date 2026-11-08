@@ -49,7 +49,7 @@ function baseOf(palette, mode) {
  * ORDER 即旧 palette-tokens.css 的变量顺序，便于 diff 审阅。 */
 const ORDER = [
   'bg', 'bg2', 'bg3', 'tx', 'tx2', 'tx3', 'bd', 'bd2', 'line', 'hov', 'sel', 'workbg',
-  'pri', 'pri-h', 'brand', 'glow', 'secondary', 'text-gradient-end',
+  'pri', 'pri-ink', 'pri-h', 'brand', 'glow', 'secondary', 'text-gradient-end',
   'button-bg', 'button-hover', 'button-pressed', 'on-primary', 'ok', 'warn', 'err',
   'badge-text', 'card-top',
   'badge-debug', 'badge-debug-bg', 'card-debug', 'card-debug-bg',
@@ -82,6 +82,7 @@ function toolkitVars(base, mode, derivation) {
     workbg: v.hover,                   /* 代码/控制台底，旧快照与 bg3 同层 */
     /* 品牌/交互：accent 唯一高饱和来源（§15 强调色唯一律） */
     pri: base.accent,                  /* StudioPrimaryColor / 链接/焦点色 */
+    'pri-ink': v['accent-ink'],         /* StudioAccentInk：正文级强调文字 */
     'pri-h': v['primary-hover'],       /* primaryHover mix(accent→paper/white,8%) */
     brand: base.accent,                /* 品牌位 */
     glow: base.accent,                 /* 焦点辉光/描边 */

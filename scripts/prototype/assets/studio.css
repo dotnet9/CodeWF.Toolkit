@@ -126,7 +126,7 @@ select, select option, .pgp .ctl select { text-align:left; text-align-last:left;
 .studio-stage-head small { font:10px Consolas,monospace; color:var(--tx3); }
 .studio-tabs { display:flex; gap:3px; margin-left:auto; padding:3px; background:var(--workbg); border:1px solid var(--bd2); border-radius:7px; }
 .studio-tabs button { border:0; border-radius:4px; background:transparent; padding:5px 10px; font-size:11px; cursor:pointer; color:var(--tx2); }
-.studio-tabs button[aria-selected=true] { color:var(--pri); background:var(--pri-lt); }
+.studio-tabs button[aria-selected=true] { color:var(--pri-ink); background:var(--pri-lt); }
 .studio-sandbox { min-height:224px; padding:18px; animation:studio-enter .3s ease both; }
 .studio-split { display:grid; grid-template-columns:1fr 1fr; gap:17px; }
 .studio-editor { width:100%; height:149px; resize:vertical; border:1px solid var(--bd); border-radius:7px; padding:12px; font:11px/1.8 Consolas,monospace; background:var(--workbg); color:var(--tx2); user-select:text; }

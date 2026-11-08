@@ -60,7 +60,7 @@ internal static class DemoPaletteVerification
                 Pump(shell);
                 CheckText(selected, canvas, mode.Name, "Ribbon/selected");
                 CheckText(ordinary, canvas, mode.Name, "Ribbon/normal");
-                Require(ColorOf(Presenter(selected).Foreground!, canvas) == accent, mode.Name + "/Ribbon selected accent");
+                Require(ColorOf(Presenter(selected).Foreground!, canvas) == Resource(shell, "StudioAccentInk"), mode.Name + "/Ribbon selected accent ink");
                 var center = ordinary.TranslatePoint(new Point(ordinary.Bounds.Width / 2, ordinary.Bounds.Height / 2), shell)!.Value;
                 shell.MouseMove(center);
                 Pump(shell);
@@ -127,7 +127,7 @@ internal static class DemoPaletteVerification
                         DemoNotificationKind.Success => "SemiColorSuccess",
                         DemoNotificationKind.Warning => "SemiColorWarning",
                         DemoNotificationKind.Error => "SemiColorDanger",
-                        _ => "SemiColorInformation",
+                        _ => "StudioAccentInk",
                     };
                     var glyph = card.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Classes.Contains("notification-glyph"));
                     var background = ColorOf(card.Background!, canvas);
