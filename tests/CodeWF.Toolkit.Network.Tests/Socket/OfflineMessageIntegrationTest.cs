@@ -51,7 +51,7 @@ public class OfflineMessageIntegrationTest
                     threeOfflineReceived.TrySetResult(true);
                 }
             });
-            await WaitForTransportAsync();
+            await WaitForTransportAsync(subscriber);
 
             publisher.Publish("demo.offline.live", "在线消息", out _);
             Assert.Equal("在线消息", await WaitAsync(liveReceived.Task));
@@ -116,7 +116,7 @@ public class OfflineMessageIntegrationTest
                     threeReceived.TrySetResult(true);
                 }
             });
-            await WaitForTransportAsync();
+            await WaitForTransportAsync(subscriber);
 
             subscriber.Disconnect();
             await Task.Delay(2500);
@@ -168,7 +168,7 @@ public class OfflineMessageIntegrationTest
             await publisher.ConnectAsync(IPAddress.Loopback.ToString(), port);
 
             subscriber.Subscribe<string>("demo.offline.disabled", _ => Interlocked.Increment(ref receiveCount));
-            await WaitForTransportAsync();
+            await WaitForTransportAsync(subscriber);
 
             subscriber.Disconnect();
             await Task.Delay(2500);
@@ -210,9 +210,21 @@ public class OfflineMessageIntegrationTest
         return await task;
     }
 
-    // 订阅与发布通过网络同步需要短暂传播时间，统一等待片刻让测试更稳定。
-    private static Task WaitForTransportAsync()
+    // 同一连接的请求有序处理；收到探针回包才证明此前的业务订阅已经在服务端生效。
+    private static async Task WaitForTransportAsync(EventClient subscriber)
     {
-        return Task.Delay(150);
+        const string subject = "tests.offline.subscription-ready";
+        var received = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+        Action<string> handler = message => received.TrySetResult(message);
+        subscriber.Subscribe(subject, handler);
+        try
+        {
+            Assert.True(subscriber.Publish(subject, "ready", out var error), error);
+            Assert.Equal("ready", await WaitAsync(received.Task));
+        }
+        finally
+        {
+            subscriber.Unsubscribe(subject, handler);
+        }
     }
 }
