@@ -8,16 +8,16 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="11.0.100" />
 
     <!-- Avalonia 演示台（CodeWF.Toolkit.Demo.Avalonia） -->
-    <PackageVersion Include="Avalonia" Version="12.1.6" />
-    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="12.1.6" />
-    <PackageVersion Include="Avalonia.Headless" Version="12.1.6" />
-    <PackageVersion Include="Avalonia.Desktop" Version="12.1.6" />
-    <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.6" />
-    <PackageVersion Include="Semi.Avalonia" Version="12.1.0.1" />
+    <PackageVersion Include="Avalonia" Version="12.2.0" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="12.2.0" />
+    <PackageVersion Include="Avalonia.Headless" Version="12.2.0" />
+    <PackageVersion Include="Avalonia.Desktop" Version="12.2.0" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.2.0" />
+    <PackageVersion Include="Semi.Avalonia" Version="12.1.0.2" />
     <PackageVersion Include="Irihi.Ursa" Version="2.3.1" />
     <PackageVersion Include="Irihi.Ursa.Themes.Semi" Version="2.3.1" />
     <PackageVersion Include="Prism.DryIoc.Avalonia" Version="8.1.97.11073" />
-    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.1.6" />
+    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.2.0" />
     <PackageVersion Include="Dock.Avalonia" Version="12.1.5" />
     <PackageVersion Include="Dock.Avalonia.Themes.Simple" Version="12.1.5" />
     <PackageVersion Include="Dock.Model.ReactiveUI" Version="12.1.5" />
@@ -31,8 +31,8 @@
     <!-- PropertyGrid（CodeWF.Avalonia.Controls）所需的传递依赖：全新还原时需要显式声明版本 -->
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
     <PackageVersion Include="TreeDataGrid.Avalonia" Version="12.0.0" />
-    <PackageVersion Include="Avalonia.Controls.ColorPicker" Version="12.1.6" />
-    <PackageVersion Include="Avalonia.Skia" Version="12.1.6" />
+    <PackageVersion Include="Avalonia.Controls.ColorPicker" Version="12.2.0" />
+    <PackageVersion Include="Avalonia.Skia" Version="12.2.0" />
 
     <!-- CodeWF.Toolkit.Files -->
     <!-- 旧 1.0.0 已下架；0.51 预览版才是当前公开维护版本。 -->
